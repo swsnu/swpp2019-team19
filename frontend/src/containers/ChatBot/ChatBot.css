@@ -1,0 +1,27 @@
+.ChatBot {
+  text-align: center;
+  padding: 1rem;
+  margin: 0 auto;
+
+  font: 16px/1.8 Arial, Helvetica, sans-serif;
+}
+
+.ChatBot #chatbox-container {
+  text-align: center;
+  margin: 0 auto;
+  min-height: 500px;
+  max-height: 500px;
+  min-width: 600px;
+  max-width: 600px;
+  background: skyblue;
+}
+
+.ChatBot #input-area {
+  text-align: center;
+  min-width: 600px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+.ChatBot #question-input-area {
+  min-width: 88%;
+}
