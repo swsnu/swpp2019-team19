@@ -11,9 +11,8 @@ export class App extends Component {
       <ConnectedRouter history={this.props.history}>
         <div className='App'>
           <Switch>
-            <Route path='/chat' exact component={ChatBot} />
-            <Redirect exact from='/' to='/chat' />
-            <Route render={() => this.props.history.push('/chat')} />
+            <Route path='/' exact component={ChatBot} />
+            <Route render={() => this.props.history.push('/')} />
           </Switch>
         </div>
       </ConnectedRouter>
