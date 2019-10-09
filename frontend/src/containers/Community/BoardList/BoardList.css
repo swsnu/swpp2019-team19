@@ -1,0 +1,11 @@
+.BoardList {
+  margin: 0 auto;
+  text-align: center;
+  padding: 1rem;
+  font: 16px/1.8 Arial, Helvetica, sans-serif;
+}
+
+.Board {
+  margin: 0 auto;
+  text-align: center;
+}
