@@ -1,16 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
-import { Provider } from 'react-redux';
-import store, { history } from './store/store';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
+import axios from "axios";
 
-ReactDOM.render(
-  <Provider store={store}>
-    <App history={history} />
-  </Provider>,
-  document.getElementById('root')
-);
+// CSRF settings
+axios.defaults.xsrfCookieName = "csrftoken";
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+
+ReactDOM.render(<App />, document.getElementById("root"));
 
 serviceWorker.unregister();
