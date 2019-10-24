@@ -1,10 +1,10 @@
 import React from 'react';
-import About from './About'
+import Chat from './Chat'
 import { shallow } from 'enzyme';
 
-describe('<About />', () => {
+describe('<Chat />', () => {
   it('renders', () => {
-    const wrapper = shallow(<About />);
+    const wrapper = shallow(<Chat />);
     const component = wrapper.find('.test');
     expect(wrapper.length).toBe(1)
   });

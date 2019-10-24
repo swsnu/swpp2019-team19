@@ -4,7 +4,7 @@ export default class AccountInformation extends Component {
   render() {
     return (
       <div>
-        <p>AccountInformation page</p>
+        <p className='test'>AccountInformation page</p>
       </div>
     );
   }

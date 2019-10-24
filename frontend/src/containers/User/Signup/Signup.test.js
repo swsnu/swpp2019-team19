@@ -1,10 +1,10 @@
 import React from 'react';
-import About from './About'
+import Signup from './Signup'
 import { shallow } from 'enzyme';
 
-describe('<About />', () => {
+describe('<Signup />', () => {
   it('renders', () => {
-    const wrapper = shallow(<About />);
+    const wrapper = shallow(<Signup />);
     const component = wrapper.find('.test');
     expect(wrapper.length).toBe(1)
   });

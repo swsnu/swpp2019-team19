@@ -4,7 +4,7 @@ export default class Signin extends Component {
   render() {
     return (
       <div>
-        <p>signin page</p>
+        <p className='test'>signin page</p>
       </div>
     );
   }

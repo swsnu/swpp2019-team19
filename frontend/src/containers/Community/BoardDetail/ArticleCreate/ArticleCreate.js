@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-export default class ArticleEdit extends Component {
+export default class ArticleCreate extends Component {
   render() {
     return (
       <div>
-        <p>ArticleEdit page</p>
+        <p className='test'>ArticleCreate page</p>
       </div>
     );
   }

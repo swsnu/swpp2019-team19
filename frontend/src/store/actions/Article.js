@@ -15,12 +15,12 @@ import {
 const remote_url = 'http://localhost:8000';
 
 // TODO
-export const post = () => dispatch => {};
-export const edit = () => dispatch => {};
-export const del = () => dispatch => {};
-export const fetchList = () => dispatch => {};
-export const clearList = () => dispatch => {};
-export const fetch = () => dispatch => {};
-export const clear = () => dispatch => {};
-export const like = () => dispatch => {};
-export const dislike = () => dispatch => {};
+export const post = () => dispatch => { };
+export const edit = () => dispatch => { };
+export const del = () => dispatch => { };
+export const fetchList = () => dispatch => { };
+export const clearList = () => dispatch => { };
+export const fetch = () => dispatch => { };
+export const clear = () => dispatch => { };
+export const like = () => dispatch => { };
+export const dislike = () => dispatch => { };

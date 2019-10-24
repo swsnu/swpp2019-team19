@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-export default class CommunityMain extends Component {
+export default class ArticleDetail extends Component {
   render() {
     return (
       <div>
-        <p>community main page</p>
+        <p className='test'>ArticleDetail page</p>
       </div>
     );
   }

@@ -1,10 +1,10 @@
 import React from 'react';
-import About from './About'
+import NotFound from './NotFound'
 import { shallow } from 'enzyme';
 
-describe('<About />', () => {
+describe('<NotFound />', () => {
   it('renders', () => {
-    const wrapper = shallow(<About />);
+    const wrapper = shallow(<NotFound />);
     const component = wrapper.find('.test');
     expect(wrapper.length).toBe(1)
   });

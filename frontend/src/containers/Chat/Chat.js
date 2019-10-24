@@ -4,7 +4,7 @@ export default class Chat extends Component {
   render() {
     return (
       <div>
-        <p>chat page</p>
+        <p className='test'>chat page</p>
       </div>
     );
   }

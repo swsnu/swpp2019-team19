@@ -12,10 +12,10 @@ const remote_url = 'http://localhost:8000';
 
 // TODO
 export const signin = (username, password) => dispatch => {
-  axios.post(remote_url + '/signin').then(res => {});
+  axios.post(remote_url + '/signin').then(res => { });
 };
-export const signout = () => dispatch => {};
-export const signup = (email, username, password) => dispatch => {};
-export const validateUsername = username => dispatch => {};
-export const validateUserID = email => dispatch => {};
-export const changeInfo = (username, password) => dispatch => {};
+export const signout = () => dispatch => { };
+export const signup = (email, username, password) => dispatch => { };
+export const validateUsername = username => dispatch => { };
+export const validateUserID = email => dispatch => { };
+export const changeInfo = (username, password) => dispatch => { };

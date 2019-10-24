@@ -16,7 +16,7 @@ const initialState = {
 };
 
 // TODO
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
     case SIGN_IN: {
       return state;
