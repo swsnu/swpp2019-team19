@@ -1,4 +1,4 @@
-import { SEND_QUESTION } from "../actions/types";
+import { SEND_QUESTION } from '../actions/types';
 
 const initialState = {
   chatHistory: [],

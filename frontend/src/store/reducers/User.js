@@ -5,7 +5,7 @@ import {
   VALIDATE_USERNAME,
   VALIDATE_USER_ID,
   CHANGE_INFO
-} from "../actions/types";
+} from '../actions/types';
 
 const initialState = {
   sessionID: {},

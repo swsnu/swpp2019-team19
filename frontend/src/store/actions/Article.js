@@ -10,9 +10,9 @@ import {
   CLEAR_ARTICLE,
   LIKE_ARTICLE,
   DISLIKE_ARTICLE
-} from "./types";
+} from './types';
 
-const remote_url = "http://localhost:8000";
+const remote_url = 'http://localhost:8000';
 
 // TODO
 export const post = () => dispatch => {};

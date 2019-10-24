@@ -5,18 +5,18 @@ module.exports = {
     node: true,
     jest: true
   },
-  extends: ["airbnb", "plugin:react/recommended"],
+  extends: ['airbnb', 'plugin:react/recommended'],
   globals: {
-    Atomics: "readonly",
-    SharedArrayBuffer: "readonly"
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly'
   },
   parserOptions: {
     ecmaFeatures: {
       jsx: true
     },
     ecmaVersion: 2018,
-    sourceType: "module"
+    sourceType: 'module'
   },
-  plugins: ["react"],
+  plugins: ['react'],
   rules: {}
 };

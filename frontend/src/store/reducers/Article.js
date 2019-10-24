@@ -10,7 +10,7 @@ import {
   CLEAR_ARTICLE,
   LIKE_ARTICLE,
   DISLIKE_ARTICLE
-} from "../actions/types";
+} from '../actions/types';
 
 const initialState = {
   article: {},
