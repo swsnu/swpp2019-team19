@@ -49,10 +49,12 @@ def signin(request):
             new_password = req_data['new_password']
         except (KeyError, JSONDecodeError) as e:
             return HttpResponseBadRequest()
-        current_user = request.user
-        if current_user.password == current_password:
-            current_user.password = new_password
-            current_user.save()
+        user = authenticate(request, username=username,
+                            password=current_password)
+        if user is not None:
+            target_user = User.objects.get(username=username)
+            target_user.set_password(new_password)
+            target_user.save()
             return HttpResponse(status=204)
         else:
             return HttpResponse(status=401)
@@ -76,15 +78,15 @@ def boards(request):
         num_article = req_data['num_article']
     except (KeyError, JSONDecodeError) as e:
         return HttpResponseBadRequest()
-    if (tag == 'all'):
-        if (board_name == 'normal'):
+    if (tag == 'normal'):
+        if (board_name == 'all'):
             article_list = [article for article in Article.objects.all().values(
                 'id', 'title', 'author', 'tag')]
         else:
             article_list = [article for article in Article.objects.filter(board='hot').values(
                 'id', 'title', 'author', 'tag')]
     else:
-        if (board_name == 'normal'):
+        if (board_name == 'all'):
             article_list = [article for article in Article.objects.all().filter(tag=tag).values(
                 'id', 'title', 'author', 'tag')]
         else:
@@ -128,6 +130,8 @@ def article_detail(request, article_id):
                          'dislike': target_article.vote.dislike}
         return JsonResponse(response_dict, safe=False)
     elif request.method == 'PUT':
+        if not request.user.is_authenticated:
+            return HttpResponse(status=401)
         if target_article.author.id is not request.user.id:
             return HttpResponseForbidden()
         try:
@@ -147,6 +151,8 @@ def article_detail(request, article_id):
                          'dislike': target_article.vote.dislike}
         return JsonResponse(response_dict, status=200)
     else:
+        if not request.user.is_authenticated:
+            return HttpResponse(status=401)
         if target_article.author.id is not request.user.id:
             return HttpResponseForbidden()
         target_article.delete()

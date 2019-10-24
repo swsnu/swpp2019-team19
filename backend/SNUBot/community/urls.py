@@ -6,8 +6,8 @@ urlpatterns = [
     path('token/', views.token),
     path('signin/', views.signin),
     path('signout/', views.signout),
-    path('article/', views.article),
     path('boards/', views.boards),
+    path('article/', views.article),
     path('article/<int:article_id>/', views.article_detail),
     path('vote/<int:article_id>/', views.vote)
 ]
