@@ -1,0 +1,48 @@
+from django.db import models
+from django.contrib.auth.models import User
+# Create your models here.
+
+TAG_CHOICES = (
+    ('normal', 'Normal'),
+    ('working', 'Working'),
+    ('done', 'Done'),
+    ('rejected', 'Rejected')
+)
+
+BOARD_CHOICES = (
+    ('all', 'All'),
+    ('hot', 'Hot')
+)
+
+
+class Article(models.Model):
+    title = models.CharField(max_length=64)
+    content = models.TextField()
+    author = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        related_name='author_name'
+    )
+    tag = models.CharField(
+        max_length=10, choices=TAG_CHOICES, default='normal')
+    board = models.CharField(
+        max_length=10, choices=BOARD_CHOICES, default='all'
+    )
+    date = models.DateTimeField(auto_now_add=True, blank=True)
+
+
+class Vote(models.Model):
+    article = models.OneToOneField(
+        Article,
+        on_delete=models.CASCADE,
+    )
+    like = models.IntegerField(default=0)
+    like_voter = models.ManyToManyField(
+        User,
+        related_name='liker'
+    )
+    dislike = models.IntegerField(default=0)
+    dislike_voter = models.ManyToManyField(
+        User,
+        related_name='disliker'
+    )
