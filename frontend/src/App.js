@@ -1,25 +1,25 @@
-import React, { Component } from "react";
-import { Provider } from "react-redux";
-import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
+import React, { Component } from 'react';
+import { Provider } from 'react-redux';
+import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
 
-import Chat from "./containers/Chat/Chat";
-import CommunityMain from "./containers/CommunityMain/CommunityMain";
+import Chat from './containers/Chat/Chat';
+import CommunityMain from './containers/CommunityMain/CommunityMain';
 
-import BoardDetail from "./containers/BoardDetail/BoardDetail";
-import ArticleDetail from "./containers/ArticleDetail/ArticleDetail";
-import ArticleCreate from "./containers/ArticleCreate/ArticleCreate";
-import ArticleEdit from "./containers/ArticleEdit/ArticleEdit";
+import BoardDetail from './containers/BoardDetail/BoardDetail';
+import ArticleDetail from './containers/ArticleDetail/ArticleDetail';
+import ArticleCreate from './containers/ArticleCreate/ArticleCreate';
+import ArticleEdit from './containers/ArticleEdit/ArticleEdit';
 
-import Signin from "./containers/Signin/Signin";
-import Signup from "./containers/Signup/Signup";
-import AccountInformation from "./containers/AccountInformation/AccountInformation";
-import About from "./containers/About/About";
+import Signin from './containers/Signin/Signin';
+import Signup from './containers/Signup/Signup';
+import AccountInformation from './containers/AccountInformation/AccountInformation';
+import About from './containers/About/About';
 
-import NotFound from "./containers/NotFound/NotFound";
+import NotFound from './containers/NotFound/NotFound';
 
-import store from "./store/store";
+import store from './store/store';
 
-import "./App.css";
+import './App.css';
 
 export class App extends Component {
   render() {
