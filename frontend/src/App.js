@@ -33,24 +33,19 @@ export class App extends Component {
               <Route path="/chat" exact component={Chat} />
               <Route path="/boards" exact component={CommunityMain} />
 
-              {/* TODO : `/cha` resolves to BoardDetail */}
-              {/*        `/about` also resolves to BoardDetail */}
-              {/* `/boards/:boardName` would be better */}
-              {/* OR like "/foo/:id(\d+)" */}
-              {/*         "/foo/:path(\w+)" */}
-              <Route path="/:boardName" exact component={BoardDetail} />
+              <Route path="/boards/:boardName" exact component={BoardDetail} />
               <Route
-                path="/:boardName/:article_id"
+                path="/boards/:boardName/:article_id"
                 exact
                 component={ArticleDetail}
               />
               <Route
-                path="/:boardName/create"
+                path="/boards/:boardName/create"
                 exact
                 component={ArticleCreate}
               />
               <Route
-                path="/:boardName/:article_id/edit"
+                path="/boards/:boardName/:article_id/edit"
                 exact
                 component={ArticleEdit}
               />
