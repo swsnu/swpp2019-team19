@@ -1,11 +1,11 @@
 import React from 'react';
-import Signin from './Signin'
 import { shallow } from 'enzyme';
+import Signin from './Signin';
 
 describe('<Signin />', () => {
   it('renders', () => {
     const wrapper = shallow(<Signin />);
     const component = wrapper.find('.test');
-    expect(wrapper.length).toBe(1)
+    expect(component.length).toBe(1);
   });
 });

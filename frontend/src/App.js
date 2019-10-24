@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import {
+  BrowserRouter, Route, Redirect, Switch,
+} from 'react-router-dom';
 
 import store from './store/store';
 import Chat from './containers/Chat/Chat';
@@ -14,12 +16,13 @@ import AccountInformation from './containers/User/AccountInformation/AccountInfo
 import About from './containers/About/About';
 import NotFound from './containers/NotFound/NotFound';
 
-import ArticleCreate from './containers/Community/BoardDetail/ArticleCreate/ArticleCreate'
+import ArticleCreate from './containers/Community/BoardDetail/ArticleCreate/ArticleCreate';
 import ArticleEdit from './containers/Community/BoardDetail/ArticleDetail/ArticleEdit/ArticleEdit';
 
 
 import './App.css';
 
+// eslint-disable-next-line react/prefer-stateless-function
 export class App extends Component {
   render() {
     return (
