@@ -35,7 +35,7 @@ export class App extends Component {
 
             <Route path="/boards/:boardName" exact component={BoardDetail} />
             <Route
-              path="/boards/:boardName/:article_id"
+              path="/boards/:boardName/:articleId"
               exact
               component={ArticleDetail}
             />
@@ -45,7 +45,7 @@ export class App extends Component {
               component={ArticleCreate}
             />
             <Route
-              path="/boards/:boardName/:article_id/edit"
+              path="/boards/:boardName/:articleId/edit"
               exact
               component={ArticleEdit}
             />

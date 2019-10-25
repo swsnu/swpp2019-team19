@@ -10,13 +10,14 @@ const initialState = {
   sessionID: {},
   loggedIn: false,
   loginAck: false,
+  checker: '',
 };
 
 // TODO
 export default function (state = initialState, action) {
   switch (action.type) {
     case SIGN_IN: {
-      return state;
+      return { ...state, checker: action.checker, loggedIn: true };
     }
     case SIGN_OUT: {
       return state;

@@ -1,29 +1,29 @@
 import React from 'react';
-
+import Button from 'bootstrap';
 import './Article.css';
 
-const Article = props => {
-  return (
-    <div className='Article'>
-      <div className='article_id'>
-        Article_ID:
-        {props.id}
-      </div>
-      <div className='author_name'>
-        Auther:
-        {props.author_name}
-      </div>
-      <button className='article-title' onClick={props.clickDetail}>
+const Article = (props) => (
+  <tr className="Article">
+    <th className="article_id">
+      Article_ID:
+      {props.id}
+    </th>
+    <th className="author_name">
+      Auther:
+      {props.author_name}
+    </th>
+    <th>
+      <Button className="article-title" onClick={props.clickDetail}>
         Title:
         {props.title}
-      </button>
-      <div className='tag'>
-        tag:
-        {props.tag}
-      </div>
+      </Button>
+    </th>
+    <th className="tag">
+      tag:
+      {props.tag}
+    </th>
 
-    </div>
-  );
-};
+  </tr>
+);
 
 export default Article;

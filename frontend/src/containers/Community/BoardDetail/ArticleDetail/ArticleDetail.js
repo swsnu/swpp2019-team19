@@ -6,7 +6,7 @@ import * as actionCreators from '../../../../store/actions';
 
 class ArticleDetail extends Component {
   componentDidMount() {
-    this.props.fetchArticle(this.props.match.params.article_id);
+    this.props.fetchArticle(this.props.match.params.articleId);
   }
 
   render() {

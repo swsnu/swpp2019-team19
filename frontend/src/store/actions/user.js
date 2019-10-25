@@ -12,15 +12,22 @@ axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 
 // TODO
-export const signin = (userInfo) => (dispatch) => axios.post('api/signin/', userInfo).then((res) => {
-  dispatch({
-    type: SIGN_IN,
-    sessionID: res.headers.sessionID,
-  });
+export const signin = (userInfo) => (dispatch) => axios.post('/api/signin/', userInfo).then((res) => {
+  if (res.status === 204) {
+    dispatch({
+      type: SIGN_IN,
+      checker: res,
+    });
+    dispatch(push('/boards'));
+  }
+}, (error) => {
+  if (error.response.status === 401) {
+    alert('Email or password is wrong');
+  }
 });
 
 export const signout = () => (dispatch) => {
-  axios.post('api/signout/').then(() => {
+  axios.post('/api/signout/').then(() => {
     dispatch({ type: SIGN_OUT });
   });
 };

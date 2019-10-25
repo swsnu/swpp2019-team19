@@ -8,7 +8,7 @@ import {
   CLEAR_ARTICLE,
   VOTE,
 } from '../actions/types';
-// article edit 시 articleList는 초기화되고 article만 가지고 있는 구현인지?
+
 const initialState = {
   article: {},
   articleAck: false,

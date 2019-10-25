@@ -5,7 +5,7 @@ import BoardDetail from './BoardDetail';
 describe('<BoardDetail />', () => {
   it('renders', () => {
     const wrapper = shallow(<BoardDetail />);
-    const component = wrapper.find('.test');
+    const component = wrapper.find('.BoardDetail');
     expect(component.length).toBe(1);
   });
 });

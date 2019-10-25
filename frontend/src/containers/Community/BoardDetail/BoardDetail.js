@@ -17,7 +17,7 @@ class BoardDetail extends Component {
           tag={article.tag}
           author_name={article.author}
           clickDetail={() => {
-            this.props.history.push('/articles/' + article.id);
+            this.props.history.push('/boards/' + this.props.match.params.boardName + '/' + article.id);
           }}
         />
       );
@@ -36,7 +36,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchList: (boardName, tag) => dispatch(actionCreators.fetchList(4, boardName, tag)),
+  fetchList: (boardName, tag) => dispatch(actionCreators.fetchList(20, boardName, tag)),
 });
 
 export default connect(
