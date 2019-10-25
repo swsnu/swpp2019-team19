@@ -1,11 +1,45 @@
 import React, { Component } from 'react';
 
-export default class BoardDetail extends Component {
+import { connect } from 'react-redux';
+import * as actionCreators from '../../../store/actions';
+import Article from '../../../components/Article/Article'
+class BoardDetail extends Component {
+  componentDidMount() {
+    this.props.fetchList(this.props.match.params.boardName, 'normal');
+  }
+
   render() {
+    const articles = this.props.storedArticles.map(article => {
+      return (
+        <Article
+          id={article.id}
+          title={article.title}
+          tag={article.tag}
+          author_name={article.author}
+          clickDetail={() => {
+            this.props.history.push('/articles/' + article.id);
+          }}
+        />
+      );
+    });
+
     return (
-      <div>
-        <p className='test'>BoardDetail page</p>
+      <div className="BoardDetail">
+        {articles}
       </div>
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  storedArticles: state.article.articleList,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchList: (boardName, tag) => dispatch(actionCreators.fetchList(4, boardName, tag)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(BoardDetail);

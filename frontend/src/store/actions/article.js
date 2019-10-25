@@ -11,9 +11,12 @@ import {
   CLEAR_ARTICLE_LIST,
   VOTE,
 } from './types';
+import getCookie from './CSRF';
 
+const remoteURL = 'http://localhost:8000';
+axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
 axios.defaults.xsrfCookieName = 'csrftoken';
-axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+axios.defaults.withCredentials = true;
 /*
 const getToken = axios.get('/api/token/');
 const { csrftoken } = getToken.data;
@@ -23,9 +26,8 @@ const { csrftoken } = getToken.data;
 export const fetchArticle = (id) => (dispatch) => axios.get(`/api/article/${id}/`).then((res) => {
   dispatch({
     type: FETCH_ARTICLE,
-    article: res,
+    article: res.data,
   });
-  dispatch(push(`/articles/${res.data.id}`));
 });
 
 export const clearArticle = () => (dispatch) => {
@@ -35,7 +37,7 @@ export const clearArticle = () => (dispatch) => {
 export const postArticle = (title, content) => (dispatch) => axios.post('/api/article/', { title, content }).then((res) => {
   dispatch({
     type: POST_ARTICLE,
-    article: res,
+    article: res.data,
   });
   dispatch(push(`/articles/${res.data.id}`));
 });
@@ -44,7 +46,7 @@ export const postArticle = (title, content) => (dispatch) => axios.post('/api/ar
 export const editArticle = (id, title, content) => (dispatch) => axios.put(`/api/article/${id}/`, { title, content }).then((res) => {
   dispatch({
     type: EDIT_ARTICLE,
-    article: res,
+    article: res.data,
   });
   dispatch(push(`/articles/${res.data.id}`));
 });
@@ -58,7 +60,7 @@ export const deleteArticle = (id) => (dispatch) => axios.delete(`/api/article/${
 });
 
 export const fetchList = (articleCount, boardName, tag) => (dispatch) => axios.post('/api/boards/', { tag, article_count: articleCount, board_name: boardName }).then((res) => {
-  dispatch({ type: FETCH_ARTICLE_LIST, articles: res });
+  dispatch({ type: FETCH_ARTICLE_LIST, articles: res.data });
 });
 
 export const clearList = () => (dispatch) => {
@@ -68,7 +70,7 @@ export const clearList = () => (dispatch) => {
 export const putVote = (vote, id) => (dispatch) => axios.put(`/api/vote/${id}`, { id, vote }).then((res) => {
   dispatch({
     type: VOTE,
-    like: res.like,
-    dislike: res.dislike,
+    like: res.data.like,
+    dislike: res.data.dislike,
   });
 });
