@@ -1,12 +1,12 @@
 // User
-/*
+
 export const SIGN_IN = 'SIGN_IN';
 export const SIGN_OUT = 'SIGN_OUT';
 export const SIGN_UP = 'SIGN_UP';
 export const VALIDATE_USERNAME = 'VALIDATE_USERNAME';
 export const VALIDATE_USER_ID = 'VALIDATE_USER_ID';
 export const CHANGE_INFO = 'CHANGE_INFO';
-*/
+
 // Article
 export const POST_ARTICLE = 'POST_ARTICLE';
 export const EDIT_ARTICLE = 'EDIT_ARTICLE';

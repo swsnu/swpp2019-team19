@@ -75,7 +75,7 @@ def boards(request):
         req_data = json.loads(request.body.decode())
         board_name = req_data['board_name']
         tag = req_data['tag']
-        num_article = req_data['num_article']
+        article_count = req_data['article_count']
     except (KeyError, JSONDecodeError):
         return HttpResponseBadRequest()
     if tag == 'normal':
@@ -92,8 +92,8 @@ def boards(request):
         else:
             article_list = [article for article in Article.objects.filter(board='hot', tag=tag).values(
                 'id', 'title', 'author', 'tag')]
-    if len(article_list) > num_article:
-        article_list = article_list[0:num_article]
+    if len(article_list) > article_count:
+        article_list = article_list[0:article_count]
     return JsonResponse(article_list, safe=False)
 
 
