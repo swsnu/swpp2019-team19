@@ -2,5 +2,11 @@
   "editor.tabSize": 2,
   "python.pythonPath": "env/bin/python3.7",
   "editor.formatOnSave": true,
-  "prettier.useTabs": true
+  "python.linting.pylintArgs": [
+    "--rcfile",
+    "pylint.config",
+    "--disable",
+    "missing-docstring",
+    "--load-plugins=pylint_django",
+  ]
 }

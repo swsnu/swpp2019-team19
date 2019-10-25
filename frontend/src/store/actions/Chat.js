@@ -1,13 +1,13 @@
-import { SEND_QUESTION } from './types';
+/*
 import axios from 'axios';
+import { SEND_QUESTION } from './types';
 
-const remote_url = 'http://localhost:5500';
+const remoteURL = 'http://localhost:5500';
 
-export const send = () => dispatch => {
-  return axios.get(remote_url + '/chat').then(response => {
-    dispatch({
-      type: SEND_QUESTION,
-      payload: response.data
-    });
+export const send = () => (dispatch) => axios.get(`${remoteURL}/chat`).then((response) => {
+  dispatch({
+    type: SEND_QUESTION,
+    payload: response.data,
   });
-};
+});
+*/

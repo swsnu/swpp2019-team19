@@ -1,3 +1,4 @@
+/*
 import {
   SIGN_IN,
   SIGN_OUT,
@@ -45,3 +46,4 @@ export default function (state = initialState, action) {
       return state;
   }
 }
+*/
