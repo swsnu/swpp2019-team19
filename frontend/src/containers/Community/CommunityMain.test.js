@@ -5,7 +5,7 @@ import CommunityMain from './CommunityMain';
 describe('<CommunityMain />', () => {
   it('renders', () => {
     const wrapper = shallow(<CommunityMain />);
-    const component = wrapper.find('.test');
+    const component = wrapper.find('.CommunityMain');
     expect(component.length).toBe(1);
   });
 });

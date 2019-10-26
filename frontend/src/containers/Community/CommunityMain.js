@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Table, Button } from 'reactstrap';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions';
-import Article from '../../components/Article/Article';
+import Board from '../../components/Board/Board';
 
 class CommunityMain extends Component {
   componentDidMount() {
@@ -10,8 +10,8 @@ class CommunityMain extends Component {
   }
 
   render() {
-    const articles = this.props.storedArticles.map((article) => (
-      <Article
+    const articleEntry = this.props.storedArticles.map((article) => (
+      <Board
         key={article.id}
         id={article.id}
         title={article.title}
@@ -38,7 +38,7 @@ class CommunityMain extends Component {
             </tr>
           </thead>
           <tbody>
-            {articles}
+            {articleEntry}
           </tbody>
         </Table>
 

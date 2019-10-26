@@ -16,7 +16,7 @@ import getCookie from './CSRF';
 const remoteURL = 'http://localhost:8000';
 axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
 axios.defaults.xsrfCookieName = 'csrftoken';
-axios.defaults.withCredentials = true;
+
 /*
 const getToken = axios.get('/api/token/');
 const { csrftoken } = getToken.data;

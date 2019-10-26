@@ -3,7 +3,7 @@ import { Table, Button } from 'reactstrap';
 
 import { connect } from 'react-redux';
 import * as actionCreators from '../../../store/actions';
-import Article from '../../../components/Article/Article';
+import Board from '../../../components/Board/Board';
 
 class BoardDetail extends Component {
   componentDidMount() {
@@ -11,8 +11,8 @@ class BoardDetail extends Component {
   }
 
   render() {
-    const articles = this.props.storedArticles.map((article) => (
-      <Article
+    const articleEntry = this.props.storedArticles.map((article) => (
+      <Board
         key={article.id}
         id={article.id}
         title={article.title}
@@ -36,7 +36,7 @@ class BoardDetail extends Component {
             </tr>
           </thead>
           <tbody>
-            {articles}
+            {articleEntry}
           </tbody>
         </Table>
       </div>

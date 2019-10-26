@@ -1,5 +1,5 @@
 import axios from 'axios';
-
+import Cookie from 'js-cookie';
 import { push } from 'connected-react-router';
 import {
   SIGN_IN,
@@ -10,7 +10,12 @@ import {
 
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
-
+axios.defaults.withCredentials = true;
+axios.interceptors.response.use((response) => {
+  const sessionCookie = Cookie.get();
+  console.log('Cookie', sessionCookie);
+  return response;
+});
 // TODO
 export const signin = (userInfo) => (dispatch) => axios.post('/api/signin/', userInfo).then((res) => {
   if (res.status === 204) {
@@ -22,7 +27,7 @@ export const signin = (userInfo) => (dispatch) => axios.post('/api/signin/', use
   }
 }, (error) => {
   if (error.response.status === 401) {
-    alert('Email or password is wrong');
+    alert('username or password is wrong');
   }
 });
 
