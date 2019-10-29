@@ -25,43 +25,37 @@ class UserTestCase(TestCase):
         self.assertEqual(response.status_code, 201)  # Pass csrf protection
 
     def test_sign_up_KeyError(self):
-        client = Client(enforce_csrf_checks=True)
+        client = Client()
         response = client.get('/api/token/')
         self.assertEqual(response.status_code, 204)
         csrftoken = response.cookies['csrftoken'].value
         response = client.post('/api/signup/', json.dumps({'username': 'chris'}),
-                               content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+                               content_type='application/json')
         # Request without csrf token returns 403 response
         self.assertEqual(response.status_code, 400)
 
     def test_sign_in_and_out(self):
-        client = Client(enforce_csrf_checks=True)
-        response = client.get('/api/token/')
-        csrftoken = response.cookies['csrftoken'].value
+        client = Client()
         response = client.post('/api/signin/', json.dumps(
-            {'username': 'test1'}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'username': 'test1'}), content_type='application/json')
         self.assertEqual(response.status_code, 400)
         response = client.post('/api/signin/', json.dumps(
-            {'username': 'test1', 'password': 'user123'}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'username': 'test1', 'password': 'user123'}), content_type='application/json')
         self.assertEqual(response.status_code, 401)
         response = client.post('/api/signin/', json.dumps(
-            {'username': 'test1', 'password': 'user1234'}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'username': 'test1', 'password': 'user1234'}), content_type='application/json')
         self.assertEqual(response.status_code, 204)
-        response = client.get('/api/token/')
-        csrftoken = response.cookies['csrftoken'].value
         response = client.put('/api/signin/', json.dumps(
-            {'username': 'test1'}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'username': 'test1'}), content_type='application/json')
         self.assertEqual(response.status_code, 400)
         response = client.put('/api/signin/', json.dumps(
-            {'username': 'test1', 'current_password': 'user123', 'new_password': 'user12345'}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'username': 'test1', 'current_password': 'user123', 'new_password': 'user12345'}), content_type='application/json')
         self.assertEqual(response.status_code, 401)
         response = client.put('/api/signin/', json.dumps(
-            {'username': 'test1', 'current_password': 'user1234', 'new_password': 'user12345'}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'username': 'test1', 'current_password': 'user1234', 'new_password': 'user12345'}), content_type='application/json')
         self.assertEqual(response.status_code, 204)
-        response = client.get('/api/token/')
-        csrftoken = response.cookies['csrftoken'].value
         response = client.post('/api/signin/', json.dumps(
-            {'username': 'test1', 'password': 'user12345'}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'username': 'test1', 'password': 'user12345'}), content_type='application/json')
         self.assertEqual(response.status_code, 204)
         response = client.get('/api/signout/')
         self.assertEqual(response.status_code, 204)
@@ -236,121 +230,93 @@ class ArticleTestCase(TestCase):
         Vote.objects.create(article=Article.objects.get(id=41), like="10")
 
     def test_board(self):
-        client = Client(enforce_csrf_checks=True)
-        response = client.get('/api/token/')
-        csrftoken = response.cookies['csrftoken'].value
+        client = Client()
         response = client.post('/api/signin/', json.dumps(
-            {'username': 'test2', 'password': 'user1234'}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'username': 'test2', 'password': 'user1234'}), content_type='application/json')
         self.assertEqual(response.status_code, 204)
-        response = client.get('/api/token/')
-        csrftoken = response.cookies['csrftoken'].value
         response = client.post('/api/boards/', json.dumps(
-            {'board_name': 'all'}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'board_name': 'all'}), content_type='application/json')
         self.assertEqual(response.status_code, 400)
         response = client.post('/api/boards/', json.dumps(
-            {'board_name': 'all', 'tag': 'normal', 'num_article': 4}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'board_name': 'all', 'tag': 'all', 'article_count': 4}), content_type='application/json')
         self.assertEqual(len(json.loads(response.content)), 4)
         response = client.post('/api/boards/', json.dumps(
-            {'board_name': 'all', 'tag': 'done', 'num_article': 40}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'board_name': 'all', 'tag': 'done', 'article_count': 40}), content_type='application/json')
         self.assertEqual(len(json.loads(response.content)), 21)
         response = client.post('/api/boards/', json.dumps(
-            {'board_name': 'hot', 'tag': 'normal', 'num_article': 40}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'board_name': 'hot', 'tag': 'all', 'article_count': 40}), content_type='application/json')
         self.assertEqual(len(json.loads(response.content)), 20)
         response = client.post('/api/boards/', json.dumps(
-            {'board_name': 'hot', 'tag': 'done', 'num_article': 40}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'board_name': 'hot', 'tag': 'done', 'article_count': 40}), content_type='application/json')
         self.assertEqual(len(json.loads(response.content)), 0)
 
     def test_article(self):
-        client = Client(enforce_csrf_checks=True)
-        response = client.get('/api/token/')
-        csrftoken = response.cookies['csrftoken'].value
+        client = Client()
         response = client.post('/api/signin/', json.dumps(
-            {'username': 'test2', 'password': 'user1234'}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'username': 'test2', 'password': 'user1234'}), content_type='application/json')
         self.assertEqual(response.status_code, 204)
-        response = client.get('/api/token/')
-        csrftoken = response.cookies['csrftoken'].value
         response = client.post('/api/article/', json.dumps(
-            {'title': 'title1'}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'title': 'title1'}), content_type='application/json')
         self.assertEqual(response.status_code, 400)
         response = client.post('/api/article/', json.dumps(
-            {'title': 'title1', 'content': 'content1'}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'title': 'title1', 'content': 'content1'}), content_type='application/json')
         self.assertEqual(response.status_code, 201)
 
     def test_article_detail(self):
-        client = Client(enforce_csrf_checks=True)
-        response = client.get('/api/token/')
-        csrftoken = response.cookies['csrftoken'].value
+        client = Client()
         response = client.put('/api/article/1/', json.dumps(
-            {'title': 'title1', 'content': 'content1'}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'title': 'title1', 'content': 'content1'}), content_type='application/json')
         self.assertEqual(response.status_code, 401)
-        response = client.get('/api/token/')
-        csrftoken = response.cookies['csrftoken'].value
         response = client.delete(
-            '/api/article/1/', content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            '/api/article/1/', content_type='application/json')
         self.assertEqual(response.status_code, 401)
-        response = client.get('/api/token/')
-        csrftoken = response.cookies['csrftoken'].value
         response = client.post('/api/signin/', json.dumps(
-            {'username': 'test1', 'password': 'user1234'}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'username': 'test1', 'password': 'user1234'}), content_type='application/json')
         self.assertEqual(response.status_code, 204)
         response = client.get('/api/article/1000/')
         self.assertEqual(response.status_code, 404)
         response = client.get('/api/article/1/')
         self.assertJSONEqual(str(response.content, encoding='utf8'), {
                              "id": 1, "title": "title", "content": "content1", "author": "test1", "like": 20, "dislike": 0})
-        response = client.get('/api/token/')
-        csrftoken = response.cookies['csrftoken'].value
         response = client.put('/api/article/1/', json.dumps(
-            {'title': 'title1'}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'title': 'title1'}), content_type='application/json')
         self.assertEqual(response.status_code, 400)
         response = client.put('/api/article/1/', json.dumps(
-            {'title': 'title1', 'content': 'content1'}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'title': 'title1', 'content': 'content1'}), content_type='application/json')
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(str(response.content, encoding='utf8'), {
                              "id": 1, "title": "title1", "content": "content1", "author": "test1", "like": 20, "dislike": 0})
-        response = client.get('/api/token/')
-        csrftoken = response.cookies['csrftoken'].value
         response = client.put('/api/article/2/', json.dumps(
-            {'title': 'title1', 'content': 'content1'}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'title': 'title1', 'content': 'content1'}), content_type='application/json')
         self.assertEqual(response.status_code, 403)
         response = client.delete(
-            '/api/article/1/', content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            '/api/article/1/', content_type='application/json')
         self.assertEqual(response.status_code, 200)
         response = client.delete(
-            '/api/article/2/', content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            '/api/article/2/', content_type='application/json')
         self.assertEqual(response.status_code, 403)
 
     def test_vote(self):
-        client = Client(enforce_csrf_checks=True)
-        response = client.get('/api/token/')
-        csrftoken = response.cookies['csrftoken'].value
+        client = Client()
         response = client.put('/api/vote/1/', json.dumps(
-            {'vote': 'like'}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'vote': 'like'}), content_type='application/json')
         self.assertEqual(response.status_code, 401)
-        response = client.get('/api/token/')
-        csrftoken = response.cookies['csrftoken'].value
         response = client.post('/api/signin/', json.dumps(
-            {'username': 'test1', 'password': 'user1234'}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'username': 'test1', 'password': 'user1234'}), content_type='application/json')
         self.assertEqual(response.status_code, 204)
-        response = client.get('/api/token/')
-        csrftoken = response.cookies['csrftoken'].value
         response = client.put('/api/vote/1/', json.dumps(
-            {}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {}), content_type='application/json')
         self.assertEqual(response.status_code, 400)
         response = client.put('/api/vote/41/', json.dumps(
-            {'vote': 'like'}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'vote': 'like'}), content_type='application/json')
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(str(response.content, encoding='utf8'), {
                              "like": 11, "dislike": 0})
-        response = client.get('/api/token/')
-        csrftoken = response.cookies['csrftoken'].value
         response = client.put('/api/vote/1/', json.dumps(
-            {'vote': 'like'}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'vote': 'like'}), content_type='application/json')
         self.assertEqual(response.status_code, 409)
-        response = client.get('/api/token/')
-        csrftoken = response.cookies['csrftoken'].value
         response = client.put('/api/vote/21/', json.dumps(
-            {'vote': 'dislike'}), content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
+            {'vote': 'dislike'}), content_type='application/json')
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(str(response.content, encoding='utf8'), {
                              "like": 0, "dislike": 1})

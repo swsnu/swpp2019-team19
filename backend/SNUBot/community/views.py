@@ -108,10 +108,10 @@ def article(request):
         return HttpResponseBadRequest()
     new_article = Article(title=title, content=content, author=author)
     new_article.save()
-    new_vote = Vote(article=article)
+    new_vote = Vote(article=new_article)
     new_vote.save()
-    response_dict = {'id': article.id, 'title': title,
-                     'content': content, 'author': author.username, 'like': vote.like, 'dislike': vote.dislike}
+    response_dict = {'id': new_article.id, 'title': title,
+                     'content': content, 'author': author.username, 'like': new_vote.like, 'dislike': new_vote.dislike}
     return JsonResponse(response_dict, status=201)
 
 

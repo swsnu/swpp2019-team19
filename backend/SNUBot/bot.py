@@ -13,7 +13,7 @@ for i in range(1, 41):
 for i in range(1, 161):
     title = 'article ' + str(i)
     content = title + ' content'
-    author = User.objects.get(id=(i+1) % 40+2)
+    author = User.objects.get(id=(i) % 40+2)
     if i % 4 == 1:
         tag = 'normal'
     elif i % 4 == 2:
