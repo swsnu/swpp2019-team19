@@ -54,7 +54,7 @@ describe('action article', () => {
     jest.clearAllMocks();
   });
 
-  it('\'getArticles\' should fetch Articles correctly', (done) => {
+  it('\'fetchArticles\' should fetch Articles correctly', (done) => {
     const spy = jest.spyOn(axios, 'get').mockImplementation((id) => new Promise((resolve) => {
       const result = {
         status: 200,
@@ -71,7 +71,7 @@ describe('action article', () => {
     });
   });
 
-  it('\'clearArticle\' should fetch Article correctly', (done) => {
+  it('\'clearArticle\' should clear Article correctly', (done) => {
     store.dispatch(actionCreators.clearArticle());
     const newState = store.getState();
     expect(newState.article.articleAck).toBe(false);
@@ -126,17 +126,75 @@ describe('action article', () => {
     });
   });
 
-  it('\'deleteArticle\' should delete Article correctly', (done) => {
-    const spy = jest.spyOn(axios, 'delete').mockImplementation((id) => new Promise((resolve) => {
+  it('\'fetchAllBoard\' should post Article correctly', (done) => {
+    const spy = jest.spyOn(axios, 'post').mockImplementation((articleCount, tag) => new Promise((resolve) => {
       const result = {
         status: 200,
+        data: stubArticleList1,
       };
       resolve(result);
     }));
 
-    store.dispatch(actionCreators.deleteArticle()).then(() => {
+    store.dispatch(actionCreators.fetchAllBoard(0)).then(() => {
+      const newState = store.getState();
+      expect(newState.article.articleListAll).toBe(stubArticleList1);
       expect(spy).toHaveBeenCalledTimes(1);
       done();
     });
+  });
+
+  it('\'fetchHotBoard\' should post Article correctly', (done) => {
+    const spy = jest.spyOn(axios, 'post').mockImplementation((articleCount, tag) => new Promise((resolve) => {
+      const result = {
+        status: 200,
+        data: stubArticleList2,
+      };
+      resolve(result);
+    }));
+
+    store.dispatch(actionCreators.fetchHotBoard(0)).then(() => {
+      const newState = store.getState();
+      expect(newState.article.articleListHot).toBe(stubArticleList2);
+      expect(spy).toHaveBeenCalledTimes(1);
+      done();
+    });
+  });
+
+  it('\'fetchArticleList\' should post Article correctly', (done) => {
+    const spy = jest.spyOn(axios, 'post').mockImplementation((articleCount, boardName, tag) => new Promise((resolve) => {
+      const result = {
+        status: 200,
+        data: stubArticleList1,
+      };
+      resolve(result);
+    }));
+
+    store.dispatch(actionCreators.fetchArticleList(0)).then(() => {
+      const newState = store.getState();
+      expect(newState.article.articleList).toBe(stubArticleList1);
+      expect(spy).toHaveBeenCalledTimes(1);
+      done();
+    });
+  });
+
+  it('\'clearAllBoard\' should clear Article correctly', (done) => {
+    store.dispatch(actionCreators.clearAllBoard());
+    const newState = store.getState();
+    expect(newState.article.articleListAllAck).toBe(false);
+    done();
+  });
+
+  it('\'clearHotBoard\' should clear Article correctly', (done) => {
+    store.dispatch(actionCreators.clearHotBoard());
+    const newState = store.getState();
+    expect(newState.article.articleListHotAck).toBe(false);
+    done();
+  });
+
+  it('\'clearArticleList\' should clear Article correctly', (done) => {
+    store.dispatch(actionCreators.clearArticleList());
+    const newState = store.getState();
+    expect(newState.article.articleListAck).toBe(false);
+    done();
   });
 });

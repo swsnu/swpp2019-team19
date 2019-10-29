@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Cookie from 'js-cookie';
 import { push } from 'connected-react-router';
 import {
   SIGN_IN,
@@ -22,7 +21,6 @@ export const signin = (username, password) => (dispatch) => axios.post('/api/sig
   if (res.status === 204) {
     dispatch({
       type: SIGN_IN,
-      checker: res,
     });
     dispatch(push('/boards'));
   }
@@ -33,7 +31,7 @@ export const signin = (username, password) => (dispatch) => axios.post('/api/sig
 });
 
 export const signout = () => (dispatch) => {
-  axios.post('/api/signout/').then(() => {
+  axios.get('/api/signout/').then(() => {
     dispatch({ type: SIGN_OUT });
   });
 };
@@ -42,12 +40,10 @@ export const signup = (email, username, password) => (dispatch) => axios.post('/
   dispatch({
     type: SIGN_UP,
   });
-  // dispatch(push(`/articles/${res.data.id}`));
 });
 
-export const changeInfo = (username, currentPassword, newPassword) => (dispatch) => axios.post('/api/signup/', { username, current_password: currentPassword, new_password: newPassword }).then((res) => {
+export const changeInfo = (username, currentPassword, newPassword) => (dispatch) => axios.put('/api/signup/', { username, current_password: currentPassword, new_password: newPassword }).then((res) => {
   dispatch({
     type: CHANGE_INFO,
   });
-  // dispatch(push(`/articles/${res.data.id}`));
 });

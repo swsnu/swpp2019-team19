@@ -1,16 +1,34 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { mount } from 'enzyme';
 import App from './App';
 
-it('renders without crashing', () => {
+import { getMockStore } from './test-utils/mocks';
+import { history } from './store/store';
+
+const stubArticleInitialState = {
+
+};
+const stubUserInitialState = {
+
+};
+
+const mockStore = getMockStore(
+  stubArticleInitialState,
+  stubUserInitialState,
+);
+
+
+describe('renders without crashing', () => {
+  let appLogIn;
   beforeEach(() => {
     appLogIn = (
-      <Provider store={mockStoreLogIn}>
+      <Provider store={mockStore}>
         <App history={history} />
       </Provider>
     );
   });
-  it('should render App at Login state', () => {
+  it('should render App', () => {
     const component = mount(appLogIn);
     expect(component.find('.App').length).toBe(1);
   });

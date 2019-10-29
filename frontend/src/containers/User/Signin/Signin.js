@@ -12,8 +12,6 @@ class Signin extends Component {
     password: '',
   };
 
-  componentDidMount() {
-  }
 
   SigninHandler = () => {
     this.props.Signin(this.state.username, this.state.password);
