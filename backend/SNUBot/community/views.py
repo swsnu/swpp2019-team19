@@ -78,7 +78,7 @@ def boards(request):
         article_count = req_data['article_count']
     except (KeyError, JSONDecodeError):
         return HttpResponseBadRequest()
-    if tag == 'normal':
+    if tag == 'all':
         if board_name == 'all':
             article_list = [article for article in Article.objects.all().values(
                 'id', 'title', 'author', 'tag')]

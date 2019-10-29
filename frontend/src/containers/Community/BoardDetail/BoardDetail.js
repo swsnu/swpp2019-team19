@@ -7,7 +7,7 @@ import Board from '../../../components/Board/Board';
 
 class BoardDetail extends Component {
   componentDidMount() {
-    this.props.fetchList(this.props.match.params.boardName, 'normal');
+    this.props.fetchList(this.props.match.params.boardName, 'all');
   }
 
   render() {

@@ -6,7 +6,7 @@ import Board from '../../components/Board/Board';
 
 class CommunityMain extends Component {
   componentDidMount() {
-    this.props.fetchList('all', 'normal');
+    this.props.fetchList('all', 'all');
   }
 
   render() {

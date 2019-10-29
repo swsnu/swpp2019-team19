@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
-from .models import Article, Vote
+from community.models import Article, Vote
 '''
 초기 유저 세팅
+이거 하기 전에 migrate, createsuperuser해야함
 '''
 for i in range(1, 41):
     username = 'user' + str(i)
