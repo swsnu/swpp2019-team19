@@ -28,7 +28,7 @@ export class App extends Component {
       <ConnectedRouter history={this.props.history}>
         <div className="App">
           <Switch>
-            <Redirect exact from="/" to="/chat" />
+            <Redirect exact from="/" to="/signin" />
 
             <Route path="/chat" exact component={Chat} />
             <Route path="/boards" exact component={CommunityMain} />

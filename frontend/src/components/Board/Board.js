@@ -15,6 +15,7 @@ const Board = (props) => (
     <th className="tag">
       {props.tag}
     </th>
+
   </tr>
 );
 

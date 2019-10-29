@@ -7,13 +7,17 @@ import {
   POST_ARTICLE,
   EDIT_ARTICLE,
   DELETE_ARTICLE,
+  FETCH_ALL_BOARD,
+  FETCH_HOT_BOARD,
+  CLEAR_ALL_BOARD,
+  CLEAR_HOT_BOARD,
   FETCH_ARTICLE_LIST,
   CLEAR_ARTICLE_LIST,
   VOTE,
 } from './types';
-import getCookie from './CSRF';
+// import getCookie from './CSRF';
 
-const remoteURL = 'http://localhost:8000';
+// const remoteURL = 'http://localhost:8000';
 axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
 axios.defaults.xsrfCookieName = 'csrftoken';
 
@@ -59,11 +63,27 @@ export const deleteArticle = (id) => (dispatch) => axios.delete(`/api/article/${
   dispatch(push('/articles'));
 });
 
-export const fetchList = (articleCount, boardName, tag) => (dispatch) => axios.post('/api/boards/', { tag, article_count: articleCount, board_name: boardName }).then((res) => {
+export const fetchAllBoard = (articleCount, tag) => (dispatch) => axios.post('/api/boards/', { tag, article_count: articleCount, board_name: 'all' }).then((res) => {
+  dispatch({ type: FETCH_ALL_BOARD, articles: res.data });
+});
+
+export const clearAllBoard = () => (dispatch) => {
+  dispatch({ type: CLEAR_ALL_BOARD });
+};
+
+export const fetchHotBoard = (articleCount, tag) => (dispatch) => axios.post('/api/boards/', { tag, article_count: articleCount, board_name: 'hot' }).then((res) => {
+  dispatch({ type: FETCH_HOT_BOARD, articles: res.data });
+});
+
+export const clearHotBoard = () => (dispatch) => {
+  dispatch({ type: CLEAR_HOT_BOARD });
+};
+
+export const fetchArticleList = (articleCount, boardName, tag) => (dispatch) => axios.post('/api/boards/', { tag, article_count: articleCount, board_name: boardName }).then((res) => {
   dispatch({ type: FETCH_ARTICLE_LIST, articles: res.data });
 });
 
-export const clearList = () => (dispatch) => {
+export const clearArticleList = () => (dispatch) => {
   dispatch({ type: CLEAR_ARTICLE_LIST });
 };
 

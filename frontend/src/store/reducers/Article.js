@@ -1,11 +1,15 @@
 import {
+  FETCH_ARTICLE,
+  CLEAR_ARTICLE,
   POST_ARTICLE,
   EDIT_ARTICLE,
   DELETE_ARTICLE,
+  FETCH_ALL_BOARD,
+  FETCH_HOT_BOARD,
+  CLEAR_ALL_BOARD,
+  CLEAR_HOT_BOARD,
   FETCH_ARTICLE_LIST,
   CLEAR_ARTICLE_LIST,
-  FETCH_ARTICLE,
-  CLEAR_ARTICLE,
   VOTE,
 } from '../actions/types';
 
@@ -14,6 +18,10 @@ const initialState = {
   articleAck: false,
   articleList: [],
   articleListAck: false,
+  articleListAll: [],
+  articleListAllAck: false,
+  articleListHot: [],
+  articleListHotAck: false,
 };
 
 // TODO
@@ -44,6 +52,18 @@ export default function (state = initialState, action) {
     }
     case CLEAR_ARTICLE_LIST: {
       return { ...state, articleList: [], articleListAck: false };
+    }
+    case FETCH_ALL_BOARD: {
+      return { ...state, articleListAll: action.articles, articleListAllAck: true };
+    }
+    case CLEAR_ALL_BOARD: {
+      return { ...state, articleListAll: [], articleListAllAck: false };
+    }
+    case FETCH_HOT_BOARD: {
+      return { ...state, articleListHot: action.articles, articleListHotAck: true };
+    }
+    case CLEAR_HOT_BOARD: {
+      return { ...state, articleListHot: [], articleListHotAck: false };
     }
     case VOTE: {
       const updatedArticle = state.article;

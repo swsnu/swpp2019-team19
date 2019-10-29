@@ -11,13 +11,14 @@ import {
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 axios.defaults.withCredentials = true;
+/*
 axios.interceptors.response.use((response) => {
   const sessionCookie = Cookie.get();
   console.log('Cookie', sessionCookie);
   return response;
-});
+}); */
 // TODO
-export const signin = (userInfo) => (dispatch) => axios.post('/api/signin/', userInfo).then((res) => {
+export const signin = (username, password) => (dispatch) => axios.post('/api/signin/', { username, password }).then((res) => {
   if (res.status === 204) {
     dispatch({
       type: SIGN_IN,

@@ -7,7 +7,7 @@ import Board from '../../../components/Board/Board';
 
 class BoardDetail extends Component {
   componentDidMount() {
-    this.props.fetchList(this.props.match.params.boardName, 'all');
+    this.props.fetchArticleList(this.props.match.params.boardName, 'all');
   }
 
   render() {
@@ -26,6 +26,9 @@ class BoardDetail extends Component {
 
     return (
       <div className="BoardDetail">
+        <Button id="direct-to-board" onClick={() => this.props.history.push('/boards')}>
+          Main
+        </Button>
         <Table hover size="sm">
           <thead>
             <tr>
@@ -49,7 +52,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchList: (boardName, tag) => dispatch(actionCreators.fetchList(20, boardName, tag)),
+  fetchArticleList: (boardName, tag) => dispatch(actionCreators.fetchArticleList(20, boardName, tag)),
 });
 
 export default connect(

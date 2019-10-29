@@ -4,8 +4,12 @@ export {
   postArticle,
   editArticle,
   deleteArticle,
-  fetchList,
-  clearList,
+  fetchAllBoard,
+  clearAllBoard,
+  fetchHotBoard,
+  clearHotBoard,
+  fetchArticleList,
+  clearArticleList,
   putVote,
 } from './article';
 

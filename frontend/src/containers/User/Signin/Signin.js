@@ -16,11 +16,7 @@ class Signin extends Component {
   }
 
   SigninHandler = () => {
-    const userInfo = {
-      username: this.state.username,
-      password: this.state.password,
-    }
-    this.props.Signin(userInfo);
+    this.props.Signin(this.state.username, this.state.password);
   };
 
   render() {
@@ -51,7 +47,7 @@ class Signin extends Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    Signin: userInfo => dispatch(actionCreators.signin(userInfo))
+    Signin: (username, password) => dispatch(actionCreators.signin(username, password))
   };
 };
 

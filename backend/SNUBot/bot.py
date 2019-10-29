@@ -1,5 +1,10 @@
-from django.contrib.auth.models import User
-from community.models import Article, Vote
+'''
+from SNUBot import settings
+from django.core.management import setup_environ
+setup_environ(settings)
+'''
+from django.contrib.auth.models import User  # pylint: disable=C0411, C0413, C0412, C0410
+from community.models import Article, Vote  # pylint: disable=C0411, C0413, C0412, C0410
 '''
 초기 유저 세팅
 이거 하기 전에 migrate, createsuperuser해야함
@@ -33,10 +38,10 @@ for i in range(1, 161):
 '''
 Vote 세팅
 '''
-for i in range(1, 100):
+for i in range(81, 161):
     vote = Vote.objects.get(id=i)
     for j in range(2, 42 - (i % 30)):
-        if not (j-i == 1):
+        if ((i % 40) != j):
             user = User.objects.get(id=j)
             vote.like_voter.add(user)
             vote.like += 1
