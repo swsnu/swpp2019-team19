@@ -8,7 +8,6 @@ import {
 
 const initialState = {
   sessionID: {},
-  loggedIn: false,
   loginAck: false,
 };
 
@@ -19,7 +18,7 @@ export default function (state = initialState, action) {
       return { ...state, loggedIn: true };
     }
     case SIGN_OUT: {
-      return { ...state, loggedIn: false };
+      return { ...state };
     }
 
     case SIGN_UP: {
