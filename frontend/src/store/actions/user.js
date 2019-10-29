@@ -36,13 +36,13 @@ export const signout = () => (dispatch) => {
   });
 };
 
-export const signup = (email, username, password) => (dispatch) => axios.post('/api/signup/', { username, email, password }).then((res) => {
+export const signup = (email, username, password) => (dispatch) => axios.post('/api/signup/', { username, email, password }).then(() => {
   dispatch({
     type: SIGN_UP,
   });
 });
 
-export const changeInfo = (username, currentPassword, newPassword) => (dispatch) => axios.put('/api/signup/', { username, current_password: currentPassword, new_password: newPassword }).then((res) => {
+export const changeInfo = (username, currentPassword, newPassword) => (dispatch) => axios.put('/api/signup/', { username, current_password: currentPassword, new_password: newPassword }).then(() => {
   dispatch({
     type: CHANGE_INFO,
   });

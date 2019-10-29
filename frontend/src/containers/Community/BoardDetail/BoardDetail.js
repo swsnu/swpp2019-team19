@@ -1,3 +1,5 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { Table, Button } from 'reactstrap';
 
@@ -52,6 +54,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  // eslint-disable-next-line max-len
   fetchArticleList: (boardName, tag) => dispatch(actionCreators.fetchArticleList(20, boardName, tag)),
 });
 

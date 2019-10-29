@@ -24,6 +24,7 @@ const getMockUserReducer = jest.fn(
     return state;
   },
 );
+// eslint-disable-next-line no-unused-vars
 const logger = (store) => (next) => (action) => {
   const result = next(action);
   return result;
