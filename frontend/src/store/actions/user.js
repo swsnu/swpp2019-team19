@@ -1,5 +1,4 @@
 import axios from 'axios';
-import Cookie from 'js-cookie';
 import { push } from 'connected-react-router';
 import {
   SIGN_IN,
@@ -21,8 +20,7 @@ axios.interceptors.response.use((response) => {
 export const signin = (username, password) => (dispatch) => axios.post('/api/signin/', { username, password }).then((res) => {
   if (res.status === 204) {
     dispatch({
-      type: SIGN_IN,
-      checker: res,
+      type: SIGN_IN
     });
     dispatch(push('/boards'));
   }

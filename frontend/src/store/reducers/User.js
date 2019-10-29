@@ -1,3 +1,4 @@
+import Cookie from 'js-cookie';
 
 import {
   SIGN_IN,
@@ -6,20 +7,18 @@ import {
   CHANGE_INFO,
 } from '../actions/types';
 
-const initialState = {
-  sessionID: {},
-  loggedIn: false,
-  loginAck: false,
-};
+const initialState = {};
 
 // TODO
 export default function (state = initialState, action) {
   switch (action.type) {
     case SIGN_IN: {
-      return { ...state, loggedIn: true };
+      sessionStorage.setItem('sessionid', Cookie.get().sessionid);
+      return state;
     }
     case SIGN_OUT: {
-      return { ...state, loggedIn: false };
+      sessionStorage.removeItem('sessionid');
+      return state;
     }
 
     case SIGN_UP: {
