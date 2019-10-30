@@ -48,13 +48,7 @@ class BoardDetail extends Component {
     );
   }
 }
-/*
-{this.props.match.params.boardName == 'all' ? (<Button id="create-article" 
-onClick={() => 
-  this.props.history.push(`/boards/${this.props.match.params.boardName}/create`)}>
-          Create
-        </Button>) : null}
-         */
+
 
 const mapStateToProps = (state) => ({
   storedArticles: state.article.articleList,

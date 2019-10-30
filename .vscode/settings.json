@@ -8,5 +8,6 @@
     "--disable",
     "missing-docstring",
     "--load-plugins=pylint_django",
-  ]
+  ],
+  "eslint.autoFixOnSave": true
 }
