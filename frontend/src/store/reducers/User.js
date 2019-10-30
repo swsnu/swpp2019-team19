@@ -1,5 +1,3 @@
-import Cookie from 'js-cookie';
-
 import {
   SIGN_IN,
   SIGN_OUT,
@@ -13,11 +11,9 @@ const initialState = {};
 export default function (state = initialState, action) {
   switch (action.type) {
     case SIGN_IN: {
-      sessionStorage.setItem('sessionid', Cookie.get().sessionid);
       return state;
     }
     case SIGN_OUT: {
-      sessionStorage.removeItem('sessionid');
       return state;
     }
 

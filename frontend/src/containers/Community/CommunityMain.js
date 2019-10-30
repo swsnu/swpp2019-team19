@@ -48,7 +48,7 @@ class CommunityMain extends Component {
             <tr>
               <th>ArticleID</th>
               <th>Title</th>
-              <th>Auther</th>
+              <th>Author</th>
               <th>tag</th>
             </tr>
           </thead>
@@ -64,7 +64,7 @@ class CommunityMain extends Component {
             <tr>
               <th>ArticleID</th>
               <th>Title</th>
-              <th>Auther</th>
+              <th>Author</th>
               <th>tag</th>
             </tr>
           </thead>

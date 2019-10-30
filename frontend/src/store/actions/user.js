@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { push } from 'connected-react-router';
+import Cookie from 'js-cookie';
 import {
   SIGN_IN,
   SIGN_OUT,
@@ -19,6 +20,7 @@ axios.interceptors.response.use((response) => {
 // TODO
 export const signin = (username, password) => (dispatch) => axios.post('/api/signin/', { username, password }).then((res) => {
   if (res.status === 204) {
+    sessionStorage.setItem('sessionid', Cookie.get().sessionid);
     dispatch({
       type: SIGN_IN,
     });
@@ -32,6 +34,7 @@ export const signin = (username, password) => (dispatch) => axios.post('/api/sig
 
 export const signout = () => (dispatch) => {
   axios.get('/api/signout/').then(() => {
+    sessionStorage.removeItem('sessionid');
     dispatch({ type: SIGN_OUT });
   });
 };
