@@ -71,7 +71,7 @@ class Signup extends Component {
             onChange={(event) => this.setState({ passwordConfirm: event.target.value })}
           />
         </div>
-        <Button id="Signup-button" onClick={() => this.SignupHandler()}>
+        <Button id="Signup-button" onClick={() => SignupHandler()}>
           Signup
         </Button>
       </div>

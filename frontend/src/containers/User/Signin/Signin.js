@@ -8,9 +8,9 @@ import * as actionCreators from '../../../store/actions/index';
 
 class Signin extends Component {
   /* eslint-disable */
-  constructor() {
-    super();
-    state = {
+  constructor(props) {
+    super(props);
+    this.state = {
       username: '',
       password: '',
     };
@@ -42,7 +42,7 @@ class Signin extends Component {
           value={this.state.content}
           onChange={(event) => this.setState({ password: event.target.value })}
         />
-        <Button id="Signin-button" onClick={() => this.SigninHandler()}>
+        <Button id="Signin-button" onClick={() => SigninHandler()}>
           Signin
         </Button>
       </div>
