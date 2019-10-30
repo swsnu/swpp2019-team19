@@ -28,7 +28,9 @@ export const signin = (username, password) => (dispatch) => axios.post('/api/sig
   }
 }, (error) => {
   if (error.response.status === 401) {
+    /* eslint-disable no-alert */
     alert('username or password is wrong');
+    /* eslint-disable no-alert */
   }
 });
 
