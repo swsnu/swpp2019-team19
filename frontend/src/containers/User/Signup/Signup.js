@@ -10,7 +10,7 @@ class Signup extends Component {
   /* eslint-disable */
   constructor() {
     super();
-    state = {
+    this.state = {
       username: '',
       email: '',
       password: '',
