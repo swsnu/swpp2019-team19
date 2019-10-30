@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
-
+import { Button } from 'reactstrap';
 
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Button } from 'reactstrap';
 
 import * as actionCreators from '../../../store/actions/index';
 
 class Signin extends Component {
   /* eslint-disable */
-  state = {
-    username: '',
-    password: '',
-  };
+  constructor() {
+    super();
+    state = {
+      username: '',
+      password: '',
+    };
+  }
   /* eslint-disable */
 
-  SigninHandler = () => {
-    this.props.Signin(this.state.username, this.state.password);
-  };
 
   render() {
+    const SigninHandler = () => {
+      this.props.Signin(this.state.username, this.state.password);
+    };
     return (
       <div className="Signin">
         <Button id="direct-to-signup" onClick={() => this.props.history.push('/signup')}>

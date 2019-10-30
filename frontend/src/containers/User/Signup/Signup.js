@@ -1,38 +1,40 @@
 import React, { Component } from 'react';
-
+import { Button } from 'reactstrap';
 
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
 import * as actionCreators from '../../../store/actions/index';
-import { Button } from 'reactstrap';
 
 class Signup extends Component {
   /* eslint-disable */
-  state = {
-    username: '',
-    email: '',
-    password: '',
-    passwordConfirm: '',
-  };
+  constructor() {
+    super();
+    state = {
+      username: '',
+      email: '',
+      password: '',
+      passwordConfirm: '',
+    };
+  }
   /* eslint-disable */
 
-  SignupHandler = () => {
-    if (this.state.username !== '' &&
-      this.state.email !== '' &&
-      this.state.password !== '' &&
-      this.state.username !== null &&
-      this.state.email !== null &&
-      this.state.password !== null &&
-      (this.state.password.length >= 8) &&
-      this.state.password === this.state.passwordConfirm) {
-      this.props.Signup(this.state.email, this.state.username, this.state.password);
-    } else {
-      alert('username, email and password can not be a blank.\npassword should be more than 8 characters ');
-    }
-  };
 
   render() {
+    const SignupHandler = () => {
+      if (this.state.username !== '' &&
+        this.state.email !== '' &&
+        this.state.password !== '' &&
+        this.state.username !== null &&
+        this.state.email !== null &&
+        this.state.password !== null &&
+        (this.state.password.length >= 8) &&
+        this.state.password === this.state.passwordConfirm) {
+        this.props.Signup(this.state.email, this.state.username, this.state.password);
+      } else {
+        alert('username, email and password can not be a blank.\npassword should be more than 8 characters ');
+      }
+    };
     return (
       <div className="Signup">
         <Button id="direct-to-signin" onClick={() => this.props.history.push('/signin')}>
