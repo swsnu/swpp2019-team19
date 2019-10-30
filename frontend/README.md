@@ -1,12 +1,14 @@
 ### package
 
 ```
-react-router react-router-dom
-redux react-redux
-axios
-redux-thunk
-connected-react-router
-semantic-ui-react
+yarn add react-router react-router-dom
+yarn add redux react-redux
+yarn add axios
+yarn add redux-thunk
+yarn add connected-react-router
+npm -i -S js-cookie
+npm install --save bootstrap
+npm install --save reactstrap react react-dom
 ```
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
