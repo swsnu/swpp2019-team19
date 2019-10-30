@@ -52,7 +52,7 @@ export const editArticle = (id, title, content) => (dispatch) => axios.put(`/api
     type: EDIT_ARTICLE,
     article: res.data,
   });
-  dispatch(push(`/articles/${res.data.id}`));
+  dispatch(push('/boards'));
 });
 
 

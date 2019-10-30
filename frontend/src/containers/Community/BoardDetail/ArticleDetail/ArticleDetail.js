@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
+import { Button } from 'reactstrap';
 import * as actionCreators from '../../../../store/actions';
 
 
@@ -14,19 +15,22 @@ class ArticleDetail extends Component {
   render() {
     return (
       <div className="ArticleDetail">
+        <Button id="direct-to-board" onClick={() => this.props.history.push(`/boards/${this.props.match.params.boardName}`)}>
+          Back to Board
+        </Button>
         Article Number:
         <p id="article-id">{this.props.storedArticle.id}</p>
         Author:
         <p id="article-author">{this.props.storedArticle.author}</p>
-        Title:1
-        <p id="article-title">{this.props.storedArticle.title}</p>
+        Title: 1
+        < p id="article-title" > {this.props.storedArticle.title}</p >
         Content:
         <p id="article-content">{this.props.storedArticle.content}</p>
         Like:
         <p id="article-like">{this.props.storedArticle.like}</p>
         Dislike:
         <p id="article-dislike">{this.props.storedArticle.dislike}</p>
-      </div>
+      </div >
     );
   }
 }

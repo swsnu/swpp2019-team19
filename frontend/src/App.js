@@ -38,21 +38,20 @@ export class App extends Component {
 
             <Route path="/boards/:boardName" exact component={BoardDetail} />
             <Route
-              path="/boards/:boardName/:articleId"
-              exact
-              component={ArticleDetail}
-            />
-            <Route
               path="/boards/:boardName/create"
               exact
               component={ArticleCreate}
+            />
+            <Route
+              path="/boards/:boardName/:articleId"
+              exact
+              component={ArticleDetail}
             />
             <Route
               path="/boards/:boardName/:articleId/edit"
               exact
               component={ArticleEdit}
             />
-
             <Route path="/signin" exact component={Signin} />
             <Route path="/signup" exact component={Signup} />
             <Route path="/account" exact component={AccountInformation} />

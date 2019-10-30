@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import { Button } from 'reactstrap';
 
 import * as actionCreators from '../../../store/actions/index';
 
@@ -21,6 +22,9 @@ class Signin extends Component {
   render() {
     return (
       <div className="Signin">
+        <Button id="direct-to-signup" onClick={() => this.props.history.push('/signup')}>
+          go to signup page
+        </Button>
         <h1>Need Signin!</h1>
         <label>username</label>
         <input
@@ -36,9 +40,9 @@ class Signin extends Component {
           value={this.state.content}
           onChange={(event) => this.setState({ password: event.target.value })}
         />
-        <button id="Signin-button" onClick={() => this.SigninHandler()}>
+        <Button id="Signin-button" onClick={() => this.SigninHandler()}>
           Signin
-        </button>
+        </Button>
       </div>
     );
   }
