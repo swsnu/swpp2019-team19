@@ -87,7 +87,7 @@ export const clearArticleList = () => (dispatch) => {
   dispatch({ type: CLEAR_ARTICLE_LIST });
 };
 
-export const putVote = (vote, id) => (dispatch) => axios.put(`/api/vote/${id}`, { id, vote }).then((res) => {
+export const putVote = (vote, id) => (dispatch) => axios.put(`/api/vote/${id}/`, { id, vote }).then((res) => {
   dispatch({
     type: VOTE,
     like: res.data.like,
