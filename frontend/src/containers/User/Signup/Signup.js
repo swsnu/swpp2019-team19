@@ -22,22 +22,20 @@ class Signup extends Component {
 
   render() {
     const SignupHandler = () => {
-      if (this.state.username !== '' &&
-        this.state.email !== '' &&
-        this.state.password !== '' &&
-        this.state.username !== null &&
-        this.state.email !== null &&
-        this.state.password !== null &&
-        (this.state.password.length >= 8) &&
-        this.state.password === this.state.passwordConfirm) {
-        this.props.Signup(this.state.email, this.state.username, this.state.password);
+      if (this.state.password.length < 8) {
+        alert('Password should be at least 8 characters');
+      } else if (this.state.password !== this.state.passwordConfirm) {
+        alert('Password and Password Confirm are not same');
       } else {
-        alert('username, email and password can not be a blank.\npassword should be more than 8 characters ');
+        this.props.Signup(this.state.email, this.state.username, this.state.password);
       }
+      this.setState({ password: '', passwordConfirm: '' });
     };
     return (
       <div className="Signup">
-        <Button id="direct-to-signin" onClick={() => this.props.history.push('/signin')}>
+        <Button
+          id="direct-to-signin"
+          onClick={() => this.props.history.push('/signin')}>
           go to signin page
         </Button>
         <h1>want Signup?</h1>
@@ -45,7 +43,7 @@ class Signup extends Component {
         <input
           id="email-input"
           type="text"
-          value={this.state.content}
+          value={this.state.email}
           onChange={(event) => this.setState({ email: event.target.value })}
         />
         <label>username</label>
@@ -60,18 +58,29 @@ class Signup extends Component {
           <input
             id="pw-input"
             type="password"
-            value={this.state.content}
-            onChange={(event) => this.setState({ password: event.target.value })}
+            value={this.state.password}
+            onChange={(event) => this.setState({
+              password: event.target.value
+            })}
           />
           <label>Password Confirm</label>
           <input
             id="pw-confirm-input"
             type="password"
-            value={this.state.content}
-            onChange={(event) => this.setState({ passwordConfirm: event.target.value })}
+            value={this.state.passwordConfirm}
+            onChange={(event) => this.setState({
+              passwordConfirm: event.target.value
+            })}
           />
         </div>
-        <Button id="Signup-button" onClick={() => SignupHandler()}>
+        <Button
+          id="Signup-button"
+          onClick={() => SignupHandler()}
+          disabled={
+            !this.state.username || !this.state.email ||
+            !this.state.password || !this.state.passwordConfirm
+          }
+        >
           Signup
         </Button>
       </div>
@@ -80,7 +89,8 @@ class Signup extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  Signup: (email, username, password) => dispatch(actionCreators.signup(email, username, password)),
+  Signup: (email, username, password) =>
+    dispatch(actionCreators.signup(email, username, password)),
 });
 
 export default connect(
