@@ -18,23 +18,21 @@ axios.interceptors.response.use((response) => {
   return response;
 }); */
 // TODO
-export const signin = (username, password) => (dispatch) => {
-  axios.post('/api/signin/', { username, password }).then((res) => {
-    if (res.status === 204) {
-      sessionStorage.setItem('sessionid', Cookie.get().sessionid);
-      dispatch({
-        type: SIGN_IN,
-      });
-      dispatch(push('/boards'));
-    }
-  }, (error) => {
-    if (error.response.status === 401) {
-      /* eslint-disable no-alert */
-      alert('username or password is wrong');
-      /* eslint-disable no-alert */
-    }
-  });
-};
+export const signin = (username, password) => (dispatch) => axios.post('/api/signin/', { username, password }).then((res) => {
+  if (res.status === 204) {
+    sessionStorage.setItem('sessionid', Cookie.get().sessionid);
+    dispatch({
+      type: SIGN_IN,
+    });
+    dispatch(push('/boards'));
+  }
+}, (error) => {
+  if (error.response.status === 401) {
+    /* eslint-disable no-alert */
+    alert('username or password is wrong');
+    /* eslint-disable no-alert */
+  }
+});
 
 export const signout = () => (dispatch) => {
   axios.get('/api/signout/').then(() => {
@@ -43,13 +41,11 @@ export const signout = () => (dispatch) => {
   });
 };
 
-export const signup = (email, username, password) => (dispatch) => {
-  axios.post('/api/signup/', { username, email, password }).then(() => {
-    dispatch({
-      type: SIGN_UP,
-    });
+export const signup = (email, username, password) => (dispatch) => axios.post('/api/signup/', { username, email, password }).then(() => {
+  dispatch({
+    type: SIGN_UP,
   });
-};
+});
 
 export const changeInfo = (username, currentPassword, newPassword) => (dispatch) => {
   axios.put('/api/signup/', { username, current_password: currentPassword, new_password: newPassword }).then(() => {
