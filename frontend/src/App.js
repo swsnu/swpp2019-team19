@@ -31,24 +31,28 @@ export class App extends Component {
       <ConnectedRouter history={this.props.history}>
         <div className="App">
           <Switch>
-            <Redirect exact from="/" to="/signin" />
+            <Redirect exact from="/" to="/chat" />
 
             <Route path="/chat" exact component={Chat} />
             <Route path="/boards" exact component={CommunityMain} />
 
-            <Route path="/boards/:boardName" exact component={BoardDetail} />
             <Route
-              path="/boards/:boardName/create"
+              path="/boards/:boardName([A-Za-z]+)"
+              exact
+              component={BoardDetail}
+            />
+            <Route
+              path="/boards/:boardName([A-Za-z]+)/create"
               exact
               component={ArticleCreate}
             />
             <Route
-              path="/boards/:boardName/:articleId"
+              path="/boards/:boardName([A-Za-z]+)/:articleId([0-9]+)"
               exact
               component={ArticleDetail}
             />
             <Route
-              path="/boards/:boardName/:articleId/edit"
+              path="/boards/:boardName([A-Za-z]+)/:articleId([0-9]+)/edit"
               exact
               component={ArticleEdit}
             />

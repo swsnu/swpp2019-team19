@@ -20,11 +20,16 @@ class Signin extends Component {
 
   render() {
     const SigninHandler = () => {
-      this.props.Signin(this.state.username, this.state.password);
+      const username = this.state.username;
+      const password = this.state.password;
+      this.setState({ password: '' });
+      this.props.signin(username, password);
     };
     return (
       <div className="Signin">
-        <Button id="direct-to-signup" onClick={() => this.props.history.push('/signup')}>
+        <Button
+          id="direct-to-signup"
+          onClick={() => this.props.history.push('/signup')}>
           go to signup page
         </Button>
         <h1>Need Signin!</h1>
@@ -39,10 +44,14 @@ class Signin extends Component {
         <input
           id="pw-input"
           type="password"
-          value={this.state.content}
+          value={this.state.password}
           onChange={(event) => this.setState({ password: event.target.value })}
         />
-        <Button id="Signin-button" onClick={() => SigninHandler()}>
+        <Button
+          id="Signin-button"
+          onClick={() => SigninHandler()}
+          disabled={!this.state.username || !this.state.password}
+        >
           Signin
         </Button>
       </div>
@@ -51,7 +60,8 @@ class Signin extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  Signin: (username, password) => dispatch(actionCreators.signin(username, password)),
+  signin: (username, password) =>
+    dispatch(actionCreators.signin(username, password)),
 });
 
 export default connect(
