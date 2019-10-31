@@ -7,7 +7,7 @@ import store from '../store';
 
 const status200 = new Promise((resolve) => {
   const result = {
-    status: 401,
+    status: 200,
   };
   resolve(result);
 });
