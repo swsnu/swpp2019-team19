@@ -49,5 +49,6 @@ describe('<ArticleDetail />', () => {
     const component = mount(articleDetail);
     const wrapper = component.find('.ArticleDetail');
     expect(wrapper.length).toBe(1);
+    expect(spyFetchArticle).toHaveBeenCalledTimes(1);
   });
 });
