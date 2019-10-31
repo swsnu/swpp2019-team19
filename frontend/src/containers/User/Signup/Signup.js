@@ -22,14 +22,19 @@ class Signup extends Component {
 
   render() {
     const SignupHandler = () => {
-      if (this.state.password.length < 8) {
-        alert('Password should be at least 8 characters');
-      } else if (this.state.password !== this.state.passwordConfirm) {
-        alert('Password and Password Confirm are not same');
-      } else {
-        this.props.Signup(this.state.email, this.state.username, this.state.password);
-      }
+      const email = this.state.email;
+      const username = this.state.username;
+      const password = this.state.password;
+      const passwordConfirm = this.state.passwordConfirm;
       this.setState({ password: '', passwordConfirm: '' });
+      if (password.length < 8) {
+        alert('Password should be at least 8 characters');
+      } else if (password !== passwordConfirm) {
+        alert('Password and Password Confirm are different');
+      } else {
+        this.props.signup(
+          email, username, password);
+      }
     };
     return (
       <div className="Signup">
@@ -89,7 +94,7 @@ class Signup extends Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  Signup: (email, username, password) =>
+  signup: (email, username, password) =>
     dispatch(actionCreators.signup(email, username, password)),
 });
 
