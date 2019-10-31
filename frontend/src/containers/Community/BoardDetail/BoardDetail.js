@@ -21,14 +21,19 @@ class BoardDetail extends Component {
         tag={article.tag}
         author_name={article.author}
         clickDetail={() => {
-          this.props.history.push(`/boards/${this.props.match.params.boardName}/${article.id}`);
+          this.props.history.push(
+            `/boards/${this.props.match.params.boardName}/${article.id}`,
+          );
         }}
       />
     ));
 
     return (
       <div className="BoardDetail">
-        <Button id="direct-to-board" onClick={() => this.props.history.push('/boards')}>
+        <Button
+          id="direct-to-board"
+          onClick={() => this.props.history.push('/boards')}
+        >
           Main
         </Button>
         <Table hover size="sm">
@@ -54,8 +59,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  // eslint-disable-next-line max-len
-  fetchArticleList: (boardName, tag) => dispatch(actionCreators.fetchArticleList(20, boardName, tag)),
+  fetchArticleList: (boardName, tag) => dispatch(
+    actionCreators.fetchArticleList(20, boardName, tag),
+  ),
 });
 
 export default connect(
