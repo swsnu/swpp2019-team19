@@ -131,7 +131,8 @@ describe('<Signup />', () => {
     expect(passwordConfirmInput.instance().value).toEqual('');
     expect(spySignup).toHaveBeenCalledTimes(1);
     expect(spySignup).toHaveBeenCalledWith(
-      validEmail, validUsername, validPassword)
+      validEmail, validUsername, validPassword,
+    );
   });
 
   it('goto signin page', () => {
