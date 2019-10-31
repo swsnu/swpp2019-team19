@@ -10,55 +10,50 @@ import { history } from '../../../store/store';
 import * as ActionCreators from '../../../store/actions/article';
 
 const stubArticleInitialState = {
-  articleList: [
-    {
-      id: 1,
-      author: 1,
-      title: 'ARTICLE_TEST_TITLE_1',
-      tag: 'all',
-    }, {
-      id: 2,
-      author: 1,
-      title: 'ARTICLE_TEST_TITLE_1',
-      tag: 'all',
-    },
-  ],
-  articleListAck: true,
-};
-const stubUserInitialState = {
-
+	articleList: [
+		{
+			id: 1,
+			author: 1,
+			title: 'ARTICLE_TEST_TITLE_1',
+			tag: 'all',
+		},
+		{
+			id: 2,
+			author: 1,
+			title: 'ARTICLE_TEST_TITLE_1',
+			tag: 'all',
+		},
+	],
+	articleListAck: true,
 };
 
-const mockStore = getMockStore(
-  stubArticleInitialState,
-  stubUserInitialState,
-);
+const mockStore = getMockStore(stubArticleInitialState);
 
 describe('<BoardDetail />', () => {
-  let boardDetail;
-  let spyFetchArticleList;
-  beforeEach(() => {
-    boardDetail = (
-      <Provider store={mockStore}>
-        <ConnectedRouter history={history}>
-          <Switch>
-            <Route path="/" exact component={BoardDetail} />
-          </Switch>
-        </ConnectedRouter>
-      </Provider>
-    );
-    spyFetchArticleList = jest
-      .spyOn(ActionCreators, 'fetchArticleList')
-      .mockImplementation(() => (dispatch) => { });
-  });
+	let boardDetail;
+	let spyFetchArticleList;
+	beforeEach(() => {
+		boardDetail = (
+			<Provider store={mockStore}>
+				<ConnectedRouter history={history}>
+					<Switch>
+						<Route path='/' exact component={BoardDetail} />
+					</Switch>
+				</ConnectedRouter>
+			</Provider>
+		);
+		spyFetchArticleList = jest
+			.spyOn(ActionCreators, 'fetchArticleList')
+			.mockImplementation(() => dispatch => {});
+	});
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
+	afterEach(() => {
+		jest.clearAllMocks();
+	});
 
-  it('renders', () => {
-    const component = mount(boardDetail);
-    const wrapper = component.find('.BoardDetail');
-    expect(wrapper.length).toBe(1);
-  });
+	it('renders', () => {
+		const component = mount(boardDetail);
+		const wrapper = component.find('.BoardDetail');
+		expect(wrapper.length).toBe(1);
+	});
 });

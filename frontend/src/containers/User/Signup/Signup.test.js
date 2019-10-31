@@ -9,141 +9,137 @@ import { getMockStore } from '../../../test-utils/mocks';
 import { history } from '../../../store/store';
 import * as ActionCreators from '../../../store/actions/user';
 
-const stubArticleInitialState = {
+const stubArticleInitialState = {};
 
-};
-const stubUserInitialState = {
-
-};
-
-const mockStore = getMockStore(
-  stubArticleInitialState,
-  stubUserInitialState,
-);
+const mockStore = getMockStore(stubArticleInitialState);
 
 describe('<Signup />', () => {
-  const validEmail = 'lightb0x@naver.com';
-  const validUsername = 'lightb0x';
-  const validPassword = 'password_test123';
-  const typoPassword = 'password-test123';
-  const shortPassword = 'short';
-  let signup;
-  let spySignup;
-  beforeEach(() => {
-    signup = (
-      <Provider store={mockStore}>
-        <ConnectedRouter history={history}>
-          <Switch>
-            <Route path="/" exact component={Signup} />
-          </Switch>
-        </ConnectedRouter>
-      </Provider>
-    );
-    spySignup = jest
-      .spyOn(ActionCreators, 'signup')
-      .mockImplementation(() => (dispatch) => { });
-  });
+	const validEmail = 'lightb0x@naver.com';
+	const validUsername = 'lightb0x';
+	const validPassword = 'password_test123';
+	const typoPassword = 'password-test123';
+	const shortPassword = 'short';
+	let signup;
+	let spySignup;
+	beforeEach(() => {
+		signup = (
+			<Provider store={mockStore}>
+				<ConnectedRouter history={history}>
+					<Switch>
+						<Route path='/' exact component={Signup} />
+					</Switch>
+				</ConnectedRouter>
+			</Provider>
+		);
+		spySignup = jest
+			.spyOn(ActionCreators, 'signup')
+			.mockImplementation(() => dispatch => {});
+	});
 
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
+	afterEach(() => {
+		jest.clearAllMocks();
+	});
 
-  it('renders', () => {
-    const component = mount(signup);
-    const wrapper = component.find('.Signup');
-    expect(wrapper.length).toBe(1);
-  });
+	it('renders', () => {
+		const component = mount(signup);
+		const wrapper = component.find('.Signup');
+		expect(wrapper.length).toBe(1);
+	});
 
-  it('input text and click button, fails', () => {
-    const alertSpy = jest.spyOn(window, 'alert').mockImplementation((_str) => { });
+	it('input text and click button, fails', () => {
+		const alertSpy = jest.spyOn(window, 'alert').mockImplementation(_str => {});
 
-    const wrapper = mount(signup);
-    const emailInput = wrapper.find('#email-input');
-    const usernameInput = wrapper.find('#username-input');
-    const passwordInput = wrapper.find('#pw-input');
-    const passwordConfirmInput = wrapper.find('#pw-confirm-input');
-    const buttonInput = wrapper.find('#Signup-button').at(0);
+		const wrapper = mount(signup);
+		const emailInput = wrapper.find('#email-input');
+		const usernameInput = wrapper.find('#username-input');
+		const passwordInput = wrapper.find('#pw-input');
+		const passwordConfirmInput = wrapper.find('#pw-confirm-input');
+		const buttonInput = wrapper.find('#Signup-button').at(0);
 
-    emailInput.instance().value = validEmail;
-    emailInput.simulate('change');
+		emailInput.instance().value = validEmail;
+		emailInput.simulate('change');
 
-    usernameInput.instance().value = validUsername;
-    usernameInput.simulate('change');
+		usernameInput.instance().value = validUsername;
+		usernameInput.simulate('change');
 
-    passwordInput.instance().value = shortPassword;
-    passwordInput.simulate('change');
+		passwordInput.instance().value = shortPassword;
+		passwordInput.simulate('change');
 
-    passwordConfirmInput.instance().value = shortPassword;
-    passwordConfirmInput.simulate('change');
+		passwordConfirmInput.instance().value = shortPassword;
+		passwordConfirmInput.simulate('change');
 
-    expect(alertSpy).toHaveBeenCalledTimes(0);
-    expect(passwordInput.instance().value).toEqual(shortPassword);
-    expect(passwordConfirmInput.instance().value).toEqual(shortPassword);
-    buttonInput.simulate('click');
-    expect(passwordInput.instance().value).toEqual('');
-    expect(passwordConfirmInput.instance().value).toEqual('');
-    expect(alertSpy).toHaveBeenCalledTimes(1);
-    expect(alertSpy)
-      .toHaveBeenCalledWith('Password should be at least 8 characters');
+		expect(alertSpy).toHaveBeenCalledTimes(0);
+		expect(passwordInput.instance().value).toEqual(shortPassword);
+		expect(passwordConfirmInput.instance().value).toEqual(shortPassword);
+		buttonInput.simulate('click');
+		expect(passwordInput.instance().value).toEqual('');
+		expect(passwordConfirmInput.instance().value).toEqual('');
+		expect(alertSpy).toHaveBeenCalledTimes(1);
+		expect(alertSpy).toHaveBeenCalledWith(
+			'Password should be at least 8 characters'
+		);
 
-    passwordInput.instance().value = validPassword;
-    passwordInput.simulate('change');
+		passwordInput.instance().value = validPassword;
+		passwordInput.simulate('change');
 
-    passwordConfirmInput.instance().value = typoPassword;
-    passwordConfirmInput.simulate('change');
+		passwordConfirmInput.instance().value = typoPassword;
+		passwordConfirmInput.simulate('change');
 
-    expect(alertSpy).toHaveBeenCalledTimes(1);
-    expect(passwordInput.instance().value).toEqual(validPassword);
-    expect(passwordConfirmInput.instance().value).toEqual(typoPassword);
-    buttonInput.simulate('click');
-    expect(passwordInput.instance().value).toEqual('');
-    expect(passwordConfirmInput.instance().value).toEqual('');
-    expect(alertSpy).toHaveBeenCalledTimes(2);
-    expect(alertSpy)
-      .toHaveBeenCalledWith('Password and Password Confirm are different');
-  });
+		expect(alertSpy).toHaveBeenCalledTimes(1);
+		expect(passwordInput.instance().value).toEqual(validPassword);
+		expect(passwordConfirmInput.instance().value).toEqual(typoPassword);
+		buttonInput.simulate('click');
+		expect(passwordInput.instance().value).toEqual('');
+		expect(passwordConfirmInput.instance().value).toEqual('');
+		expect(alertSpy).toHaveBeenCalledTimes(2);
+		expect(alertSpy).toHaveBeenCalledWith(
+			'Password and Password Confirm are different'
+		);
+	});
 
-  it('input text and click button, success and call signup', () => {
-    const wrapper = mount(signup);
-    const emailInput = wrapper.find('#email-input');
-    const usernameInput = wrapper.find('#username-input');
-    const passwordInput = wrapper.find('#pw-input');
-    const passwordConfirmInput = wrapper.find('#pw-confirm-input');
-    const buttonInput = wrapper.find('#Signup-button').at(0);
+	it('input text and click button, success and call signup', () => {
+		const wrapper = mount(signup);
+		const emailInput = wrapper.find('#email-input');
+		const usernameInput = wrapper.find('#username-input');
+		const passwordInput = wrapper.find('#pw-input');
+		const passwordConfirmInput = wrapper.find('#pw-confirm-input');
+		const buttonInput = wrapper.find('#Signup-button').at(0);
 
-    emailInput.instance().value = validEmail;
-    emailInput.simulate('change');
+		emailInput.instance().value = validEmail;
+		emailInput.simulate('change');
 
-    usernameInput.instance().value = validUsername;
-    usernameInput.simulate('change');
+		usernameInput.instance().value = validUsername;
+		usernameInput.simulate('change');
 
-    passwordInput.instance().value = validPassword;
-    passwordInput.simulate('change');
+		passwordInput.instance().value = validPassword;
+		passwordInput.simulate('change');
 
-    passwordConfirmInput.instance().value = validPassword;
-    passwordConfirmInput.simulate('change');
+		passwordConfirmInput.instance().value = validPassword;
+		passwordConfirmInput.simulate('change');
 
-    expect(passwordInput.instance().value).toEqual(validPassword);
-    expect(passwordConfirmInput.instance().value).toEqual(validPassword);
-    expect(spySignup).toHaveBeenCalledTimes(0);
-    buttonInput.simulate('click');
-    expect(passwordInput.instance().value).toEqual('');
-    expect(passwordConfirmInput.instance().value).toEqual('');
-    expect(spySignup).toHaveBeenCalledTimes(1);
-    expect(spySignup).toHaveBeenCalledWith(
-      validEmail, validUsername, validPassword,
-    );
-  });
+		expect(passwordInput.instance().value).toEqual(validPassword);
+		expect(passwordConfirmInput.instance().value).toEqual(validPassword);
+		expect(spySignup).toHaveBeenCalledTimes(0);
+		buttonInput.simulate('click');
+		expect(passwordInput.instance().value).toEqual('');
+		expect(passwordConfirmInput.instance().value).toEqual('');
+		expect(spySignup).toHaveBeenCalledTimes(1);
+		expect(spySignup).toHaveBeenCalledWith(
+			validEmail,
+			validUsername,
+			validPassword
+		);
+	});
 
-  it('goto signin page', () => {
-    const wrapper = mount(signup);
-    const buttonInput = wrapper.find('#direct-to-signin').at(0);
+	it('goto signin page', () => {
+		const wrapper = mount(signup);
+		const buttonInput = wrapper.find('#direct-to-signin').at(0);
 
-    expect(history.length).toEqual(1);
-    expect(history.location.pathname).toBe('/');
+		expect(history.length).toEqual(1);
+		expect(history.location.pathname).toBe('/');
 
-    buttonInput.simulate('click');
-    expect(history.length).toEqual(2);
-    expect(history.location.pathname).toBe('/signin');
-  });
+		buttonInput.simulate('click');
+		expect(history.length).toEqual(2);
+		expect(history.location.pathname).toBe('/signin');
+	});
 });
