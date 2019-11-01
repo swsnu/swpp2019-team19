@@ -6,6 +6,7 @@ import json
 
 
 class UserTestCase(TestCase):
+
     def setUp(self):
         User.objects.create_user(username='test1', password='user1234')
         User.objects.create_user(username='test2', password='user1234')
@@ -312,11 +313,28 @@ class ArticleTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(str(response.content, encoding='utf8'), {
                              "like": 11, "dislike": 0})
-        response = client.put('/api/vote/1/', json.dumps(
+        response = client.put('/api/vote/41/', json.dumps(
             {'vote': 'like'}), content_type='application/json')
-        self.assertEqual(response.status_code, 409)
-        response = client.put('/api/vote/21/', json.dumps(
+        self.assertEqual(response.status_code, 200)
+        self.assertJSONEqual(str(response.content, encoding='utf8'), {
+            "like": 11, "dislike": 0})
+        response = client.put('/api/vote/41/', json.dumps(
             {'vote': 'dislike'}), content_type='application/json')
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(str(response.content, encoding='utf8'), {
-                             "like": 0, "dislike": 1})
+                             "like": 10, "dislike": 0})
+        response = client.put('/api/vote/41/', json.dumps(
+            {'vote': 'dislike'}), content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        self.assertJSONEqual(str(response.content, encoding='utf8'), {
+                             "like": 10, "dislike": 1})
+        response = client.put('/api/vote/41/', json.dumps(
+            {'vote': 'dislike'}), content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        self.assertJSONEqual(str(response.content, encoding='utf8'), {
+                             "like": 10, "dislike": 1})
+        response = client.put('/api/vote/41/', json.dumps(
+            {'vote': 'like'}), content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        self.assertJSONEqual(str(response.content, encoding='utf8'), {
+                             "like": 10, "dislike": 0})
