@@ -20,14 +20,11 @@ class BoardDetail extends Component {
       searchCriteria: 'title',
       searchKeyword: '',
       boardName: this.props.match.params.boardName,
-      numArticlesPerRequest: 20,
+      articlesPerRequest: 20,
     }
-  }
-  /* eslint-disable */
-
-  componentDidMount() {
     this.props.fetchArticles(this.state);
   }
+  /* eslint-disable */
 
   render() {
     const articleEntries = this.props.storedArticles.map((article) => (
@@ -49,16 +46,12 @@ class BoardDetail extends Component {
       this.setState({ searchCriteria: criteria });
     };
 
-    const fetch = () => {
-      this.props.fetchArticles(this.state);
-    };
-
     const statusToSelected = (status) => {
       return this.state.filterCriteria === status ? 'primary' : 'secondary';
     }
     const setAndFetch = (filter) => {
       this.setState({ filterCriteria: filter });
-      fetch();
+      this.props.fetchArticles({ ...this.state, filterCriteria: filter });
     }
 
     return (
@@ -69,29 +62,38 @@ class BoardDetail extends Component {
         >
           Main
         </Button>
-        <div className=''>
-          <ButtonGroup aria-label='filter-criteria'>
-            <Button
-              variant={statusToSelected('all')}
-              onClick={() => setAndFetch('all')}
-            >all</Button>
-            <Button
-              variant={statusToSelected('normal')}
-              onClick={() => setAndFetch('normal')}
-            >normal</Button>
-            <Button
-              variant={statusToSelected('working')}
-              onClick={() => setAndFetch('working')}
-            >working</Button>
-            <Button
-              variant={statusToSelected('done')}
-              onClick={() => setAndFetch('done')}
-            >done</Button>
-            <Button
-              variant={statusToSelected('rejected')}
-              onClick={() => setAndFetch('rejected')}
-            >rejected</Button>
-          </ButtonGroup>
+        <div className='board-detail-view'>
+          {this.props.match.params.boardName === 'all' ?
+            <p></p>
+            :
+            <ButtonGroup aria-label='filter-criteria'>
+              <Button
+                id='filter-all'
+                variant={statusToSelected('all')}
+                onClick={() => setAndFetch('all')}
+              >all</Button>
+              <Button
+                id='filter-normal'
+                variant={statusToSelected('normal')}
+                onClick={() => setAndFetch('normal')}
+              >normal</Button>
+              <Button
+                id='filter-working'
+                variant={statusToSelected('working')}
+                onClick={() => setAndFetch('working')}
+              >working</Button>
+              <Button
+                id='filter-done'
+                variant={statusToSelected('done')}
+                onClick={() => setAndFetch('done')}
+              >done</Button>
+              <Button
+                id='filter-rejected'
+                variant={statusToSelected('rejected')}
+                onClick={() => setAndFetch('rejected')}
+              >rejected</Button>
+            </ButtonGroup>
+          }
           <Table hover size='sm'>
             <thead>
               <tr>
@@ -116,10 +118,11 @@ class BoardDetail extends Component {
                 onSelect={() => setCriteria('title')}
               >title</Dropdown.Item>
               <Dropdown.Item
-                onSelect={() => setCriteria('content')}
-              >content</Dropdown.Item>
+                onSelect={() => setCriteria('username')}
+              >username</Dropdown.Item>
             </DropdownButton>
             <FormControl
+              id='search-keyword'
               aria-describedby='search-keyword'
               placeholder='input keyword...'
               value={this.state.searchKeyword}
@@ -127,9 +130,16 @@ class BoardDetail extends Component {
                 searchKeyword: event.target.value
               })}
             />
+            {/* <input
+              type='text' id='search-keyword'
+              value={this.state.searchKeyword}
+              onChange={(event) => this.setState({
+                searchKeyword: event.target.value
+              })}
+            /> */}
             <Button
               id='search-button'
-              onClick={() => fetch()}
+              onClick={() => this.props.fetchArticles(this.state)}
               disabled={this.state.searchKeyword.length < 2}
             >search</Button>
           </InputGroup>
