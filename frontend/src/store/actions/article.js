@@ -97,12 +97,8 @@ export const clearHotBoard = () => (dispatch) => (
   dispatch({ type: CLEAR_HOT_BOARD })
 );
 
-export const fetchArticleList = (articleCount, boardName, tag) => (dispatch) => (
-  axios.post('/api/boards/', {
-    tag,
-    article_count: articleCount,
-    board_name: boardName,
-  }).then((res) => {
+export const fetchArticleList = (options) => (dispatch) => (
+  axios.post('/api/boards/', options).then((res) => {
     dispatch({ type: FETCH_ARTICLE_LIST, articles: res.data });
   })
 );

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { push } from 'connected-react-router';
+import { Alert } from 'react-bootstrap';
 import Cookie from 'js-cookie';
 import {
   SIGN_IN,
@@ -29,9 +30,7 @@ export const signin = (username, password) => (dispatch) => (
     }
   }, (error) => {
     if (error.response.status === 401) {
-      /* eslint-disable no-alert */
-      alert('username or password is wrong');
-      /* eslint-disable no-alert */
+      Alert('username or password is wrong');
     }
   })
 );
