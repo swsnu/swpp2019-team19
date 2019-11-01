@@ -172,7 +172,6 @@ def vote(request, article_id):
     target_vote = Vote.objects.get(article__id=article_id)
     is_voted_like = user.liker.filter(article__id=article_id)
     is_voted_dislike = user.disliker.filter(article__id=article_id)
-
     if (not is_voted_like) and (not is_voted_dislike):
         if request_vote == 'like':
             target_vote.like += 1

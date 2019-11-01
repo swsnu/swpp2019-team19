@@ -6,7 +6,6 @@ import json
 
 
 class UserTestCase(TestCase):
-
     def setUp(self):
         User.objects.create_user(username='test1', password='user1234')
         User.objects.create_user(username='test2', password='user1234')
