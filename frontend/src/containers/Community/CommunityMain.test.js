@@ -16,7 +16,8 @@ const stubArticleInitialState = {
       author: 1,
       title: 'ARTICLE_TEST_TITLE_1',
       tag: 'all',
-    }, {
+    },
+    {
       id: 2,
       author: 1,
       title: 'ARTICLE_TEST_TITLE_1',
@@ -30,7 +31,8 @@ const stubArticleInitialState = {
       author: 1,
       title: 'ARTICLE_TEST_TITLE_1',
       tag: 'all',
-    }, {
+    },
+    {
       id: 4,
       author: 1,
       title: 'ARTICLE_TEST_TITLE_1',
@@ -39,14 +41,8 @@ const stubArticleInitialState = {
   ],
   articleListHotAck: true,
 };
-const stubUserInitialState = {
 
-};
-
-const mockStore = getMockStore(
-  stubArticleInitialState,
-  stubUserInitialState,
-);
+const mockStore = getMockStore(stubArticleInitialState);
 
 describe('<CommunityMain />', () => {
   let communityMain;
@@ -64,10 +60,10 @@ describe('<CommunityMain />', () => {
     );
     spyFetchAllBoard = jest
       .spyOn(ActionCreators, 'fetchAllBoard')
-      .mockImplementation(() => (dispatch) => { });
+      .mockImplementation(() => (dispatch) => {});
     spyFetchHotBoard = jest
       .spyOn(ActionCreators, 'fetchHotBoard')
-      .mockImplementation(() => (dispatch) => { });
+      .mockImplementation(() => (dispatch) => {});
   });
 
   afterEach(() => {
@@ -78,5 +74,7 @@ describe('<CommunityMain />', () => {
     const component = mount(communityMain);
     const wrapper = component.find('.CommunityMain');
     expect(wrapper.length).toBe(1);
+    expect(spyFetchAllBoard).toHaveBeenCalledTimes(1);
+    expect(spyFetchHotBoard).toHaveBeenCalledTimes(1);
   });
 });

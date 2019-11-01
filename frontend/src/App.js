@@ -1,9 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
-import {
-  Route, Redirect, Switch,
-} from 'react-router-dom';
+import { Route, Redirect, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 
 import Chat from './containers/Chat/Chat';
@@ -20,7 +18,6 @@ import NotFound from './containers/NotFound/NotFound';
 
 import ArticleCreate from './containers/Community/BoardDetail/ArticleCreate/ArticleCreate';
 import ArticleEdit from './containers/Community/BoardDetail/ArticleDetail/ArticleEdit/ArticleEdit';
-
 
 import './App.css';
 

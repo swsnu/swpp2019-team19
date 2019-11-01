@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
-import './Board.css';
 
 const Board = (props) => (
   <tr className="Board">
