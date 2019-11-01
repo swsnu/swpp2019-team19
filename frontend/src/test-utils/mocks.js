@@ -6,14 +6,9 @@ import { connectRouter, routerMiddleware } from 'connected-react-router';
 
 import { history } from '../store/store';
 
+
 const getMockArticleReducer = jest.fn(
-  (initialState) => (state = initialState, action) => {
-    switch (action.type) {
-      default:
-        break;
-    }
-    return state;
-  },
+  (initialState) => (state = initialState) => state,
 );
 // eslint-disable-next-line no-unused-vars
 const logger = (store) => (next) => (action) => {
