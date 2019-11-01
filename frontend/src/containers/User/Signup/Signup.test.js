@@ -77,6 +77,8 @@ describe('<Signup />', () => {
     expect(passwordInput.instance().value).toEqual(shortPassword);
     expect(passwordConfirmInput.instance().value).toEqual(shortPassword);
     buttonInput.simulate('click');
+
+
     expect(passwordInput.instance().value).toEqual('');
     expect(passwordConfirmInput.instance().value).toEqual('');
 
