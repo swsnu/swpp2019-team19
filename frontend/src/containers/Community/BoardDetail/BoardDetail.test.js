@@ -159,5 +159,4 @@ describe('<BoardDetail />', () => {
     boardButton.simulate('click');
     expect(history.location.pathname).toBe('/boards');
   });
-
 });
