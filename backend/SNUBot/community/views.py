@@ -179,16 +179,22 @@ def vote(request, article_id):
         else:
             target_vote.dislike += 1
             target_vote.dislike_voter.add(user)
-        target_vote.save()
-        target_article = target_vote.article
-        dif = target_vote.like - target_vote.dislike
-        if dif > 10:
-            target_article.board = 'hot'
-        else:
-            target_article.board = 'all'
-        target_article.save()
-        response_dict = {'like': target_vote.like,
-                         'dislike': target_vote.dislike}
-        return JsonResponse(response_dict, status=200)
+    elif (is_voted_like):
+        if request_vote == 'dislike':
+            target_vote.like -= 1
+            target_vote.like_voter.remove(user)
     else:
-        return HttpResponse(status=409)
+        if request_vote == 'like':
+            target_vote.dislike -= 1
+            target_vote.dislike_voter.remove(user)
+    target_vote.save()
+    target_article = target_vote.article
+    dif = target_vote.like - target_vote.dislike
+    if dif > 10:
+        target_article.board = 'hot'
+    else:
+        target_article.board = 'all'
+    target_article.save()
+    response_dict = {'like': target_vote.like,
+                     'dislike': target_vote.dislike}
+    return JsonResponse(response_dict, status=200)
