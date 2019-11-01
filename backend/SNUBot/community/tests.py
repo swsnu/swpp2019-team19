@@ -163,7 +163,7 @@ class ArticleTestCase(TestCase):
                                tag="done", board="all", author=User.objects.get(id=18))
         Article.objects.create(title="title", content="content1",
                                tag="done", board="all", author=User.objects.get(id=19))
-        Article.objects.create(title="title", content="content1",
+        Article.objects.create(title="findtitle", content="content1",
                                tag="done", board="all", author=User.objects.get(id=20))
         Article.objects.create(title="title", content="content1",
                                tag="done", board="all", author=User.objects.get(id=1))
@@ -231,24 +231,28 @@ class ArticleTestCase(TestCase):
 
     def test_board(self):
         client = Client()
-        response = client.post('/api/signin/', json.dumps(
-            {'username': 'test2', 'password': 'user1234'}), content_type='application/json')
-        self.assertEqual(response.status_code, 204)
         response = client.post('/api/boards/', json.dumps(
-            {'board_name': 'all'}), content_type='application/json')
+            {'boardName': 'all'}), content_type='application/json')
         self.assertEqual(response.status_code, 400)
         response = client.post('/api/boards/', json.dumps(
-            {'board_name': 'all', 'tag': 'all', 'article_count': 4}), content_type='application/json')
-        self.assertEqual(len(json.loads(response.content)), 4)
-        response = client.post('/api/boards/', json.dumps(
-            {'board_name': 'all', 'tag': 'done', 'article_count': 40}), content_type='application/json')
-        self.assertEqual(len(json.loads(response.content)), 21)
-        response = client.post('/api/boards/', json.dumps(
-            {'board_name': 'hot', 'tag': 'all', 'article_count': 40}), content_type='application/json')
+            {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "all", "sortCriteria": "new", "searchCriteria": "username", "searchKeyword": ""}), content_type='application/json')
         self.assertEqual(len(json.loads(response.content)), 20)
         response = client.post('/api/boards/', json.dumps(
-            {'board_name': 'hot', 'tag': 'done', 'article_count': 40}), content_type='application/json')
-        self.assertEqual(len(json.loads(response.content)), 0)
+            {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "done", "sortCriteria": "new", "searchCriteria": "username", "searchKeyword": ""}), content_type='application/json')
+        self.assertEqual(len(json.loads(response.content)), 20)
+        response = client.post('/api/boards/', json.dumps(
+            {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "all", "sortCriteria": "new", "searchCriteria": "title", "searchKeyword": "findtitle"}), content_type='application/json')
+        self.assertEqual(len(json.loads(response.content)), 1)
+        response = client.post('/api/boards/', json.dumps(
+            {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "all", "sortCriteria": "old", "searchCriteria": "username", "searchKeyword": "test"}), content_type='application/json')
+        self.assertEqual(len(json.loads(response.content)), 20)
+        response = client.post('/api/boards/', json.dumps(
+            {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "all", "sortCriteria": "good", "searchCriteria": "username", "searchKeyword": ""}), content_type='application/json')
+        self.assertEqual(len(json.loads(response.content)), 20)
+        response = client.post('/api/boards/', json.dumps(
+            {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "all", "sortCriteria": "good", "searchCriteria": "username", "searchKeyword": ""}), content_type='application/json')
+        self.assertEqual(len(json.loads(response.content)), 20)
+
 
     def test_article(self):
         client = Client()
