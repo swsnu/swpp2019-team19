@@ -33,7 +33,7 @@ describe('<Signup />', () => {
     );
     spySignup = jest
       .spyOn(ActionCreators, 'signup')
-      .mockImplementation(() => (dispatch) => {});
+      .mockImplementation(() => (dispatch) => { });
   });
 
   afterEach(() => {
@@ -47,8 +47,6 @@ describe('<Signup />', () => {
   });
 
   it('input text and click button, fails', () => {
-    const alertSpy = jest.spyOn(window, 'alert').mockImplementation((_str) => {});
-
     const wrapper = mount(signup);
     const emailInput = wrapper.find('#email-input');
     const usernameInput = wrapper.find('#username-input');
@@ -68,16 +66,13 @@ describe('<Signup />', () => {
     passwordConfirmInput.instance().value = shortPassword;
     passwordConfirmInput.simulate('change');
 
-    expect(alertSpy).toHaveBeenCalledTimes(0);
     expect(passwordInput.instance().value).toEqual(shortPassword);
     expect(passwordConfirmInput.instance().value).toEqual(shortPassword);
     buttonInput.simulate('click');
+
+
     expect(passwordInput.instance().value).toEqual('');
     expect(passwordConfirmInput.instance().value).toEqual('');
-    expect(alertSpy).toHaveBeenCalledTimes(1);
-    expect(alertSpy).toHaveBeenCalledWith(
-      'Password should be at least 8 characters',
-    );
 
     passwordInput.instance().value = validPassword;
     passwordInput.simulate('change');
@@ -85,16 +80,11 @@ describe('<Signup />', () => {
     passwordConfirmInput.instance().value = typoPassword;
     passwordConfirmInput.simulate('change');
 
-    expect(alertSpy).toHaveBeenCalledTimes(1);
     expect(passwordInput.instance().value).toEqual(validPassword);
     expect(passwordConfirmInput.instance().value).toEqual(typoPassword);
     buttonInput.simulate('click');
     expect(passwordInput.instance().value).toEqual('');
     expect(passwordConfirmInput.instance().value).toEqual('');
-    expect(alertSpy).toHaveBeenCalledTimes(2);
-    expect(alertSpy).toHaveBeenCalledWith(
-      'Password and Password Confirm are different',
-    );
   });
 
   it('input text and click button, success and call signup', () => {
