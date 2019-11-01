@@ -23,19 +23,21 @@ const initialState = {
   articleListHot: [],
   articleListHotAck: false,
 };
-
+const defaultAction = { type: 'default' };
 // TODO
 
 /* eslint no-case-declarations: "error" */
 /* eslint-env es6 */
-export default function (state = initialState, action) {
+export default function (state = initialState, action = defaultAction) {
   switch (action.type) {
     case FETCH_ARTICLE: {
       return { ...state, article: action.article, articleAck: true };
     }
     case CLEAR_ARTICLE: {
       return {
-        ...state, article: {}, articleAck: false,
+        ...state,
+        article: {},
+        articleAck: false,
       };
     }
     case POST_ARTICLE: {
@@ -54,13 +56,21 @@ export default function (state = initialState, action) {
       return { ...state, articleList: [], articleListAck: false };
     }
     case FETCH_ALL_BOARD: {
-      return { ...state, articleListAll: action.articles, articleListAllAck: true };
+      return {
+        ...state,
+        articleListAll: action.articles,
+        articleListAllAck: true,
+      };
     }
     case CLEAR_ALL_BOARD: {
       return { ...state, articleListAll: [], articleListAllAck: false };
     }
     case FETCH_HOT_BOARD: {
-      return { ...state, articleListHot: action.articles, articleListHotAck: true };
+      return {
+        ...state,
+        articleListHot: action.articles,
+        articleListHotAck: true,
+      };
     }
     case CLEAR_HOT_BOARD: {
       return { ...state, articleListHot: [], articleListHotAck: false };

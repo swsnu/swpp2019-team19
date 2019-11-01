@@ -20,14 +20,8 @@ const stubArticleInitialState = {
   },
   articleAck: true,
 };
-const stubUserInitialState = {
 
-};
-
-const mockStore = getMockStore(
-  stubArticleInitialState,
-  stubUserInitialState,
-);
+const mockStore = getMockStore(stubArticleInitialState);
 
 describe('<ArticleDetail />', () => {
   let articleDetail;
@@ -44,7 +38,7 @@ describe('<ArticleDetail />', () => {
     );
     spyFetchArticle = jest
       .spyOn(ActionCreators, 'fetchArticle')
-      .mockImplementation(() => (dispatch) => { });
+      .mockImplementation(() => (dispatch) => {});
   });
 
   afterEach(() => {
@@ -55,5 +49,6 @@ describe('<ArticleDetail />', () => {
     const component = mount(articleDetail);
     const wrapper = component.find('.ArticleDetail');
     expect(wrapper.length).toBe(1);
+    expect(spyFetchArticle).toHaveBeenCalledTimes(1);
   });
 });

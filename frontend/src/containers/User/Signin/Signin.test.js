@@ -9,17 +9,9 @@ import { getMockStore } from '../../../test-utils/mocks';
 import { history } from '../../../store/store';
 import * as ActionCreators from '../../../store/actions/user';
 
-const stubArticleInitialState = {
+const stubArticleInitialState = {};
 
-};
-const stubUserInitialState = {
-
-};
-
-const mockStore = getMockStore(
-  stubArticleInitialState,
-  stubUserInitialState,
-);
+const mockStore = getMockStore(stubArticleInitialState);
 
 describe('<Signin />', () => {
   let signin;
@@ -36,7 +28,7 @@ describe('<Signin />', () => {
     );
     spySignin = jest
       .spyOn(ActionCreators, 'signin')
-      .mockImplementation(() => (dispatch) => { });
+      .mockImplementation(() => (dispatch) => {});
   });
 
   afterEach(() => {

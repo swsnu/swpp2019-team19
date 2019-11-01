@@ -30,8 +30,8 @@ const { csrftoken } = getToken.data;
 export const fetchArticle = (id) => (dispatch) => (
   axios.get(`/api/article/${id}/`).then((res) => {
     dispatch({
-      type: FETCH_ARTICLE,
       article: res.data,
+      type: FETCH_ARTICLE,
     });
   })
 );
@@ -50,7 +50,6 @@ export const postArticle = (title, content) => (dispatch) => (
   })
 );
 
-
 export const editArticle = (id, title, content) => (dispatch) => (
   axios.put(`/api/article/${id}/`, { title, content }).then((res) => {
     dispatch({
@@ -60,7 +59,6 @@ export const editArticle = (id, title, content) => (dispatch) => (
     dispatch(push('/boards'));
   })
 );
-
 
 export const deleteArticle = (id) => (dispatch) => (
   axios.delete(`/api/article/${id}/`).then(() => {
@@ -72,7 +70,11 @@ export const deleteArticle = (id) => (dispatch) => (
 );
 
 export const fetchAllBoard = (articleCount, tag) => (dispatch) => (
-  axios.post('/api/boards/', { tag, article_count: articleCount, board_name: 'all' }).then((res) => {
+  axios.post('/api/boards/', {
+    tag,
+    article_count: articleCount,
+    board_name: 'all',
+  }).then((res) => {
     dispatch({ type: FETCH_ALL_BOARD, articles: res.data });
   })
 );
@@ -82,7 +84,11 @@ export const clearAllBoard = () => (dispatch) => (
 );
 
 export const fetchHotBoard = (articleCount, tag) => (dispatch) => (
-  axios.post('/api/boards/', { tag, article_count: articleCount, board_name: 'hot' }).then((res) => {
+  axios.post('/api/boards/', {
+    tag,
+    article_count: articleCount,
+    board_name: 'hot',
+  }).then((res) => {
     dispatch({ type: FETCH_HOT_BOARD, articles: res.data });
   })
 );
@@ -92,7 +98,11 @@ export const clearHotBoard = () => (dispatch) => (
 );
 
 export const fetchArticleList = (articleCount, boardName, tag) => (dispatch) => (
-  axios.post('/api/boards/', { tag, article_count: articleCount, board_name: boardName }).then((res) => {
+  axios.post('/api/boards/', {
+    tag,
+    article_count: articleCount,
+    board_name: boardName,
+  }).then((res) => {
     dispatch({ type: FETCH_ARTICLE_LIST, articles: res.data });
   })
 );

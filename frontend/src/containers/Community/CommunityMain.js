@@ -13,7 +13,7 @@ class CommunityMain extends Component {
   }
 
   render() {
-    const allBoardEntry = this.props.storedAllBoard.map((article) => (
+    const articleParser = (article) => (
       <Board
         key={article.id}
         id={article.id}
@@ -24,23 +24,16 @@ class CommunityMain extends Component {
           this.props.history.push(`/boards/normal/${article.id}`);
         }}
       />
-    ));
-    const hotBoardEntry = this.props.storedHotBoard.map((article) => (
-      <Board
-        key={article.id}
-        id={article.id}
-        title={article.title}
-        tag={article.tag}
-        author_name={article.author}
-        clickDetail={() => {
-          this.props.history.push(`/boards/normal/${article.id}`);
-        }}
-      />
-    ));
+    );
+    const allBoardEntry = this.props.storedAllBoard.map(articleParser);
+    const hotBoardEntry = this.props.storedHotBoard.map(articleParser);
 
     return (
       <div className="CommunityMain">
-        <Button id="direct-to-all-board" onClick={() => this.props.history.push('/boards/all/')}>
+        <Button
+          id="direct-to-all-board"
+          onClick={() => this.props.history.push('/boards/all/')}
+        >
           ALL
         </Button>
         <Table hover size="sm">
@@ -52,11 +45,12 @@ class CommunityMain extends Component {
               <th>tag</th>
             </tr>
           </thead>
-          <tbody>
-            {allBoardEntry}
-          </tbody>
+          <tbody>{allBoardEntry}</tbody>
         </Table>
-        <Button id="direct-to-hot-board" onClick={() => this.props.history.push('/boards/hot/')}>
+        <Button
+          id="direct-to-hot-board"
+          onClick={() => this.props.history.push('/boards/hot/')}
+        >
           Hot
         </Button>
         <Table hover size="sm">
@@ -68,11 +62,8 @@ class CommunityMain extends Component {
               <th>tag</th>
             </tr>
           </thead>
-          <tbody>
-            {hotBoardEntry}
-          </tbody>
+          <tbody>{hotBoardEntry}</tbody>
         </Table>
-
       </div>
     );
   }

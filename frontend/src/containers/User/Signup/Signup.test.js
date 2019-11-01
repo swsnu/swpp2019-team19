@@ -9,17 +9,9 @@ import { getMockStore } from '../../../test-utils/mocks';
 import { history } from '../../../store/store';
 import * as ActionCreators from '../../../store/actions/user';
 
-const stubArticleInitialState = {
+const stubArticleInitialState = {};
 
-};
-const stubUserInitialState = {
-
-};
-
-const mockStore = getMockStore(
-  stubArticleInitialState,
-  stubUserInitialState,
-);
+const mockStore = getMockStore(stubArticleInitialState);
 
 describe('<Signup />', () => {
   const validEmail = 'lightb0x@naver.com';
@@ -41,7 +33,7 @@ describe('<Signup />', () => {
     );
     spySignup = jest
       .spyOn(ActionCreators, 'signup')
-      .mockImplementation(() => (dispatch) => { });
+      .mockImplementation(() => (dispatch) => {});
   });
 
   afterEach(() => {
@@ -55,7 +47,7 @@ describe('<Signup />', () => {
   });
 
   it('input text and click button, fails', () => {
-    const alertSpy = jest.spyOn(window, 'alert').mockImplementation((_str) => { });
+    const alertSpy = jest.spyOn(window, 'alert').mockImplementation((_str) => {});
 
     const wrapper = mount(signup);
     const emailInput = wrapper.find('#email-input');
@@ -83,8 +75,9 @@ describe('<Signup />', () => {
     expect(passwordInput.instance().value).toEqual('');
     expect(passwordConfirmInput.instance().value).toEqual('');
     expect(alertSpy).toHaveBeenCalledTimes(1);
-    expect(alertSpy)
-      .toHaveBeenCalledWith('Password should be at least 8 characters');
+    expect(alertSpy).toHaveBeenCalledWith(
+      'Password should be at least 8 characters',
+    );
 
     passwordInput.instance().value = validPassword;
     passwordInput.simulate('change');
@@ -99,8 +92,9 @@ describe('<Signup />', () => {
     expect(passwordInput.instance().value).toEqual('');
     expect(passwordConfirmInput.instance().value).toEqual('');
     expect(alertSpy).toHaveBeenCalledTimes(2);
-    expect(alertSpy)
-      .toHaveBeenCalledWith('Password and Password Confirm are different');
+    expect(alertSpy).toHaveBeenCalledWith(
+      'Password and Password Confirm are different',
+    );
   });
 
   it('input text and click button, success and call signup', () => {
@@ -131,7 +125,9 @@ describe('<Signup />', () => {
     expect(passwordConfirmInput.instance().value).toEqual('');
     expect(spySignup).toHaveBeenCalledTimes(1);
     expect(spySignup).toHaveBeenCalledWith(
-      validEmail, validUsername, validPassword,
+      validEmail,
+      validUsername,
+      validPassword,
     );
   });
 

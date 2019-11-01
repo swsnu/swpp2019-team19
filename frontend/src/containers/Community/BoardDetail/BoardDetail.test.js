@@ -16,7 +16,8 @@ const stubArticleInitialState = {
       author: 1,
       title: 'ARTICLE_TEST_TITLE_1',
       tag: 'all',
-    }, {
+    },
+    {
       id: 2,
       author: 1,
       title: 'ARTICLE_TEST_TITLE_1',
@@ -25,14 +26,8 @@ const stubArticleInitialState = {
   ],
   articleListAck: true,
 };
-const stubUserInitialState = {
 
-};
-
-const mockStore = getMockStore(
-  stubArticleInitialState,
-  stubUserInitialState,
-);
+const mockStore = getMockStore(stubArticleInitialState);
 
 describe('<BoardDetail />', () => {
   let boardDetail;
@@ -49,7 +44,7 @@ describe('<BoardDetail />', () => {
     );
     spyFetchArticleList = jest
       .spyOn(ActionCreators, 'fetchArticleList')
-      .mockImplementation(() => (dispatch) => { });
+      .mockImplementation(() => (dispatch) => {});
   });
 
   afterEach(() => {
@@ -60,5 +55,6 @@ describe('<BoardDetail />', () => {
     const component = mount(boardDetail);
     const wrapper = component.find('.BoardDetail');
     expect(wrapper.length).toBe(1);
+    expect(spyFetchArticleList).toHaveBeenCalledTimes(1);
   });
 });
