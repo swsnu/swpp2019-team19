@@ -20,6 +20,7 @@ matrix:
         - sonar-scanner
       after_success:
         - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+        - cd ../
     - language: python
       python:
         - "2.7"
@@ -31,7 +32,7 @@ matrix:
       install:
         - pip install -r backend/SNUBot/requirements.txt
       before_script:
-        - cd backend
+        - cd backend/SNUBot
         - python3 manage.py migrate
       script:
         - coverage run --source="./community/" manage.py test
