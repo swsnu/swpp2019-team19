@@ -42,10 +42,6 @@ class BoardDetail extends Component {
       />
     ));
 
-    const setCriteria = (criteria) => {
-      this.setState({ searchCriteria: criteria });
-    };
-
     const statusToSelected = (status) => {
       return this.state.filterCriteria === status ? 'primary' : 'secondary';
     }
@@ -63,37 +59,37 @@ class BoardDetail extends Component {
           Main
         </Button>
         <div className='board-detail-view'>
-          {this.props.match.params.boardName === 'all' ?
-            <p></p>
-            :
-            <ButtonGroup aria-label='filter-criteria'>
-              <Button
-                id='filter-all'
-                variant={statusToSelected('all')}
-                onClick={() => setAndFetch('all')}
-              >all</Button>
-              <Button
-                id='filter-normal'
-                variant={statusToSelected('normal')}
-                onClick={() => setAndFetch('normal')}
-              >normal</Button>
-              <Button
-                id='filter-working'
-                variant={statusToSelected('working')}
-                onClick={() => setAndFetch('working')}
-              >working</Button>
-              <Button
-                id='filter-done'
-                variant={statusToSelected('done')}
-                onClick={() => setAndFetch('done')}
-              >done</Button>
-              <Button
-                id='filter-rejected'
-                variant={statusToSelected('rejected')}
-                onClick={() => setAndFetch('rejected')}
-              >rejected</Button>
-            </ButtonGroup>
-          }
+          {/* {this.props.match.params.boardName === 'all' ? */}
+          {/* <p></p> */}
+          {/* : */}
+          <ButtonGroup aria-label='filter-criteria'>
+            <Button
+              id='filter-all'
+              variant={statusToSelected('all')}
+              onClick={() => setAndFetch('all')}
+            >all</Button>
+            <Button
+              id='filter-normal'
+              variant={statusToSelected('normal')}
+              onClick={() => setAndFetch('normal')}
+            >normal</Button>
+            <Button
+              id='filter-working'
+              variant={statusToSelected('working')}
+              onClick={() => setAndFetch('working')}
+            >working</Button>
+            <Button
+              id='filter-done'
+              variant={statusToSelected('done')}
+              onClick={() => setAndFetch('done')}
+            >done</Button>
+            <Button
+              id='filter-rejected'
+              variant={statusToSelected('rejected')}
+              onClick={() => setAndFetch('rejected')}
+            >rejected</Button>
+          </ButtonGroup>
+          {/* } */}
           <Table hover size='sm'>
             <thead>
               <tr>
@@ -115,10 +111,10 @@ class BoardDetail extends Component {
               id='search-criteria'
             >
               <Dropdown.Item
-                onSelect={() => setCriteria('title')}
+                onSelect={() => this.setState({ searchCriteria: 'title' })}
               >title</Dropdown.Item>
               <Dropdown.Item
-                onSelect={() => setCriteria('username')}
+                onSelect={() => this.setState({ searchCriteria: 'username' })}
               >username</Dropdown.Item>
             </DropdownButton>
             <FormControl
@@ -130,13 +126,6 @@ class BoardDetail extends Component {
                 searchKeyword: event.target.value
               })}
             />
-            {/* <input
-              type='text' id='search-keyword'
-              value={this.state.searchKeyword}
-              onChange={(event) => this.setState({
-                searchKeyword: event.target.value
-              })}
-            /> */}
             <Button
               id='search-button'
               onClick={() => this.props.fetchArticles(this.state)}
