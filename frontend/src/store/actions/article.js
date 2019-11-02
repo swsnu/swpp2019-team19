@@ -46,7 +46,7 @@ export const postArticle = (title, content) => (dispatch) => (
       type: POST_ARTICLE,
       article: res.data,
     });
-    dispatch(push(`/articles/${res.data.id}`));
+    dispatch(push(`/boards/all/${res.data.id}`));
   })
 );
 
