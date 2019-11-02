@@ -21,6 +21,7 @@ class BoardDetail extends Component {
       searchKeyword: '',
       boardName: this.props.match.params.boardName,
       articlesPerRequest: 20,
+      tmpKeyword: '',
     }
     this.props.fetchArticles(this.state);
   }
@@ -47,7 +48,9 @@ class BoardDetail extends Component {
     }
     const setAndFetch = (filter) => {
       this.setState({ filterCriteria: filter });
-      this.props.fetchArticles({ ...this.state, filterCriteria: filter });
+      this.props.fetchArticles({
+        ...this.state, filterCriteria: filter
+      });
     }
 
     return (
@@ -121,19 +124,24 @@ class BoardDetail extends Component {
               id='search-keyword'
               aria-describedby='search-keyword'
               placeholder='input keyword...'
-              value={this.state.searchKeyword}
+              value={this.state.tmpKeyword}
               onChange={(event) => this.setState({
-                searchKeyword: event.target.value
+                tmpKeyword: event.target.value
               })}
             />
             <Button
               id='search-button'
-              onClick={() => this.props.fetchArticles(this.state)}
-              disabled={this.state.searchKeyword.length < 2}
+              onClick={() => {
+                this.setState({ searchKeyword: this.state.tmpKeyword });
+                this.props.fetchArticles({
+                  ...this.state, searchKeyword: this.state.tmpKeyword
+                })
+              }}
+              disabled={this.state.tmpKeyword.length < 2}
             >search</Button>
           </InputGroup>
         </div>
-      </div>
+      </div >
     );
   }
 }
