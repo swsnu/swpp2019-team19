@@ -14,15 +14,11 @@ class ArticleDetail extends Component {
   }
 
   render() {
-    const LikeHandler = () => {
-      this.props.putVote('like', this.props.storedArticle.id);
+    const VoteHandler = (vote) => {
+      this.props.putVote(vote, this.props.storedArticle.id);
       window.location.reload(false);
-      /* window.location.replace(`/boards/${this.props.match.params.boardName}/
-      ${this.props.match.params.articleId}/`); */
-    };
-    const DislikeHandler = () => {
-      this.props.putVote('dislike', this.props.storedArticle.id);
-      window.location.reload(false);
+      /* window.location.replace(`/boards/${this.props.match.params.boardName}/
+      ${this.props.match.params.articleId}/`); */
     };
     return (
       <div className="ArticleDetail">
@@ -39,11 +35,11 @@ class ArticleDetail extends Component {
         <p id="article-title">{this.props.storedArticle.title}</p>
         Content:
         <p id="article-content">{this.props.storedArticle.content}</p>
-        <Button id="direct-to-like" onClick={() => LikeHandler()}>
+        <Button id="direct-to-like" onClick={() => VoteHandler('like')}>
           like
         </Button>
         <p id="article-like">{this.props.storedArticle.like}</p>
-        <Button id="direct-to-dislike" onClick={() => DislikeHandler()}>
+        <Button id="direct-to-dislike" onClick={() => VoteHandler('dislike')}>
           dislike
         </Button>
         <p id="article-dislike">{this.props.storedArticle.dislike}</p>
