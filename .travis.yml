@@ -13,7 +13,27 @@ matrix:
         - cd frontend
       install:
         - yarn install
+        - yarn add coveralls
       script:
         - ./node_modules/.bin/eslint src
         - yarn test --coverage --watchAll=false
         - sonar-scanner
+      after_success:
+        - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+        - cd ../
+    - language: python
+      python:
+        - "3.6"      # current default Python on Travis CI
+        - "3.7"
+        - "3.8"
+      install:
+        - pip install -r backend/SNUBot/requirements.txt
+      before_script:
+        - cd backend/SNUBot
+        - python3 manage.py migrate
+      script:
+        - coverage run --source="./community/" manage.py test
+      after_success:
+        - coveralls
+      after_script:
+        - cd ../../
