@@ -66,7 +66,6 @@ describe('<ArticleDetail />', () => {
   it('dislike button clicked', () => {
     const component = mount(articleDetail);
     const wrapper = component.find('#direct-to-dislike').at(0);
-    // expect(wrapper.length).toBe(1);
     wrapper.simulate('click');
     expect(spyPutVote).toHaveBeenCalledTimes(1);
   });
@@ -93,33 +92,4 @@ describe('<ArticleDetail />', () => {
   //   expect(window.location.reload).toHaveBeenCalled();
   //   window.location = location;
   // });
-
-  it('renders', () => {
-    const component = mount(articleDetail);
-    const wrapper = component.find('.ArticleDetail');
-    expect(wrapper.length).toBe(1);
-    expect(spyFetchArticle).toHaveBeenCalledTimes(1);
-  });
 });
-
-// describe('window.location', () => {
-//   const { location } = window;
-
-//   beforeAll(() => {
-//     delete window.location;
-//     window.location = { reload: jest.fn() };
-//   });
-
-//   afterAll(() => {
-//     window.location = location;
-//   });
-
-//   it('mocks `reload`', () => {
-//     expect(jest.isMockFunction(window.location.reload)).toBe(true);
-//   });
-
-//   it('calls `reload`', () => {
-//     window.location.reload();
-//     expect(window.location.reload).toHaveBeenCalled();
-//   });
-// });
