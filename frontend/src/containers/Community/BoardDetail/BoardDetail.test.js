@@ -96,6 +96,7 @@ describe('<BoardDetail />', () => {
       searchCriteria: 'title',
       searchKeyword: 'ARTICLE_TEST_TITLE_1',
       articlesPerRequest: 20,
+      tmpKeyword: 'ARTICLE_TEST_TITLE_1',
     });
   });
 
@@ -119,6 +120,7 @@ describe('<BoardDetail />', () => {
       searchCriteria: 'title',
       searchKeyword: '',
       articlesPerRequest: 20,
+      tmpKeyword: '',
     };
     expect(spyFetchArticleList).toHaveBeenCalledTimes(1);
     normalButton.simulate('click');
