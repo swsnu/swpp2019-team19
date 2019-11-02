@@ -1,4 +1,5 @@
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-irregular-whitespace */
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
@@ -7,7 +8,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import ArticleDetail from './ArticleDetail';
 import { getMockStore } from '../../../../test-utils/mocks';
 import { history } from '../../../../store/store';
-import * as ActionCreators from '../../../../store/actions/article';
+import * as ActionCreators from '../../../../store/actions/article';
 
 const stubArticleInitialState = {
   article: {
@@ -23,9 +24,10 @@ const stubArticleInitialState = {
 
 const mockStore = getMockStore(stubArticleInitialState);
 
-describe('<ArticleDetail />', () => {
+describe('<ArticleDetail />', () => {
   let articleDetail;
   let spyFetchArticle;
+  let spyPutVote;
   beforeEach(() => {
     articleDetail = (
       <Provider store={mockStore}>
@@ -38,7 +40,10 @@ describe('<ArticleDetail />', () => {
     );
     spyFetchArticle = jest
       .spyOn(ActionCreators, 'fetchArticle')
-      .mockImplementation(() => (dispatch) => {});
+      .mockImplementation(() => (dispatch) => { });
+    spyPutVote = jest
+      .spyOn(ActionCreators, 'putVote')
+      .mockImplementation(() => (dispatch) => { });
   });
 
   afterEach(() => {
@@ -51,4 +56,40 @@ describe('<ArticleDetail />', () => {
     expect(wrapper.length).toBe(1);
     expect(spyFetchArticle).toHaveBeenCalledTimes(1);
   });
+  it('like button clicked', () => {
+    const component = mount(articleDetail);
+    const wrapper = component.find('#direct-to-like').at(0);
+    wrapper.simulate('click');
+    expect(wrapper.length).toBe(1);
+    expect(spyPutVote).toHaveBeenCalledTimes(1);
+  });
+  it('dislike button clicked', () => {
+    const component = mount(articleDetail);
+    const wrapper = component.find('#direct-to-dislike').at(0);
+    wrapper.simulate('click');
+    expect(spyPutVote).toHaveBeenCalledTimes(1);
+  });
+  // it('mocks and calls window.location.reload', () => {
+  //   Object.defineProperty(window.location, 'reload', {
+  //     configurable: true,
+  //   });
+  //   window.location.reload = jest.fn();
+  //   window.location.reload();
+  //   expect(window.location.reload).toHaveBeenCalled();
+  // });
+
+  // it('mocks and calls window.location.reload', () => {
+  //   window.location.reload = jest.fn();
+  //   window.location.reload();
+  //   expect(window.location.reload).toHaveBeenCalled();
+  // });
+  // it('mocks window.location.reload', () => {
+  //   const { location } = window;
+  //   delete window.location;
+  //   window.location = { reload: jest.fn() };
+  //   expect(window.location.reload).not.toHaveBeenCalled();
+  //   window.location.reload();
+  //   expect(window.location.reload).toHaveBeenCalled();
+  //   window.location = location;
+  // });
 });
