@@ -27,7 +27,7 @@ class ArticleCreate extends Component {
     const { content } = this.state;
     return (
       <div className="ArticleCreate">
-        <p className="article-create">ArticleCreate page</p>
+        <p className="article-create-header">ArticleCreate page</p>
         title
         <div className="article-title">
           <input
