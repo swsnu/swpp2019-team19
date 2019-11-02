@@ -137,7 +137,7 @@ class BoardDetail extends Component {
                   ...this.state, searchKeyword: this.state.tmpKeyword
                 })
               }}
-              disabled={this.state.tmpKeyword.length < 2}
+              disabled={this.state.tmpKeyword.length === 1}
             >search</Button>
           </InputGroup>
         </div>
