@@ -6,7 +6,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
 from .models import Article, Vote
-
+from operator import itemgetter
 
 @require_http_methods(["GET"])
 @ensure_csrf_cookie
@@ -73,27 +73,37 @@ def signout(request):
 def boards(request):
     try:
         req_data = json.loads(request.body.decode())
-        board_name = req_data['board_name']
-        tag = req_data['tag']
-        article_count = req_data['article_count']
+        board_name = req_data['boardName']
+        article_count = req_data['articlesPerRequest']
+        cur_page_num = req_data['currentPageNumber']
+        tag = req_data['filterCriteria']
+        sort_criteria = req_data['sortCriteria']
+        search_criteria = req_data['searchCriteria']
+        search_keyword = req_data['searchKeyword']
     except (KeyError, JSONDecodeError):
         return HttpResponseBadRequest()
     if tag == 'all':
-        if board_name == 'all':
-            article_list = [article for article in Article.objects.all().values(
-                'id', 'title', 'author', 'tag')]
-        else:
-            article_list = [article for article in Article.objects.filter(board='hot').values(
-                'id', 'title', 'author', 'tag')]
+        article_list = [article for article in Article.objects.filter(board=board_name).values(
+                'id', 'title', 'author', 'tag', 'vote')]
     else:
-        if board_name == 'all':
-            article_list = [article for article in Article.objects.all().filter(tag=tag).values(
-                'id', 'title', 'author', 'tag')]
-        else:
-            article_list = [article for article in Article.objects.filter(board='hot', tag=tag).values(
-                'id', 'title', 'author', 'tag')]
-    if len(article_list) > article_count:
-        article_list = article_list[0:article_count]
+        article_list = [article for article in Article.objects.filter(board=board_name, tag=tag).values(
+                'id', 'title', 'author', 'tag', 'vote')]
+    for article in article_list:
+        target_user = User.objects.get(id=article['author'])
+        article['author'] = target_user.username
+        target_vote = Vote.objects.get(id=article['vote'])
+        article['vote'] = target_vote.like - target_vote.dislike
+    if search_keyword != '':
+        if search_criteria == 'username':
+            article_list = [article for article in article_list if article['author'].find(search_keyword) != -1]
+        else: # if search_criteria == 'title':
+            article_list = [article for article in article_list if article['title'].find(search_keyword) != -1]
+    if sort_criteria == 'good':
+        article_list = sorted(article_list, key=itemgetter('vote'), reverse=True)
+    elif sort_criteria == 'old':
+        article_list.reverse()
+    if len(article_list) > article_count * cur_page_num:
+        article_list = article_list[article_count * (cur_page_num-1):article_count * cur_page_num]
     return JsonResponse(article_list, safe=False)
 
 

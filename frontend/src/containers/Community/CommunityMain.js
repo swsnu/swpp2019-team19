@@ -7,7 +7,8 @@ import * as actionCreators from '../../store/actions';
 import Board from '../../components/Board/Board';
 
 class CommunityMain extends Component {
-  componentDidMount() {
+  constructor(props) {
+    super(props);
     this.props.fetchAllBoard();
     this.props.fetchHotBoard();
   }
@@ -21,7 +22,7 @@ class CommunityMain extends Component {
         tag={article.tag}
         author_name={article.author}
         clickDetail={() => {
-          this.props.history.push(`/boards/normal/${article.id}`);
+          this.props.history.push(`/boards/all/${article.id}`);
         }}
       />
     );
@@ -75,8 +76,24 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchAllBoard: () => dispatch(actionCreators.fetchAllBoard(8, 'all')),
-  fetchHotBoard: () => dispatch(actionCreators.fetchHotBoard(8, 'all')),
+  fetchAllBoard: () => dispatch(actionCreators.fetchAllBoard({
+    currentPageNumber: 1,
+    filterCriteria: 'all',
+    sortCriteria: 'new',
+    searchCriteria: '',
+    searchKeyword: '',
+    boardName: 'all',
+    articlesPerRequest: 8,
+  })),
+  fetchHotBoard: () => dispatch(actionCreators.fetchHotBoard({
+    currentPageNumber: 1,
+    filterCriteria: 'all',
+    sortCriteria: 'new',
+    searchCriteria: '',
+    searchKeyword: '',
+    boardName: 'hot',
+    articlesPerRequest: 8,
+  })),
 });
 
 export default connect(

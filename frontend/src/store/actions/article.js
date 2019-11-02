@@ -69,12 +69,8 @@ export const deleteArticle = (id) => (dispatch) => (
   })
 );
 
-export const fetchAllBoard = (articleCount, tag) => (dispatch) => (
-  axios.post('/api/boards/', {
-    tag,
-    article_count: articleCount,
-    board_name: 'all',
-  }).then((res) => {
+export const fetchAllBoard = (options) => (dispatch) => (
+  axios.post('/api/boards/', options).then((res) => {
     dispatch({ type: FETCH_ALL_BOARD, articles: res.data });
   })
 );
@@ -83,12 +79,8 @@ export const clearAllBoard = () => (dispatch) => (
   dispatch({ type: CLEAR_ALL_BOARD })
 );
 
-export const fetchHotBoard = (articleCount, tag) => (dispatch) => (
-  axios.post('/api/boards/', {
-    tag,
-    article_count: articleCount,
-    board_name: 'hot',
-  }).then((res) => {
+export const fetchHotBoard = (options) => (dispatch) => (
+  axios.post('/api/boards/', options).then((res) => {
     dispatch({ type: FETCH_HOT_BOARD, articles: res.data });
   })
 );
@@ -97,12 +89,8 @@ export const clearHotBoard = () => (dispatch) => (
   dispatch({ type: CLEAR_HOT_BOARD })
 );
 
-export const fetchArticleList = (articleCount, boardName, tag) => (dispatch) => (
-  axios.post('/api/boards/', {
-    tag,
-    article_count: articleCount,
-    board_name: boardName,
-  }).then((res) => {
+export const fetchArticleList = (options) => (dispatch) => (
+  axios.post('/api/boards/', options).then((res) => {
     dispatch({ type: FETCH_ARTICLE_LIST, articles: res.data });
   })
 );
