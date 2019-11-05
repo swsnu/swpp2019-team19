@@ -103,6 +103,9 @@ class BoardDetail extends Component {
               onSelect={() => this.setState({ sortCriteria: 'new' })}
             >new</Dropdown.Item>
             <Dropdown.Item
+              onSelect={() => this.setState({ sortCriteria: 'old' })}
+            >old</Dropdown.Item>
+            <Dropdown.Item
               onSelect={() => this.setState({ sortCriteria: 'good' })}
             >good</Dropdown.Item>
           </DropdownButton>
