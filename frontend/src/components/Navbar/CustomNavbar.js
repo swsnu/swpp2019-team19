@@ -34,11 +34,15 @@ function CustomNavbar() {
           </Button>
         </Modal.Header>
         <Modal.Body className="sidebar-body">
-          <Nav className="flex-column">
+          <Nav id="community-group" className="flex-column">
             <Nav.Link href="http://localhost:3000/chat">Chat</Nav.Link>
             <Nav.Link href="http://localhost:3000/boards">Community Main</Nav.Link>
             <Nav.Link href="http://localhost:3000/boards/all">All Board</Nav.Link>
             <Nav.Link href="http://localhost:3000/boards/hot">Hot Board</Nav.Link>
+          </Nav>
+          <Nav id="user-group" className="flex-column">
+            <Nav.Link href="http://localhost:3000/signin">Sign In</Nav.Link>
+            <Nav.Link href="http://localhost:3000/signup">Sign Up</Nav.Link>
           </Nav>
         </Modal.Body>
         <Modal.Footer className="sidebar-footer">
