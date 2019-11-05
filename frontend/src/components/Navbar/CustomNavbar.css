@@ -1,0 +1,35 @@
+#sidebar-wrapper {
+  font-family: 'Gothic A1', sans-serif;
+  -webkit-transition: margin .25s ease-out;
+  -moz-transition: margin .25s ease-out;
+  -o-transition: margin .25s ease-out;
+  transition: margin .25s ease-out;
+  width: 24rem;
+  height: 100vh;
+  position: fixed;
+  overflow-x: hidden;
+  float: left;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: white;
+  overflow-x: hidden;
+  top: -3vh;
+}
+
+#sidebar-wrapper .sidebar-heading {
+  font-weight: bold;
+  padding: 0.875rem 1.25rem;
+  font-size: 1.2rem;
+}
+
+#sidebar-wrapper .sidebar-body {
+  min-height: 85vh;
+  max-height: 89vh;
+  overflow-y: auto;
+}
+
+#sidebar-wrapper .sidebar-footer {
+  max-height: 10vh;
+}
