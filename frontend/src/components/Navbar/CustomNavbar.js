@@ -11,15 +11,14 @@ function CustomNavbar() {
   const handleShow = () => setShow(true);
   return (
     <React.Fragment>
-      <Navbar bg="dark" expand="lg">
+      <Navbar className="custom-navbar" bg="dark" expand="lg">
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Col xs={1} md={1}>
-          <Button variant="secondary" onClick={handleShow}>
+          <Button className="sidebar-show-button" variant="secondary" onClick={handleShow}>
             <FontAwesomeIcon icon={faBars} size="2x" />
           </Button>
         </Col>
         <Col xs={3} md={3}>
-
         </Col>
         <Col xs={4} md={4}>
           <Navbar.Brand href="http://localhost:3000/chat"><font color="yellow" size="+3">SNUBot</font></Navbar.Brand>
@@ -30,7 +29,7 @@ function CustomNavbar() {
       <Modal show={show} onHide={handleClose} id="sidebar-wrapper">
         <Modal.Header className="sidebar-heading">
           <Modal.Title>Logged State</Modal.Title>
-          <Button variant="secondary" onClick={handleClose}>
+          <Button className="sidebar-hide-button" variant="secondary" onClick={handleClose}>
             Close
           </Button>
         </Modal.Header>
