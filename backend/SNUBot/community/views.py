@@ -1,5 +1,6 @@
 import json
 from json import JSONDecodeError
+from django.db import IntegrityError
 from django.http import (
     HttpResponse,
     HttpResponseBadRequest,
@@ -29,7 +30,10 @@ def signup(request):
         password = req_data["password"]
     except (KeyError, JSONDecodeError):
         return HttpResponseBadRequest()
-    User.objects.create_user(username=username, password=password)
+    try:
+        User.objects.create_user(username=username, password=password)
+    except (IntegrityError):
+        return HttpResponse(status=409)
     return HttpResponse(status=201)
 
 

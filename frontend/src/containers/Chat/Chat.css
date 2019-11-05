@@ -1,0 +1,7 @@
+.vertical-center {
+  min-height: 70vh;
+  /* These two lines are counted as one :-)       */
+
+  display: flex;
+  align-items: center;
+}

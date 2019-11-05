@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { push } from 'connected-react-router';
-import { Alert } from 'react-bootstrap';
 import Cookie from 'js-cookie';
 import {
   SIGN_IN,
@@ -30,7 +29,7 @@ export const signin = (username, password) => (dispatch) => (
     }
   }, (error) => {
     if (error.response.status === 401) {
-      Alert('username or password is wrong');
+      alert('username or password is wrong');
     }
   })
 );
@@ -43,10 +42,17 @@ export const signout = () => (dispatch) => (
 );
 
 export const signup = (email, username, password) => (dispatch) => (
-  axios.post('/api/signup/', { username, email, password }).then(() => {
-    dispatch({
-      type: SIGN_UP,
-    });
+  axios.post('/api/signup/', { username, email, password }).then((res) => {
+    if (res.status === 201) {
+      dispatch({
+        type: SIGN_UP,
+      });
+      dispatch(push('/signin'));
+    }
+  }, (error) => {
+    if (error.response.status === 409) {
+      alert('username or password is wrong');
+    }
   })
 );
 
