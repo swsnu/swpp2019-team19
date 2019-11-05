@@ -9,9 +9,12 @@ import { getMockStore } from '../../../test-utils/mocks';
 import { history } from '../../../store/store';
 import * as ActionCreators from '../../../store/actions/user';
 
-const stubArticleInitialState = {};
+const stubUserInitialState = {
+  signinFail: false,
+  signupFail: false,
+};
 
-const mockStore = getMockStore(stubArticleInitialState);
+const mockStore = getMockStore({}, stubUserInitialState);
 
 describe('<Signup />', () => {
   const validEmail = 'lightb0x@naver.com';

@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import {
-  Table, ButtonGroup, Button, InputGroup, DropdownButton, Dropdown, FormControl,
+  Table, ButtonGroup, Button, InputGroup, DropdownButton, DropdownItem, FormControl,
 } from 'react-bootstrap';
 
 import { connect } from 'react-redux';
@@ -99,15 +99,15 @@ class BoardDetail extends Component {
             title={this.state.sortCriteria}
             id='sort-criteria'
           >
-            <Dropdown.Item
+            <DropdownItem
               onSelect={() => this.setState({ sortCriteria: 'new' })}
-            >new</Dropdown.Item>
-            <Dropdown.Item
+            >new</DropdownItem>
+            <DropdownItem
               onSelect={() => this.setState({ sortCriteria: 'old' })}
-            >old</Dropdown.Item>
-            <Dropdown.Item
+            >old</DropdownItem>
+            <DropdownItem
               onSelect={() => this.setState({ sortCriteria: 'good' })}
-            >good</Dropdown.Item>
+            >good</DropdownItem>
           </DropdownButton>
 
           <Button
@@ -138,12 +138,12 @@ class BoardDetail extends Component {
               title={this.state.searchCriteria}
               id='search-criteria'
             >
-              <Dropdown.Item
+              <DropdownItem
                 onSelect={() => this.setState({ searchCriteria: 'title' })}
-              >title</Dropdown.Item>
-              <Dropdown.Item
+              >title</DropdownItem>
+              <DropdownItem
                 onSelect={() => this.setState({ searchCriteria: 'username' })}
-              >username</Dropdown.Item>
+              >username</DropdownItem>
             </DropdownButton>
             <FormControl
               id='search-keyword'
