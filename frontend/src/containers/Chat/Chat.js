@@ -33,7 +33,7 @@ export default class Chat extends Component {
                       <p>I can&apos;t tell you what I don&apos;t know.</p>
                       <p>If you want to know later or make me smarter,</p>
                       <br />
-                      <Button id="direct-to-signin" onClick={() => this.props.history.push('/boards/')}>
+                      <Button id="direct-to-boards" onClick={() => this.props.history.push('/boards/')}>
                         Go!
                       </Button>
                     </div>
