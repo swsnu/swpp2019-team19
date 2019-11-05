@@ -22,7 +22,7 @@ const stubArticleInitialState = {
   articleAck: true,
 };
 
-const mockStore = getMockStore(stubArticleInitialState);
+const mockStore = getMockStore(stubArticleInitialState, {});
 
 describe('<ArticleDetail />', () => {
   let articleDetail;
@@ -47,6 +47,7 @@ describe('<ArticleDetail />', () => {
   });
 
   afterEach(() => {
+    history.push('/');
     jest.clearAllMocks();
   });
 
@@ -68,6 +69,14 @@ describe('<ArticleDetail />', () => {
     const wrapper = component.find('#direct-to-dislike').at(0);
     wrapper.simulate('click');
     expect(spyPutVote).toHaveBeenCalledTimes(1);
+  });
+  it('redirect to board', () => {
+    const component = mount(articleDetail);
+    const wrapper = component.find('#direct-to-board').at(0);
+
+    wrapper.simulate('click');
+
+    expect(history.location.pathname).toBe('/boards/undefined/');
   });
   // it('mocks and calls window.location.reload', () => {
   //   Object.defineProperty(window.location, 'reload', {

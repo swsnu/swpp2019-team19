@@ -3,8 +3,10 @@ import { push } from 'connected-react-router';
 import Cookie from 'js-cookie';
 import {
   SIGN_IN,
+  SIGN_IN_FAIL,
   SIGN_OUT,
   SIGN_UP,
+  SIGN_UP_FAIL,
   CHANGE_INFO,
 } from './types';
 
@@ -29,7 +31,9 @@ export const signin = (username, password) => (dispatch) => (
     }
   }, (error) => {
     if (error.response.status === 401) {
-      alert('username or password is wrong');
+      dispatch({
+        type: SIGN_IN_FAIL,
+      });
     }
   })
 );
@@ -51,7 +55,9 @@ export const signup = (email, username, password) => (dispatch) => (
     }
   }, (error) => {
     if (error.response.status === 409) {
-      alert('username or password is wrong');
+      dispatch({
+        type: SIGN_UP_FAIL,
+      });
     }
   })
 );

@@ -1,8 +1,10 @@
 // User
 
 export const SIGN_IN = 'SIGN_IN';
+export const SIGN_IN_FAIL = 'SIGN_IN_FAIL';
 export const SIGN_OUT = 'SIGN_OUT';
 export const SIGN_UP = 'SIGN_UP';
+export const SIGN_UP_FAIL = 'SIGN_UP_FAIL';
 export const VALIDATE_USERNAME = 'VALIDATE_USERNAME';
 export const VALIDATE_USER_ID = 'VALIDATE_USER_ID';
 export const CHANGE_INFO = 'CHANGE_INFO';

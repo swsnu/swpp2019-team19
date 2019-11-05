@@ -76,7 +76,7 @@ export default function (state = initialState, action = defaultAction) {
       return { ...state, articleListHot: [], articleListHotAck: false };
     }
     case VOTE: {
-      const updatedArticle = state.article;
+      const updatedArticle = JSON.parse(JSON.stringify(state.article));
       updatedArticle.like = action.like;
       updatedArticle.dislike = action.dislike;
       return { ...state, article: updatedArticle };
