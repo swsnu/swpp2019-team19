@@ -1,8 +1,11 @@
-import React, { useState } from "react";
-import { Navbar, Col, Button, Modal, Nav, NavItem } from 'react-bootstrap';
+import React, { useState } from 'react';
+import {
+  Navbar, Col, Button, Modal, Nav,
+} from 'react-bootstrap';
 import './CustomNavbar.css';
-import { faBars } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 function CustomNavbar() {
   const [show, setShow] = useState(false);
 
@@ -10,7 +13,7 @@ function CustomNavbar() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   return (
-    <React.Fragment>
+    <>
       <Navbar className="custom-navbar" bg="dark" expand="lg">
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Col xs={1} md={1}>
@@ -18,14 +21,12 @@ function CustomNavbar() {
             <FontAwesomeIcon icon={faBars} size="2x" />
           </Button>
         </Col>
-        <Col xs={3} md={3}>
-        </Col>
+        <Col xs={3} md={3} />
         <Col xs={4} md={4}>
           <Navbar.Brand href="http://localhost:3000/chat"><font color="yellow" size="+3">SNUBot</font></Navbar.Brand>
         </Col>
-        <Col xs={4} md={4}>
-        </Col>
-      </Navbar >
+        <Col xs={4} md={4} />
+      </Navbar>
       <Modal show={show} onHide={handleClose} id="sidebar-wrapper">
         <Modal.Header className="sidebar-heading">
           <Modal.Title>Logged State</Modal.Title>
@@ -49,8 +50,8 @@ function CustomNavbar() {
           Footer
         </Modal.Footer>
       </Modal>
-    </React.Fragment >
-  )
+    </>
+  );
 }
 
 

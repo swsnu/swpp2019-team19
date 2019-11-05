@@ -18,7 +18,7 @@ import NotFound from './containers/NotFound/NotFound';
 
 import ArticleCreate from './containers/Community/BoardDetail/ArticleCreate/ArticleCreate';
 import ArticleEdit from './containers/Community/BoardDetail/ArticleDetail/ArticleEdit/ArticleEdit';
-import CustomNavbar from './components/Navbar/CustomNavbar'
+import CustomNavbar from './components/Navbar/CustomNavbar';
 import './App.css';
 
 // eslint-disable-next-line react/prefer-stateless-function

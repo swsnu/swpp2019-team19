@@ -12,7 +12,7 @@ describe('<CustomNavbar />', () => {
     const component = shallow(<CustomNavbar />);
     const sidebarShowWrapper = component.find('.sidebar-show-button');
     sidebarShowWrapper.simulate('click');
-    const sidebarwrapper = component.find('#sidebar-wrapper')
+    const sidebarwrapper = component.find('#sidebar-wrapper');
     expect(sidebarwrapper.length).toBe(1);
     const sidebarHideWrapper = component.find('.sidebar-hide-button');
     sidebarHideWrapper.simulate('click');

@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { push } from 'connected-react-router';
-import { Alert } from 'react-bootstrap';
 import Cookie from 'js-cookie';
 import {
   SIGN_IN,

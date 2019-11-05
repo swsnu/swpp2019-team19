@@ -3,8 +3,9 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { Button, Jumbotron } from 'reactstrap';
-import './Chat.css'
+import { Button } from 'react-bootstrap';
+import './Chat.css';
+
 export default class Chat extends Component {
   render() {
     return (
@@ -20,7 +21,7 @@ export default class Chat extends Component {
             <br />
             <Button id="direct-to-signin" onClick={() => this.props.history.push('/signin/')}>
               Go!
-        </Button>
+            </Button>
           </div>
         </div>
 
