@@ -13,10 +13,11 @@ export default class Chat extends Component {
     super(props);
     this.state = {
       userInput: '',
-    }
+    };
   }
-  submitChat = () => (true);
+
   render() {
+    const submitChat = () => (true);
     return (
       <div className="chat container">
         <div className="row vertical-center">
@@ -41,15 +42,15 @@ export default class Chat extends Component {
                     <div className="input_msg_write">
                       <FormControl
                         className="write_msg"
-                        id='input-chat'
-                        aria-describedby='input-chat'
-                        placeholder='ask me anything...'
+                        id="input-chat"
+                        aria-describedby="input-chat"
+                        placeholder="ask me anything..."
                         value={this.state.userInput}
                         onChange={(event) => this.setState({
-                          userInput: event.target.value
+                          userInput: event.target.value,
                         })}
-                      ></FormControl>
-                      <Button variant="outline-dark" className="msg_send_btn" type="button" onClick={this.props.submitChat}><FontAwesomeIcon icon={faPaperPlane} /></Button>
+                      />
+                      <Button variant="outline-dark" className="msg_send_btn" type="button" onClick={() => submitChat()}><FontAwesomeIcon icon={faPaperPlane} /></Button>
                     </div>
                   </div>
                 </div>
@@ -61,5 +62,3 @@ export default class Chat extends Component {
     );
   }
 }
-
-
