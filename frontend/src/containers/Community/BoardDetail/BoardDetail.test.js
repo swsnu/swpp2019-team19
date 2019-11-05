@@ -66,6 +66,7 @@ describe('<BoardDetail />', () => {
   });
 
   afterEach(() => {
+    history.push('/');
     jest.clearAllMocks();
   });
 
@@ -74,6 +75,51 @@ describe('<BoardDetail />', () => {
     const wrapper = component.find('.BoardDetail');
     expect(wrapper.length).toBe(1);
     expect(spyFetchArticleList).toHaveBeenCalledTimes(1);
+  });
+
+  it('sorts', () => {
+    expect(spyFetchArticleList).toHaveBeenCalledTimes(0);
+    const wrapper = mount(boardDetail);
+    expect(spyFetchArticleList).toHaveBeenCalledTimes(1);
+
+    const searchButton = wrapper.find('#search-button').at(0);
+    // const sortCriteria = wrapper.find('#sort-criteria');
+    // TODO : test DropdownItem select
+    // sortCriteria.at(0).instance().selected = false;
+    // sortCriteria.at(1).instance().selected = true;
+    // sortCriteria.simulate('select', 'good');
+    // sortCriteria.prop('onSelect')({ value: ['good'] });
+    // const mockMyEventHandler = jest.fn();
+    // wrapper.setProps({ onChange: mockMyEventHandler });
+
+    expect(spyFetchArticleList).toHaveBeenCalledTimes(1);
+    searchButton.simulate('click');
+    expect(spyFetchArticleList).toHaveBeenCalledTimes(2);
+
+    expect(spyFetchArticleList).toHaveBeenLastCalledWith({
+      currentPageNumber: 1,
+      filterCriteria: 'all',
+      sortCriteria: 'new',
+      searchCriteria: 'title',
+      searchKeyword: '',
+      articlesPerRequest: 20,
+      tmpKeyword: '',
+    });
+
+    // sortCriteria.at(3).simulate('click');
+    // expect(spyFetchArticleList).toHaveBeenCalledTimes(2);
+    // searchButton.simulate('click');
+    // expect(spyFetchArticleList).toHaveBeenCalledTimes(3);
+
+    // expect(spyFetchArticleList).toHaveBeenLastCalledWith({
+    //   currentPageNumber: 1,
+    //   filterCriteria: 'all',
+    //   sortCriteria: 'new',
+    //   searchCriteria: 'title',
+    //   searchKeyword: '',
+    //   articlesPerRequest: 20,
+    //   tmpKeyword: '',
+    // });
   });
 
   it('searches', () => {
@@ -149,6 +195,17 @@ describe('<BoardDetail />', () => {
     expect(spyFetchArticleList).toHaveBeenLastCalledWith({
       ...compare, filterCriteria: 'all',
     });
+  });
+
+  it('direct to create', () => {
+    expect(spyFetchArticleList).toHaveBeenCalledTimes(0);
+    const wrapper = mount(boardDetail);
+    expect(spyFetchArticleList).toHaveBeenCalledTimes(1);
+
+    const writeButton = wrapper.find('#write-button').at(0);
+
+    writeButton.simulate('click');
+    expect(history.location.pathname).toBe('/boards/all/create');
   });
 
   it('direct to board', () => {

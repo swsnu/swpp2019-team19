@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from 'reactstrap';
+import { Button, Alert } from 'react-bootstrap';
 
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -17,7 +17,6 @@ class Signin extends Component {
   }
   /* eslint-disable */
 
-
   render() {
     const SigninHandler = () => {
       const username = this.state.username;
@@ -27,6 +26,12 @@ class Signin extends Component {
     };
     return (
       <div className="Signin">
+        {
+          this.props.fail ?
+            <Alert
+              variant={'warning'}
+            >username or password is wrong</Alert> : <p></p>
+        }
         <Button
           id="direct-to-signup"
           onClick={() => this.props.history.push('/signup')}>
@@ -59,12 +64,16 @@ class Signin extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  fail: state.user.signinFail,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   signin: (username, password) =>
     dispatch(actionCreators.signin(username, password)),
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(withRouter(Signin));

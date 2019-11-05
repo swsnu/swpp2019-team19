@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from 'reactstrap';
+import { Button, Alert } from 'react-bootstrap';
 
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -42,6 +42,21 @@ class Signup extends Component {
 
     return (
       <div className="Signup" >
+        {
+          this.props.fail ?
+            <Alert
+              variant={'warning'}
+            >email or username already exists</Alert> :
+            !this.state.validPassword ?
+              <Alert
+                variant={'warning'}
+              >Password should be at least 8 characters</Alert> :
+              !this.state.validPasswordConfirm ?
+                <Alert
+                  variant={'warning'}
+                >Password and Password Confirm are different</Alert> :
+                <p></p>
+        }
         <Button
           id="direct-to-signin"
           onClick={() => this.props.history.push('/signin')}>
@@ -80,8 +95,8 @@ class Signup extends Component {
             })}
           />
         </div>
-        {this.state.validPassword === false && <p id='short-password-error'>Password should be at least 8 characters</p>}
-        {this.state.validPasswordConfirm === false && <p id='password-confirm-error'>Password and Password Confirm are different</p>}
+        {/* {this.state.validPassword === false && <p id='short-password-error'>Password should be at least 8 characters</p>}
+        {this.state.validPasswordConfirm === false && <p id='password-confirm-error'>Password and Password Confirm are different</p>} */}
         <Button
           id="Signup-button"
           onClick={() => SignupHandler()}
@@ -97,12 +112,16 @@ class Signup extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  fail: state.user.signupFail,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   signup: (email, username, password) =>
     dispatch(actionCreators.signup(email, username, password)),
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(withRouter(Signup));

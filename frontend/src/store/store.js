@@ -6,11 +6,13 @@ import thunk from 'redux-thunk';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import articleReducer from './reducers/Article';
+import userReducer from './reducers/User';
 
 export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
   router: connectRouter(history),
+  user: userReducer,
   article: articleReducer,
 });
 
