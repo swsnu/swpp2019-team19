@@ -15,7 +15,6 @@ function CustomNavbar() {
   return (
     <>
       <Navbar className="custom-navbar" bg="dark" expand="lg">
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Col xs={1} md={1}>
           <Button className="sidebar-show-button" variant="secondary" onClick={handleShow}>
             <FontAwesomeIcon icon={faBars} size="2x" />
