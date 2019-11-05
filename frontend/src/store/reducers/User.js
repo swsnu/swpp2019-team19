@@ -24,13 +24,19 @@ export default function (state = initialState, action = defaultAction) {
     case SIGN_UP_FAIL: {
       return { ...state, signupFail: true };
     }
+    case SIGN_UP: {
+      return {
+        ...state, signupFail: false, signinFail: false,
+      };
+    }
     case SIGN_IN:
     case SIGN_OUT:
-    case SIGN_UP:
     case VALIDATE_USERNAME:
     case VALIDATE_USER_ID:
     case CHANGE_INFO:
     default:
-      return { ...state, signinFail: false, signoutFail: false };
+      return {
+        ...state, signinFail: false, signupFail: false,
+      };
   }
 }

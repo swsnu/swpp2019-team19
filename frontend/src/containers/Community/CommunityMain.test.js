@@ -42,7 +42,7 @@ const stubArticleInitialState = {
   articleListHotAck: true,
 };
 
-const mockStore = getMockStore(stubArticleInitialState);
+const mockStore = getMockStore(stubArticleInitialState, {});
 
 describe('<CommunityMain />', () => {
   let communityMain;
@@ -60,10 +60,10 @@ describe('<CommunityMain />', () => {
     );
     spyFetchAllBoard = jest
       .spyOn(ActionCreators, 'fetchAllBoard')
-      .mockImplementation(() => (dispatch) => {});
+      .mockImplementation(() => (dispatch) => { });
     spyFetchHotBoard = jest
       .spyOn(ActionCreators, 'fetchHotBoard')
-      .mockImplementation(() => (dispatch) => {});
+      .mockImplementation(() => (dispatch) => { });
   });
 
   afterEach(() => {

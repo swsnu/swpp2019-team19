@@ -30,7 +30,8 @@ class Signin extends Component {
           this.props.fail ?
             <Alert
               variant={'warning'}
-            >username or password is wrong</Alert> : <p></p>
+            >username or password is wrong</Alert> :
+            <p></p>
         }
         <Button
           id="direct-to-signup"

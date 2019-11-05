@@ -95,8 +95,6 @@ class Signup extends Component {
             })}
           />
         </div>
-        {/* {this.state.validPassword === false && <p id='short-password-error'>Password should be at least 8 characters</p>}
-        {this.state.validPasswordConfirm === false && <p id='password-confirm-error'>Password and Password Confirm are different</p>} */}
         <Button
           id="Signup-button"
           onClick={() => SignupHandler()}

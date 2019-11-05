@@ -45,7 +45,7 @@ const stubArticleInitialState = {
   articleListAck: true,
 };
 
-const mockStore = getMockStore(stubArticleInitialState);
+const mockStore = getMockStore(stubArticleInitialState, {});
 
 describe('<BoardDetail />', () => {
   let boardDetail;
