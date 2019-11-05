@@ -92,7 +92,29 @@ class BoardDetail extends Component {
               onClick={() => setAndFetch('rejected')}
             >rejected</Button>
           </ButtonGroup>
-          {/* } */}
+
+          <DropdownButton
+            as={InputGroup.Prepend}
+            variant='outline-secondary'
+            title={this.state.sortCriteria}
+            id='sort-criteria'
+          >
+            <Dropdown.Item
+              onSelect={() => this.setState({ sortCriteria: 'new' })}
+            >new</Dropdown.Item>
+            <Dropdown.Item
+              onSelect={() => this.setState({ sortCriteria: 'good' })}
+            >good</Dropdown.Item>
+          </DropdownButton>
+
+          <Button
+            id='write-button'
+            onClick={() => {
+              this.props.history.push('/boards/all/create');
+            }}
+          >
+            Write
+          </Button>
           <Table hover size='sm'>
             <thead>
               <tr>
