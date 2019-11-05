@@ -7,7 +7,7 @@ describe('<Chat />', () => {
     const component = shallow(<Chat />);
     const wrapper = component.find('.chat');
     expect(wrapper.length).toBe(1);
-    const submitButtonWrpper = component.find('.msg_send_btn')
+    const submitButtonWrpper = component.find('.msg_send_btn');
     submitButtonWrpper.simulate('click');
   });
 });
