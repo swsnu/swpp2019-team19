@@ -8,7 +8,6 @@ export const sendMessage = (message, sender) => (dispatch) => axios.post(`${remo
   dispatch({
     type: SEND_QUESTION,
     userMessage: message,
-    botMessage: response,
+    botMessage: response.data,
   });
 });
-

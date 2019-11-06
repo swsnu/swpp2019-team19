@@ -22,4 +22,4 @@ export {
 
 export {
   sendMessage,
-} from './chat'
+} from './chat';
