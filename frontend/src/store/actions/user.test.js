@@ -12,6 +12,7 @@ const status200 = new Promise((resolve) => {
   resolve(result);
 });
 
+
 describe('ActionCreators', () => {
   afterEach(() => {
     jest.clearAllMocks();
@@ -35,15 +36,19 @@ describe('ActionCreators', () => {
 
   it("'signin' should catch 410 error", (done) => {
     const spy = jest.spyOn(axios, 'post').mockImplementation(
-      (username, password) => new Promise((resolve) => {
+      (username, password) => new Promise((resolve, reject) => {
         const result = {
-          status: 401,
+          response: {
+            status: 401,
+          },
         };
-        resolve(result);
+        reject(result);
       }),
     );
 
     store.dispatch(actionCreators.signin()).then(() => {
+      const newState = store.getState();
+      expect(newState.user.signinFail).toBe(true);
       expect(spy).toHaveBeenCalledTimes(1);
       done();
     });
@@ -58,15 +63,38 @@ describe('ActionCreators', () => {
   });
 
   it("'signup' should post User info correctly", (done) => {
-    const spy = jest
-      .spyOn(axios, 'post')
-      .mockImplementation(
-        (username, currentPassword, newPassword) => status200,
-      );
+    const spy = jest.spyOn(axios, 'post').mockImplementation(
+      (email, username, password) => new Promise((resolve) => {
+        const result = {
+          status: 201,
+        };
+        resolve(result);
+      }),
+    );
 
     store.dispatch(actionCreators.signup());
     expect(spy).toHaveBeenCalledTimes(1);
     done();
+  });
+
+  it('signup fail', (done) => {
+    const spy = jest.spyOn(axios, 'post').mockImplementation(
+      (email, username, password) => new Promise((resolve, reject) => {
+        const result = {
+          response: {
+            status: 409,
+          },
+        };
+        reject(result);
+      }),
+    );
+
+    store.dispatch(actionCreators.signup('email', 'username', 'password')).then(() => {
+      const newState = store.getState();
+      expect(newState.user.signupFail).toBe(true);
+      expect(spy).toHaveBeenCalledTimes(1);
+      done();
+    });
   });
 
   it("'changeInfo' should post User info correctly", (done) => {

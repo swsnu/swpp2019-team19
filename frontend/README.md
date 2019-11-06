@@ -9,6 +9,12 @@ yarn add connected-react-router
 npm -i -S js-cookie
 npm install --save bootstrap
 npm install --save reactstrap react react-dom
+
+when test chat
+mkdir garbage
+cd garbage
+google-chrome --disable-web-security --userata-dir="./"
+
 ```
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

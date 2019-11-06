@@ -13,10 +13,14 @@ const stubArticleInitialState = {
 const stubUserInitialState = {
 
 };
+const stubChatInitialState = {
+
+};
 
 const mockStore = getMockStore(
   stubArticleInitialState,
   stubUserInitialState,
+  stubChatInitialState,
 );
 
 

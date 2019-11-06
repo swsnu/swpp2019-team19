@@ -14,7 +14,7 @@ const stubUserInitialState = {
   signupFail: false,
 };
 
-const mockStore = getMockStore({}, stubUserInitialState);
+const mockStore = getMockStore({}, stubUserInitialState, {});
 
 describe('<Signup />', () => {
   const validEmail = 'lightb0x@naver.com';

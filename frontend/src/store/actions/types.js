@@ -29,4 +29,5 @@ export const CLEAR_ARTICLE = 'CLEAR_ARTICLE';
 export const VOTE = 'VOTE';
 
 // Chat
-// export const SEND_QUESTION = 'SEND_QUESTION';
+export const SEND_QUESTION = 'SEND_QUESTION';
+export const RCV_QUESTION = 'RCV_QUESTION';

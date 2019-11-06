@@ -11,6 +11,18 @@
 - goodbye
 - see you around
 - see you later
+- catch you later
+
+## intent:hungry
+- I'm hungry
+- im hungry
+- aren't you hungry?
+- hungry, aren't you?
+
+## intent:not-hungry
+- I'm not hungry
+- I'm full
+- I don't think I'm hungry
 
 ## intent:affirm
 - yes
@@ -18,6 +30,7 @@
 - of course
 - that sounds good
 - correct
+- that's great!
 
 ## intent:deny
 - no
@@ -26,6 +39,7 @@
 - don't like that
 - no way
 - not really
+- no, thanks
 
 ## intent:mood_great
 - perfect
