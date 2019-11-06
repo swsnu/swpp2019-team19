@@ -1,5 +1,5 @@
 
-import { SEND_QUESTION } from '../actions/types';
+import { SEND_QUESTION, RCV_QUESTION } from '../actions/types';
 
 const initialState = {
   chatHistory: [],
@@ -7,15 +7,19 @@ const initialState = {
 const defaultAction = { type: 'default' };
 
 export default function (state = initialState, action = defaultAction) {
-  if (action.type === SEND_QUESTION) {
-    const updateChatHistory = JSON.parse(JSON.stringify(state.chatHistory));
-    updateChatHistory.push({ from: 'user', message: action.userMessage });
-    console.log(action.botMessage);
-    action.botMessage.map((response) => {
-      updateChatHistory.push({ from: 'bot', message: response.text });
-    });
-    return { ...state, chatHistory: updateChatHistory };
+  switch (action.type) {
+    case RCV_QUESTION: {
+      const rcv = action.botMessage;
+      const result = rcv.map((response) => (
+        { from: 'bot', message: response.text }));
+      return { ...state, chatHistory: state.chatHistory.concat(result) };
+    }
+    case SEND_QUESTION: {
+      const updateChatHistory = JSON.parse(JSON.stringify(state.chatHistory));
+      updateChatHistory.push({ from: 'user', message: action.userMessage });
+      return { ...state, chatHistory: updateChatHistory };
+    }
+    default:
+      return state;
   }
-
-  return { ...state };
 }
