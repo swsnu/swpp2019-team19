@@ -15,20 +15,14 @@ import {
   CLEAR_ARTICLE_LIST,
   VOTE,
 } from './types';
-// import getCookie from './CSRF';
 
-// const remoteURL = 'http://localhost:8000';
+
+const remoteURL = 'http://localhost:8000';
 axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
 axios.defaults.xsrfCookieName = 'csrftoken';
 
-/*
-const getToken = axios.get('/api/token/');
-const { csrftoken } = getToken.data;
-*/
-// csrf https://stackoverflow.com/questions/39254562/csrf-with-django-reactredux-using-axios
-// TODO
 export const fetchArticle = (id) => (dispatch) => (
-  axios.get(`/api/article/${id}/`).then((res) => {
+  axios.get(`${remoteURL}/api/article/${id}/`).then((res) => {
     dispatch({
       article: res.data,
       type: FETCH_ARTICLE,
@@ -41,7 +35,7 @@ export const clearArticle = () => (dispatch) => (
 );
 
 export const postArticle = (title, content) => (dispatch) => (
-  axios.post('/api/article/', { title, content }).then((res) => {
+  axios.post(`${remoteURL}/api/article/`, { title, content }).then((res) => {
     dispatch({
       type: POST_ARTICLE,
       article: res.data,
@@ -51,7 +45,7 @@ export const postArticle = (title, content) => (dispatch) => (
 );
 
 export const editArticle = (id, title, content) => (dispatch) => (
-  axios.put(`/api/article/${id}/`, { title, content }).then((res) => {
+  axios.put(`${remoteURL}/api/article/${id}/`, { title, content }).then((res) => {
     dispatch({
       type: EDIT_ARTICLE,
       article: res.data,
@@ -61,7 +55,7 @@ export const editArticle = (id, title, content) => (dispatch) => (
 );
 
 export const deleteArticle = (id) => (dispatch) => (
-  axios.delete(`/api/article/${id}/`).then(() => {
+  axios.delete(`${remoteURL}/api/article/${id}/`).then(() => {
     dispatch({
       type: DELETE_ARTICLE,
     });
@@ -70,7 +64,7 @@ export const deleteArticle = (id) => (dispatch) => (
 );
 
 export const fetchAllBoard = (options) => (dispatch) => (
-  axios.post('/api/boards/', options).then((res) => {
+  axios.post(`${remoteURL}/api/boards/`, options).then((res) => {
     dispatch({ type: FETCH_ALL_BOARD, articles: res.data });
   })
 );
@@ -80,7 +74,7 @@ export const clearAllBoard = () => (dispatch) => (
 );
 
 export const fetchHotBoard = (options) => (dispatch) => (
-  axios.post('/api/boards/', options).then((res) => {
+  axios.post(`${remoteURL}/api/boards/`, options).then((res) => {
     dispatch({ type: FETCH_HOT_BOARD, articles: res.data });
   })
 );
@@ -90,7 +84,7 @@ export const clearHotBoard = () => (dispatch) => (
 );
 
 export const fetchArticleList = (options) => (dispatch) => (
-  axios.post('/api/boards/', options).then((res) => {
+  axios.post(`${remoteURL}/api/boards/`, options).then((res) => {
     dispatch({ type: FETCH_ARTICLE_LIST, articles: res.data });
   })
 );
@@ -100,7 +94,7 @@ export const clearArticleList = () => (dispatch) => (
 );
 
 export const putVote = (vote, id) => (dispatch) => (
-  axios.put(`/api/vote/${id}/`, { id, vote }).then((res) => {
+  axios.put(`${remoteURL}/api/vote/${id}/`, { id, vote }).then((res) => {
     dispatch({
       type: VOTE,
       like: res.data.like,

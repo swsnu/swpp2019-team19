@@ -10,18 +10,13 @@ import {
   CHANGE_INFO,
 } from './types';
 
+const remoteURL = 'http://localhost:8000';
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 axios.defaults.withCredentials = true;
-/*
-axios.interceptors.response.use((response) => {
-  const sessionCookie = Cookie.get();
-  console.log('Cookie', sessionCookie);
-  return response;
-}); */
-// TODO
+
 export const signin = (username, password) => (dispatch) => (
-  axios.post('/api/signin/', { username, password }).then((res) => {
+  axios.post(`${remoteURL}/api/signin/`, { username, password }).then((res) => {
     if (res.status === 204) {
       sessionStorage.setItem('sessionid', Cookie.get().sessionid);
       dispatch({
@@ -39,14 +34,14 @@ export const signin = (username, password) => (dispatch) => (
 );
 
 export const signout = () => (dispatch) => (
-  axios.get('/api/signout/').then(() => {
+  axios.get(`${remoteURL}/api/signout/`).then(() => {
     sessionStorage.removeItem('sessionid');
     dispatch({ type: SIGN_OUT });
   })
 );
 
 export const signup = (email, username, password) => (dispatch) => (
-  axios.post('/api/signup/', { username, email, password }).then((res) => {
+  axios.post(`${remoteURL}/api/signup/`, { username, email, password }).then((res) => {
     if (res.status === 201) {
       dispatch({
         type: SIGN_UP,
@@ -63,7 +58,7 @@ export const signup = (email, username, password) => (dispatch) => (
 );
 
 export const changeInfo = (username, currentPassword, newPassword) => (dispatch) => (
-  axios.put('/api/signup/', { username, current_password: currentPassword, new_password: newPassword }).then(() => {
+  axios.put(`${remoteURL}/api/signup/`, { username, current_password: currentPassword, new_password: newPassword }).then(() => {
     dispatch({
       type: CHANGE_INFO,
     });

@@ -19,3 +19,7 @@ export {
   signup,
   changeInfo,
 } from './user';
+
+export {
+  sendMessage,
+} from './chat'
