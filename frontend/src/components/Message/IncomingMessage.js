@@ -11,7 +11,12 @@ const IncomingMessage = (props) => (
     </div>
     <div className="received_msg">
       <div className="received_withd_msg">
-        <p>{props.message}</p>
+        {
+          props.message.text === undefined
+            ? <img alt="response-img" src={props.message.image} />
+            : <p>{props.message.text}</p>
+        }
+        <p></p>
       </div>
     </div>
   </div>
