@@ -24,6 +24,7 @@ class Chat extends Component {
   render() {
     const sendMessage = (message) => {
       this.props.sendMessage(message);
+      this.setState({ userInput: '' });
     };
     const chatLog = this.props.chatHistory.map((message) => {
       if (message.from === 'user') {
