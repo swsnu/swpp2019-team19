@@ -1,7 +1,8 @@
 ```
 enable your venv
 pip install rasa-x --extra-index-url https://pypi.rasa.com/simple
-python -m rasa run -m ./models --endpoints ./projects/endpoints.yml --port 5001 --log-file ./logs/rasa.log -vv --enable-api
+rasa train
+python -m rasa run -m ./models --endpoints ./projects/endpoints.yml --port 5005 --log-file ./logs/rasa.log -vv --enable-api
 ```
 ```
 post api
