@@ -44,7 +44,9 @@ templates:
   - text: "aren't you hungry?"
 
   utter_meal:
-  - text: "today's dinner is as follows:\nTofu stew with roe of a pollack, 2,500won | Steamed pork & spicy buckwheat noodle with mixed vegetables, 4,000won"
+  - text: "today's dinner is as follows:
+  Tofu stew with roe of a pollack, 2,500won
+  Steamed pork & spicy buckwheat noodle with mixed vegetables, 4,000won"
   
   utter_ok:
   - text: "oh, I see"
