@@ -3,8 +3,8 @@ import { shallow } from 'enzyme';
 import IncomingMessage from './IncomingMessage';
 
 const stubProp = {
-  text: 'hi'
-}
+  text: 'hi',
+};
 describe('<IncomingMessage />', () => {
   it('renders IncomingMessage', () => {
     const component = shallow(<IncomingMessage message={stubProp} />);

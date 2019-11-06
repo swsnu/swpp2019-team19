@@ -16,14 +16,12 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 axios.defaults.withCredentials = true;
 
 export const signin = (username, password) => (dispatch) => (
-  axios.post(`${remoteURL}/api/signin/`, { username, password }).then((res) => {
-    if (res.status === 204) {
-      sessionStorage.setItem('sessionid', Cookie.get().sessionid);
-      dispatch({
-        type: SIGN_IN,
-      });
-      dispatch(push('/boards'));
-    }
+  axios.post(`${remoteURL}/api/signin/`, { username, password }).then(() => {
+    sessionStorage.setItem('sessionid', Cookie.get().sessionid);
+    dispatch({
+      type: SIGN_IN,
+    });
+    dispatch(push('/boards'));
   }, (error) => {
     if (error.response.status === 401) {
       dispatch({
@@ -41,13 +39,11 @@ export const signout = () => (dispatch) => (
 );
 
 export const signup = (email, username, password) => (dispatch) => (
-  axios.post(`${remoteURL}/api/signup/`, { username, email, password }).then((res) => {
-    if (res.status === 201) {
-      dispatch({
-        type: SIGN_UP,
-      });
-      dispatch(push('/signin'));
-    }
+  axios.post(`${remoteURL}/api/signup/`, { username, email, password }).then(() => {
+    dispatch({
+      type: SIGN_UP,
+    });
+    dispatch(push('/signin'));
   }, (error) => {
     if (error.response.status === 409) {
       dispatch({

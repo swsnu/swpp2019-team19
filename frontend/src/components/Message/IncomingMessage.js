@@ -16,7 +16,7 @@ const IncomingMessage = (props) => (
             ? <img alt="response-img" src={props.message.image} />
             : <p>{props.message.text}</p>
         }
-        <p></p>
+        <p />
       </div>
     </div>
   </div>

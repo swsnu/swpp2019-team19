@@ -11,7 +11,7 @@ import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions';
 import OutgoingMessage from '../../components/Message/OutgoingMessage';
 import IncomingMessage from '../../components/Message/IncomingMessage';
-import getUUID from '../../components/UUID/getUUID';
+
 
 class Chat extends Component {
   constructor(props) {
@@ -26,6 +26,11 @@ class Chat extends Component {
       this.props.sendMessage(message);
       this.setState({ userInput: '' });
     };
+    const getUUID = () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      const r = Math.random() * 16;
+      const v = ((c === 'x') ? r : (((r % 3) * 17) % 8));
+      return v.toString(16);
+    });
     const chatLog = this.props.chatHistory.map((message) => {
       if (message.from === 'user') {
         return (
