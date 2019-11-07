@@ -67,6 +67,7 @@ describe('<CommunityMain />', () => {
   });
 
   afterEach(() => {
+    history.push('/');
     jest.clearAllMocks();
   });
 
@@ -76,5 +77,23 @@ describe('<CommunityMain />', () => {
     expect(wrapper.length).toBe(1);
     expect(spyFetchAllBoard).toHaveBeenCalledTimes(1);
     expect(spyFetchHotBoard).toHaveBeenCalledTimes(1);
+  });
+
+  it('direct-to-all board buton', () => {
+    const wrapper = mount(communityMain);
+    const allButton = wrapper.find('#direct-to-all-board').at(0);
+
+    allButton.simulate('click');
+
+    expect(history.location.pathname).toBe('/boards/all/');
+  });
+
+  it('direct-to-hot board buton', () => {
+    const wrapper = mount(communityMain);
+    const hotButton = wrapper.find('#direct-to-hot-board').at(0);
+
+    hotButton.simulate('click');
+
+    expect(history.location.pathname).toBe('/boards/hot/');
   });
 });
