@@ -67,6 +67,7 @@ describe('<CommunityMain />', () => {
   });
 
   afterEach(() => {
+    history.push('/');
     jest.clearAllMocks();
   });
 
@@ -77,4 +78,37 @@ describe('<CommunityMain />', () => {
     expect(spyFetchAllBoard).toHaveBeenCalledTimes(1);
     expect(spyFetchHotBoard).toHaveBeenCalledTimes(1);
   });
+
+  it('direct-to-all board buton', () => {
+    const wrapper = mount(communityMain);
+    expect(spyFetchAllBoard).toHaveBeenCalledTimes(1);
+    expect(spyFetchHotBoard).toHaveBeenCalledTimes(1);
+    const allButton = wrapper.find('#direct-to-all-board').at(0);
+
+    allButton.simulate('click');
+
+    expect(history.location.pathname).toBe('/boards/all/');
+  });
+
+  it('direct-to-hot board buton', () => {
+    const wrapper = mount(communityMain);
+    // expect(spyFetchAllBoard).toHaveBeenCalledTimes(1);
+    expect(spyFetchHotBoard).toHaveBeenCalledTimes(1);
+    const hotButton = wrapper.find('#direct-to-hot-board').at(0);
+
+    hotButton.simulate('click');
+
+    expect(history.location.pathname).toBe('/boards/hot/');
+  });
+
+  /*
+   it('direct-to-hot board buton', () => {
+     const component = mount(communityMain);
+     const wrapper = component.find('#direct-to-hot-board').at(0);
+
+     wrapper.simulate('click');
+
+     expect(history.location.pathname).toBe('/boards/hot/');
+   });
+   */
 });
