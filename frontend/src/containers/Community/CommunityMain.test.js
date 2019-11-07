@@ -81,8 +81,6 @@ describe('<CommunityMain />', () => {
 
   it('direct-to-all board buton', () => {
     const wrapper = mount(communityMain);
-    expect(spyFetchAllBoard).toHaveBeenCalledTimes(1);
-    expect(spyFetchHotBoard).toHaveBeenCalledTimes(1);
     const allButton = wrapper.find('#direct-to-all-board').at(0);
 
     allButton.simulate('click');
@@ -92,8 +90,6 @@ describe('<CommunityMain />', () => {
 
   it('direct-to-hot board buton', () => {
     const wrapper = mount(communityMain);
-    expect(spyFetchAllBoard).toHaveBeenCalledTimes(1);
-    expect(spyFetchHotBoard).toHaveBeenCalledTimes(1);
     const hotButton = wrapper.find('#direct-to-hot-board').at(0);
 
     hotButton.simulate('click');
