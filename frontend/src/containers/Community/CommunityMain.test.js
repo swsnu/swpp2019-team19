@@ -92,7 +92,7 @@ describe('<CommunityMain />', () => {
 
   it('direct-to-hot board buton', () => {
     const wrapper = mount(communityMain);
-    // expect(spyFetchAllBoard).toHaveBeenCalledTimes(1);
+    expect(spyFetchAllBoard).toHaveBeenCalledTimes(1);
     expect(spyFetchHotBoard).toHaveBeenCalledTimes(1);
     const hotButton = wrapper.find('#direct-to-hot-board').at(0);
 
@@ -100,15 +100,4 @@ describe('<CommunityMain />', () => {
 
     expect(history.location.pathname).toBe('/boards/hot/');
   });
-
-  /*
-   it('direct-to-hot board buton', () => {
-     const component = mount(communityMain);
-     const wrapper = component.find('#direct-to-hot-board').at(0);
-
-     wrapper.simulate('click');
-
-     expect(history.location.pathname).toBe('/boards/hot/');
-   });
-   */
 });
