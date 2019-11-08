@@ -43,8 +43,8 @@ matrix:
         - mysql_upgrade
         - sudo service mysql restart
         - mysql -e "CREATE DATABASE IF NOT EXISTS SNUBot CHARACTER SET utf8 COLLATE utf8_general_ci;"
-        - mysql -e "CREATE USER 'SNUBot'@'%' IDENTIFIED BY 'SNUBot';"
-        - mysql -e "GRANT ALL PRIVILEGES ON SNUBOT.* TO 'SNUBot'@'%'; FLUSH PRIVILEGES;"
+        - mysql -e "CREATE USER 'SNUBot'@'localhost' IDENTIFIED BY 'SNUBot';"
+        - mysql -e "GRANT ALL PRIVILEGES ON SNUBOT.* TO 'SNUBot'@'localhost'; FLUSH PRIVILEGES;"
         - mysql -e "SELECT host, user, password FROM mysql.user;"
         - mysql -e "SELECT host, user, password FROM mysql.user WHERE user='SNUBot';"
         before_script:
