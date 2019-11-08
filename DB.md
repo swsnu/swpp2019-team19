@@ -60,7 +60,7 @@ looks like this
 +------------------+-----------+-------------------------------------------+
 ```
 
-## Install for django(It might not need to install, please check it)
+## Install for django
 ```
 sudo apt-get install libmysqlclient-dev
 pip install mysqlclient
