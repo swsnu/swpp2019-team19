@@ -45,11 +45,11 @@ matrix:
         - mysql -e 'CREATE DATABASE IF NOT EXISTS SNUBot CHARACTER SET utf8 COLLATE utf8_general_ci;'
         - mysql -e "CREATE USER 'SNUBot'@'%' IDENTIFIED BY 'SNUBot';"
         - mysql -e "GRANT ALL PRIVILEGES ON SNUBOT.* TO 'team1'@'%'; FLUSH PRIVILEGES;";
+      before_script:
+        - cd backend/SNUBot
       migrate:
         - python3 manage.py makemigrations
         - python3 manage.py migrate
-      before_script:
-        - cd backend/SNUBot
       script:
         - coverage run --source="./community/" manage.py test
       after_success:
