@@ -36,7 +36,9 @@ matrix:
         - "3.7"
         - "3.8"
       before_install:
-        - mysql -e 'create database SNUBot;'
+        - mysql -e "CREATE DATABASE SNUBOT;"
+        - mysql -e "CREATE USER 'SNHBot'@'localhost' IDENTIFIED BY 'SNUBot';"
+        - mysql -e "GRANT ALL PRIVILEGES ON *.* to 'SNUBot'@'localhost';"
       install:
         - pip install -r backend/SNUBot/requirements.txt
       before_script:
