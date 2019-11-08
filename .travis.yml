@@ -44,7 +44,7 @@ matrix:
         - sudo service mysql restart
         - mysql -e 'CREATE DATABASE IF NOT EXISTS SNUBot CHARACTER SET utf8 COLLATE utf8_general_ci;'
         - mysql -e "CREATE USER 'SNUBot'@'%' IDENTIFIED BY 'SNUBot';"
-        - mysql -e "GRANT ALL PRIVILEGES ON SNUBOT.* TO 'team1'@'%'; FLUSH PRIVILEGES;";
+        - mysql -e "GRANT ALL PRIVILEGES ON SNUBOT.* TO 'SNUBot'@'%'; FLUSH PRIVILEGES;";
       before_script:
         - cd backend/SNUBot
       migrate:
