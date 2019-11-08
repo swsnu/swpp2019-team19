@@ -65,6 +65,95 @@ looks like this
 sudo apt-get install libmysqlclient-dev
 pip install mysqlclient
 ```
+
+## Check DB at shell
+```
+sudo /usr/bin/mysql -u SNUBot -p
+Enter password: SNUBot
+
+mysql> SHOW DATABASES;
+looks like
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| SNUBot             |
++--------------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT DATABASE();
+looks like
++------------+
+| DATABASE() |
++------------+
+| NULL       |
++------------+
+mysql> USE SNUBot;
+
+mysql> SELECT DATABASE();
+looks like
++------------+
+| DATABASE() |
++------------+
+| SNUBot     |
++------------+
+1 row in set (0.00 sec)
+
+mysql> SHOW TABLES;
++------------------------------+
+| Tables_in_SNUBot             |
++------------------------------+
+| auth_group                   |
+| auth_group_permissions       |
+| auth_permission              |
+| auth_user                    |
+| auth_user_groups             |
+| auth_user_user_permissions   |
+| community_article            |
+| community_vote               |
+| community_vote_dislike_voter |
+| community_vote_like_voter    |
+| django_admin_log             |
+| django_content_type          |
+| django_migrations            |
+| django_session               |
++------------------------------+
+14 rows in set (0.00 sec)
+
+mysql> DESC community_article;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int(11)     | NO   | PRI | NULL    | auto_increment |
+| title     | varchar(64) | NO   |     | NULL    |                |
+| content   | longtext    | NO   |     | NULL    |                |
+| tag       | varchar(10) | NO   |     | NULL    |                |
+| board     | varchar(10) | NO   |     | NULL    |                |
+| date      | datetime(6) | NO   |     | NULL    |                |
+| author_id | int(11)     | NO   | MUL | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+7 rows in set (0.00 sec)
+```
+you can update data using shell like following. update whose field name match with Value 
+```
+usage
+mysql> UPDATE (TableName)
+SET (FieldName1)=(UpdateData1), (FieldName2)=(UpdateData2), ...
+WHERE (TargetFieldName)=(Value);
+
+example
+mysql> UPDATE community_article
+SET title='modified title, by mySQL query'
+WHERE author_id=20;
+```
+
+## Remove Database
+if you want to remove previous database
+```
+sudo /usr/bin/mysql -u SNUBot -p
+mysql> DROP DATABASE SNUBot
+```
+
 ## mySQL Document
 - [tutorial](https://dev.mysql.com/doc/refman/5.7/en/tutorial.html)
 - [server](https://dev.mysql.com/doc/refman/5.7/en/server-administration.html)
