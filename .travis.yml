@@ -36,7 +36,7 @@ matrix:
         - "3.7"
         - "3.8"
       before_install:
-        - mysql -e "CREATE DATABASE SNUBOT;"
+        - mysql -e "CREATE DATABASE SNUBot;"
         - mysql -e "CREATE USER 'SNUBot'@'localhost' IDENTIFIED BY 'SNUBot';"
         - mysql -e "GRANT ALL PRIVILEGES ON *.* to 'SNUBot'@'localhost';"
       install:
