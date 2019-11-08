@@ -30,6 +30,7 @@ matrix:
         - pip install -r backend/SNUBot/requirements.txt
       before_script:
         - cd backend/SNUBot
+        - python3 manage.py makemigrations
         - python3 manage.py migrate
       script:
         - coverage run --source="./community/" manage.py test
