@@ -22,14 +22,14 @@ function CustomNavbar() {
         </div>
         <div className="sidebar-body">
           <Nav id="community-group" className="flex-column list-group list-group-flush">
-            <Nav.Link href="http://localhost:3000/chat" class="list-group-item list-group-item-action bg-light">Chat</Nav.Link>
-            <Nav.Link href="http://localhost:3000/boards" class="list-group-item list-group-item-action bg-light">Community Main</Nav.Link>
-            <Nav.Link href="http://localhost:3000/boards/all" class="list-group-item list-group-item-action bg-light">All Board</Nav.Link>
-            <Nav.Link href="http://localhost:3000/boards/hot" class="list-group-item list-group-item-action bg-light">Hot Board</Nav.Link>
+            <Nav.Link href="http://localhost:3000/chat" className="nav-link-custom list-group-item list-group-item-action bg-light">Chat</Nav.Link>
+            <Nav.Link href="http://localhost:3000/boards" className="nav-link-custom list-group-item list-group-item-action bg-light">Community Main</Nav.Link>
+            <Nav.Link href="http://localhost:3000/boards/all" className="nav-link-custom list-group-item list-group-item-action bg-light">All Board</Nav.Link>
+            <Nav.Link href="http://localhost:3000/boards/hot" className="nav-link-custom list-group-item list-group-item-action bg-light">Hot Board</Nav.Link>
           </Nav>
           <Nav id="user-group" className="flex-column list-group list-group-flush">
-            <Nav.Link href="http://localhost:3000/signin" class="list-group-item list-group-item-action bg-light">Sign In</Nav.Link>
-            <Nav.Link href="http://localhost:3000/signup" class="list-group-item list-group-item-action bg-light">Sign Up</Nav.Link>
+            <Nav.Link href="http://localhost:3000/signin" className="nav-link-custom list-group-item list-group-item-action bg-light">Sign In</Nav.Link>
+            <Nav.Link href="http://localhost:3000/signup" className="nav-link-custom-bottom list-group-item list-group-item-action bg-light">Sign Up</Nav.Link>
           </Nav>
         </div>
         <div className="sidebar-footer">

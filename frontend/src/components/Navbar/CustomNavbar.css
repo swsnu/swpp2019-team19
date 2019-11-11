@@ -29,3 +29,12 @@
 #sidebar-wrapper .sidebar-footer {
   max-height: 10vh;
 }
+
+.nav-link-custom {
+  border-top: thick solid #000000;
+}
+
+.nav-link-custom-bottom {
+  border-top: thick solid #000000;
+  border-bottom: thick solid #000000;
+}
