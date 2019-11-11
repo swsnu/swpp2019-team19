@@ -35,6 +35,7 @@ describe('<Signin />', () => {
   });
 
   afterEach(() => {
+    history.push('/');
     jest.clearAllMocks();
   });
 
