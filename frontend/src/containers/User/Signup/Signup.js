@@ -3,7 +3,7 @@ import { Button, Alert } from 'react-bootstrap';
 
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-
+import './Signup.css';
 import * as actionCreators from '../../../store/actions/index';
 
 class Signup extends Component {
@@ -41,7 +41,7 @@ class Signup extends Component {
     };
 
     return (
-      <div className="Signup" >
+      <div className='Signup' >
         {
           this.props.fail ?
             <Alert
@@ -57,54 +57,90 @@ class Signup extends Component {
                 >Password and Password Confirm are different</Alert> :
                 <p></p>
         }
-        <Button
-          id="direct-to-signin"
-          onClick={() => this.props.history.push('/signin')}>
-          go to signin page
-        </Button>
-        <h1>want Signup?</h1>
-        <label>email</label>
-        <input
-          id="email-input"
-          type="text"
-          value={this.state.email}
-          onChange={(event) => this.setState({ email: event.target.value })}
-        />
-        <label>username</label>
-        <input
-          id="username-input"
-          type="text"
-          value={this.state.username}
-          onChange={(event) => this.setState({ username: event.target.value })}
-        />
-        <div>
-          <label>Password</label>
-          <input
-            id="pw-input"
-            type="password"
-            value={this.state.password}
-            onChange={(event) => this.setState({ password: event.target.value })}
-          />
-          <label>Password Confirm</label>
-          <input
-            id="pw-confirm-input"
-            type="password"
-            value={this.state.passwordConfirm}
-            onChange={(event) => this.setState({
-              passwordConfirm: event.target.value
-            })}
-          />
-        </div>
-        <Button
-          id="Signup-button"
-          onClick={() => SignupHandler()}
-          disabled={
-            !this.state.username || !this.state.email ||
-            !this.state.password || !this.state.passwordConfirm
-          }
-        >
-          Signup
-        </Button>
+        < div className='container' >
+          <div className='row'>
+            <div className='col-lg-10 col-xl-9 mx-auto'>
+              <div className='card card-signup flex-row my-5'>
+                <div className='card-img-left d-none d-md-flex'>
+                  Image Here
+              </div>
+                <div className='card-body'>
+                  <h5 className='card-title text-center'>Create Your Account!</h5>
+                  <form className='form-signup'>
+                    <div className='form-label-group-signup'>
+                      <input
+                        id='username-input'
+                        type='text'
+                        className='form-control'
+                        placeholder='Username'
+                        value={this.state.username}
+                        onChange={(event) => this.setState({ username: event.target.value })}
+                        required autoFocus
+                      />
+                      <label>Username</label>
+                    </div>
+                    <hr></hr>
+                    <div className='form-label-group-signup'>
+                      <input
+                        type='text'
+                        id='email-input'
+                        className='form-control'
+                        placeholder='Email address'
+                        value={this.state.email}
+                        onChange={(event) => this.setState({ email: event.target.value })}
+                        required />
+                      <label>Email address</label>
+                    </div>
+                    <hr></hr>
+                    <div className='form-label-group-signup'>
+                      <input
+                        type='password'
+                        id='pw-input'
+                        className='form-control'
+                        placeholder='Password'
+                        value={this.state.password}
+                        onChange={(event) => this.setState({ password: event.target.value })}
+                        required
+                      />
+                      <label>Password</label>
+                    </div>
+                    <div className='form-label-group-signup'>
+                      <input
+                        type='password'
+                        id='pw-confirm-input'
+                        className='form-control'
+                        placeholder='Password'
+                        value={this.state.passwordConfirm}
+                        onChange={(event) => this.setState({
+                          passwordConfirm: event.target.value
+                        })}
+                        required />
+                      <label>Confirm password</label>
+                    </div>
+                    <hr>
+                    </hr>
+                    <br />
+                    <br />
+                    <Button
+                      id='Signup-button'
+                      className='btn btn-lg btn-primary btn-block text-uppercase'
+                      type='submit'
+                      onClick={() => SignupHandler()}
+                      disabled={!this.state.username || !this.state.password}
+                    >Signup</Button>
+                    <Button
+                      id='direct-to-signin'
+                      className='btn btn-lg btn-primary btn-block text-uppercase'
+                      type='submit'
+                      onClick={() => this.props.history.push('/signin')}>
+                      Already member of SNUBot?
+                  </Button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div >
       </div>
     );
   }
