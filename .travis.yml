@@ -22,14 +22,28 @@ matrix:
         - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
         - cd ../
     - language: python
+      sudo: enabled
+      services:
+        - mysql
+      addons:
+        apt:
+          sources:
+            - mysql-5.7-trusty
+          packages:
+            - mysql-server
       python:
         - "3.6"      # current default Python on Travis CI
         - "3.7"
         - "3.8"
+      before_install:
+        - mysql -e "CREATE DATABASE SNUBot;"
+        - mysql -e "CREATE USER 'SNUBot'@'localhost' IDENTIFIED BY 'SNUBot';"
+        - mysql -e "GRANT ALL PRIVILEGES ON *.* to 'SNUBot'@'localhost';"
       install:
         - pip install -r backend/SNUBot/requirements.txt
       before_script:
         - cd backend/SNUBot
+        - python3 manage.py makemigrations
         - python3 manage.py migrate
       script:
         - coverage run --source="./community/" manage.py test

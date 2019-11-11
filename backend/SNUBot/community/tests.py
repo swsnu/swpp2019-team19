@@ -85,149 +85,106 @@ class ArticleTestCase(TestCase):
         User.objects.create_user(username="test18", password="user1234")
         User.objects.create_user(username="test19", password="user1234")
         User.objects.create_user(username="test20", password="user1234")
-        Article.objects.create(title="title", content="content1",
-                               tag="normal", board="hot", author=User.objects.get(id=1))
-        Article.objects.create(title="title", content="content1",
-                               tag="normal", board="hot", author=User.objects.get(id=2))
-        Article.objects.create(title="title", content="content1",
-                               tag="normal", board="hot", author=User.objects.get(id=3))
-        Article.objects.create(title="title", content="content1",
-                               tag="normal", board="hot", author=User.objects.get(id=4))
-        Article.objects.create(title="title", content="content1",
-                               tag="normal", board="hot", author=User.objects.get(id=5))
-        Article.objects.create(title="title", content="content1",
-                               tag="normal", board="hot", author=User.objects.get(id=6))
-        Article.objects.create(title="title", content="content1",
-                               tag="normal", board="hot", author=User.objects.get(id=7))
-        Article.objects.create(title="title", content="content1",
-                               tag="normal", board="hot", author=User.objects.get(id=8))
-        Article.objects.create(title="title", content="content1",
-                               tag="normal", board="hot", author=User.objects.get(id=9))
-        Article.objects.create(title="title", content="content1",
-                               tag="normal", board="hot", author=User.objects.get(id=10))
-        Article.objects.create(title="title", content="content1",
-                               tag="normal", board="hot", author=User.objects.get(id=11))
-        Article.objects.create(title="title", content="content1",
-                               tag="normal", board="hot", author=User.objects.get(id=12))
-        Article.objects.create(title="title", content="content1",
-                               tag="normal", board="hot", author=User.objects.get(id=13))
-        Article.objects.create(title="title", content="content1",
-                               tag="normal", board="hot", author=User.objects.get(id=14))
-        Article.objects.create(title="title", content="content1",
-                               tag="normal", board="hot", author=User.objects.get(id=15))
-        Article.objects.create(title="title", content="content1",
-                               tag="normal", board="hot", author=User.objects.get(id=16))
-        Article.objects.create(title="title", content="content1",
-                               tag="normal", board="hot", author=User.objects.get(id=17))
-        Article.objects.create(title="title", content="content1",
-                               tag="normal", board="hot", author=User.objects.get(id=18))
-        Article.objects.create(title="title", content="content1",
-                               tag="normal", board="hot", author=User.objects.get(id=19))
-        Article.objects.create(title="title", content="content1",
-                               tag="normal", board="hot", author=User.objects.get(id=20))
-        Article.objects.create(title="title", content="content1",
-                               tag="done", board="all", author=User.objects.get(id=1))
-        Article.objects.create(title="title", content="content1",
-                               tag="done", board="all", author=User.objects.get(id=2))
-        Article.objects.create(title="title", content="content1",
-                               tag="done", board="all", author=User.objects.get(id=3))
-        Article.objects.create(title="title", content="content1",
-                               tag="done", board="all", author=User.objects.get(id=4))
-        Article.objects.create(title="title", content="content1",
-                               tag="done", board="all", author=User.objects.get(id=5))
-        Article.objects.create(title="title", content="content1",
-                               tag="done", board="all", author=User.objects.get(id=6))
-        Article.objects.create(title="title", content="content1",
-                               tag="done", board="all", author=User.objects.get(id=7))
-        Article.objects.create(title="title", content="content1",
-                               tag="done", board="all", author=User.objects.get(id=8))
-        Article.objects.create(title="title", content="content1",
-                               tag="done", board="all", author=User.objects.get(id=9))
-        Article.objects.create(title="title", content="content1",
-                               tag="done", board="all", author=User.objects.get(id=10))
-        Article.objects.create(title="title", content="content1",
-                               tag="done", board="all", author=User.objects.get(id=11))
-        Article.objects.create(title="title", content="content1",
-                               tag="done", board="all", author=User.objects.get(id=12))
-        Article.objects.create(title="title", content="content1",
-                               tag="done", board="all", author=User.objects.get(id=13))
-        Article.objects.create(title="title", content="content1",
-                               tag="done", board="all", author=User.objects.get(id=14))
-        Article.objects.create(title="title", content="content1",
-                               tag="done", board="all", author=User.objects.get(id=15))
-        Article.objects.create(title="title", content="content1",
-                               tag="done", board="all", author=User.objects.get(id=16))
-        Article.objects.create(title="title", content="content1",
-                               tag="done", board="all", author=User.objects.get(id=17))
-        Article.objects.create(title="title", content="content1",
-                               tag="done", board="all", author=User.objects.get(id=18))
-        Article.objects.create(title="title", content="content1",
-                               tag="done", board="all", author=User.objects.get(id=19))
-        Article.objects.create(title="findtitle", content="content1",
-                               tag="done", board="all", author=User.objects.get(id=20))
-        Article.objects.create(title="title", content="content1",
-                               tag="done", board="all", author=User.objects.get(id=1))
-        Vote.objects.create(article=Article.objects.get(id=1), like="20")
-        Vote.objects.get(id=1).like_voter.add(User.objects.get(id=1))
-        Vote.objects.create(article=Article.objects.get(id=2), like="20")
-        Vote.objects.get(id=2).like_voter.add(User.objects.get(id=1))
-        Vote.objects.create(article=Article.objects.get(id=3), like="20")
-        Vote.objects.get(id=3).like_voter.add(User.objects.get(id=1))
-        Vote.objects.create(article=Article.objects.get(id=4), like="20")
-        Vote.objects.get(id=4).like_voter.add(User.objects.get(id=1))
-        Vote.objects.create(article=Article.objects.get(id=5), like="20")
-        Vote.objects.get(id=5).like_voter.add(User.objects.get(id=1))
-        Vote.objects.create(article=Article.objects.get(id=6), like="20")
-        Vote.objects.get(id=6).like_voter.add(User.objects.get(id=1))
-        Vote.objects.create(article=Article.objects.get(id=7), like="20")
-        Vote.objects.get(id=7).like_voter.add(User.objects.get(id=1))
-        Vote.objects.create(article=Article.objects.get(id=8), like="20")
-        Vote.objects.get(id=8).like_voter.add(User.objects.get(id=1))
-        Vote.objects.create(article=Article.objects.get(id=9), like="20")
-        Vote.objects.get(id=9).like_voter.add(User.objects.get(id=1))
-        Vote.objects.create(article=Article.objects.get(id=10), like="20")
-        Vote.objects.get(id=10).like_voter.add(User.objects.get(id=1))
-        Vote.objects.create(article=Article.objects.get(id=11), like="20")
-        Vote.objects.get(id=11).like_voter.add(User.objects.get(id=1))
-        Vote.objects.create(article=Article.objects.get(id=12), like="20")
-        Vote.objects.get(id=12).like_voter.add(User.objects.get(id=1))
-        Vote.objects.create(article=Article.objects.get(id=13), like="20")
-        Vote.objects.get(id=13).like_voter.add(User.objects.get(id=1))
-        Vote.objects.create(article=Article.objects.get(id=14), like="20")
-        Vote.objects.get(id=14).like_voter.add(User.objects.get(id=1))
-        Vote.objects.create(article=Article.objects.get(id=15), like="20")
-        Vote.objects.get(id=15).like_voter.add(User.objects.get(id=1))
-        Vote.objects.create(article=Article.objects.get(id=16), like="20")
-        Vote.objects.get(id=16).like_voter.add(User.objects.get(id=1))
-        Vote.objects.create(article=Article.objects.get(id=17), like="20")
-        Vote.objects.get(id=17).like_voter.add(User.objects.get(id=1))
-        Vote.objects.create(article=Article.objects.get(id=18), like="20")
-        Vote.objects.get(id=18).like_voter.add(User.objects.get(id=1))
-        Vote.objects.create(article=Article.objects.get(id=19), like="20")
-        Vote.objects.get(id=19).like_voter.add(User.objects.get(id=1))
-        Vote.objects.create(article=Article.objects.get(id=20), like="20")
-        Vote.objects.get(id=20).like_voter.add(User.objects.get(id=1))
-        Vote.objects.create(article=Article.objects.get(id=21))
-        Vote.objects.create(article=Article.objects.get(id=22))
-        Vote.objects.create(article=Article.objects.get(id=23))
-        Vote.objects.create(article=Article.objects.get(id=24))
-        Vote.objects.create(article=Article.objects.get(id=25))
-        Vote.objects.create(article=Article.objects.get(id=26))
-        Vote.objects.create(article=Article.objects.get(id=27))
-        Vote.objects.create(article=Article.objects.get(id=28))
-        Vote.objects.create(article=Article.objects.get(id=29))
-        Vote.objects.create(article=Article.objects.get(id=30))
-        Vote.objects.create(article=Article.objects.get(id=31))
-        Vote.objects.create(article=Article.objects.get(id=32))
-        Vote.objects.create(article=Article.objects.get(id=33))
-        Vote.objects.create(article=Article.objects.get(id=34))
-        Vote.objects.create(article=Article.objects.get(id=35))
-        Vote.objects.create(article=Article.objects.get(id=36))
-        Vote.objects.create(article=Article.objects.get(id=37))
-        Vote.objects.create(article=Article.objects.get(id=38))
-        Vote.objects.create(article=Article.objects.get(id=39))
-        Vote.objects.create(article=Article.objects.get(id=40))
-        Vote.objects.create(article=Article.objects.get(id=41), like="10")
+        Article.objects.create(title="title1", content="content1", tag="normal", board="hot", author=User.objects.get(username="test1"))
+        Article.objects.create(title="title2", content="content2", tag="normal", board="hot", author=User.objects.get(username="test2"))
+        Article.objects.create(title="title3", content="content3", tag="normal", board="hot", author=User.objects.get(username="test3"))
+        Article.objects.create(title="title4", content="content4", tag="normal", board="hot", author=User.objects.get(username="test4"))
+        Article.objects.create(title="title5", content="content5", tag="normal", board="hot", author=User.objects.get(username="test5"))
+        Article.objects.create(title="title6", content="content6", tag="normal", board="hot", author=User.objects.get(username="test6"))
+        Article.objects.create(title="title7", content="content7", tag="normal", board="hot", author=User.objects.get(username="test7"))
+        Article.objects.create(title="title8", content="content8", tag="normal", board="hot", author=User.objects.get(username="test8"))
+        Article.objects.create(title="title9", content="content9", tag="normal", board="hot", author=User.objects.get(username="test9"))
+        Article.objects.create(title="title10", content="content10", tag="normal", board="hot", author=User.objects.get(username="test10"))
+        Article.objects.create(title="title11", content="content11", tag="normal", board="hot", author=User.objects.get(username="test11"))
+        Article.objects.create(title="title12", content="content12", tag="normal", board="hot", author=User.objects.get(username="test12"))
+        Article.objects.create(title="title13", content="content13", tag="normal", board="hot", author=User.objects.get(username="test13"))
+        Article.objects.create(title="title14", content="content14", tag="normal", board="hot", author=User.objects.get(username="test14"))
+        Article.objects.create(title="title15", content="content15", tag="normal", board="hot", author=User.objects.get(username="test15"))
+        Article.objects.create(title="title16", content="content16", tag="normal", board="hot", author=User.objects.get(username="test16"))
+        Article.objects.create(title="title17", content="content17", tag="normal", board="hot", author=User.objects.get(username="test17"))
+        Article.objects.create(title="title18", content="content18", tag="normal", board="hot", author=User.objects.get(username="test18"))
+        Article.objects.create(title="title19", content="content19", tag="normal", board="hot", author=User.objects.get(username="test19"))
+        Article.objects.create(title="title20", content="content20", tag="normal", board="hot", author=User.objects.get(username="test20"))
+        Article.objects.create(title="title21", content="content21", tag="done", board="all", author=User.objects.get(username="test1"))
+        Article.objects.create(title="title22", content="content22", tag="done", board="all", author=User.objects.get(username="test2"))
+        Article.objects.create(title="title23", content="content23", tag="done", board="all", author=User.objects.get(username="test3"))
+        Article.objects.create(title="title24", content="content24", tag="done", board="all", author=User.objects.get(username="test4"))
+        Article.objects.create(title="title25", content="content25", tag="done", board="all", author=User.objects.get(username="test5"))
+        Article.objects.create(title="title26", content="content26", tag="done", board="all", author=User.objects.get(username="test6"))
+        Article.objects.create(title="title27", content="content27", tag="done", board="all", author=User.objects.get(username="test7"))
+        Article.objects.create(title="title28", content="content28", tag="done", board="all", author=User.objects.get(username="test8"))
+        Article.objects.create(title="title29", content="content29", tag="done", board="all", author=User.objects.get(username="test9"))
+        Article.objects.create(title="title30", content="content30", tag="done", board="all", author=User.objects.get(username="test10"))
+        Article.objects.create(title="title31", content="content31", tag="done", board="all", author=User.objects.get(username="test11"))
+        Article.objects.create(title="title32", content="content32", tag="done", board="all", author=User.objects.get(username="test12"))
+        Article.objects.create(title="title33", content="content33", tag="done", board="all", author=User.objects.get(username="test13"))
+        Article.objects.create(title="title34", content="content34", tag="done", board="all", author=User.objects.get(username="test14"))
+        Article.objects.create(title="title35", content="content35", tag="done", board="all", author=User.objects.get(username="test15"))
+        Article.objects.create(title="title36", content="content36", tag="done", board="all", author=User.objects.get(username="test16"))
+        Article.objects.create(title="title37", content="content37", tag="done", board="all", author=User.objects.get(username="test17"))
+        Article.objects.create(title="title38", content="content38", tag="done", board="all", author=User.objects.get(username="test18"))
+        Article.objects.create(title="title39", content="content39", tag="done", board="all", author=User.objects.get(username="test19"))
+        Article.objects.create(title="find title", content="content40", tag="done", board="all", author=User.objects.get(username="test20"))
+        Vote.objects.create(article=Article.objects.get(title="title1"), like="20")
+        Vote.objects.get(article__title="title1").like_voter.add(User.objects.get(username="test2"))
+        Vote.objects.create(article=Article.objects.get(title="title2"), like="20")
+        Vote.objects.get(article__title="title2").like_voter.add(User.objects.get(username="test3"))
+        Vote.objects.create(article=Article.objects.get(title="title3"), like="20")
+        Vote.objects.get(article__title="title3").like_voter.add(User.objects.get(username="test4"))
+        Vote.objects.create(article=Article.objects.get(title="title4"), like="20")
+        Vote.objects.get(article__title="title4").like_voter.add(User.objects.get(username="test5"))
+        Vote.objects.create(article=Article.objects.get(title="title5"), like="20")
+        Vote.objects.get(article__title="title5").like_voter.add(User.objects.get(username="test6"))
+        Vote.objects.create(article=Article.objects.get(title="title6"), like="20")
+        Vote.objects.get(article__title="title6").like_voter.add(User.objects.get(username="test7"))
+        Vote.objects.create(article=Article.objects.get(title="title7"), like="20")
+        Vote.objects.get(article__title="title7").like_voter.add(User.objects.get(username="test8"))
+        Vote.objects.create(article=Article.objects.get(title="title8"), like="20")
+        Vote.objects.get(article__title="title8").like_voter.add(User.objects.get(username="test9"))
+        Vote.objects.create(article=Article.objects.get(title="title9"), like="20")
+        Vote.objects.get(article__title="title9").like_voter.add(User.objects.get(username="test10"))
+        Vote.objects.create(article=Article.objects.get(title="title10"), like="20")
+        Vote.objects.get(article__title="title10").like_voter.add(User.objects.get(username="test11"))
+        Vote.objects.create(article=Article.objects.get(title="title11"), like="20")
+        Vote.objects.get(article__title="title11").like_voter.add(User.objects.get(username="test12"))
+        Vote.objects.create(article=Article.objects.get(title="title12"), like="20")
+        Vote.objects.get(article__title="title12").like_voter.add(User.objects.get(username="test13"))
+        Vote.objects.create(article=Article.objects.get(title="title13"), like="20")
+        Vote.objects.get(article__title="title13").like_voter.add(User.objects.get(username="test14"))
+        Vote.objects.create(article=Article.objects.get(title="title14"), like="20")
+        Vote.objects.get(article__title="title14").like_voter.add(User.objects.get(username="test15"))
+        Vote.objects.create(article=Article.objects.get(title="title15"), like="20")
+        Vote.objects.get(article__title="title15").like_voter.add(User.objects.get(username="test16"))
+        Vote.objects.create(article=Article.objects.get(title="title16"), like="20")
+        Vote.objects.get(article__title="title16").like_voter.add(User.objects.get(username="test17"))
+        Vote.objects.create(article=Article.objects.get(title="title17"), like="20")
+        Vote.objects.get(article__title="title17").like_voter.add(User.objects.get(username="test18"))
+        Vote.objects.create(article=Article.objects.get(title="title18"), like="20")
+        Vote.objects.get(article__title="title18").like_voter.add(User.objects.get(username="test19"))
+        Vote.objects.create(article=Article.objects.get(title="title19"), like="20")
+        Vote.objects.get(article__title="title19").like_voter.add(User.objects.get(username="test20"))
+        Vote.objects.create(article=Article.objects.get(title="title20"), like="20")
+        Vote.objects.get(article__title="title20").like_voter.add(User.objects.get(username="test1"))
+        Vote.objects.create(article=Article.objects.get(title="title21"))
+        Vote.objects.create(article=Article.objects.get(title="title22"))
+        Vote.objects.create(article=Article.objects.get(title="title23"))
+        Vote.objects.create(article=Article.objects.get(title="title24"))
+        Vote.objects.create(article=Article.objects.get(title="title25"))
+        Vote.objects.create(article=Article.objects.get(title="title26"))
+        Vote.objects.create(article=Article.objects.get(title="title27"))
+        Vote.objects.create(article=Article.objects.get(title="title28"))
+        Vote.objects.create(article=Article.objects.get(title="title29"))
+        Vote.objects.create(article=Article.objects.get(title="title30"))
+        Vote.objects.create(article=Article.objects.get(title="title31"))
+        Vote.objects.create(article=Article.objects.get(title="title32"))
+        Vote.objects.create(article=Article.objects.get(title="title33"))
+        Vote.objects.create(article=Article.objects.get(title="title34"))
+        Vote.objects.create(article=Article.objects.get(title="title35"))
+        Vote.objects.create(article=Article.objects.get(title="title36"))
+        Vote.objects.create(article=Article.objects.get(title="title37"))
+        Vote.objects.create(article=Article.objects.get(title="title38"))
+        Vote.objects.create(article=Article.objects.get(title="title39"))
+        Vote.objects.create(article=Article.objects.get(title="find title"), like=10)
 
     def test_board(self):
         client = Client()
@@ -241,7 +198,7 @@ class ArticleTestCase(TestCase):
             {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "done", "sortCriteria": "new", "searchCriteria": "username", "searchKeyword": ""}), content_type='application/json')
         self.assertEqual(len(json.loads(response.content)), 20)
         response = client.post('/api/boards/', json.dumps(
-            {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "all", "sortCriteria": "new", "searchCriteria": "title", "searchKeyword": "findtitle"}), content_type='application/json')
+            {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "all", "sortCriteria": "new", "searchCriteria": "title", "searchKeyword": "find title"}), content_type='application/json')
         self.assertEqual(len(json.loads(response.content)), 1)
         response = client.post('/api/boards/', json.dumps(
             {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "all", "sortCriteria": "old", "searchCriteria": "username", "searchKeyword": "test"}), content_type='application/json')
@@ -268,75 +225,77 @@ class ArticleTestCase(TestCase):
 
     def test_article_detail(self):
         client = Client()
-        response = client.put('/api/article/1/', json.dumps(
+        id = Article.objects.get(title="title1").id
+        response = client.put('/api/article/'+str(id)+'/', json.dumps(
             {'title': 'title1', 'content': 'content1'}), content_type='application/json')
         self.assertEqual(response.status_code, 401)
         response = client.delete(
-            '/api/article/1/', content_type='application/json')
+            '/api/article/'+str(id)+'/', content_type='application/json')
         self.assertEqual(response.status_code, 401)
         response = client.post('/api/signin/', json.dumps(
             {'username': 'test1', 'password': 'user1234'}), content_type='application/json')
         self.assertEqual(response.status_code, 204)
         response = client.get('/api/article/1000/')
         self.assertEqual(response.status_code, 404)
-        response = client.get('/api/article/1/')
+        response = client.get('/api/article/'+str(id)+'/')
         self.assertJSONEqual(str(response.content, encoding='utf8'), {
-                             "id": 1, "title": "title", "content": "content1", "author": "test1", "like": 20, "dislike": 0})
-        response = client.put('/api/article/1/', json.dumps(
+                             "id": id, "title": "title1", "content": "content1", "author": "test1", "like": 20, "dislike": 0})
+        response = client.put('/api/article/'+str(id)+'/', json.dumps(
             {'title': 'title1'}), content_type='application/json')
         self.assertEqual(response.status_code, 400)
-        response = client.put('/api/article/1/', json.dumps(
-            {'title': 'title1', 'content': 'content1'}), content_type='application/json')
+        response = client.put('/api/article/'+str(id)+'/', json.dumps(
+            {'title': 'editedtitle', 'content': 'editedcontent'}), content_type='application/json')
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(str(response.content, encoding='utf8'), {
-                             "id": 1, "title": "title1", "content": "content1", "author": "test1", "like": 20, "dislike": 0})
-        response = client.put('/api/article/2/', json.dumps(
+                             "id": id, "title": "editedtitle", "content": "editedcontent", "author": "test1", "like": 20, "dislike": 0})
+        response = client.put('/api/article/'+str(id+1)+'/', json.dumps(
             {'title': 'title1', 'content': 'content1'}), content_type='application/json')
         self.assertEqual(response.status_code, 403)
         response = client.delete(
-            '/api/article/1/', content_type='application/json')
+            '/api/article/'+str(id)+'/', content_type='application/json')
         self.assertEqual(response.status_code, 200)
         response = client.delete(
-            '/api/article/2/', content_type='application/json')
+            '/api/article/'+str(id+1)+'/', content_type='application/json')
         self.assertEqual(response.status_code, 403)
 
     def test_vote(self):
         client = Client()
-        response = client.put('/api/vote/1/', json.dumps(
+        id = Vote.objects.get(article__id=Article.objects.get(title="title1").id).id
+        response = client.put('/api/vote/'+str(id)+'/', json.dumps(
             {'vote': 'like'}), content_type='application/json')
         self.assertEqual(response.status_code, 401)
         response = client.post('/api/signin/', json.dumps(
             {'username': 'test1', 'password': 'user1234'}), content_type='application/json')
         self.assertEqual(response.status_code, 204)
-        response = client.put('/api/vote/1/', json.dumps(
+        response = client.put('/api/vote/'+str(id)+'/', json.dumps(
             {}), content_type='application/json')
         self.assertEqual(response.status_code, 400)
-        response = client.put('/api/vote/41/', json.dumps(
+        response = client.put('/api/vote/'+str(id+39)+'/', json.dumps(
             {'vote': 'like'}), content_type='application/json')
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(str(response.content, encoding='utf8'), {
                              "like": 11, "dislike": 0})
-        response = client.put('/api/vote/41/', json.dumps(
+        response = client.put('/api/vote/'+str(id+39)+'/', json.dumps(
             {'vote': 'like'}), content_type='application/json')
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(str(response.content, encoding='utf8'), {
             "like": 11, "dislike": 0})
-        response = client.put('/api/vote/41/', json.dumps(
+        response = client.put('/api/vote/'+str(id+39)+'/', json.dumps(
             {'vote': 'dislike'}), content_type='application/json')
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(str(response.content, encoding='utf8'), {
                              "like": 10, "dislike": 0})
-        response = client.put('/api/vote/41/', json.dumps(
+        response = client.put('/api/vote/'+str(id+39)+'/', json.dumps(
             {'vote': 'dislike'}), content_type='application/json')
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(str(response.content, encoding='utf8'), {
                              "like": 10, "dislike": 1})
-        response = client.put('/api/vote/41/', json.dumps(
+        response = client.put('/api/vote/'+str(id+39)+'/', json.dumps(
             {'vote': 'dislike'}), content_type='application/json')
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(str(response.content, encoding='utf8'), {
                              "like": 10, "dislike": 1})
-        response = client.put('/api/vote/41/', json.dumps(
+        response = client.put('/api/vote/'+str(id+39)+'/', json.dumps(
             {'vote': 'like'}), content_type='application/json')
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(str(response.content, encoding='utf8'), {
