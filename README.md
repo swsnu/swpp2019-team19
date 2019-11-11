@@ -17,6 +17,7 @@ yarn start
 ## Backend
 Before you start
 * activate your virtual environment, if you don't have virtual environment or following, install it.
+make sure that your `python` version is `3.5.x` or `3.6.x` for tensorflow
 ```
 pip install django
 pip install django-cors-headers
@@ -35,9 +36,9 @@ python manage.py runserver
 
 ### Rasa
 ```
-cd backend/Rasa
+cd backend/Rasa/Rasa_eng
 rasa train
-mkdir log
-touch log/rasa.log
+mkdir logs
+touch logs/rasa.log
 python -m rasa run -m ./models --endpoints ./projects/endpoints.yml --port 5005 --log-file ./logs/rasa.log -vv --enable-api --cors "*"
 ```
