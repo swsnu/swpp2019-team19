@@ -35,7 +35,6 @@ describe('<Signin />', () => {
   });
 
   afterEach(() => {
-    history.push('/');
     jest.clearAllMocks();
   });
 
@@ -70,10 +69,7 @@ describe('<Signin />', () => {
     const wrapper = mount(signin);
     const buttonInput = wrapper.find('#direct-to-signup').at(0);
 
-    expect(history.length).toEqual(1);
-    expect(history.location.pathname).toBe('/');
     buttonInput.simulate('click');
-    expect(history.length).toEqual(2);
     expect(history.location.pathname).toBe('/signup');
   });
 });
