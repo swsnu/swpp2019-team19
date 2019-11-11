@@ -1,0 +1,32 @@
+# Configuration for Rasa NLU.
+# https://rasa.com/docs/rasa/nlu/components/
+#language: "kr"
+#pipeline:
+#- name: "WhitespaceTokenizer"
+#- name: "RegexFeaturizer"
+#- name: 'CRFEntityExtractor'
+#- name: "EntitySynonymMapper"
+#- name: "CountVectorsFeaturizer"
+#  "token_pattern": '(?u)\b\w+\b'
+#- name: "EmbeddingIntentClassifier"
+language: "kr"
+pipeline:
+- name: "component.KoreanTokenizer"
+#- name: "WhitespaceTokenizer"
+- name: "component.RegexFeaturizer"
+- name: "component.CRFEntityExtractor"
+- name: "component.EntitySynonymMapper"
+- name: "component.CountVectorsFeaturizer"
+  "token_pattern": '(?u)\b\w+\b'
+- name: "component.EmbeddingIntentClassifier"
+
+policies:
+  - name: KerasPolicy
+    epochs: 100
+    max_history: 3
+  - name: MemoizationPolicy
+    max_history: 3
+  - name: FallbackPolicy
+    nlu_threshold: 0.4
+    core_threshold: 0.3
+    fallback_action_name: utter_fallback

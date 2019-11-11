@@ -101,6 +101,5 @@ env/
 db.sqlite3
 
 # Rasa
-backend/Rasa/logs/*
-backend/Rasa/models/*
+backend/Rasa/*/models/*.*
 backend/Rasa/graph.html
