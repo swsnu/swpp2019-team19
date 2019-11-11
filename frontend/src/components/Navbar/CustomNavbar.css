@@ -5,14 +5,13 @@
   -o-transition: margin .25s ease-out;
   transition: margin .25s ease-out;
   width: 24rem;
-  height: 100vh;
+  min-height: 100vh;
   position: fixed;
   overflow-x: hidden;
   float: left;
   z-index: 1;
   left: 0;
-  background-color: white;
-  top: -4vh;
+  background-color: whitesmoke;
 }
 
 #sidebar-wrapper .sidebar-heading {
