@@ -51,7 +51,7 @@ class Chat extends Component {
       <div className="chat container">
         <div className="row vertical-center">
           <div className="col-12 align-self-center">
-            <div className="messaging">
+            <div className="chat">
               <div className="inbox_msg">
                 <div className="mesgs">
                   <div className="msg_history">

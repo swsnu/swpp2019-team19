@@ -6,9 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const IncomingMessage = (props) => (
   <div className="incoming_msg">
-    <div className="incoming_msg_img">
-      <FontAwesomeIcon icon={faRobot} />
-    </div>
+
     <div className="received_msg">
       <div className="received_withd_msg">
         {
