@@ -6,3 +6,4 @@ sqlparse==0.3.0
 django-mysql==3.2.0
 mysql==0.0.2
 mysqlclient==1.4.5
+pymysql==0.9.3; sys_platform == 'darwin'
