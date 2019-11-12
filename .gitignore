@@ -96,8 +96,6 @@ yarn-error.log*
 __pycache__/
 local_settings.py
 
-/backend/SNUBot/community/migrations/*
-
 .env
 env/
 db.sqlite3
