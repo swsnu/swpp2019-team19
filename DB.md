@@ -1,13 +1,18 @@
 # Setting DB
+[for mac](https://daimhada.tistory.com/121)
 
 ## Install mySQL
+### Ubuntu
 ```
 sudo apt-get update
 sudo apt-get install mysql-server
 sudo ufw allow mysql
 ```
+### macOS
+follow [link](https://dev.mysql.com/downloads/mysql/) and install `.dmg` file
 
 ## Setting Korean
+### Ubuntu
 ```
 ls /etc/mysql/my.cnf -l
 ```
@@ -28,8 +33,20 @@ collation-server = utf8_unicode_ci
 init-connect='SET NAMES utf8'
 character-set-server = utf8
 ```
+### macOS
+```
+sudo vim /etc/mysql/my.cnf
+```
+and add above lines;
+
+then open up `system preferences` or `시스템 환경설정`, select MySQL
+On `Configuration` tab, add `/etc/mysql/my.cnf` to `Configuration File`
+On `Instances` tab,
+click `Stop MySQL Server` button and wait, and then click `Start MySQL Server`
+
 
 ## Start mySQL
+### Ubuntu
 ```
 sudo systemctl start mysql
 ```
@@ -37,8 +54,12 @@ if you want to auto-start when re-boot
 ```
 sudo systemctl enable mysql
 ``` 
+### macOS
+automatically set || check in `system preferences`
+
 
 ## Make Table for SNUBot
+### Ubuntu
 ```
 sudo /usr/bin/mysql -u root -p
 mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY '{Your Password}';
@@ -59,6 +80,9 @@ looks like this
 | SNUBot           | localhost | *E3BB74A6B6602A192529C9CE550704029890C658 |
 +------------------+-----------+-------------------------------------------+
 ```
+### macOS
+`/usr/local/mysql/bin/mysql -u {username} -p`
+
 
 ## Install for django
 ```
