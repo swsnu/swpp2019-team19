@@ -96,21 +96,23 @@ def boards(request):
         article_list = [
             article
             for article in Article.objects.filter(board=board_name).values(
-                "id", "title", "author", "tag", "vote"
+                "id", "title", "content", "author", "tag", "vote"
             )
         ]
     else:
         article_list = [
             article
             for article in Article.objects.filter(board=board_name, tag=tag).values(
-                "id", "title", "author", "tag", "vote"
+                "id", "title", "content", "author", "tag", "vote"
             )
         ]
     for article in article_list:
         target_user = User.objects.get(id=article["author"])
         article["author"] = target_user.username
         target_vote = Vote.objects.get(id=article["vote"])
-        article["vote"] = target_vote.like - target_vote.dislike
+        article["vote_diff"] = target_vote.like - target_vote.dislike
+        article["like"] = target_vote.like
+        article["dislike"] = target_vote.dislike
     if search_keyword != "":
         if search_criteria == "username":
             article_list = [
