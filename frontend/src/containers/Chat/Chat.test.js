@@ -77,7 +77,7 @@ describe('<ArticleCreate />', () => {
   it('renders when exist message', () => {
     const event = { target: { value: 'hi' } };
     const component = mount(chat2);
-    const wrapper = component.find('.chat');
+    const wrapper = component.find('.inbox_msg');
     expect(wrapper.length).toBe(1);
     const formControlWrapper = component.find('.write_msg');
     formControlWrapper.at(0).simulate('change', event);
