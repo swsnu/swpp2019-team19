@@ -28,6 +28,7 @@ export default function ArticleEntry(props) {
 
   const tagToText = (tag) => {
     switch (tag) {
+      case 'working':
       case 'normal': {
         return 'dark';
       }
@@ -44,7 +45,7 @@ export default function ArticleEntry(props) {
   } = props.article;
 
   return (
-    // w-25 h-25 p-3 
+    // w-25 h-25 p-3
     <div className="ArticleEntry p-2 col-xs-12 col-sm-6 col-md-4">
       <Card
         tag="a"
