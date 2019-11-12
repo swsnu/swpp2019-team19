@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
-import { Button, CardColumns } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions';
 import ArticleEntry from '../../components/ArticleEntry/ArticleEntry';
@@ -29,10 +29,9 @@ class CommunityMain extends Component {
         >
           Hot
         </Button>
-        {/* TODO : prettier cards layout */}
-        <CardColumns>
+        <div className="row">
           {hotBoardThumbnail}
-        </CardColumns>
+        </div>
         <Button
           variant="link"
           id="direct-to-all-board"
@@ -40,9 +39,9 @@ class CommunityMain extends Component {
         >
           ALL
         </Button>
-        <CardColumns>
+        <div className="row">
           {allBoardThumbnail}
-        </CardColumns>
+        </div>
       </div>
     );
   }

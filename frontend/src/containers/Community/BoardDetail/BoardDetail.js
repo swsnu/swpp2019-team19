@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import {
-  ButtonGroup, Button, InputGroup, DropdownButton, DropdownItem, FormControl, CardColumns,
+  ButtonGroup, Button, InputGroup, DropdownButton, DropdownItem, FormControl,
 } from 'react-bootstrap';
 
 import { connect } from 'react-redux';
@@ -20,7 +20,7 @@ class BoardDetail extends Component {
       searchCriteria: 'title',
       searchKeyword: '',
       boardName: this.props.match.params.boardName,
-      articlesPerRequest: 21,
+      articlesPerRequest: 18,
       tmpKeyword: '',
     }
     this.props.fetchArticles(this.state);
@@ -157,10 +157,10 @@ class BoardDetail extends Component {
               disabled={this.state.tmpKeyword.length === 1}
             >search</Button>
           </InputGroup>
-          <CardColumns>
+          <div className="row">
             {this.props.storedArticles.map(makeArticleEntry)}
-          </CardColumns>
-          {/* TODO : endless cards */}
+          </div>
+          {/* TODO : endless cards feed */}
         </div>
       </div>
     );

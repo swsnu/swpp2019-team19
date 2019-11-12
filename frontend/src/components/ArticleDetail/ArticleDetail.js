@@ -21,35 +21,37 @@ export default function ArticleDetail(props) {
     }
   };
   return (
-    <Modal
-      show={props.show}
-      onHide={props.onHide}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">
-          {props.article.title}
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <h4>{props.article.content}</h4>
-        <p>{props.article.author}</p>
-      </Modal.Body>
-      <Modal.Footer>
-        <div style={{ textAlign: 'left' }}>
-          {tagToDescription(props.article.tag)}
-        </div>
-        <Button onClick={props.like} variant="outline-primary">
-          <FontAwesomeIcon icon={faThumbsUp} />
-          {props.article.like}
-        </Button>
-        <Button onClick={props.dislike} variant="outline-danger">
-          <FontAwesomeIcon icon={faThumbsDown} />
-          {props.article.dislike}
-        </Button>
-      </Modal.Footer>
-    </Modal>
+    <div className="ArticleDetail">
+      <Modal
+        show={props.show}
+        onHide={props.onHide}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            {props.article.title}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <h4>{props.article.content}</h4>
+          <p>{props.article.author}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <div style={{ textAlign: 'left' }}>
+            {tagToDescription(props.article.tag)}
+          </div>
+          <Button onClick={props.like} variant="outline-primary">
+            <FontAwesomeIcon icon={faThumbsUp} />
+            {props.article.like}
+          </Button>
+          <Button onClick={props.dislike} variant="outline-danger">
+            <FontAwesomeIcon icon={faThumbsDown} />
+            {props.article.dislike}
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
   );
 }
