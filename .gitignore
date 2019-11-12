@@ -96,11 +96,17 @@ yarn-error.log*
 __pycache__/
 local_settings.py
 
+/backend/SNUBot/community/migrations/*
+
 .env
 env/
 db.sqlite3
 
 # Rasa
-/backend/Rasa/logs/*.*
-/backend/Rasa/models/*.*
-/backend/Rasa/graph.html
+/backend/Rasa_eng/logs/*.*
+/backend/Rasa_eng/models/*.*
+/backend/Rasa_eng/graph.html
+
+/backend/Rasa_kor/logs/*.*
+/backend/Rasa_kor/models/*.*
+/backend/Rasa_kor/graph.html
