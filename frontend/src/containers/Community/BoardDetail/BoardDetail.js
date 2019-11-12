@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import {
-  Table, ButtonGroup, Button, InputGroup, DropdownButton, DropdownItem, FormControl,
+  ButtonGroup, Button, InputGroup, DropdownButton, DropdownItem, FormControl, CardColumns,
 } from 'react-bootstrap';
 
 import { connect } from 'react-redux';
@@ -20,7 +20,7 @@ class BoardDetail extends Component {
       searchCriteria: 'title',
       searchKeyword: '',
       boardName: this.props.match.params.boardName,
-      articlesPerRequest: 20,
+      articlesPerRequest: 21,
       tmpKeyword: '',
     }
     this.props.fetchArticles(this.state);
@@ -53,13 +53,18 @@ class BoardDetail extends Component {
       });
     }
 
+    const makeArticleEntry = (article) => (
+      <ArticleEntry article={article} key={article.id} />
+    );
+
     return (
       <div className='BoardDetail'>
         <Button
+          variant='link'
           id='direct-to-board'
           onClick={() => this.props.history.push('/boards')}
         >
-          Main
+          go to main page...
         </Button>
         <div className='board-detail-view'>
           {/* {this.props.match.params.boardName === 'all' ? */}
@@ -91,24 +96,24 @@ class BoardDetail extends Component {
               variant={statusToSelected('rejected')}
               onClick={() => setAndFetch('rejected')}
             >rejected</Button>
+            <DropdownButton
+              as={InputGroup.Prepend}
+              variant='outline-secondary'
+              title={this.state.sortCriteria}
+              id='sort-criteria'
+            >
+              <DropdownItem
+                onSelect={() => this.setState({ sortCriteria: 'new' })}
+              >new</DropdownItem>
+              <DropdownItem
+                onSelect={() => this.setState({ sortCriteria: 'old' })}
+              >old</DropdownItem>
+              <DropdownItem
+                onSelect={() => this.setState({ sortCriteria: 'good' })}
+              >good</DropdownItem>
+            </DropdownButton>
           </ButtonGroup>
 
-          <DropdownButton
-            as={InputGroup.Prepend}
-            variant='outline-secondary'
-            title={this.state.sortCriteria}
-            id='sort-criteria'
-          >
-            <DropdownItem
-              onSelect={() => this.setState({ sortCriteria: 'new' })}
-            >new</DropdownItem>
-            <DropdownItem
-              onSelect={() => this.setState({ sortCriteria: 'old' })}
-            >old</DropdownItem>
-            <DropdownItem
-              onSelect={() => this.setState({ sortCriteria: 'good' })}
-            >good</DropdownItem>
-          </DropdownButton>
 
           <Button
             id='write-button'
@@ -118,19 +123,6 @@ class BoardDetail extends Component {
           >
             Write
           </Button>
-          <Table hover size='sm'>
-            <thead>
-              <tr>
-                <th>ArticleID</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>tag</th>
-              </tr>
-            </thead>
-            <tbody>
-              {articleEntries}
-            </tbody>
-          </Table>
           <InputGroup className='mb-3'>
             <DropdownButton
               as={InputGroup.Prepend}
@@ -165,8 +157,12 @@ class BoardDetail extends Component {
               disabled={this.state.tmpKeyword.length === 1}
             >search</Button>
           </InputGroup>
+          <CardColumns>
+            {this.props.storedArticles.map(makeArticleEntry)}
+          </CardColumns>
+          {/* TODO : endless cards */}
         </div>
-      </div >
+      </div>
     );
   }
 }

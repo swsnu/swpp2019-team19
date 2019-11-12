@@ -4,8 +4,7 @@ import React, { Component } from 'react';
 import { Button, CardColumns } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions';
-// import ArticleEntry from '../../components/ArticleEntry/ArticleEntry';
-import ArticleDetail from '../../components/ArticleDetail/ArticleDetail';
+import ArticleEntry from '../../components/ArticleEntry/ArticleEntry';
 
 class CommunityMain extends Component {
   constructor(props) {
@@ -16,7 +15,7 @@ class CommunityMain extends Component {
 
   render() {
     const articleParser = (article) => (
-      <ArticleDetail article={article} key={article.id} />
+      <ArticleEntry article={article} key={article.id} />
     );
     const allBoardThumbnail = this.props.storedAllBoard.map(articleParser);
     const hotBoardThumbnail = this.props.storedHotBoard.map(articleParser);
@@ -24,15 +23,18 @@ class CommunityMain extends Component {
     return (
       <div className="CommunityMain">
         <Button
+          variant="link"
           id="direct-to-hot-board"
           onClick={() => this.props.history.push('/boards/hot/')}
         >
           Hot
         </Button>
+        {/* TODO : prettier cards layout */}
         <CardColumns>
           {hotBoardThumbnail}
         </CardColumns>
         <Button
+          variant="link"
           id="direct-to-all-board"
           onClick={() => this.props.history.push('/boards/all/')}
         >
@@ -59,7 +61,7 @@ const mapDispatchToProps = (dispatch) => ({
     searchCriteria: '',
     searchKeyword: '',
     boardName: 'all',
-    articlesPerRequest: 8,
+    articlesPerRequest: 6,
   })),
   fetchHotBoard: () => dispatch(actionCreators.fetchHotBoard({
     currentPageNumber: 1,
@@ -68,7 +70,7 @@ const mapDispatchToProps = (dispatch) => ({
     searchCriteria: '',
     searchKeyword: '',
     boardName: 'hot',
-    articlesPerRequest: 8,
+    articlesPerRequest: 6,
   })),
 });
 

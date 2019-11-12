@@ -1,70 +1,55 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
 import React from 'react';
-import { Card, Button } from 'react-bootstrap';
-import { faThumbsUp } from '@fortawesome/free-regular-svg-icons';
+import { Modal, Button } from 'react-bootstrap';
+import { faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default function ArticleDetail(props) {
-  const ARTICLE_CONTENT_MAX_LEN = 100;
-  let background;
-  switch (props.article.tag) {
-    case 'normal': {
-      background = 'light';
-      break;
+  const tagToDescription = (tag) => {
+    switch (tag) {
+      case 'normal':
+        return 'this suggestion is not reviewed yet';
+      case 'working':
+        return 'we are working on it!';
+      case 'done':
+        return 'this suggestion is applied!';
+      case 'rejected':
+        return 'this suggestion was rejected';
+      default:
+        return '';
     }
-    case 'working': {
-      background = 'warning';
-      break;
-    }
-    case 'done': {
-      background = 'success';
-      break;
-    }
-    case 'rejected': {
-      background = 'secondary';
-      break;
-    }
-    default: break;
-  }
-
-  // normal working done rejected
-  let font;
-  switch (props.article.tag) {
-    case 'normal': {
-      font = 'dark';
-      break;
-    }
-    default: {
-      font = 'light';
-      break;
-    }
-  }
-  const content = props.article.content;
+  };
   return (
-    <Card bg={background} text={font} style={{ width: '18rem' }}>
-      <Card.Body>
-        <Card.Title>{props.article.title}</Card.Title>
-        <Card.Text>
-          {
-            content.length > 100
-              ? content.substr(0, ARTICLE_CONTENT_MAX_LEN).concat('...')
-              : content
-          }
-        </Card.Text>
-        <footer className="blockquote-footer">
-          <cite title="author">{props.article.author}</cite>
-        </footer>
-        <div className="upvote">
-          <FontAwesomeIcon icon={faThumbsUp} />
-          <p>{props.article.vote}</p>
+    <Modal
+      show={props.show}
+      onHide={props.onHide}
+      size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
+    >
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          {props.article.title}
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <h4>{props.article.content}</h4>
+        <p>{props.article.author}</p>
+      </Modal.Body>
+      <Modal.Footer>
+        <div style={{ textAlign: 'left' }}>
+          {tagToDescription(props.article.tag)}
         </div>
-        <Button
-          variant="light"
-          onClick={() => this.props.history}
-        >
-          ...
+        <Button onClick={props.like} variant="outline-primary">
+          <FontAwesomeIcon icon={faThumbsUp} />
+          {props.article.like}
         </Button>
-
-      </Card.Body>
-    </Card>
-  )
+        <Button onClick={props.dislike} variant="outline-danger">
+          <FontAwesomeIcon icon={faThumbsDown} />
+          {props.article.dislike}
+        </Button>
+      </Modal.Footer>
+    </Modal>
+  );
 }
