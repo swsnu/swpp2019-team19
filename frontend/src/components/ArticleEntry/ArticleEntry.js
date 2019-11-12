@@ -2,7 +2,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 
-const Board = (props) => (
+const ArticleEntry = (props) => (
   <tr className="Board">
     <th className="article_id">
       {props.id}
@@ -20,4 +20,4 @@ const Board = (props) => (
   </tr>
 );
 
-export default Board;
+export default ArticleEntry;

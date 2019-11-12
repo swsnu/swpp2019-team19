@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
-import { Table, Button } from 'reactstrap';
+import { Button, CardColumns } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions';
-import Board from '../../components/Board/Board';
+// import ArticleEntry from '../../components/ArticleEntry/ArticleEntry';
+import ArticleDetail from '../../components/ArticleDetail/ArticleDetail';
 
 class CommunityMain extends Component {
   constructor(props) {
@@ -15,56 +16,31 @@ class CommunityMain extends Component {
 
   render() {
     const articleParser = (article) => (
-      <Board
-        key={article.id}
-        id={article.id}
-        title={article.title}
-        tag={article.tag}
-        author_name={article.author}
-        clickDetail={() => {
-          this.props.history.push(`/boards/all/${article.id}`);
-        }}
-      />
+      <ArticleDetail article={article} key={article.id} />
     );
-    const allBoardEntry = this.props.storedAllBoard.map(articleParser);
-    const hotBoardEntry = this.props.storedHotBoard.map(articleParser);
+    const allBoardThumbnail = this.props.storedAllBoard.map(articleParser);
+    const hotBoardThumbnail = this.props.storedHotBoard.map(articleParser);
 
     return (
       <div className="CommunityMain">
-        <Button
-          id="direct-to-all-board"
-          onClick={() => this.props.history.push('/boards/all/')}
-        >
-          ALL
-        </Button>
-        <Table hover size="sm">
-          <thead>
-            <tr>
-              <th>ArticleID</th>
-              <th>Title</th>
-              <th>Author</th>
-              <th>tag</th>
-            </tr>
-          </thead>
-          <tbody>{allBoardEntry}</tbody>
-        </Table>
         <Button
           id="direct-to-hot-board"
           onClick={() => this.props.history.push('/boards/hot/')}
         >
           Hot
         </Button>
-        <Table hover size="sm">
-          <thead>
-            <tr>
-              <th>ArticleID</th>
-              <th>Title</th>
-              <th>Author</th>
-              <th>tag</th>
-            </tr>
-          </thead>
-          <tbody>{hotBoardEntry}</tbody>
-        </Table>
+        <CardColumns>
+          {hotBoardThumbnail}
+        </CardColumns>
+        <Button
+          id="direct-to-all-board"
+          onClick={() => this.props.history.push('/boards/all/')}
+        >
+          ALL
+        </Button>
+        <CardColumns>
+          {allBoardThumbnail}
+        </CardColumns>
       </div>
     );
   }

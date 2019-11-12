@@ -96,14 +96,14 @@ def boards(request):
         article_list = [
             article
             for article in Article.objects.filter(board=board_name).values(
-                "id", "title", "author", "tag", "vote"
+                "id", "title", "content", "author", "tag", "vote", "tag"
             )
         ]
     else:
         article_list = [
             article
             for article in Article.objects.filter(board=board_name, tag=tag).values(
-                "id", "title", "author", "tag", "vote"
+                "id", "title", "content", "author", "tag", "vote", "tag"
             )
         ]
     for article in article_list:

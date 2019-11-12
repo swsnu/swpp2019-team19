@@ -7,7 +7,7 @@ import {
 
 import { connect } from 'react-redux';
 import * as actionCreators from '../../../store/actions';
-import Board from '../../../components/Board/Board';
+import ArticleEntry from '../../../components/ArticleEntry/ArticleEntry';
 
 class BoardDetail extends Component {
   /* eslint-disable */
@@ -29,7 +29,7 @@ class BoardDetail extends Component {
 
   render() {
     const articleEntries = this.props.storedArticles.map((article) => (
-      <Board
+      <ArticleEntry
         key={article.id}
         id={article.id}
         title={article.title}
