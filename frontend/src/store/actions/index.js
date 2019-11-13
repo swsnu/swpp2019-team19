@@ -23,3 +23,10 @@ export {
 export {
   sendMessage,
 } from './chat';
+
+export {
+  fetchComment,
+  clearComment,
+  postComment,
+  deleteComment
+} from './comment';

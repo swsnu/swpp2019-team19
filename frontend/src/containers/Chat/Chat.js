@@ -20,7 +20,15 @@ class Chat extends Component {
       userInput: '',
     };
   }
-
+  scrollToBottom() {
+    const scrollHeight = this.msg_history.scrollHeight;
+    const height = this.msg_history.clientHeight;
+    const maxScrollTop = scrollHeight - height;
+    this.msg_history.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
+  }
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
   render() {
     const sendMessage = (message) => {
       this.props.sendMessage(message);
@@ -54,7 +62,11 @@ class Chat extends Component {
             <div className="messaging">
               <div className="inbox_msg">
                 <div className="mesgs">
-                  <div className="msg_history">
+                  <div className="msg_history"
+                    ref={(div) => {
+                      this.msg_history = div;
+                    }}
+                  >
                     {(chatLog.length < 1) ? (
                       <div className="short-guide">
                         <p className="title">Short Guide</p>

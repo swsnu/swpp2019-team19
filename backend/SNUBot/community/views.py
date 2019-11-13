@@ -12,8 +12,9 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
-from .models import Article, Vote
+from .models import Article, Vote, Comment
 from operator import itemgetter
+from django.shortcuts import get_object_or_404
 
 
 @require_http_methods(["GET"])
@@ -245,3 +246,32 @@ def vote(request, article_id):
     target_article.save()
     response_dict = {"like": target_vote.like, "dislike": target_vote.dislike}
     return JsonResponse(response_dict, status=200)
+
+@require_http_methods(["GET", "POST", "DELETE"])
+def comment(request, id):
+    if not request.user.is_authenticated:
+        return HttpResponse(status=401)
+    user = request.user
+    if request.method == 'GET':
+        comment = Comment.objects.filter(article = id).values('article', 'content', 'author')
+        comment_json = list(comment)
+        return JsonResponse(comment_json, status=200, safe=False)
+    elif request.method == 'POST':
+        try:
+            req_data = json.loads(request.body.decode())
+            content = req_data['content']
+        except(KeyError, JSONDecodeError):
+            return HttpResponseBadRequest()
+        article = Article.objects.get(id=id)
+        new_comment = Comment(article = article, content = content, author = user)
+        new_comment.save()
+        comments = Comment.objecst.all().values('article', 'content', 'author')
+        comment_json  = list(comments)
+        return JsonResponse(comment_json, status=201, safe=False)
+    else:
+        comment = get_object_or_404(Comment, pk=id)
+        if comment.author == user:
+            comment.delete()
+            return HttpResponse(status = 200)
+        else:
+            return HttpResponseForbidden()

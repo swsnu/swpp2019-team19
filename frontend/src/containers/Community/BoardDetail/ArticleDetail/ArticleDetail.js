@@ -12,6 +12,9 @@ class ArticleDetail extends Component {
   constructor(props) {
     super(props);
     this.props.fetchArticle(this.props.match.params.articleId);
+    this.state = {
+      content: ''
+    }
   }
 
   // static getDerivedStateFromProps(nextProps, prevState) {
@@ -31,6 +34,7 @@ class ArticleDetail extends Component {
       this.props.putVote(vote, this.props.storedArticle.id);
       // window.location.reload(false);
     };
+    const { content } = this.state;
     const { like, dislike } = this.props.storedArticle;
     return (
       <div className="ArticleDetail">
@@ -63,6 +67,23 @@ class ArticleDetail extends Component {
         >
           {dislike + (' dislike'.concat(dislike === 1 ? '' : 's'))}
         </Button>
+        <div className='comment'>
+          <div className='new-comment'>
+            <input
+              type="text"
+              id='new-comment-input'
+              value={content}
+              placeholder="input comment"
+              onChange={(e) => this.setState({ content: e.target.value() })}
+            />
+          </div>
+          {/* <Button
+            id='create-comment-button'
+            onClick={() => handleCommentCreate()}
+            disabled={!content}
+          >Comment</Button><br></br>
+          <div className='comment-list'></div> */}
+        </div>
       </div>
     );
   }
