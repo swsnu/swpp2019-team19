@@ -134,8 +134,8 @@ class BoardDetail extends Component {
                 onSelect={() => this.setState({ searchCriteria: 'title' })}
               >title</DropdownItem>
               <DropdownItem
-                onSelect={() => this.setState({ searchCriteria: 'username' })}
-              >username</DropdownItem>
+                onSelect={() => this.setState({ searchCriteria: 'nickname' })}
+              >nickname</DropdownItem>
             </DropdownButton>
             <FormControl
               id='search-keyword'

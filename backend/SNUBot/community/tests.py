@@ -1,14 +1,14 @@
 from django.test import TestCase, Client
 from .models import Article, Vote
-from django.contrib.auth.models import User
+from account.models import User
 import json
 # Create your tests here.
 
 
 class UserTestCase(TestCase):
     def setUp(self):
-        User.objects.create_user(username='test1', password='user1234')
-        User.objects.create_user(username='test2', password='user1234')
+        User.objects.create_user(username='test1', email='test1@email.com', nickname='test1', password='user1234')
+        User.objects.create_user(username='test2', email='test2@email.com', nickname='test2', password='user1234')
 
     def test_csrf(self):
         client = Client(enforce_csrf_checks=True)
@@ -20,7 +20,7 @@ class UserTestCase(TestCase):
         self.assertEqual(response.status_code, 204)
         # Get csrf token from cookie
         csrftoken = response.cookies['csrftoken'].value
-        response = client.post('/api/signup/', json.dumps({'username': 'chris', 'password': 'chris'}),
+        response = client.post('/api/signup/', json.dumps({'username': 'chris', 'email': 'chris@chris.chirs', 'nickname': 'chris', 'password': 'chris'}),
                                content_type='application/json', HTTP_X_CSRFTOKEN=csrftoken)
         self.assertEqual(response.status_code, 201)  # Pass csrf protection
 
@@ -65,26 +65,26 @@ class UserTestCase(TestCase):
 
 class ArticleTestCase(TestCase):
     def setUp(self):
-        User.objects.create_user(username="test1", password="user1234")
-        User.objects.create_user(username="test2", password="user1234")
-        User.objects.create_user(username="test3", password="user1234")
-        User.objects.create_user(username="test4", password="user1234")
-        User.objects.create_user(username="test5", password="user1234")
-        User.objects.create_user(username="test6", password="user1234")
-        User.objects.create_user(username="test7", password="user1234")
-        User.objects.create_user(username="test8", password="user1234")
-        User.objects.create_user(username="test9", password="user1234")
-        User.objects.create_user(username="test10", password="user1234")
-        User.objects.create_user(username="test11", password="user1234")
-        User.objects.create_user(username="test12", password="user1234")
-        User.objects.create_user(username="test13", password="user1234")
-        User.objects.create_user(username="test14", password="user1234")
-        User.objects.create_user(username="test15", password="user1234")
-        User.objects.create_user(username="test16", password="user1234")
-        User.objects.create_user(username="test17", password="user1234")
-        User.objects.create_user(username="test18", password="user1234")
-        User.objects.create_user(username="test19", password="user1234")
-        User.objects.create_user(username="test20", password="user1234")
+        User.objects.create_user(username="test1", email="test1@snubot.com", nickname="test1", password="user1234")
+        User.objects.create_user(username="test2", email="test2@snubot.com", nickname="test2", password="user1234")
+        User.objects.create_user(username="test3", email="test3@snubot.com", nickname="test3", password="user1234")
+        User.objects.create_user(username="test4", email="test4@snubot.com", nickname="test4", password="user1234")
+        User.objects.create_user(username="test5", email="test5@snubot.com", nickname="test5", password="user1234")
+        User.objects.create_user(username="test6", email="test6@snubot.com", nickname="test6", password="user1234")
+        User.objects.create_user(username="test7", email="test7@snubot.com", nickname="test7", password="user1234")
+        User.objects.create_user(username="test8", email="test8@snubot.com", nickname="test8", password="user1234")
+        User.objects.create_user(username="test9", email="test9@snubot.com", nickname="test9", password="user1234")
+        User.objects.create_user(username="test10", email="test10@snubot.com", nickname="test10", password="user1234")
+        User.objects.create_user(username="test11", email="test11@snubot.com", nickname="test11", password="user1234")
+        User.objects.create_user(username="test12", email="test12@snubot.com", nickname="test12", password="user1234")
+        User.objects.create_user(username="test13", email="test13@snubot.com", nickname="test13", password="user1234")
+        User.objects.create_user(username="test14", email="test14@snubot.com", nickname="test14", password="user1234")
+        User.objects.create_user(username="test15", email="test15@snubot.com", nickname="test15", password="user1234")
+        User.objects.create_user(username="test16", email="test16@snubot.com", nickname="test16", password="user1234")
+        User.objects.create_user(username="test17", email="test17@snubot.com", nickname="test17", password="user1234")
+        User.objects.create_user(username="test18", email="test18@snubot.com", nickname="test18", password="user1234")
+        User.objects.create_user(username="test19", email="test19@snubot.com", nickname="test19", password="user1234")
+        User.objects.create_user(username="test20", email="test20@snubot.com", nickname="test20", password="user1234")
         Article.objects.create(title="title1", content="content1", tag="normal", board="hot", author=User.objects.get(username="test1"))
         Article.objects.create(title="title2", content="content2", tag="normal", board="hot", author=User.objects.get(username="test2"))
         Article.objects.create(title="title3", content="content3", tag="normal", board="hot", author=User.objects.get(username="test3"))
@@ -192,22 +192,22 @@ class ArticleTestCase(TestCase):
             {'boardName': 'all'}), content_type='application/json')
         self.assertEqual(response.status_code, 400)
         response = client.post('/api/boards/', json.dumps(
-            {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "all", "sortCriteria": "new", "searchCriteria": "username", "searchKeyword": ""}), content_type='application/json')
+            {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "all", "sortCriteria": "new", "searchCriteria": "nickname", "searchKeyword": ""}), content_type='application/json')
         self.assertEqual(len(json.loads(response.content)), 20)
         response = client.post('/api/boards/', json.dumps(
-            {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "done", "sortCriteria": "new", "searchCriteria": "username", "searchKeyword": ""}), content_type='application/json')
+            {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "done", "sortCriteria": "new", "searchCriteria": "nickname", "searchKeyword": ""}), content_type='application/json')
         self.assertEqual(len(json.loads(response.content)), 20)
         response = client.post('/api/boards/', json.dumps(
             {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "all", "sortCriteria": "new", "searchCriteria": "title", "searchKeyword": "find title"}), content_type='application/json')
         self.assertEqual(len(json.loads(response.content)), 1)
         response = client.post('/api/boards/', json.dumps(
-            {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "all", "sortCriteria": "old", "searchCriteria": "username", "searchKeyword": "test"}), content_type='application/json')
+            {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "all", "sortCriteria": "old", "searchCriteria": "nickname", "searchKeyword": "test"}), content_type='application/json')
         self.assertEqual(len(json.loads(response.content)), 20)
         response = client.post('/api/boards/', json.dumps(
-            {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "all", "sortCriteria": "good", "searchCriteria": "username", "searchKeyword": ""}), content_type='application/json')
+            {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "all", "sortCriteria": "good", "searchCriteria": "nickname", "searchKeyword": ""}), content_type='application/json')
         self.assertEqual(len(json.loads(response.content)), 20)
         response = client.post('/api/boards/', json.dumps(
-            {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "all", "sortCriteria": "good", "searchCriteria": "username", "searchKeyword": ""}), content_type='application/json')
+            {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "all", "sortCriteria": "good", "searchCriteria": "nickname", "searchKeyword": ""}), content_type='application/json')
         self.assertEqual(len(json.loads(response.content)), 20)
 
 
