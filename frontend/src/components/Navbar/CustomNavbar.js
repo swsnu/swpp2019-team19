@@ -18,7 +18,7 @@ function CustomNavbar() {
         <div show={show} onHide={handleClose} id="sidebar-wrapper">
           <div className="sidebar-heading">
             <Button className="sidebar-hide-button" variant="secondary" onClick={handleClose}>
-            Close
+              Close
             </Button>
           </div>
           <div className="sidebar-body">
@@ -34,7 +34,7 @@ function CustomNavbar() {
             </Nav>
           </div>
           <div className="sidebar-footer">
-          Footer
+            Footer
           </div>
         </div>
       ) : (null)}

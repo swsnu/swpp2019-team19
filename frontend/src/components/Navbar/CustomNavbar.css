@@ -1,3 +1,7 @@
+.navbar {
+  background-color: #3f1919;
+}
+
 #sidebar-wrapper {
   font-family: 'Gothic A1', sans-serif;
   -webkit-transition: margin .25s ease-out;

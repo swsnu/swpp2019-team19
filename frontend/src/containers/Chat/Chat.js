@@ -21,6 +21,17 @@ class Chat extends Component {
     };
   }
 
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom() {
+    const boxHeight = this.msg_history.scrollHeight;
+    const height = this.msg_history.clientHeight;
+    const maxScrollTop = boxHeight - height;
+    this.msg_history.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
+  }
+
   render() {
     const sendMessage = (message) => {
       this.props.sendMessage(message);
@@ -51,10 +62,15 @@ class Chat extends Component {
       <div className="chat container">
         <div className="row vertical-center">
           <div className="col-12 align-self-center">
-            <div className="messaging">
+            <div className="chat">
               <div className="inbox_msg">
                 <div className="mesgs">
-                  <div className="msg_history">
+                  <div
+                    className="msg_history"
+                    ref={(div) => {
+                      this.msg_history = div;
+                    }}
+                  >
                     {(chatLog.length < 1) ? (
                       <div className="short-guide">
                         <p className="title">Short Guide</p>
