@@ -14,7 +14,7 @@ function CustomNavbar() {
   const handleShow = () => setShow(true);
   return (
     <>
-      <Navbar className="custom-navbar" bg="dark" expand="lg">
+      <Navbar className="custom-navbar" expand="lg">
         <Col xs={1} md={1}>
           <Button className="sidebar-show-button float-left" variant="secondary" onClick={handleShow}>
             <FontAwesomeIcon icon={faBars} size="2x" />

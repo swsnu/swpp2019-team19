@@ -1,3 +1,7 @@
+html body {
+  background-color: whitesmoke;
+}
+
 .container {
   max-width: 30vh;
   margin: auto;
