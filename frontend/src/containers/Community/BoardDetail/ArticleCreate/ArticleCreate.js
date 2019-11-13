@@ -4,8 +4,6 @@ import { Button } from 'reactstrap';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../../../store/actions';
 
-// import Article from '../../../../components/Article/Article';
-
 class ArticleCreate extends Component {
   /* eslint-disable */
   constructor(props) {

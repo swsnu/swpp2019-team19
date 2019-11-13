@@ -19,7 +19,7 @@
 - aren't you hungry?
 - hungry, aren't you?
 
-## intent:not-hungry
+## intent:not_hungry
 - I'm not hungry
 - I'm full
 - I don't think I'm hungry

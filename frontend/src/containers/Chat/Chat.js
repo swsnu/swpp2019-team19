@@ -79,7 +79,10 @@ class Chat extends Component {
                         <p>I can&apos;t tell you what I don&apos;t know.</p>
                         <p>If you want to know later or make me smarter,</p>
                         <br />
-                        <Button id="direct-to-boards" onClick={() => this.props.history.push('/boards/')}>
+                        <Button
+                          id="direct-to-boards"
+                          onClick={() => this.props.history.push('/boards/')}
+                        >
                           Go!
                         </Button>
                       </div>
@@ -97,7 +100,14 @@ class Chat extends Component {
                           userInput: event.target.value,
                         })}
                       />
-                      <Button variant="outline-dark" className="msg_send_btn" type="button" onClick={() => sendMessage(this.state.userInput)}><FontAwesomeIcon icon={faPaperPlane} /></Button>
+                      <Button
+                        variant="outline-dark"
+                        className="msg_send_btn"
+                        type="button"
+                        onClick={() => sendMessage(this.state.userInput)}
+                      >
+                        <FontAwesomeIcon icon={faPaperPlane} />
+                      </Button>
                     </div>
                   </div>
                 </div>

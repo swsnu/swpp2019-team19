@@ -7,7 +7,6 @@ import { ConnectedRouter } from 'connected-react-router';
 import Chat from './containers/Chat/Chat';
 import CommunityMain from './containers/Community/CommunityMain';
 import BoardDetail from './containers/Community/BoardDetail/BoardDetail';
-import ArticleDetail from './containers/Community/BoardDetail/ArticleDetail/ArticleDetail';
 
 import Signin from './containers/User/Signin/Signin';
 
@@ -44,11 +43,6 @@ export class App extends Component {
               path="/boards/:boardName([A-Za-z]+)/create"
               exact
               component={ArticleCreate}
-            />
-            <Route
-              path="/boards/:boardName([A-Za-z]+)/:articleId([0-9]+)"
-              exact
-              component={ArticleDetail}
             />
             <Route
               path="/boards/:boardName([A-Za-z]+)/:articleId([0-9]+)/edit"

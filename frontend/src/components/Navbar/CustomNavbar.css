@@ -9,14 +9,13 @@
   -o-transition: margin .25s ease-out;
   transition: margin .25s ease-out;
   width: 24rem;
-  height: 100vh;
+  min-height: 100vh;
   position: fixed;
   overflow-x: hidden;
   float: left;
   z-index: 1;
   left: 0;
-  background-color: white;
-  top: -4vh;
+  background-color: whitesmoke;
 }
 
 #sidebar-wrapper .sidebar-heading {
@@ -33,4 +32,13 @@
 
 #sidebar-wrapper .sidebar-footer {
   max-height: 10vh;
+}
+
+.nav-link-custom {
+  border-top: thick solid #000000;
+}
+
+.nav-link-custom-bottom {
+  border-top: thick solid #000000;
+  border-bottom: thick solid #000000;
 }
