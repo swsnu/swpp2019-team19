@@ -20,15 +20,18 @@ class Chat extends Component {
       userInput: '',
     };
   }
-  scrollToBottom() {
-    const scrollHeight = this.msg_history.scrollHeight;
-    const height = this.msg_history.clientHeight;
-    const maxScrollTop = scrollHeight - height;
-    this.msg_history.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
-  }
+
   componentDidUpdate() {
     this.scrollToBottom();
   }
+
+  scrollToBottom() {
+    const boxHeight = this.msg_history.scrollHeight;
+    const height = this.msg_history.clientHeight;
+    const maxScrollTop = boxHeight - height;
+    this.msg_history.scrollTop = maxScrollTop > 0 ? maxScrollTop : 0;
+  }
+
   render() {
     const sendMessage = (message) => {
       this.props.sendMessage(message);
@@ -59,10 +62,11 @@ class Chat extends Component {
       <div className="chat container">
         <div className="row vertical-center">
           <div className="col-12 align-self-center">
-            <div className="messaging">
+            <div className="chat">
               <div className="inbox_msg">
                 <div className="mesgs">
-                  <div className="msg_history"
+                  <div
+                    className="msg_history"
                     ref={(div) => {
                       this.msg_history = div;
                     }}
@@ -75,7 +79,10 @@ class Chat extends Component {
                         <p>I can&apos;t tell you what I don&apos;t know.</p>
                         <p>If you want to know later or make me smarter,</p>
                         <br />
-                        <Button id="direct-to-boards" onClick={() => this.props.history.push('/boards/')}>
+                        <Button
+                          id="direct-to-boards"
+                          onClick={() => this.props.history.push('/boards/')}
+                        >
                           Go!
                         </Button>
                       </div>
@@ -93,7 +100,14 @@ class Chat extends Component {
                           userInput: event.target.value,
                         })}
                       />
-                      <Button variant="outline-dark" className="msg_send_btn" type="button" onClick={() => sendMessage(this.state.userInput)}><FontAwesomeIcon icon={faPaperPlane} /></Button>
+                      <Button
+                        variant="outline-dark"
+                        className="msg_send_btn"
+                        type="button"
+                        onClick={() => sendMessage(this.state.userInput)}
+                      >
+                        <FontAwesomeIcon icon={faPaperPlane} />
+                      </Button>
                     </div>
                   </div>
                 </div>

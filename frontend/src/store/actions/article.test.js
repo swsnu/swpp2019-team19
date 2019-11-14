@@ -9,6 +9,8 @@ const stubArticle = {
   title: 'title 1',
   content: 'content 1',
   author_id: 1,
+  like: 10,
+  dislike: 0,
 };
 const stubPostedArticle = {
   id: 1,
@@ -21,6 +23,14 @@ const stubEditedArticle = {
   title: 'title 3',
   content: 'content 3',
   author_id: 1,
+};
+const stubVoteEditedArticle = {
+  id: 1,
+  title: 'title 1',
+  content: 'content 1',
+  author_id: 1,
+  like: 11,
+  dislike: 0,
 };
 const stubArticleList1 = [
   {
@@ -109,7 +119,7 @@ describe('action article', () => {
   it("'clearArticle' should clear Article correctly", (done) => {
     store.dispatch(actionCreators.clearArticle());
     const newState = store.getState();
-    expect(newState.article.articleAck).toBe(false);
+    expect(Object.keys(newState.article.article).length).toBe(0);
     done();
   });
 
@@ -176,7 +186,7 @@ describe('action article', () => {
       (articleCount, tag) => new Promise((resolve) => {
         const result = {
           status: 200,
-          data: stubArticleList1,
+          data: [1, stubArticleList1],
         };
         resolve(result);
       }),
@@ -195,7 +205,7 @@ describe('action article', () => {
       (articleCount, tag) => new Promise((resolve) => {
         const result = {
           status: 200,
-          data: stubArticleList2,
+          data: [1, stubArticleList2],
         };
         resolve(result);
       }),
@@ -214,7 +224,8 @@ describe('action article', () => {
       (articleCount, boardName, tag) => new Promise((resolve) => {
         const result = {
           status: 200,
-          data: stubArticleList3,
+          data: [1,
+            stubArticleList3],
         };
         resolve(result);
       }),
@@ -231,21 +242,58 @@ describe('action article', () => {
   it("'clearAllBoard' should clear Article correctly", (done) => {
     store.dispatch(actionCreators.clearAllBoard());
     const newState = store.getState();
-    expect(newState.article.articleListAllAck).toBe(false);
+    expect(newState.article.articleListAll.length).toBe(0);
     done();
   });
 
   it("'clearHotBoard' should clear Article correctly", (done) => {
     store.dispatch(actionCreators.clearHotBoard());
     const newState = store.getState();
-    expect(newState.article.articleListHotAck).toBe(false);
+    expect(newState.article.articleListHot.length).toBe(0);
     done();
   });
 
   it("'clearArticleList' should clear Article correctly", (done) => {
     store.dispatch(actionCreators.clearArticleList());
     const newState = store.getState();
-    expect(newState.article.articleListAck).toBe(false);
+    expect(newState.article.articleList.length).toBe(0);
     done();
+  });
+
+  it("'putVote' should put Article correctly", (done) => {
+    const spyGet = jest.spyOn(axios, 'get').mockImplementation(
+      (id) => new Promise((resolve) => {
+        const result = {
+          status: 200,
+          data: stubArticle,
+        };
+        resolve(result);
+      }),
+    );
+
+    store.dispatch(actionCreators.fetchArticle(1)).then(() => {
+      const newState = store.getState();
+      expect(newState.article.article).toBe(stubArticle);
+      expect(spyGet).toHaveBeenCalledTimes(1);
+      done();
+      const spyPut = jest.spyOn(axios, 'put').mockImplementation(
+        (id, vote) => new Promise((resolve, reject) => {
+          const result = {
+            status: 200,
+            data: stubVoteEditedArticle,
+          };
+          resolve(result);
+        }),
+      );
+
+      store
+        .dispatch(actionCreators.putVote('like', 1))
+        .then(() => {
+          const newNextState = store.getState();
+          expect(newNextState.article.article).toStrictEqual(stubVoteEditedArticle);
+          expect(spyPut).toHaveBeenCalledTimes(1);
+          done();
+        });
+    });
   });
 });

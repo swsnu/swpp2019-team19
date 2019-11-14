@@ -8,7 +8,7 @@ from django.http import (
     HttpResponseNotFound,
     HttpResponseForbidden,
 )
-from django.contrib.auth.models import User
+from account.models import User
 from django.contrib.auth import login, authenticate, logout
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
@@ -28,11 +28,14 @@ def signup(request):
     try:
         req_data = json.loads(request.body.decode())
         username = req_data["username"]
+        email = req_data["email"]
+        nickname = req_data["nickname"]
         password = req_data["password"]
     except (KeyError, JSONDecodeError):
         return HttpResponseBadRequest()
     try:
-        User.objects.create_user(username=username, password=password)
+        User.objects.create_user(
+            username=username, email=email, nickname=nickname, password=password)
     except (IntegrityError):
         return HttpResponse(status=409)
     return HttpResponse(status=201)
@@ -98,23 +101,25 @@ def boards(request):
         article_list = [
             article
             for article in Article.objects.filter(board=board_name).values(
-                "id", "title", "author", "tag", "vote"
+                "id", "title", "content", "author", "tag", "vote"
             )
         ]
     else:
         article_list = [
             article
             for article in Article.objects.filter(board=board_name, tag=tag).values(
-                "id", "title", "author", "tag", "vote"
+                "id", "title", "content", "author", "tag", "vote"
             )
         ]
     for article in article_list:
         target_user = User.objects.get(id=article["author"])
-        article["author"] = target_user.username
+        article["author"] = target_user.nickname
         target_vote = Vote.objects.get(id=article["vote"])
-        article["vote"] = target_vote.like - target_vote.dislike
+        article["vote_diff"] = target_vote.like - target_vote.dislike
+        article["like"] = target_vote.like
+        article["dislike"] = target_vote.dislike
     if search_keyword != "":
-        if search_criteria == "username":
+        if search_criteria == "nickname":
             article_list = [
                 article
                 for article in article_list
@@ -131,11 +136,13 @@ def boards(request):
             article_list, key=itemgetter("vote"), reverse=True)
     elif sort_criteria == "new":
         article_list.reverse()
-    if len(article_list) > article_count * cur_page_num:
+    max_page = math.ceil(len(article_list)/article_count)
+    if len(article_list) > article_count:
         article_list = article_list[
             article_count * (cur_page_num - 1): article_count * cur_page_num
         ]
-    return JsonResponse(article_list, safe=False)
+    return_list = [max_page, article_list]
+    return JsonResponse(return_list, safe=False)
 
 
 @require_http_methods(["POST"])
@@ -155,7 +162,7 @@ def article(request):
         "id": new_article.id,
         "title": title,
         "content": content,
-        "author": author.username,
+        "author": author.nickname,
         "like": new_vote.like,
         "dislike": new_vote.dislike,
     }
@@ -173,7 +180,7 @@ def article_detail(request, article_id):
             "id": target_article.id,
             "title": target_article.title,
             "content": target_article.content,
-            "author": target_article.author.username,
+            "author": target_article.author.nickname,
             "like": target_article.vote.like,
             "dislike": target_article.vote.dislike,
         }
@@ -196,7 +203,7 @@ def article_detail(request, article_id):
             "id": target_article.id,
             "title": target_article.title,
             "content": target_article.content,
-            "author": target_article.author.username,
+            "author": target_article.author.nickname,
             "like": target_article.vote.like,
             "dislike": target_article.vote.dislike,
         }

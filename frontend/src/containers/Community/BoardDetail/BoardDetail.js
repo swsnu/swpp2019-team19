@@ -2,12 +2,13 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import {
-  Table, ButtonGroup, Button, InputGroup, DropdownButton, DropdownItem, FormControl,
+  ButtonGroup, Button, InputGroup, DropdownButton, DropdownItem, FormControl, Pagination,
 } from 'react-bootstrap';
 
 import { connect } from 'react-redux';
 import * as actionCreators from '../../../store/actions';
-import Board from '../../../components/Board/Board';
+import ArticleEntry from '../../../components/ArticleEntry/ArticleEntry';
+import './BoardDetail.css';
 
 class BoardDetail extends Component {
   /* eslint-disable */
@@ -20,7 +21,7 @@ class BoardDetail extends Component {
       searchCriteria: 'title',
       searchKeyword: '',
       boardName: this.props.match.params.boardName,
-      articlesPerRequest: 20,
+      articlesPerRequest: 6,
       tmpKeyword: '',
     }
     this.props.fetchArticles(this.state);
@@ -28,21 +29,6 @@ class BoardDetail extends Component {
   /* eslint-disable */
 
   render() {
-    const articleEntries = this.props.storedArticles.map((article) => (
-      <Board
-        key={article.id}
-        id={article.id}
-        title={article.title}
-        tag={article.tag}
-        author_name={article.author}
-        clickDetail={() => {
-          this.props.history.push(
-            `/boards/${this.props.match.params.boardName}/${article.id}`,
-          );
-        }}
-      />
-    ));
-
     const statusToSelected = (status) => {
       return this.state.filterCriteria === status ? 'primary' : 'secondary';
     }
@@ -53,13 +39,68 @@ class BoardDetail extends Component {
       });
     }
 
+    const setCurrentPageNumberAndFetch = (num) => {
+      this.setState({ currentPageNumber: num });
+      this.props.fetchArticles({
+        ...this.state, currentPageNumber: num
+      });
+    }
+
+    const makeArticleEntry = (article) => (
+      <ArticleEntry article={article} key={article.id} />
+    );
+    let active = this.state.currentPageNumber;
+    let items = [];
+    const leftEnd = (this.state.currentPageNumber - 2 > 0) ? (this.state.currentPageNumber - 2) : (1);
+    const rightEnd = (this.state.currentPageNumber + 2 < this.props.storedPages) ? (this.state.currentPageNumber + 2) : (this.props.storedPages);
+    items.push(
+      <Pagination.First key='go-first-page' onClick={() => setCurrentPageNumberAndFetch(1)}/>
+    );
+    items.push(
+      <Pagination.Prev key='go-previous-page' onClick={() => setCurrentPageNumberAndFetch((this.state.currentPageNumber-1 > 1) ? (this.state.currentPageNumber-1) : (1))}/>
+    );
+    if(this.state.currentPageNumber > 3){
+      items.push(
+        <Pagination.Ellipsis key='go-previous-page-group' onClick={() => setCurrentPageNumberAndFetch((this.state.currentPageNumber-3))}/>
+      );
+    }
+    
+    for (let number = leftEnd; number <= rightEnd; number++) {
+      items.push(
+        <Pagination.Item key={number} className={"page"+number} active={number === active} onClick={() => setCurrentPageNumberAndFetch(number)}>
+          {number}
+        </Pagination.Item>,
+      );
+    }
+    if(this.state.currentPageNumber+2< this.props.storedPages){
+      items.push(
+        <Pagination.Ellipsis key='go-next-page-group' onClick={() => setCurrentPageNumberAndFetch((this.state.currentPageNumber+3))}/>
+      );
+    }
+    
+    items.push(
+      <Pagination.Next key='go-next-page' onClick={() => setCurrentPageNumberAndFetch((this.state.currentPageNumber< this.props.storedPages) ? (this.state.currentPageNumber+1) : ( this.props.storedPages ))}/>
+    );
+    items.push(
+      <Pagination.Last key='go-last-page' onClick={() => setCurrentPageNumberAndFetch(this.props.storedPages)}/>
+    );
+
+    const pagination = (
+      <div>
+        <Pagination size="sm">
+          {items}
+        </Pagination>
+      </div>
+    );
+
     return (
       <div className='BoardDetail'>
         <Button
+          variant='link'
           id='direct-to-board'
           onClick={() => this.props.history.push('/boards')}
         >
-          Main
+          go to main page...
         </Button>
         <div className='board-detail-view'>
           {/* {this.props.match.params.boardName === 'all' ? */}
@@ -91,24 +132,24 @@ class BoardDetail extends Component {
               variant={statusToSelected('rejected')}
               onClick={() => setAndFetch('rejected')}
             >rejected</Button>
+            <DropdownButton
+              as={InputGroup.Prepend}
+              variant='outline-secondary'
+              title={this.state.sortCriteria}
+              id='sort-criteria'
+            >
+              <DropdownItem
+                onSelect={() => this.setState({ sortCriteria: 'new' })}
+              >new</DropdownItem>
+              <DropdownItem
+                onSelect={() => this.setState({ sortCriteria: 'old' })}
+              >old</DropdownItem>
+              <DropdownItem
+                onSelect={() => this.setState({ sortCriteria: 'good' })}
+              >good</DropdownItem>
+            </DropdownButton>
           </ButtonGroup>
 
-          <DropdownButton
-            as={InputGroup.Prepend}
-            variant='outline-secondary'
-            title={this.state.sortCriteria}
-            id='sort-criteria'
-          >
-            <DropdownItem
-              onSelect={() => this.setState({ sortCriteria: 'new' })}
-            >new</DropdownItem>
-            <DropdownItem
-              onSelect={() => this.setState({ sortCriteria: 'old' })}
-            >old</DropdownItem>
-            <DropdownItem
-              onSelect={() => this.setState({ sortCriteria: 'good' })}
-            >good</DropdownItem>
-          </DropdownButton>
 
           <Button
             id='write-button'
@@ -118,19 +159,6 @@ class BoardDetail extends Component {
           >
             Write
           </Button>
-          <Table hover size='sm'>
-            <thead>
-              <tr>
-                <th>ArticleID</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>tag</th>
-              </tr>
-            </thead>
-            <tbody>
-              {articleEntries}
-            </tbody>
-          </Table>
           <InputGroup className='mb-3'>
             <DropdownButton
               as={InputGroup.Prepend}
@@ -142,8 +170,8 @@ class BoardDetail extends Component {
                 onSelect={() => this.setState({ searchCriteria: 'title' })}
               >title</DropdownItem>
               <DropdownItem
-                onSelect={() => this.setState({ searchCriteria: 'username' })}
-              >username</DropdownItem>
+                onSelect={() => this.setState({ searchCriteria: 'nickname' })}
+              >nickname</DropdownItem>
             </DropdownButton>
             <FormControl
               id='search-keyword'
@@ -165,14 +193,21 @@ class BoardDetail extends Component {
               disabled={this.state.tmpKeyword.length === 1}
             >search</Button>
           </InputGroup>
+          <div className="row">
+            {this.props.storedArticles.map(makeArticleEntry)}
+          </div>
+          <div className="board-detail-pagination">
+            {pagination}
+          </div>
         </div>
-      </div >
+      </div>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
   storedArticles: state.article.articleList,
+  storedPages : state.article.articlePages,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -16,33 +16,38 @@ const stubArticleInitialState = {
       author: 1,
       title: 'ARTICLE_TEST_TITLE_1',
       tag: 'normal',
+      content: 'ARTICLE_TEST_CONTENT_1',
     },
     {
       id: 2,
       author: 1,
       title: 'ARTICLE_TEST_TITLE_2',
       tag: 'working',
+      content: 'ARTICLE_TEST_CONTENT_2',
     },
     {
       id: 3,
       author: 1,
       title: 'ARTICLE_TEST_TITLE_3',
       tag: 'done',
+      content: 'ARTICLE_TEST_CONTENT_3',
     },
     {
       id: 4,
       author: 1,
       title: 'ARTICLE_TEST_TITLE_4',
       tag: 'rejected',
+      content: 'ARTICLE_TEST_CONTENT_4',
     },
     {
       id: 5,
       author: 1,
       title: 'ARTICLE_TEST_TITLE_5',
       tag: 'working',
+      content: 'ARTICLE_TEST_CONTENT_5',
     },
   ],
-  articleListAck: true,
+  articlePages: 1,
 };
 
 const mockStore = getMockStore(stubArticleInitialState, {}, {});
@@ -102,7 +107,7 @@ describe('<BoardDetail />', () => {
       sortCriteria: 'new',
       searchCriteria: 'title',
       searchKeyword: '',
-      articlesPerRequest: 20,
+      articlesPerRequest: 6,
       tmpKeyword: '',
     });
 
@@ -141,7 +146,7 @@ describe('<BoardDetail />', () => {
       sortCriteria: 'new',
       searchCriteria: 'title',
       searchKeyword: 'ARTICLE_TEST_TITLE_1',
-      articlesPerRequest: 20,
+      articlesPerRequest: 6,
       tmpKeyword: 'ARTICLE_TEST_TITLE_1',
     });
   });
@@ -165,7 +170,7 @@ describe('<BoardDetail />', () => {
       sortCriteria: 'new',
       searchCriteria: 'title',
       searchKeyword: '',
-      articlesPerRequest: 20,
+      articlesPerRequest: 6,
       tmpKeyword: '',
     };
     expect(spyFetchArticleList).toHaveBeenCalledTimes(1);

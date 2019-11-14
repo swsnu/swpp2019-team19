@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "dependencies": {},
   "devDependencies": {
     "babel-eslint": "^10.0.3",
     "eslint": "^6.5.1",
