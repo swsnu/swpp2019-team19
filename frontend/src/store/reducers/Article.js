@@ -12,7 +12,6 @@ import {
   CLEAR_ARTICLE_LIST,
   VOTE,
 } from '../actions/types';
-import { routerActions } from 'connected-react-router';
 
 const initialState = {
   article: {},
@@ -50,7 +49,7 @@ export default function (state = initialState, action = defaultAction) {
       return { ...state, articleList: action.articles, articlePages: action.page };
     }
     case CLEAR_ARTICLE_LIST: {
-      return { ...state, articleList: [], articlePages: 0};
+      return { ...state, articleList: [], articlePages: 0 };
     }
     case FETCH_ALL_BOARD: {
       return {
