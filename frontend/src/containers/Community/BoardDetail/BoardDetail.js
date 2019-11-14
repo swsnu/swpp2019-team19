@@ -59,11 +59,11 @@ class BoardDetail extends Component {
     items.push(
       <Pagination.Prev key='go-previous-page' onClick={() => setCurrentPageNumberAndFetch((this.state.currentPageNumber-1 > 1) ? (this.state.currentPageNumber-1) : (1))}/>
     );
-    { (this.state.currentPageNumber-3 > 1) ? (
+    if(this.state.currentPageNumber > 3){
       items.push(
         <Pagination.Ellipsis key='go-previous-page-group' onClick={() => setCurrentPageNumberAndFetch((this.state.currentPageNumber-3))}/>
-      )) : (null)
-    };
+      );
+    }
     
     for (let number = leftEnd; number <= rightEnd; number++) {
       items.push(
@@ -72,11 +72,11 @@ class BoardDetail extends Component {
         </Pagination.Item>,
       );
     }
-    { (this.state.currentPageNumber+2< this.props.storedPages) ? (
+    if(this.state.currentPageNumber+2< this.props.storedPages){
       items.push(
         <Pagination.Ellipsis key='go-next-page-group' onClick={() => setCurrentPageNumberAndFetch((this.state.currentPageNumber+3))}/>
-      )) : (null)
-    };
+      );
+    }
     
     items.push(
       <Pagination.Next key='go-next-page' onClick={() => setCurrentPageNumberAndFetch((this.state.currentPageNumber< this.props.storedPages) ? (this.state.currentPageNumber+1) : ( this.props.storedPages ))}/>
