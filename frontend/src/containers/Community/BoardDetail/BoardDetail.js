@@ -2,7 +2,7 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import {
-  ButtonGroup, Button, InputGroup, DropdownButton, DropdownItem, FormControl,
+  ButtonGroup, Button, InputGroup, DropdownButton, DropdownItem, FormControl, Pagination,
 } from 'react-bootstrap';
 
 import { connect } from 'react-redux';
@@ -20,7 +20,7 @@ class BoardDetail extends Component {
       searchCriteria: 'title',
       searchKeyword: '',
       boardName: this.props.match.params.boardName,
-      articlesPerRequest: 18,
+      articlesPerRequest: 6,
       tmpKeyword: '',
     }
     this.props.fetchArticles(this.state);
@@ -53,8 +53,36 @@ class BoardDetail extends Component {
       });
     }
 
+    const setCurrentPageNumberAndFetch = (num) => {
+      this.setState({ currentPageNumber: num });
+      this.props.fetchArticles({
+        ...this.state, currentPageNumber: num
+      });
+    }
+
     const makeArticleEntry = (article) => (
       <ArticleEntry article={article} key={article.id} />
+    );
+    let active = this.state.currentPageNumber;
+    let items = [];
+    for (let number = 1; number <= this.props.storedPages; number++) {
+      items.push(
+        <Pagination.Item key={number} active={number === active} onClick={() => setCurrentPageNumberAndFetch(number)}>
+          {number}
+        </Pagination.Item>,
+      );
+    }
+
+    const pagination = (
+      <div>
+        <Pagination size="sm">
+          <Pagination.First />
+          <Pagination.Prev />
+          {items}
+          <Pagination.Next />
+          <Pagination.Last />
+        </Pagination>
+      </div>
     );
 
     return (
@@ -160,7 +188,7 @@ class BoardDetail extends Component {
           <div className="row">
             {this.props.storedArticles.map(makeArticleEntry)}
           </div>
-          {/* TODO : endless cards feed */}
+          {pagination}
         </div>
       </div>
     );
@@ -169,6 +197,7 @@ class BoardDetail extends Component {
 
 const mapStateToProps = (state) => ({
   storedArticles: state.article.articleList,
+  storedPages : state.article.articlePages,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -65,7 +65,7 @@ export const deleteArticle = (id) => (dispatch) => (
 
 export const fetchAllBoard = (options) => (dispatch) => (
   axios.post(`${remoteURL}/api/boards/`, options).then((res) => {
-    dispatch({ type: FETCH_ALL_BOARD, articles: res.data });
+    dispatch({ type: FETCH_ALL_BOARD, articles: res.data[1] });
   })
 );
 
@@ -75,7 +75,7 @@ export const clearAllBoard = () => (dispatch) => (
 
 export const fetchHotBoard = (options) => (dispatch) => (
   axios.post(`${remoteURL}/api/boards/`, options).then((res) => {
-    dispatch({ type: FETCH_HOT_BOARD, articles: res.data });
+    dispatch({ type: FETCH_HOT_BOARD, articles: res.data[1] });
   })
 );
 
@@ -85,7 +85,7 @@ export const clearHotBoard = () => (dispatch) => (
 
 export const fetchArticleList = (options) => (dispatch) => (
   axios.post(`${remoteURL}/api/boards/`, options).then((res) => {
-    dispatch({ type: FETCH_ARTICLE_LIST, articles: res.data });
+    dispatch({ type: FETCH_ARTICLE_LIST, page: res.data[0], articles: res.data[1]});
   })
 );
 

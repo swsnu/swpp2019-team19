@@ -12,16 +12,14 @@ import {
   CLEAR_ARTICLE_LIST,
   VOTE,
 } from '../actions/types';
+import { routerActions } from 'connected-react-router';
 
 const initialState = {
   article: {},
-  articleAck: false,
   articleList: [],
-  articleListAck: false,
   articleListAll: [],
-  articleListAllAck: false,
   articleListHot: [],
-  articleListHotAck: false,
+  articlePages: 0,
 };
 const defaultAction = { type: 'default' };
 // TODO
@@ -31,13 +29,12 @@ const defaultAction = { type: 'default' };
 export default function (state = initialState, action = defaultAction) {
   switch (action.type) {
     case FETCH_ARTICLE: {
-      return { ...state, article: action.article, articleAck: true };
+      return { ...state, article: action.article };
     }
     case CLEAR_ARTICLE: {
       return {
         ...state,
         article: {},
-        articleAck: false,
       };
     }
     case POST_ARTICLE: {
@@ -47,33 +44,31 @@ export default function (state = initialState, action = defaultAction) {
       return { ...state, article: action.article };
     }
     case DELETE_ARTICLE: {
-      return { ...state, article: {}, articleAck: false };
+      return { ...state, article: {} };
     }
     case FETCH_ARTICLE_LIST: {
-      return { ...state, articleList: action.articles, articleListAck: true };
+      return { ...state, articleList: action.articles, articlePages: action.page };
     }
     case CLEAR_ARTICLE_LIST: {
-      return { ...state, articleList: [], articleListAck: false };
+      return { ...state, articleList: [], articlePages: 0};
     }
     case FETCH_ALL_BOARD: {
       return {
         ...state,
         articleListAll: action.articles,
-        articleListAllAck: true,
       };
     }
     case CLEAR_ALL_BOARD: {
-      return { ...state, articleListAll: [], articleListAllAck: false };
+      return { ...state, articleListAll: [] };
     }
     case FETCH_HOT_BOARD: {
       return {
         ...state,
         articleListHot: action.articles,
-        articleListHotAck: true,
       };
     }
     case CLEAR_HOT_BOARD: {
-      return { ...state, articleListHot: [], articleListHotAck: false };
+      return { ...state, articleListHot: [] };
     }
     case VOTE: {
       const updatedArticle = JSON.parse(JSON.stringify(state.article));
