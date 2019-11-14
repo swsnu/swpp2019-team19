@@ -14,7 +14,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
 from .models import Article, Vote
 from operator import itemgetter
-
+import math
 
 @require_http_methods(["GET"])
 @ensure_csrf_cookie
@@ -132,11 +132,13 @@ def boards(request):
         article_list = sorted(article_list, key=itemgetter("vote"), reverse=True)
     elif sort_criteria == "new":
         article_list.reverse()
-    if len(article_list) > article_count * cur_page_num:
+    max_page = math.ceil(len(article_list)/article_count)
+    if len(article_list) > article_count:
         article_list = article_list[
             article_count * (cur_page_num - 1) : article_count * cur_page_num
         ]
-    return JsonResponse(article_list, safe=False)
+    return_list = [max_page, article_list]
+    return JsonResponse(return_list, safe=False)
 
 
 @require_http_methods(["POST"])

@@ -2,12 +2,13 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import {
-  ButtonGroup, Button, InputGroup, DropdownButton, DropdownItem, FormControl,
+  ButtonGroup, Button, InputGroup, DropdownButton, DropdownItem, FormControl, Pagination,
 } from 'react-bootstrap';
 
 import { connect } from 'react-redux';
 import * as actionCreators from '../../../store/actions';
 import ArticleEntry from '../../../components/ArticleEntry/ArticleEntry';
+import './BoardDetail.css';
 
 class BoardDetail extends Component {
   /* eslint-disable */
@@ -20,7 +21,7 @@ class BoardDetail extends Component {
       searchCriteria: 'title',
       searchKeyword: '',
       boardName: this.props.match.params.boardName,
-      articlesPerRequest: 18,
+      articlesPerRequest: 6,
       tmpKeyword: '',
     }
     this.props.fetchArticles(this.state);
@@ -28,21 +29,6 @@ class BoardDetail extends Component {
   /* eslint-disable */
 
   render() {
-    const articleEntries = this.props.storedArticles.map((article) => (
-      <ArticleEntry
-        key={article.id}
-        id={article.id}
-        title={article.title}
-        tag={article.tag}
-        author_name={article.author}
-        clickDetail={() => {
-          this.props.history.push(
-            `/boards/${this.props.match.params.boardName}/${article.id}`,
-          );
-        }}
-      />
-    ));
-
     const statusToSelected = (status) => {
       return this.state.filterCriteria === status ? 'primary' : 'secondary';
     }
@@ -53,8 +39,58 @@ class BoardDetail extends Component {
       });
     }
 
+    const setCurrentPageNumberAndFetch = (num) => {
+      this.setState({ currentPageNumber: num });
+      this.props.fetchArticles({
+        ...this.state, currentPageNumber: num
+      });
+    }
+
     const makeArticleEntry = (article) => (
       <ArticleEntry article={article} key={article.id} />
+    );
+    let active = this.state.currentPageNumber;
+    let items = [];
+    const leftEnd = (this.state.currentPageNumber - 2 > 0) ? (this.state.currentPageNumber - 2) : (1);
+    const rightEnd = (this.state.currentPageNumber + 2 < this.props.storedPages) ? (this.state.currentPageNumber + 2) : (this.props.storedPages);
+    items.push(
+      <Pagination.First key='go-first-page' onClick={() => setCurrentPageNumberAndFetch(1)}/>
+    );
+    items.push(
+      <Pagination.Prev key='go-previous-page' onClick={() => setCurrentPageNumberAndFetch((this.state.currentPageNumber-1 > 1) ? (this.state.currentPageNumber-1) : (1))}/>
+    );
+    if(this.state.currentPageNumber > 3){
+      items.push(
+        <Pagination.Ellipsis key='go-previous-page-group' onClick={() => setCurrentPageNumberAndFetch((this.state.currentPageNumber-3))}/>
+      );
+    }
+    
+    for (let number = leftEnd; number <= rightEnd; number++) {
+      items.push(
+        <Pagination.Item key={number} className={"page"+number} active={number === active} onClick={() => setCurrentPageNumberAndFetch(number)}>
+          {number}
+        </Pagination.Item>,
+      );
+    }
+    if(this.state.currentPageNumber+2< this.props.storedPages){
+      items.push(
+        <Pagination.Ellipsis key='go-next-page-group' onClick={() => setCurrentPageNumberAndFetch((this.state.currentPageNumber+3))}/>
+      );
+    }
+    
+    items.push(
+      <Pagination.Next key='go-next-page' onClick={() => setCurrentPageNumberAndFetch((this.state.currentPageNumber< this.props.storedPages) ? (this.state.currentPageNumber+1) : ( this.props.storedPages ))}/>
+    );
+    items.push(
+      <Pagination.Last key='go-last-page' onClick={() => setCurrentPageNumberAndFetch(this.props.storedPages)}/>
+    );
+
+    const pagination = (
+      <div>
+        <Pagination size="sm">
+          {items}
+        </Pagination>
+      </div>
     );
 
     return (
@@ -160,7 +196,9 @@ class BoardDetail extends Component {
           <div className="row">
             {this.props.storedArticles.map(makeArticleEntry)}
           </div>
-          {/* TODO : endless cards feed */}
+          <div className="board-detail-pagination">
+            {pagination}
+          </div>
         </div>
       </div>
     );
@@ -169,6 +207,7 @@ class BoardDetail extends Component {
 
 const mapStateToProps = (state) => ({
   storedArticles: state.article.articleList,
+  storedPages : state.article.articlePages,
 });
 
 const mapDispatchToProps = (dispatch) => ({
