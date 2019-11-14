@@ -109,7 +109,7 @@ describe('action article', () => {
   it("'clearArticle' should clear Article correctly", (done) => {
     store.dispatch(actionCreators.clearArticle());
     const newState = store.getState();
-    expect(newState.article.articleAck).toBe(false);
+    expect(Object.keys(newState.article.article).length).toBe(0);
     done();
   });
 
@@ -176,7 +176,7 @@ describe('action article', () => {
       (articleCount, tag) => new Promise((resolve) => {
         const result = {
           status: 200,
-          data: stubArticleList1,
+          data: [1, stubArticleList1],
         };
         resolve(result);
       }),
@@ -195,7 +195,7 @@ describe('action article', () => {
       (articleCount, tag) => new Promise((resolve) => {
         const result = {
           status: 200,
-          data: stubArticleList2,
+          data: [1, stubArticleList2],
         };
         resolve(result);
       }),
@@ -214,7 +214,8 @@ describe('action article', () => {
       (articleCount, boardName, tag) => new Promise((resolve) => {
         const result = {
           status: 200,
-          data: stubArticleList3,
+          data: [1,
+            stubArticleList3],
         };
         resolve(result);
       }),
@@ -231,21 +232,21 @@ describe('action article', () => {
   it("'clearAllBoard' should clear Article correctly", (done) => {
     store.dispatch(actionCreators.clearAllBoard());
     const newState = store.getState();
-    expect(newState.article.articleListAllAck).toBe(false);
+    expect(newState.article.articleListAll.length).toBe(0);
     done();
   });
 
   it("'clearHotBoard' should clear Article correctly", (done) => {
     store.dispatch(actionCreators.clearHotBoard());
     const newState = store.getState();
-    expect(newState.article.articleListHotAck).toBe(false);
+    expect(newState.article.articleListHot.length).toBe(0);
     done();
   });
 
   it("'clearArticleList' should clear Article correctly", (done) => {
     store.dispatch(actionCreators.clearArticleList());
     const newState = store.getState();
-    expect(newState.article.articleListAck).toBe(false);
+    expect(newState.article.articleList.length).toBe(0);
     done();
   });
 });

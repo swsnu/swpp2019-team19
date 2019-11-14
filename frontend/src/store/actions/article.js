@@ -85,7 +85,7 @@ export const clearHotBoard = () => (dispatch) => (
 
 export const fetchArticleList = (options) => (dispatch) => (
   axios.post(`${remoteURL}/api/boards/`, options).then((res) => {
-    dispatch({ type: FETCH_ARTICLE_LIST, page: res.data[0], articles: res.data[1]});
+    dispatch({ type: FETCH_ARTICLE_LIST, page: res.data[0], articles: res.data[1] });
   })
 );
 
