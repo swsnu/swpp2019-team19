@@ -28,21 +28,6 @@ class BoardDetail extends Component {
   /* eslint-disable */
 
   render() {
-    const articleEntries = this.props.storedArticles.map((article) => (
-      <ArticleEntry
-        key={article.id}
-        id={article.id}
-        title={article.title}
-        tag={article.tag}
-        author_name={article.author}
-        clickDetail={() => {
-          this.props.history.push(
-            `/boards/${this.props.match.params.boardName}/${article.id}`,
-          );
-        }}
-      />
-    ));
-
     const statusToSelected = (status) => {
       return this.state.filterCriteria === status ? 'primary' : 'secondary';
     }
