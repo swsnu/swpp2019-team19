@@ -61,11 +61,11 @@ class BoardDetail extends Component {
     const pagination = (
       <div>
         <Pagination size="sm">
-          <Pagination.First />
-          <Pagination.Prev />
+          <Pagination.First onClick={() => setCurrentPageNumberAndFetch(1)}/>
+          <Pagination.Prev onClick={() => setCurrentPageNumberAndFetch((this.state.currentPageNumber-1 > 1) ? (this.state.currentPageNumber-1) : (1))}/>
           {items}
-          <Pagination.Next />
-          <Pagination.Last />
+          <Pagination.Next onClick={() => setCurrentPageNumberAndFetch((this.state.currentPageNumber+1< this.props.storedPages) ? (this.state.currentPageNumber+1) : ( this.props.storedPages ))}/>
+          <Pagination.Last onClick={() => setCurrentPageNumberAndFetch(this.props.storedPages)}/>
         </Pagination>
       </div>
     );
