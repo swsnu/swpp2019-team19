@@ -9,6 +9,8 @@ const stubArticle = {
   title: 'title 1',
   content: 'content 1',
   author_id: 1,
+  like: 10,
+  dislike: 0,
 };
 const stubPostedArticle = {
   id: 1,
@@ -21,6 +23,14 @@ const stubEditedArticle = {
   title: 'title 3',
   content: 'content 3',
   author_id: 1,
+};
+const stubVoteEditedArticle = {
+  id: 1,
+  title: 'title 1',
+  content: 'content 1',
+  author_id: 1,
+  like: 11,
+  dislike: 0,
 };
 const stubArticleList1 = [
   {
@@ -248,5 +258,42 @@ describe('action article', () => {
     const newState = store.getState();
     expect(newState.article.articleList.length).toBe(0);
     done();
+  });
+
+  it("'putVote' should put Article correctly", (done) => {
+    const spyGet = jest.spyOn(axios, 'get').mockImplementation(
+      (id) => new Promise((resolve) => {
+        const result = {
+          status: 200,
+          data: stubArticle,
+        };
+        resolve(result);
+      }),
+    );
+
+    store.dispatch(actionCreators.fetchArticle(1)).then(() => {
+      const newState = store.getState();
+      expect(newState.article.article).toBe(stubArticle);
+      expect(spyGet).toHaveBeenCalledTimes(1);
+      done();
+      const spyPut = jest.spyOn(axios, 'put').mockImplementation(
+        (id, vote) => new Promise((resolve, reject) => {
+          const result = {
+            status: 200,
+            data: stubVoteEditedArticle,
+          };
+          resolve(result);
+        }),
+      );
+
+      store
+        .dispatch(actionCreators.putVote('like', 1))
+        .then(() => {
+          const newNextState = store.getState();
+          expect(newNextState.article.article).toStrictEqual(stubVoteEditedArticle);
+          expect(spyPut).toHaveBeenCalledTimes(1);
+          done();
+        });
+    });
   });
 });

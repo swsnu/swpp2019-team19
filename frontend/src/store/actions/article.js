@@ -97,6 +97,7 @@ export const putVote = (vote, id) => (dispatch) => (
   axios.put(`${remoteURL}/api/vote/${id}/`, { id, vote }).then((res) => {
     dispatch({
       type: VOTE,
+      d: res.data,
       like: res.data.like,
       dislike: res.data.dislike,
     });

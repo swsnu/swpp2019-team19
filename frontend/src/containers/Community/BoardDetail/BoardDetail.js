@@ -8,6 +8,7 @@ import {
 import { connect } from 'react-redux';
 import * as actionCreators from '../../../store/actions';
 import ArticleEntry from '../../../components/ArticleEntry/ArticleEntry';
+import './BoardDetail.css';
 
 class BoardDetail extends Component {
   /* eslint-disable */
@@ -50,22 +51,44 @@ class BoardDetail extends Component {
     );
     let active = this.state.currentPageNumber;
     let items = [];
-    for (let number = 1; number <= this.props.storedPages; number++) {
+    const leftEnd = (this.state.currentPageNumber - 2 > 0) ? (this.state.currentPageNumber - 2) : (1);
+    const rightEnd = (this.state.currentPageNumber + 2 < this.props.storedPages) ? (this.state.currentPageNumber + 2) : (this.props.storedPages);
+    items.push(
+      <Pagination.First key='go-first-page' onClick={() => setCurrentPageNumberAndFetch(1)}/>
+    );
+    items.push(
+      <Pagination.Prev key='go-previous-page' onClick={() => setCurrentPageNumberAndFetch((this.state.currentPageNumber-1 > 1) ? (this.state.currentPageNumber-1) : (1))}/>
+    );
+    { (this.state.currentPageNumber-3 > 1) ? (
       items.push(
-        <Pagination.Item key={number} active={number === active} onClick={() => setCurrentPageNumberAndFetch(number)}>
+        <Pagination.Ellipsis key='go-previous-page-group' onClick={() => setCurrentPageNumberAndFetch((this.state.currentPageNumber-3))}/>
+      )) : (null)
+    };
+    
+    for (let number = leftEnd; number <= rightEnd; number++) {
+      items.push(
+        <Pagination.Item key={number} className={"page"+number} active={number === active} onClick={() => setCurrentPageNumberAndFetch(number)}>
           {number}
         </Pagination.Item>,
       );
     }
+    { (this.state.currentPageNumber+2< this.props.storedPages) ? (
+      items.push(
+        <Pagination.Ellipsis key='go-next-page-group' onClick={() => setCurrentPageNumberAndFetch((this.state.currentPageNumber+3))}/>
+      )) : (null)
+    };
+    
+    items.push(
+      <Pagination.Next key='go-next-page' onClick={() => setCurrentPageNumberAndFetch((this.state.currentPageNumber< this.props.storedPages) ? (this.state.currentPageNumber+1) : ( this.props.storedPages ))}/>
+    );
+    items.push(
+      <Pagination.Last key='go-last-page' onClick={() => setCurrentPageNumberAndFetch(this.props.storedPages)}/>
+    );
 
     const pagination = (
       <div>
         <Pagination size="sm">
-          <Pagination.First onClick={() => setCurrentPageNumberAndFetch(1)}/>
-          <Pagination.Prev onClick={() => setCurrentPageNumberAndFetch((this.state.currentPageNumber-1 > 1) ? (this.state.currentPageNumber-1) : (1))}/>
           {items}
-          <Pagination.Next onClick={() => setCurrentPageNumberAndFetch((this.state.currentPageNumber+1< this.props.storedPages) ? (this.state.currentPageNumber+1) : ( this.props.storedPages ))}/>
-          <Pagination.Last onClick={() => setCurrentPageNumberAndFetch(this.props.storedPages)}/>
         </Pagination>
       </div>
     );
@@ -173,7 +196,9 @@ class BoardDetail extends Component {
           <div className="row">
             {this.props.storedArticles.map(makeArticleEntry)}
           </div>
-          {pagination}
+          <div className="board-detail-pagination">
+            {pagination}
+          </div>
         </div>
       </div>
     );
