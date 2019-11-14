@@ -110,14 +110,14 @@ for i in range(1, 41):
 
 for j in range(1, 6):
     for i in range(1, 23):
-      title = title_list[i-1]
-    content = content_list[i-1]
-    author = User.objects.get(id=(i%40 + 2))
-    tag = 'normal'
-    article = Article(title=title, content=content, author=author, tag=tag)
-    article.save()
-    vote = Vote(article=article)
-    vote.save()
+        title = title_list[i-1]
+        content = content_list[i-1]
+        author = User.objects.get(id=(i%40 + 2))
+        tag = 'normal'
+        article = Article(title=title, content=content, author=author, tag=tag)
+        article.save()
+        vote = Vote(article=article)
+        vote.save()
 
 
 '''
