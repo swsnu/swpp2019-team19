@@ -47,14 +47,15 @@ class Vote(models.Model):
         related_name='disliker'
     )
 
+
 class Comment(models.Model):
     article = models.ForeignKey(
         Article,
         on_delete=models.CASCADE,
     )
     author = models.ForeignKey(
-            User,
-            on_delete=models.CASCADE,
-            related_name='comment_author'
-    )    
+        User,
+        on_delete=models.CASCADE,
+        related_name='comment_author'
+    )
     content = models.TextField()

@@ -12,6 +12,7 @@ class ArticleDetail extends Component {
   constructor(props) {
     super(props);
     this.props.fetchArticle(this.props.match.params.articleId);
+    this.props.fetchComment(this.props.match.params.articleId);
     this.state = {
       content: ''
     }
@@ -34,8 +35,16 @@ class ArticleDetail extends Component {
       this.props.putVote(vote, this.props.storedArticle.id);
       // window.location.reload(false);
     };
+    const handleCommentCreate = () => {
+      const { postComment } = this.props;
+      const { content } = this.state;
+      postComment(this.props.match.params.articleId, content);
+    }
+
     const { content } = this.state;
     const { like, dislike } = this.props.storedArticle;
+    const { commentList } = this.props.storedComment;
+    console.log(commentList);
     return (
       <div className="ArticleDetail">
         <Button
@@ -74,15 +83,15 @@ class ArticleDetail extends Component {
               id='new-comment-input'
               value={content}
               placeholder="input comment"
-              onChange={(e) => this.setState({ content: e.target.value() })}
+              onChange={(e) => this.setState({ content: e.target.value })}
             />
           </div>
-          {/* <Button
+          <Button
             id='create-comment-button'
             onClick={() => handleCommentCreate()}
             disabled={!content}
           >Comment</Button><br></br>
-          <div className='comment-list'></div> */}
+          <div className='comment-list'>{commentList}</div>
         </div>
       </div>
     );
@@ -91,11 +100,14 @@ class ArticleDetail extends Component {
 
 const mapStateToProps = (state) => ({
   storedArticle: state.article.article,
+  storedComment: state.comment.commentList,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   fetchArticle: (id) => dispatch(actionCreators.fetchArticle(id)),
   putVote: (vote, id) => dispatch(actionCreators.putVote(vote, id)),
+  fetchComment: (id) => dispatch(actionCreators.fetchComment(id)),
+  postComment: (id, content) => dispatch(actionCreators.postComment(id, content))
 });
 
 export default connect(
