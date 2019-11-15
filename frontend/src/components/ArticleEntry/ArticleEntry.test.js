@@ -39,6 +39,6 @@ describe('<ArticleDetail />', () => {
   it('renders', () => {
     const component = mount(articleEntry);
     const wrapper = component.find('.ArticleEntry');
-    expect(wrapper.length).toBe(1);
+    expect(wrapper.length).toBe(2);
   });
 });

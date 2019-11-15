@@ -78,7 +78,7 @@ describe('<BoardDetail />', () => {
   it('renders', () => {
     const component = mount(boardDetail);
     const wrapper = component.find('.BoardDetail');
-    expect(wrapper.length).toBe(1);
+    expect(wrapper.length).toBe(2);
     expect(spyFetchArticleList).toHaveBeenCalledTimes(1);
   });
 
