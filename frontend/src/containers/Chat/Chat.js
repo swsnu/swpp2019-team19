@@ -3,7 +3,7 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
-import { Button, FormControl } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Chat.css';
@@ -90,7 +90,7 @@ class Chat extends Component {
                   </div>
                   <div className="type_msg">
                     <div className="input_msg_write">
-                      <FormControl
+                      <Form.Control
                         className="write_msg"
                         id="input-chat"
                         aria-describedby="input-chat"

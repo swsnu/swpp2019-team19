@@ -109,6 +109,7 @@ describe('<BoardDetail />', () => {
       searchKeyword: '',
       articlesPerRequest: 6,
       tmpKeyword: '',
+      articleCreateShow: false,
     });
 
     // sortCriteria.at(3).simulate('click');
@@ -148,6 +149,7 @@ describe('<BoardDetail />', () => {
       searchKeyword: 'ARTICLE_TEST_TITLE_1',
       articlesPerRequest: 6,
       tmpKeyword: 'ARTICLE_TEST_TITLE_1',
+      articleCreateShow: false,
     });
   });
 
@@ -172,6 +174,7 @@ describe('<BoardDetail />', () => {
       searchKeyword: '',
       articlesPerRequest: 6,
       tmpKeyword: '',
+      articleCreateShow: false,
     };
     expect(spyFetchArticleList).toHaveBeenCalledTimes(1);
     normalButton.simulate('click');
@@ -210,7 +213,7 @@ describe('<BoardDetail />', () => {
     const writeButton = wrapper.find('#write-button').at(0);
 
     writeButton.simulate('click');
-    expect(history.location.pathname).toBe('/boards/all/create');
+    expect(history.location.pathname).toBe('/');
   });
 
   it('direct to board', () => {

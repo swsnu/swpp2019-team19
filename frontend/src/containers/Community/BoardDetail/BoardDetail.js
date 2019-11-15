@@ -7,7 +7,7 @@ import {
   InputGroup,
   DropdownButton,
   DropdownItem,
-  FormControl,
+  Form,
   Pagination,
   Container,
   Row,
@@ -248,7 +248,7 @@ class BoardDetail extends Component {
                   onSelect={() => this.setState({ searchCriteria: 'nickname' })}
                 >nickname</DropdownItem>
               </DropdownButton>
-              <FormControl
+              <Form.Control
                 id='search-keyword'
                 aria-describedby='search-keyword'
                 placeholder='input keyword...'

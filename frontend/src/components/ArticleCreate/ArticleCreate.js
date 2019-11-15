@@ -2,7 +2,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import {
-  Modal, Tab, Tabs, FormControl, Button,
+  Modal, Tab, Tabs, Form, Button,
 } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions';
@@ -14,6 +14,7 @@ const ArticleCreate = (props) => {
 
   return (
     <Modal
+      className="ArticleCreate"
       show={props.show}
       onHide={props.onHide}
       size="lg"
@@ -28,20 +29,21 @@ const ArticleCreate = (props) => {
 
         <Tab eventKey="write" title="Write">
           <Modal.Header>
-            <Modal.Title id="contained-modal-title-vcenter">
-              <FormControl
+            <Modal.Title id="article-write-title">
+              <Form.Control
                 placeholder="enter title ..."
                 aria-label="article-title"
-                aria-describedby="article-title"
+                id="article-title-input"
                 onChange={(e) => setTitle(e.target.value)}
               />
             </Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            <FormControl
+          <Modal.Body id="article-write-content">
+            <Form.Control
               as="textarea"
               rows="10"
               aria-label="article-content"
+              id="article-content-input"
               placeholder="enter content ..."
               onChange={(e) => setContent(e.target.value)}
             />
@@ -50,18 +52,19 @@ const ArticleCreate = (props) => {
 
         <Tab eventKey="preview" title="Preview">
           <Modal.Header>
-            <Modal.Title id="contained-modal-title-vcenter">
-              <h4>{title}</h4>
+            <Modal.Title id="article-preview-title">
+              <h4 id="article-title">{title}</h4>
             </Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            <p>{content}</p>
+          <Modal.Body id="article-preview-content">
+            <p id="article-content">{content}</p>
           </Modal.Body>
         </Tab>
 
       </Tabs>
       <Modal.Footer>
         <Button
+          id="create-article-button"
           disabled={!title || !content}
           onClick={() => {
             props.postArticle(title, content);
