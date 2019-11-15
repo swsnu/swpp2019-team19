@@ -35,10 +35,6 @@ export default function (state = initialState, action = defaultAction) {
         ...state, signupFail: false, signinFail: false,
       };
     }
-    case SIGN_IN:
-    case SIGN_OUT:
-    case VALIDATE_USERNAME:
-    case VALIDATE_USER_ID:
     case CHANGE_INFO_FAIL: {
       return { ...state, changeInfoFail: true };
     }
@@ -59,6 +55,10 @@ export default function (state = initialState, action = defaultAction) {
         user: {},
       };
     }
+    case SIGN_IN:
+    case SIGN_OUT:
+    case VALIDATE_USERNAME:
+    case VALIDATE_USER_ID:
     default:
       return {
         ...state, loadingUser: true, changeInfoFail: false, signinFail: false, signupFail: false,
