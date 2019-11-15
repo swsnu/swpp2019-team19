@@ -81,15 +81,15 @@ class AccountInformation extends Component {
             this.props.fail ?
               <Alert
                 variant={'warning'}
-              >email or username already exists</Alert> :
+              >email already exists</Alert> :
               !this.state.validPassword ?
                 <Alert
                   variant={'warning'}
-                >Password should be at least 8 characters</Alert> :
+                >New Password should be at least 8 characters</Alert> :
                 !this.state.validPasswordConfirm ?
                   <Alert
                     variant={'warning'}
-                  >Password and Password Confirm are different</Alert> :
+                  >New Password and New Password Confirm are different</Alert> :
                   <p></p>
           }
           < div className='container' >
