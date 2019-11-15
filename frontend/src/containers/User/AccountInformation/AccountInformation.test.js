@@ -27,6 +27,7 @@ describe('<AccountInformation />', () => {
   let accountinformation;
   let spyChangeInfo;
   let spyfetchUser;
+  let spyclearUser;
   beforeEach(() => {
     accountinformation = (
       <Provider store={mockStore}>
@@ -42,6 +43,9 @@ describe('<AccountInformation />', () => {
       .mockImplementation(() => (dispatch) => { });
     spyfetchUser = jest
       .spyOn(ActionCreators, 'fetchUser')
+      .mockImplementation(() => (dispatch) => { });
+    spyclearUser = jest
+      .spyOn(ActionCreators, 'clearUser')
       .mockImplementation(() => (dispatch) => { });
   });
   afterEach(() => {
@@ -162,6 +166,7 @@ describe('<AccountInformation />', () => {
       currentPassword,
       newPasswordConfirm,
     );
+    expect(spyclearUser).toHaveBeenCalledTimes(1);
   });
 
   it('input text and click button, failed wrong confirm', () => {

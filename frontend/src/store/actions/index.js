@@ -19,6 +19,7 @@ export {
   signup,
   changeInfo,
   fetchUser,
+  clearUser,
 } from './user';
 
 export {

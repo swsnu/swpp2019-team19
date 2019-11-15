@@ -153,4 +153,11 @@ describe('ActionCreators', () => {
       done();
     });
   });
+
+  it('clear user informations', (done) => {
+    store.dispatch(actionCreators.clearUser());
+    const newState = store.getState();
+    expect(Object.keys(newState.user.user).length).toBe(0);
+    done();
+  });
 });

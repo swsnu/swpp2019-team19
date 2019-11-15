@@ -10,6 +10,7 @@ export const VALIDATE_USER_ID = 'VALIDATE_USER_ID';
 export const CHANGE_INFO = 'CHANGE_INFO';
 export const CHANGE_INFO_FAIL = 'CHANGE_INFO_FAIL';
 export const FETCH_USER = 'FETCH_USER';
+export const CLEAR_USER = 'CLEAR_USER';
 
 // Article
 export const POST_ARTICLE = 'POST_ARTICLE';

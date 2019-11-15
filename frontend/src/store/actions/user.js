@@ -9,6 +9,7 @@ import {
   SIGN_UP_FAIL,
   CHANGE_INFO,
   FETCH_USER,
+  CLEAR_USER,
   CHANGE_INFO_FAIL,
 } from './types';
 
@@ -90,4 +91,8 @@ export const fetchUser = () => (dispatch) => (
       type: FETCH_USER,
     });
   })
+);
+
+export const clearUser = () => (dispatch) => (
+  dispatch({ type: CLEAR_USER })
 );
