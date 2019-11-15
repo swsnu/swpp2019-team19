@@ -76,6 +76,42 @@ def signin(request):
             return HttpResponse(status=401)
 
 
+@require_http_methods(["GET", "PUT"])
+def account(request):
+    if request.user.is_authenticated:
+        if request.method == "GET":
+            response_dict = {
+                "username": request.user.get_username(),
+                "email": request.user.email,
+                "nickname": request.user.nickname,
+            }
+            return JsonResponse(response_dict, safe=False)
+        else:
+            try:
+                req_data = json.loads(request.body.decode())
+                username = req_data["username"]
+                new_nickname = req_data["new_nickname"]
+                new_email = req_data["new_email"]
+                current_password = req_data["current_password"]
+                new_password = req_data["new_password"]
+            except (KeyError, JSONDecodeError):
+                return HttpResponseBadRequest()
+            user = authenticate(request, username=username,
+                                password=current_password)
+            if user is not None:
+                target_user = User.objects.get(username=username)
+                target_user.set_password(new_password)
+                target_user.email = new_email
+                target_user.nickname = new_nickname
+                target_user.save()
+                login(request, target_user)
+                return HttpResponse(status=204)
+            else:
+                return HttpResponse(status=401)
+    else:
+        return HttpResponse(status=401)
+
+
 @require_http_methods(["GET"])
 def signout(request):
     if request.user.is_authenticated:
