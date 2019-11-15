@@ -28,5 +28,5 @@ export {
   fetchComment,
   clearComment,
   postComment,
-  deleteComment
+  // deleteComment,
 } from './comment';

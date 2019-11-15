@@ -4,7 +4,9 @@ import React from 'react';
 
 const Comment = (props) => (
   <div className="comment">
-    {props.content} -- {props.author}
-  </div >
+    {props.content}
+    --
+    {props.author}
+  </div>
 );
 export default Comment;

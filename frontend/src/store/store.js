@@ -17,7 +17,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   article: articleReducer,
   chat: chatReducer,
-  comment: commentReducer
+  comment: commentReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

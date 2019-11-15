@@ -5,7 +5,7 @@ import { Modal, Button } from 'react-bootstrap';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch, useSelector } from 'react-redux';
-import * as actionCreators from '../../store/actions'
+import * as actionCreators from '../../store/actions';
 import Comment from '../Comment/Comment';
 
 export default function ArticleDetail(props) {
@@ -23,7 +23,7 @@ export default function ArticleDetail(props) {
         return '';
     }
   };
-  const commentSelector = state => state.comment;
+  const commentSelector = (state) => (state.comment);
 
   const dispatch = useDispatch();
   const storedComment = useSelector(commentSelector);
@@ -31,10 +31,10 @@ export default function ArticleDetail(props) {
 
   const makeCommentEntry = (comment) => (
     <Comment content={comment.content} author={comment.author} key={comment.id} />
-  )
-  const onChangeComment = e => {
-    setComment(e.target.value);
-  };
+  );
+  const onChangeComment = (e) => (
+    setComment(e.target.value)
+  );
 
   return (
     <div className="ArticleDetail">
@@ -67,17 +67,24 @@ export default function ArticleDetail(props) {
             {props.article.dislike}
           </Button>
         </Modal.Footer>
-        <div className='comment'>
-          <div className='comment-input'>
+        <div className="comment">
+          <div className="comment-input">
             <input value={newComment} onChange={onChangeComment} />
-            <Button onClick={(e) => dispatch(actionCreators.postComment(props.article.id, newComment))}>Comment</Button>
+            <Button
+              onClick={() => dispatch(actionCreators.postComment(props.article.id, newComment))}
+            >
+              Comment
+            </Button>
           </div>
-          <div className='comment-list'>{
-            storedComment.commentAck === true ? storedComment.commentList.map(makeCommentEntry) : <div>{console.log('no comment yet')}</div>
-          }
+          <div className="comment-list">
+            {
+              storedComment.commentAck === true
+                ? storedComment.commentList.map(makeCommentEntry)
+                : <div />
+            }
           </div>
         </div>
       </Modal>
-    </div >
+    </div>
   );
 }

@@ -32,7 +32,7 @@ export const VOTE = 'VOTE';
 export const SEND_QUESTION = 'SEND_QUESTION';
 export const RCV_QUESTION = 'RCV_QUESTION';
 
-//Comment
+// Comment
 export const FETCH_COMMENT = 'FETCH_COMMENT';
 export const CLEAR_COMMENT = 'CLEAR_COMMENT';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
