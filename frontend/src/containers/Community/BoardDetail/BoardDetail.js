@@ -51,38 +51,70 @@ class BoardDetail extends Component {
     );
     let active = this.state.currentPageNumber;
     let items = [];
-    const leftEnd = (this.state.currentPageNumber - 2 > 0) ? (this.state.currentPageNumber - 2) : (1);
-    const rightEnd = (this.state.currentPageNumber + 2 < this.props.storedPages) ? (this.state.currentPageNumber + 2) : (this.props.storedPages);
+    const leftEnd = (this.state.currentPageNumber - 2 > 0) ?
+      (this.state.currentPageNumber - 2) : (1);
+    const rightEnd = (this.state.currentPageNumber + 2 < this.props.storedPages) ?
+      (this.state.currentPageNumber + 2) : (this.props.storedPages);
     items.push(
-      <Pagination.First key='go-first-page' onClick={() => setCurrentPageNumberAndFetch(1)}/>
+      <Pagination.First key='go-first-page' onClick={() => setCurrentPageNumberAndFetch(1)} />
     );
     items.push(
-      <Pagination.Prev key='go-previous-page' onClick={() => setCurrentPageNumberAndFetch((this.state.currentPageNumber-1 > 1) ? (this.state.currentPageNumber-1) : (1))}/>
+      <Pagination.Prev
+        key='go-previous-page'
+        onClick={() => setCurrentPageNumberAndFetch(
+          (this.state.currentPageNumber - 1 > 1) ?
+            (this.state.currentPageNumber - 1) : (1))}
+      />
     );
-    if(this.state.currentPageNumber > 3){
+    if (this.state.currentPageNumber > 3) {
       items.push(
-        <Pagination.Ellipsis key='go-previous-page-group' onClick={() => setCurrentPageNumberAndFetch((this.state.currentPageNumber-3))}/>
+        <Pagination.Ellipsis
+          key='go-previous-page-group'
+          onClick={() => setCurrentPageNumberAndFetch(
+            (this.state.currentPageNumber - 3))}
+        />
       );
     }
-    
+
     for (let number = leftEnd; number <= rightEnd; number++) {
       items.push(
-        <Pagination.Item key={number} className={"page"+number} active={number === active} onClick={() => setCurrentPageNumberAndFetch(number)}>
+        <Pagination.Item
+          key={number}
+          className={"page" + number}
+          active={number === active}
+          onClick={() => setCurrentPageNumberAndFetch(number)}
+        >
           {number}
         </Pagination.Item>,
       );
     }
-    if(this.state.currentPageNumber+2< this.props.storedPages){
+    if (this.state.currentPageNumber + 2 < this.props.storedPages) {
       items.push(
-        <Pagination.Ellipsis key='go-next-page-group' onClick={() => setCurrentPageNumberAndFetch((this.state.currentPageNumber+3))}/>
+        <Pagination.Ellipsis
+          key='go-next-page-group'
+          onClick={() => setCurrentPageNumberAndFetch(
+            (this.state.currentPageNumber + 3)
+          )}
+        />
       );
     }
-    
+
     items.push(
-      <Pagination.Next key='go-next-page' onClick={() => setCurrentPageNumberAndFetch((this.state.currentPageNumber< this.props.storedPages) ? (this.state.currentPageNumber+1) : ( this.props.storedPages ))}/>
+      <Pagination.Next
+        key='go-next-page'
+        onClick={() => setCurrentPageNumberAndFetch(
+          (this.state.currentPageNumber < this.props.storedPages) ?
+            (this.state.currentPageNumber + 1) : (this.props.storedPages)
+        )}
+      />
     );
     items.push(
-      <Pagination.Last key='go-last-page' onClick={() => setCurrentPageNumberAndFetch(this.props.storedPages)}/>
+      <Pagination.Last
+        key='go-last-page'
+        onClick={() => setCurrentPageNumberAndFetch(
+          this.props.storedPages
+        )}
+      />
     );
 
     const pagination = (
@@ -207,7 +239,7 @@ class BoardDetail extends Component {
 
 const mapStateToProps = (state) => ({
   storedArticles: state.article.articleList,
-  storedPages : state.article.articlePages,
+  storedPages: state.article.articlePages,
 });
 
 const mapDispatchToProps = (dispatch) => ({
