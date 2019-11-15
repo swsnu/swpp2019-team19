@@ -16,6 +16,7 @@ from .models import Article, Vote
 from operator import itemgetter
 import math
 
+
 @require_http_methods(["GET"])
 @ensure_csrf_cookie
 def token(request):
@@ -40,7 +41,7 @@ def signup(request):
     return HttpResponse(status=201)
 
 
-@require_http_methods(["POST"])
+@require_http_methods(["POST", "PUT"])
 def signin(request):
     if request.method == "POST":
         try:
