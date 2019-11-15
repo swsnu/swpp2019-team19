@@ -48,6 +48,13 @@ class BoardDetail extends Component {
       });
     }
 
+    const setSortCriteriaAndFetch = (criteria) => {
+      this.setState({ sortCriteria: criteria });
+      this.props.fetchArticles({
+        ...this.state, sortCriteria: criteria
+      })
+    }
+
     const setCurrentPageNumberAndFetch = (num) => {
       this.setState({ currentPageNumber: num });
       this.props.fetchArticles({
@@ -161,13 +168,13 @@ class BoardDetail extends Component {
                   id='sort-criteria'
                 >
                   <DropdownItem
-                    onSelect={() => this.setState({ sortCriteria: 'new' })}
+                    onSelect={() => setSortCriteriaAndFetch('new')}
                   >new</DropdownItem>
                   <DropdownItem
-                    onSelect={() => this.setState({ sortCriteria: 'old' })}
+                    onSelect={() => setSortCriteriaAndFetch('old')}
                   >old</DropdownItem>
                   <DropdownItem
-                    onSelect={() => this.setState({ sortCriteria: 'good' })}
+                    onSelect={() => setSortCriteriaAndFetch('good')}
                   >good</DropdownItem>
                 </DropdownButton>
               </Col>

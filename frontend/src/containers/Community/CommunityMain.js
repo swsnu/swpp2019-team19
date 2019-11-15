@@ -2,7 +2,9 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
-import { Button, Row, Col, Container } from 'react-bootstrap';
+import {
+  Button, Row, Col, Container,
+} from 'react-bootstrap';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions';
 import ArticleEntry from '../../components/ArticleEntry/ArticleEntry';
