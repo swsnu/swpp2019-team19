@@ -5,6 +5,12 @@ import * as actionCreators from './user';
 import store from '../store';
 // promise reject가 401 status를 받는 상황인지?
 
+const stubUser = {
+  username: 'test1',
+  nickname: 'testnick',
+  email: 'test@email.com',
+};
+
 const status200 = new Promise((resolve) => {
   const result = {
     status: 200,
@@ -97,15 +103,54 @@ describe('ActionCreators', () => {
     });
   });
 
-  it("'changeInfo' should post User info correctly", (done) => {
+  it('changeInfo should change account informations', (done) => {
     const spy = jest
       .spyOn(axios, 'put')
       .mockImplementation(
-        (username, currentPassword, newPassword) => status200,
+        (username, newnickname, newemail, currentPassword, newPassword) => status200,
       );
 
     store.dispatch(actionCreators.changeInfo());
     expect(spy).toHaveBeenCalledTimes(1);
     done();
+  });
+
+  it('changeInfo failed to change', (done) => {
+    const spy = jest
+      .spyOn(axios, 'put')
+      .mockImplementation(
+        (username, newnickname) => new Promise((resolve, reject) => {
+          const result = {
+            response: {
+              status: 401,
+            },
+          };
+          reject(result);
+        }),
+      );
+    store.dispatch(actionCreators.changeInfo('email', 'username', 'password')).then(() => {
+      const newState = store.getState();
+      expect(newState.user.changeInfoFail).toBe(true);
+      expect(spy).toHaveBeenCalledTimes(1);
+      done();
+    });
+  });
+
+  it('fectch user informations', (done) => {
+    const spy = jest.spyOn(axios, 'get').mockImplementation(
+      (id) => new Promise((resolve) => {
+        const result = {
+          status: 200,
+          data: stubUser,
+        };
+        resolve(result);
+      }),
+    );
+    store.dispatch(actionCreators.fetchUser()).then(() => {
+      const newState = store.getState();
+      expect(newState.user.user).toBe(stubUser);
+      expect(spy).toHaveBeenCalledTimes(1);
+      done();
+    });
   });
 });

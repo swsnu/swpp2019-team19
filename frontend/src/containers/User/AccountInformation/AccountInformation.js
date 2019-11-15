@@ -22,17 +22,17 @@ class AccountInformation extends Component {
       newPasswordConfirm: '',
       validPassword: true,
       validPasswordConfirm: true,
-      dataloaded: false,
+      // dataloaded: false,
     };
     const session_name = sessionStorage.getItem("username");
     const session_id = sessionStorage.getItem("sessionid");
-    // console.log(session_name);
+    // this.state.username = session_name;
     if (session_id === null) {
-      this.props.history.push.history('/signin');
+      this.props.history.push('/signin');
     }
     else {
       this.props.fetchUser();
-      console.log(session_name);
+      // console.log(session_name);
       // const { username, email } = this.props.storedUser;
       // this.state.username = username;
       // console.log(this.props.user.username);
@@ -45,18 +45,23 @@ class AccountInformation extends Component {
       // this.setState({ username: this.props.storedUser.username + 1 });
       // this.setState({ newnickname: this.props.storedUser.nickname + 1 });
       // this.setState({ newemail: this.props.storedUser.email + 1 });
-      console.log(this.state.usernaem);
-      console.log(this.state.nickname);
-      this.state.dataloaded = true;
+      // console.log(this.state.usernaem);
+      // console.log(this.state.nickname);
+      // this.state.dataloaded = true;
+      // console.log(this.state.dataloaded);
     }
   }
 
-  // componentDidMount() {
-  //   this.props.fetchUser()
-  //     .then(response => response.json())
-  //     .then(json => {
-  //       this.setState({ username: json.usernaem });
-  //     });
+  // componentWillMount() {
+  //   // this.props.fetchUser()
+  //   //   .then(response => response.json())
+  //   //   .then(json => {
+  //   //     this.setState({ username: json.usernaem });
+  //   //   });
+  //   this.props.fetchUser();
+  //   this.setState({ username: this.props.storedUser.username });
+  //   this.setState({ newnickname: this.props.storedUser.nickname });
+  //   this.setState({ newemail: this.props.storedUser.email });
   // }
 
   // getInitialState() {
@@ -76,18 +81,20 @@ class AccountInformation extends Component {
 
     const ChangeInfoHandler = () => {
       // const { username, nickname, email } = this.props.storedUser;
-      const username = this.props.storedUser.username;
+      // const username = this.props.storedUser.username;
       // const nickname = this.props.user.nickname;
-      console.log(username);
+      // console.log(username);
       // console.log(nickname);
-      // console.log(email);
-      this.setState({ username: username });
+      // console.log(email);  
+      // this.setState({ username: username });
+      const username = this.state.username;
       const newnickname = this.state.newnickname;
       const newemail = this.state.newemail;
       // const username = this.state.username;
       // const username = username;
       const currentPassword = this.state.currentPassword;
       const newPassword = this.state.newPassword;
+
       const newPasswordConfirm = this.state.newPasswordConfirm;
       this.setState({ currentPassword: '', newPassword: '', newPasswordConfirm: '' });
 
@@ -101,12 +108,13 @@ class AccountInformation extends Component {
         // console.log(newnickname);
         // console.log(newemail);
         this.props.changeInfo(username, newnickname, newemail, currentPassword, newPassword);
+        this.setState({ currentPassword: '', newPassword: '', newPasswordConfirm: '' });
       }
     };
 
     return (
 
-      <div className='AccountInfo' >
+      <div className='AccountInformation' >
         {
           this.props.fail ?
             <Alert
@@ -133,7 +141,7 @@ class AccountInformation extends Component {
                   <h5 className='card-title text-center'>Change Your Account</h5>
                   <form className='form-account'>
                     <div className='username'>
-                      <label>{this.state.username}</label>
+                      <label>USERNAME SHOULD BE APPEAR HERE</label>
                     </div>
                     <hr></hr>
                     <div className='form-label-group-account'>
@@ -145,7 +153,6 @@ class AccountInformation extends Component {
                         value={this.state.username}
                         onChange={(event) => this.setState({ username: event.target.value })}
                         required autoFocus
-                        disabled
                       />
                       <label>username</label>
                     </div>
@@ -217,7 +224,7 @@ class AccountInformation extends Component {
                       className='btn btn-lg btn-primary btn-block text-uppercase'
                       type='submit'
                       onClick={() => ChangeInfoHandler()}
-                      disabled={!this.state.newemail || !this.state.newPassword}
+                      disabled={!this.state.username || !this.state.newemail || !this.state.newPassword}
                     >Submit</Button>
                   </form>
                 </div>
@@ -232,6 +239,7 @@ class AccountInformation extends Component {
 
 const mapStateToProps = (state) => ({
   storedUser: state.user.user,
+  fail: state.user.changeInfoFail,
 });
 
 const mapDispatchToProps = (dispatch) => ({
