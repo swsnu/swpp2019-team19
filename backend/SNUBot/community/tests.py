@@ -62,6 +62,29 @@ class UserTestCase(TestCase):
         response = client.get('/api/signout/')
         self.assertEqual(response.status_code, 401)
 
+    def test_accountinfo_change(self):
+        client = Client()
+        #not authenticated
+        response = client.post('/api/account/', json.dumps(
+            {'username': 'test1'}), content_type='application/json')
+        self.assertEqual(response.status_code, 404)
+        #signin for authentication
+        response = client.post('/api/signin/', json.dumps(
+            {'username': 'test1', 'password': 'user1234'}), content_type='application/json')
+        self.assertEqual(response.status_code, 204)
+        #wrong contents put
+        response = client.put('/api/account/', json.dumps(
+            {'username': 'test1',}), content_type='application/json')
+        self.assertEqual(response.status_code, 400)
+        #failed second authentication 
+        response = client.put('/api/account/', json.dumps(
+            {'username': 'test1', 'new_nickname': 'test1', 'current_password': 'user123', 'new_password': 'user1234'}), content_type='application/json')
+        self.assertEqual(response.status_code, 401)
+        #succeed to change info 
+        response = client.put('/api/signin/', json.dumps(
+            {'username': 'test1', 'new_nickname': 'test1', 'current_password': 'user1234', 'new_password': 'user1234'}), content_type='application/json')
+        self.assertEqual(response.status_code, 204)
+
 
 class ArticleTestCase(TestCase):
     def setUp(self):
@@ -193,22 +216,22 @@ class ArticleTestCase(TestCase):
         self.assertEqual(response.status_code, 400)
         response = client.post('/api/boards/', json.dumps(
             {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "all", "sortCriteria": "new", "searchCriteria": "nickname", "searchKeyword": ""}), content_type='application/json')
-        self.assertEqual(len(json.loads(response.content)), 20)
+        self.assertEqual(len(json.loads(response.content)[1]), 20)
         response = client.post('/api/boards/', json.dumps(
             {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "done", "sortCriteria": "new", "searchCriteria": "nickname", "searchKeyword": ""}), content_type='application/json')
-        self.assertEqual(len(json.loads(response.content)), 20)
+        self.assertEqual(len(json.loads(response.content)[1]), 20)
         response = client.post('/api/boards/', json.dumps(
             {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "all", "sortCriteria": "new", "searchCriteria": "title", "searchKeyword": "find title"}), content_type='application/json')
-        self.assertEqual(len(json.loads(response.content)), 1)
+        self.assertEqual(len(json.loads(response.content)[1]), 1)
         response = client.post('/api/boards/', json.dumps(
             {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "all", "sortCriteria": "old", "searchCriteria": "nickname", "searchKeyword": "test"}), content_type='application/json')
-        self.assertEqual(len(json.loads(response.content)), 20)
+        self.assertEqual(len(json.loads(response.content)[1]), 20)
         response = client.post('/api/boards/', json.dumps(
             {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "all", "sortCriteria": "good", "searchCriteria": "nickname", "searchKeyword": ""}), content_type='application/json')
-        self.assertEqual(len(json.loads(response.content)), 20)
+        self.assertEqual(len(json.loads(response.content)[1]), 20)
         response = client.post('/api/boards/', json.dumps(
             {"boardName": "all", "articlesPerRequest": 20, "currentPageNumber": 1, "filterCriteria": "all", "sortCriteria": "good", "searchCriteria": "nickname", "searchKeyword": ""}), content_type='application/json')
-        self.assertEqual(len(json.loads(response.content)), 20)
+        self.assertEqual(len(json.loads(response.content)[1]), 20)
 
 
     def test_article(self):
