@@ -9,7 +9,8 @@ class UserTestCase(TestCase):
     def setUp(self):
         User.objects.create_user(username='test1', email='test1@email.com', nickname='test1', password='user1234')
         User.objects.create_user(username='test2', email='test2@email.com', nickname='test2', password='user1234')
-
+        User.objects.create_user(username='changeinfo', email='changeinfo@email.com', nickname='changeinfo', password='user1234')
+    
     def test_csrf(self):
         client = Client(enforce_csrf_checks=True)
         response = client.post('/api/signup/', json.dumps({'username': 'chris', 'password': 'chris'}),
@@ -61,6 +62,31 @@ class UserTestCase(TestCase):
         self.assertEqual(response.status_code, 204)
         response = client.get('/api/signout/')
         self.assertEqual(response.status_code, 401)
+
+    def test_accountinfo_change(self):
+        client = Client()
+        #not authenticated
+        response = client.put('/api/account/', json.dumps(
+            {'username': 'changeinfo'}), content_type='application/json')
+        self.assertEqual(response.status_code, 401)
+        #signin for authentication
+        response = client.post('/api/signin/', json.dumps(
+            {'username': 'changeinfo', 'password': 'user1234'}), content_type='application/json')
+        self.assertEqual(response.status_code, 204)
+        #fetch user info
+        response = client.get('api/account/', {'name': 'changeinfo', 'email': 'changeinfo@email.com', 'nickname': 'changeinfo'})
+        #wrong contents put
+        response = client.put('/api/account/', json.dumps(
+            {'username': 'changeinfo',}), content_type='application/json')
+        self.assertEqual(response.status_code, 400)
+        #failed second authentication 
+        response = client.put('/api/account/', json.dumps(
+            {'username': 'changeinfo', 'new_nickname': 'changeinfo', 'new_email': 'changeinfo@email.com', 'current_password': 'user123', 'new_password': 'user1234'}), content_type='application/json')
+        self.assertEqual(response.status_code, 401)
+        #succeed to change info 
+        response = client.put('/api/signin/', json.dumps(
+            {'username': 'changeinfo', 'new_nickname': 'changeinfo', 'new_email': 'changeinfo@email.com', 'current_password': 'user1234', 'new_password': 'user1234'}), content_type='application/json')
+        self.assertEqual(response.status_code, 204)
 
 
 class ArticleTestCase(TestCase):

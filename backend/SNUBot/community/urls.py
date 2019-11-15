@@ -9,5 +9,6 @@ urlpatterns = [
     path('boards/', views.boards),
     path('article/', views.article),
     path('article/<int:article_id>/', views.article_detail),
-    path('vote/<int:article_id>/', views.vote)
+    path('vote/<int:article_id>/', views.vote),
+    path('account/', views.account),
 ]
