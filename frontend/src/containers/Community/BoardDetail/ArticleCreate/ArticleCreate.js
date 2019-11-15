@@ -1,6 +1,6 @@
 /* eslint-disable react/prefer-stateless-function */
 import React, { Component } from 'react';
-import { Button } from 'reactstrap';
+import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../../../store/actions';
 
