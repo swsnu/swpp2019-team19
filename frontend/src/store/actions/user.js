@@ -8,6 +8,8 @@ import {
   SIGN_UP,
   SIGN_UP_FAIL,
   CHANGE_INFO,
+  FETCH_USER,
+  CHANGE_INFO_FAIL,
 } from './types';
 
 const remoteURL = 'http://localhost:8000';
@@ -18,6 +20,7 @@ axios.defaults.withCredentials = true;
 export const signin = (username, password) => (dispatch) => (
   axios.post(`${remoteURL}/api/signin/`, { username, password }).then(() => {
     sessionStorage.setItem('sessionid', Cookie.get().sessionid);
+    sessionStorage.setItem('username', username);
     dispatch({
       type: SIGN_IN,
     });
@@ -34,6 +37,7 @@ export const signin = (username, password) => (dispatch) => (
 export const signout = () => (dispatch) => (
   axios.get(`${remoteURL}/api/signout/`).then(() => {
     sessionStorage.removeItem('sessionid');
+    sessionStorage.removeItem('username');
     dispatch({ type: SIGN_OUT });
   })
 );
@@ -53,10 +57,37 @@ export const signup = (email, username, password) => (dispatch) => (
   })
 );
 
-export const changeInfo = (username, currentPassword, newPassword) => (dispatch) => (
-  axios.put(`${remoteURL}/api/signup/`, { username, current_password: currentPassword, new_password: newPassword }).then(() => {
+// eslint-disable-next-line max-len
+export const changeInfo = (username, newnickname, newemail, currentPassword, newPassword) => (dispatch) => (
+  axios.put(`${remoteURL}/api/account/`, {
+    // eslint-disable-next-line object-shorthand
+    username,
+    new_nickname: newnickname,
+    new_email: newemail,
+    current_password: currentPassword,
+    new_password: newPassword,
+  }).then(() => {
     dispatch({
       type: CHANGE_INFO,
+    });
+  }, (error) => {
+    if (error.response.status === 401 || error.response.status === 400) {
+      dispatch({
+        type: CHANGE_INFO_FAIL,
+      });
+      dispatch(push('/account'));
+    }
+  })
+);
+
+export const fetchUser = () => (dispatch) => (
+  axios.get(`${remoteURL}/api/account/`).then((res) => {
+    dispatch({
+      username: res.data.username,
+      nickname: res.data.nickname,
+      email: res.data.email,
+      user: res.data,
+      type: FETCH_USER,
     });
   })
 );

@@ -8,6 +8,8 @@ export const SIGN_UP_FAIL = 'SIGN_UP_FAIL';
 export const VALIDATE_USERNAME = 'VALIDATE_USERNAME';
 export const VALIDATE_USER_ID = 'VALIDATE_USER_ID';
 export const CHANGE_INFO = 'CHANGE_INFO';
+export const CHANGE_INFO_FAIL = 'CHANGE_INFO_FAIL';
+export const FETCH_USER = 'FETCH_USER';
 
 // Article
 export const POST_ARTICLE = 'POST_ARTICLE';

@@ -18,6 +18,7 @@ export {
   signout,
   signup,
   changeInfo,
+  fetchUser,
 } from './user';
 
 export {

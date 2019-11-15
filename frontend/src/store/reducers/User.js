@@ -7,9 +7,12 @@ import {
   VALIDATE_USERNAME,
   VALIDATE_USER_ID,
   CHANGE_INFO,
+  FETCH_USER,
 } from '../actions/types';
 
 const initialState = {
+  user: {},
+  userAck: false,
   signinFail: false,
   signupFail: false,
 };
@@ -34,9 +37,16 @@ export default function (state = initialState, action = defaultAction) {
     case VALIDATE_USERNAME:
     case VALIDATE_USER_ID:
     case CHANGE_INFO:
+    case FETCH_USER: {
+      return {
+        ...state,
+        user: action.user,
+        userAck: true,
+      };
+    }
     default:
       return {
-        ...state, signinFail: false, signupFail: false,
+        ...state, signinFail: false, signupFail: false, userAck: false,
       };
   }
 }
