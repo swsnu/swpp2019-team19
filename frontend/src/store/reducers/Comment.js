@@ -7,7 +7,8 @@ import {
 
 const initialState = {
   commentList: [],
-  commentAck: false
+  commentPage: 0,
+  commentAck: false,
 }
 const defaultAction = { type: 'default' };
 

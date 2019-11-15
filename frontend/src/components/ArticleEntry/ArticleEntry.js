@@ -5,6 +5,10 @@ import { Card } from 'react-bootstrap';
 import { faThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ArticleDetail from '../ArticleDetail/ArticleDetail';
+// import Comment from '../Comment/Comment'
+import { useDispatch } from 'react-redux';
+import * as actionCreators from '../../store/actions'
+
 
 export default function ArticleEntry(props) {
   const ARTICLE_CONTENT_MAX_LEN = 100;
@@ -44,12 +48,13 @@ export default function ArticleEntry(props) {
     tag, content, title, author,
   } = props.article;
 
+  const dispatch = useDispatch();
   return (
     // w-25 h-25 p-3
     <div className="ArticleEntry p-2 col-xs-12 col-sm-6 col-md-4">
       <Card
         tag="a"
-        onClick={() => setModalShow(true)}
+        onClick={(e) => { setModalShow(true); dispatch(actionCreators.fetchComment(props.article.id)) }}
         bg={tagToBg(tag)}
         text={tagToText(tag)}
         style={{ width: '18rem' }}
@@ -77,6 +82,7 @@ export default function ArticleEntry(props) {
         </Card.Footer> */}
       </Card>
       <ArticleDetail
+        {...console.log('article_detail85')}
         article={props.article}
         show={modalShow}
         onHide={() => setModalShow(false)}
