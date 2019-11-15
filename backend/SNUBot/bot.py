@@ -108,18 +108,17 @@ for i in range(1, 41):
     user = User.objects.create_user(username=username, email=email, nickname=nickname, password=password)
     user.save()
 
-for i in range(1, 23):
-    title = title_list[i-1]
-    content = content_list[i-1]
-    author = User.objects.get(id=(i%40 + 2))
-    tag = 'normal'
-    article = Article(title=title, content=content, author=author, tag=tag)
-    article.save()
+for j in range(1, 6):
+    for i in range(1, 23):
+        title = title_list[i-1]
+        content = content_list[i-1]
+        author = User.objects.get(id=(i%40 + 2))
+        tag = 'normal'
+        article = Article(title=title, content=content, author=author, tag=tag)
+        article.save()
+        vote = Vote(article=article)
+        vote.save()
 
-for i in range(1, 23):
-    article = Article.objects.get(id=i)
-    vote = Vote(article=article)
-    vote.save()
 
 '''
 Vote 세팅

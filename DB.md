@@ -66,7 +66,7 @@ mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY '{Your Password}';
 mysql> CREATE DATABASE SNUBot;
 mysql> CREATE USER 'SNUBot'@'localhost' IDENTIFIED BY 'SNUBot';
 mysql> FLUSH PRIVILEGES;
-mysql> GRANT ALL PRIVILEGES ON SNUBot.* to SNUBot@localhost;
+mysql> GRANT ALL PRIVILEGES ON *.* to SNUBot@localhost;
 mysql> FLUSH PRIVILEGES;
 mysql> SELECT User, Host, authentication_string FROM mysql.user;
 looks like this
@@ -175,7 +175,7 @@ WHERE author_id=20;
 if you want to remove previous database
 ```
 sudo /usr/bin/mysql -u SNUBot -p
-mysql> DROP DATABASE SNUBot
+mysql> DROP DATABASE SNUBot;
 ```
 
 ## mySQL Document

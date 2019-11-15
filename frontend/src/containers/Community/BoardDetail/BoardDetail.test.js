@@ -47,7 +47,7 @@ const stubArticleInitialState = {
       content: 'ARTICLE_TEST_CONTENT_5',
     },
   ],
-  articleListAck: true,
+  articlePages: 1,
 };
 
 const mockStore = getMockStore(stubArticleInitialState, {}, {});
@@ -107,7 +107,7 @@ describe('<BoardDetail />', () => {
       sortCriteria: 'new',
       searchCriteria: 'title',
       searchKeyword: '',
-      articlesPerRequest: 18,
+      articlesPerRequest: 6,
       tmpKeyword: '',
     });
 
@@ -146,7 +146,7 @@ describe('<BoardDetail />', () => {
       sortCriteria: 'new',
       searchCriteria: 'title',
       searchKeyword: 'ARTICLE_TEST_TITLE_1',
-      articlesPerRequest: 18,
+      articlesPerRequest: 6,
       tmpKeyword: 'ARTICLE_TEST_TITLE_1',
     });
   });
@@ -170,7 +170,7 @@ describe('<BoardDetail />', () => {
       sortCriteria: 'new',
       searchCriteria: 'title',
       searchKeyword: '',
-      articlesPerRequest: 18,
+      articlesPerRequest: 6,
       tmpKeyword: '',
     };
     expect(spyFetchArticleList).toHaveBeenCalledTimes(1);
