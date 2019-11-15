@@ -17,6 +17,7 @@ import {
 import { connect } from 'react-redux';
 import * as actionCreators from '../../../store/actions';
 import ArticleEntry from '../../../components/ArticleEntry/ArticleEntry';
+import ArticleCreate from '../../../components/ArticleCreate/ArticleCreate';
 import './BoardDetail.css';
 
 class BoardDetail extends Component {
@@ -32,12 +33,17 @@ class BoardDetail extends Component {
       boardName: this.props.match.params.boardName,
       articlesPerRequest: 6,
       tmpKeyword: '',
+      articleCreateShow: false,
     }
     this.props.fetchArticles(this.state);
   }
   /* eslint-disable */
 
   render() {
+    const setArticleCreateShow = (input_bool) => {
+      this.setState({ articleCreateShow: input_bool });
+    }
+
     const statusToSelected = (status) => {
       return this.state.filterCriteria === status ? 'primary' : 'secondary';
     }
@@ -216,9 +222,7 @@ class BoardDetail extends Component {
                   className="float-right"
                   float="right"
                   id='write-button'
-                  onClick={() => {
-                    this.props.history.push('/boards/all/create');
-                  }}
+                  onClick={() => setArticleCreateShow(true)}
                 >
                   Write
                 </Button>
@@ -270,6 +274,10 @@ class BoardDetail extends Component {
           </Col>
           <Col md={1} lg={2}></Col>
         </Row>
+        <ArticleCreate
+          show={this.state.articleCreateShow}
+          onHide={() => setArticleCreateShow(false)}
+        />
       </Container>
     );
   }
