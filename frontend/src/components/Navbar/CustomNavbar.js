@@ -28,7 +28,8 @@ function CustomNavbar() {
           <div className="sidebar-body">
             <Nav
               id="community-group"
-              className="flex-column list-group list-group-flush">
+              className="flex-column list-group list-group-flush"
+            >
               <Nav.Link
                 href="http://localhost:3000/chat"
                 className="nav-link-custom list-group-item list-group-item-action bg-light"
