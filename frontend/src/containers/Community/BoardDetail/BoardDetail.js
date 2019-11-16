@@ -174,12 +174,15 @@ class BoardDetail extends Component {
                   id='sort-criteria'
                 >
                   <DropdownItem
+                    id='sort-by-new'
                     onSelect={() => setSortCriteriaAndFetch('new')}
                   >new</DropdownItem>
                   <DropdownItem
+                    id='sort-by-old'
                     onSelect={() => setSortCriteriaAndFetch('old')}
                   >old</DropdownItem>
                   <DropdownItem
+                    id='sort-by-good'
                     onSelect={() => setSortCriteriaAndFetch('good')}
                   >good</DropdownItem>
                 </DropdownButton>
@@ -242,9 +245,11 @@ class BoardDetail extends Component {
                 id='search-criteria'
               >
                 <DropdownItem
+                  id='search-by-title'
                   onSelect={() => this.setState({ searchCriteria: 'title' })}
                 >title</DropdownItem>
                 <DropdownItem
+                  id='search-by-nickname'
                   onSelect={() => this.setState({ searchCriteria: 'nickname' })}
                 >nickname</DropdownItem>
               </DropdownButton>

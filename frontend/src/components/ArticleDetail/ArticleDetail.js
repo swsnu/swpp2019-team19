@@ -23,8 +23,8 @@ const ArticleDetail = (props) => {
         return '';
     }
   };
-  // TODO : fetch articles... somewhere
-  // TODO : if necessary, move to containers
+
+  // TODO : move to container
   return (
     <div className="ArticleDetail">
       <Modal
@@ -48,6 +48,7 @@ const ArticleDetail = (props) => {
             {tagToDescription(props.article.tag)}
           </div>
           <Button
+            id="like-button"
             onClick={() => props.like(props.article.id)}
             variant="outline-primary"
           >
@@ -55,6 +56,7 @@ const ArticleDetail = (props) => {
             {props.article.like}
           </Button>
           <Button
+            id="dislike-button"
             onClick={() => props.dislike(props.article.id)}
             variant="outline-danger"
           >
@@ -68,9 +70,6 @@ const ArticleDetail = (props) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  fetch: (id) => dispatch(
-    actionCreators.fetchArticle(id),
-  ),
   like: (id) => dispatch(
     actionCreators.putVote('like', id),
   ),

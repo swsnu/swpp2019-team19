@@ -17,12 +17,13 @@ const mockStore = getMockStore(stubArticleInitialState, {}, {});
 describe('<ArticleCreate />', () => {
   let articleCreate;
   let spyCreate;
+  const spyHide = jest.fn();
   beforeEach(() => {
     articleCreate = (
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>
           <Switch>
-            <Route path="/" exact component={ArticleCreate} />
+            <ArticleCreate show onHide={spyHide} />
           </Switch>
         </ConnectedRouter>
       </Provider>
@@ -39,27 +40,27 @@ describe('<ArticleCreate />', () => {
   it('renders', () => {
     const component = mount(articleCreate);
     const wrapper = component.find('.ArticleCreate');
-    expect(wrapper.length).toBe(3);
+    expect(wrapper.length).toBe(4);
   });
 
-  // it('should create article', () => {
-  //   const wrapper = mount(articleCreate);
-  //   console.log(wrapper.find('#write-preview-tab').debug());
-  //   expect(wrapper.find('#write-preview-tab')).toHaveLength(1);
-  //   const titleInput = wrapper.find('#article-title-input');
-  //   const contentInput = wrapper.find('#article-content-input');
-  //   const createButton = wrapper.find('#create-article-button').at(0);
+  it('create article', () => {
+    const wrapper = mount(articleCreate);
+    // expect(wrapper.find('#write-preview-tab')).toHaveLength(2);
+    const titleInput = wrapper.find('#article-title-input').at(1);
+    const contentInput = wrapper.find('#article-content-input').at(1);
+    const createButton = wrapper.find('#create-article-button').at(0);
 
-  //   titleInput.instance().value = 'some title';
-  //   titleInput.simulate('change');
-  //   contentInput.instance().value = 'some content';
-  //   contentInput.simulate('change');
+    titleInput.instance().value = 'some title';
+    titleInput.simulate('change');
+    contentInput.instance().value = 'some content';
+    contentInput.simulate('change');
 
-  //   expect(titleInput.instance().value).toEqual('some title');
-  //   expect(contentInput.instance().value).toEqual('some content');
-  //   expect(createButton.exists()).toBeTruthy();
-  //   expect(spyCreate).toHaveBeenCalledTimes(0);
-  //   createButton.simulate('click');
-  //   expect(spyCreate).toHaveBeenCalledTimes(1);
-  // });
+    expect(titleInput.instance().value).toEqual('some title');
+    expect(contentInput.instance().value).toEqual('some content');
+
+    expect(createButton.exists()).toBeTruthy();
+    expect(spyCreate).toHaveBeenCalledTimes(0);
+    createButton.simulate('click');
+    expect(spyCreate).toHaveBeenCalledTimes(1);
+  });
 });
