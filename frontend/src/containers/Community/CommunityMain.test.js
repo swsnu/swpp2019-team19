@@ -78,7 +78,7 @@ describe('<CommunityMain />', () => {
   it('renders', () => {
     const component = mount(communityMain);
     const wrapper = component.find('.CommunityMain');
-    expect(wrapper.length).toBe(1);
+    expect(wrapper.length).toBe(2);
     expect(spyFetchAllBoard).toHaveBeenCalledTimes(1);
     expect(spyFetchHotBoard).toHaveBeenCalledTimes(1);
   });

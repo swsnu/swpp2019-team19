@@ -100,6 +100,8 @@ local_settings.py
 env/
 db.sqlite3
 
+/backend/SNUBot/*/migrations/0*
+
 # Rasa
 /backend/Rasa_eng/logs/*.*
 /backend/Rasa_eng/models/*.*

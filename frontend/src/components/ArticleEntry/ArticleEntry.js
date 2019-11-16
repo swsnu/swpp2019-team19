@@ -1,10 +1,12 @@
+/* eslint-disable react/self-closing-comp */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, Col } from 'react-bootstrap';
 import { faThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ArticleDetail from '../ArticleDetail/ArticleDetail';
+import './ArticleEntry.css';
 
 export default function ArticleEntry(props) {
   const ARTICLE_CONTENT_MAX_LEN = 100;
@@ -45,14 +47,14 @@ export default function ArticleEntry(props) {
   } = props.article;
 
   return (
-    // w-25 h-25 p-3
-    <div className="ArticleEntry p-2 col-xs-12 col-sm-6 col-md-4">
+    <Col className="ArticleEntry">
       <Card
         tag="a"
         onClick={() => setModalShow(true)}
         bg={tagToBg(tag)}
         text={tagToText(tag)}
         style={{ width: '18rem' }}
+        className="p-3 card"
       >
         <Card.Body>
           <Card.Title>{title}</Card.Title>
@@ -76,11 +78,13 @@ export default function ArticleEntry(props) {
           <small className="text-muted">{props.article.author}</small>
         </Card.Footer> */}
       </Card>
+      {/* article modal happens here */}
+      {/* TODO : fetch in articleDetail, not passing article as props */}
       <ArticleDetail
         article={props.article}
         show={modalShow}
         onHide={() => setModalShow(false)}
       />
-    </div>
+    </Col>
   );
 }

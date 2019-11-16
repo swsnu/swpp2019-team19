@@ -15,7 +15,6 @@ import AccountInformation from './containers/User/AccountInformation/AccountInfo
 import About from './containers/About/About';
 import NotFound from './containers/NotFound/NotFound';
 
-import ArticleCreate from './containers/Community/BoardDetail/ArticleCreate/ArticleCreate';
 import ArticleEdit from './containers/Community/BoardDetail/ArticleDetail/ArticleEdit/ArticleEdit';
 import CustomNavbar from './components/Navbar/CustomNavbar';
 import './App.css';
@@ -38,11 +37,6 @@ export class App extends Component {
               path="/boards/:boardName([A-Za-z]+)"
               exact
               component={BoardDetail}
-            />
-            <Route
-              path="/boards/:boardName([A-Za-z]+)/create"
-              exact
-              component={ArticleCreate}
             />
             <Route
               path="/boards/:boardName([A-Za-z]+)/:articleId([0-9]+)/edit"
