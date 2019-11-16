@@ -78,6 +78,8 @@ export default function ArticleEntry(props) {
           <small className="text-muted">{props.article.author}</small>
         </Card.Footer> */}
       </Card>
+      {/* article modal happens here */}
+      {/* TODO : fetch in articleDetail, not passing article as props */}
       <ArticleDetail
         article={props.article}
         show={modalShow}

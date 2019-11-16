@@ -5,7 +5,10 @@ import { Modal, Button } from 'react-bootstrap';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export default function ArticleDetail(props) {
+import { connect } from 'react-redux';
+import * as actionCreators from '../../store/actions';
+
+const ArticleDetail = (props) => {
   const tagToDescription = (tag) => {
     switch (tag) {
       case 'normal':
@@ -20,6 +23,8 @@ export default function ArticleDetail(props) {
         return '';
     }
   };
+  // TODO : fetch articles... somewhere
+  // TODO : if necessary, move to containers
   return (
     <div className="ArticleDetail">
       <Modal
@@ -42,11 +47,17 @@ export default function ArticleDetail(props) {
           <div style={{ textAlign: 'left' }}>
             {tagToDescription(props.article.tag)}
           </div>
-          <Button onClick={props.like} variant="outline-primary">
+          <Button
+            onClick={() => props.like(props.article.id)}
+            variant="outline-primary"
+          >
             <FontAwesomeIcon icon={faThumbsUp} />
             {props.article.like}
           </Button>
-          <Button onClick={props.dislike} variant="outline-danger">
+          <Button
+            onClick={() => props.dislike(props.article.id)}
+            variant="outline-danger"
+          >
             <FontAwesomeIcon icon={faThumbsDown} />
             {props.article.dislike}
           </Button>
@@ -54,4 +65,21 @@ export default function ArticleDetail(props) {
       </Modal>
     </div>
   );
-}
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  fetch: (id) => dispatch(
+    actionCreators.fetchArticle(id),
+  ),
+  like: (id) => dispatch(
+    actionCreators.putVote('like', id),
+  ),
+  dislike: (id) => dispatch(
+    actionCreators.putVote('dislike', id),
+  ),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(ArticleDetail);
