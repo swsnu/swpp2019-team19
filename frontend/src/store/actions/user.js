@@ -79,7 +79,7 @@ export const changeInfo = (
       dispatch({
         type: CHANGE_INFO_FAIL,
       });
-      dispatch(push('/account'));
+      // dispatch(push('/account'));
     }
   })
 );

@@ -61,7 +61,11 @@ export default function (state = initialState, action = defaultAction) {
     case VALIDATE_USER_ID:
     default:
       return {
-        ...state, loadingUser: true, changeInfoFail: false, signinFail: false, signupFail: false,
+        ...state,
+        loadingUser: true,
+        changeInfoFail: false,
+        signinFail: false,
+        signupFail: false,
       };
   }
 }

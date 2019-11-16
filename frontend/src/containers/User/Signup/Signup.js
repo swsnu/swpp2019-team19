@@ -55,34 +55,20 @@ class Signup extends Component {
     const { fail, history } = this.props;
 
     const errorToAlert = () => {
+      let message = null;
       if (fail) {
-        return (
-          <Alert
-            variant="warning"
-          >
-            email or username already exists
-          </Alert>
-        );
+        message = 'email or username already exists';
+      } else if (!validPassword) {
+        message = 'Password should be at least 8 characters';
+      } else if (!validPasswordConfirm) {
+        message = 'Password and Password Confirm are different';
       }
-      if (!validPassword) {
-        return (
-          <Alert
-            variant="warning"
-          >
-            Password should be at least 8 characters
-          </Alert>
-        );
+      if (message === null) {
+        return (<p />);
       }
-      if (!validPasswordConfirm) {
-        return (
-          <Alert
-            variant="warning"
-          >
-            Password and Password Confirm are different
-          </Alert>
-        );
-      }
-      return (<p />);
+      return (
+        <Alert variant="warning">{message}</Alert>
+      );
     };
 
     return (

@@ -25,6 +25,7 @@ class AccountInformation extends Component {
       validPassword: true,
       validPasswordConfirm: true,
       dataloaded: false,
+      fail: false,
     };
 
     const username = sessionStorage.getItem('username');
@@ -42,6 +43,7 @@ class AccountInformation extends Component {
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
+    const { fail, signout, history } = this.props;
     if (!nextProps.loadingUser) {
       this.setState({
         username: nextProps.storedUser.username,
@@ -50,6 +52,13 @@ class AccountInformation extends Component {
         dataloaded: true,
       });
     }
+    if (nextProps.fail) {
+      this.setState({ fail: true });
+    } else if (fail) {
+      signout();
+      history.push('/signin');
+    }
+
   }
 
   render() {
@@ -82,28 +91,24 @@ class AccountInformation extends Component {
     };
     const {
       dataloaded, validPassword, validPasswordConfirm, username, newNickname,
-      newEmail, currentPassword, newPassword, newPasswordConfirm,
+      newEmail, currentPassword, newPassword, newPasswordConfirm, fail,
     } = this.state;
-    const { fail } = this.props;
+
 
     const errorToAlert = () => {
       let message = null;
       if (fail) {
-        message = 'email already exists';
+        message = 'Password is wrong';
       } else if (!validPassword) {
-        message = 'New Password should be at least 8 characters';
+        message = 'Password should be at least 8 characters';
       } else if (!validPasswordConfirm) {
-        message = 'New Password and New Password Confirm are different';
+        message = 'Password and Password Confirm are different';
       }
       if (message === null) {
         return (<p />);
       }
       return (
-        <Alert
-          variant="warning"
-        >
-          {message}
-        </Alert>
+        <Alert variant="warning">{message}</Alert>
       );
     };
 
@@ -123,9 +128,6 @@ class AccountInformation extends Component {
                       Change Your Account
                     </h5>
                     <form className="form-account">
-                      <div className="username">
-                        <label>{username}</label>
-                      </div>
                       <hr />
                       <div className="form-label-group-account">
                         <input
@@ -145,6 +147,21 @@ class AccountInformation extends Component {
                       </div>
                       <div className="form-label-group-account">
                         <input
+                          type="text"
+                          id="email-input"
+                          className="form-control"
+                          placeholder="Email address"
+                          value={newEmail}
+                          onChange={(event) => this.setState({
+                            newEmail: event.target.value,
+                          })}
+                          required
+                          disabled
+                        />
+                        <label>Email address</label>
+                      </div>
+                      <div className="form-label-group-account">
+                        <input
                           id="nickname-input"
                           type="text"
                           className="form-control"
@@ -156,20 +173,6 @@ class AccountInformation extends Component {
                           required
                         />
                         <label>nickname</label>
-                      </div>
-                      <div className="form-label-group-account">
-                        <input
-                          type="text"
-                          id="email-input"
-                          className="form-control"
-                          placeholder="Email address"
-                          value={newEmail}
-                          onChange={(event) => this.setState({
-                            newEmail: event.target.value,
-                          })}
-                          required
-                        />
-                        <label>Email address</label>
                       </div>
                       <div className="form-label-group-account">
                         <input
@@ -253,6 +256,9 @@ const mapDispatchToProps = (dispatch) => ({
   clearUser: () => dispatch(
     actionCreators.clearUser(),
   ),
+  signout: () => dispatch(
+    actionCreators.signout(),
+  ),
 });
 
 export default connect(
@@ -270,4 +276,5 @@ AccountInformation.propTypes = {
   changeInfo: PropTypes.func.isRequired,
   fetchUser: PropTypes.func.isRequired,
   clearUser: PropTypes.func.isRequired,
+  signout: PropTypes.func.isRequired,
 };
