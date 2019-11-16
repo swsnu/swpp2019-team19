@@ -1,29 +1,79 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import {
-  Navbar, Col, Button, Nav,
+  Navbar, Row, Col, Button, Nav, ButtonGroup,
 } from 'react-bootstrap';
-import './CustomNavbar.css';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faWindowClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-function CustomNavbar() {
-  const [show, setShow] = useState(false);
+import PropTypes from 'prop-types';
+import './CustomNavbar.css';
 
+import * as actionCreators from '../../store/actions/user';
+
+function CustomNavbar(props) {
+  const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleSignout = () => {
+    props.signout();
+    setShow(false);
+  };
+  const redirectAndClose = (url) => {
+    props.history.push(url);
+    setShow(false);
+  };
   return (
     <>
       {(show) ? (
         <div id="sidebar-wrapper">
           <div className="sidebar-heading">
-            <Button
-              className="sidebar-hide-button"
-              variant="secondary"
-              onClick={handleClose}
-            >
-              Close
-            </Button>
+            {/* TODO : account 관련 기능들 */}
+            <Row id="sidebar-account">
+              {
+                sessionStorage.getItem('username') === null
+                  ? (
+                    <Col>
+                      <ButtonGroup id="not-logged-in">
+                        <Button
+                          onClick={() => redirectAndClose('/signin')}
+                        >
+                          sign in
+                        </Button>
+                        <Button
+                          onClick={() => redirectAndClose('/signup')}
+                        >
+                          sign up
+                        </Button>
+                      </ButtonGroup>
+                    </Col>
+                  )
+                  : (
+                    <Col>
+                      <ButtonGroup id="logged-in">
+                        <Button
+                          onClick={() => redirectAndClose('/account')}
+                        >
+                          account
+                        </Button>
+                        <Button
+                          onClick={() => handleSignout()}
+                        >
+                          sign out
+                        </Button>
+                      </ButtonGroup>
+                    </Col>
+                  )
+              }
+              <Button
+                className="sidebar-hide-button"
+                variant="link"
+                onClick={handleClose}
+              >
+                <FontAwesomeIcon icon={faWindowClose} size="2x" />
+              </Button>
+            </Row>
           </div>
           <div className="sidebar-body">
             <Nav
@@ -53,23 +103,6 @@ function CustomNavbar() {
                 className="nav-link-custom list-group-item list-group-item-action bg-light"
               >
                 Hot Board
-              </Nav.Link>
-            </Nav>
-            <Nav
-              id="user-group"
-              className="flex-column list-group list-group-flush"
-            >
-              <Nav.Link
-                href="http://localhost:3000/signin"
-                className="nav-link-custom list-group-item list-group-item-action bg-light"
-              >
-                Sign In
-              </Nav.Link>
-              <Nav.Link
-                href="http://localhost:3000/signup"
-                className="nav-link-custom-bottom list-group-item list-group-item-action bg-light"
-              >
-                Sign Up
               </Nav.Link>
             </Nav>
           </div>
@@ -105,4 +138,19 @@ function CustomNavbar() {
 }
 
 
-export default CustomNavbar;
+const mapDispatchToProps = (dispatch) => ({
+  signout: () => dispatch(
+    actionCreators.signout(),
+  ),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(CustomNavbar);
+
+CustomNavbar.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  history: PropTypes.object.isRequired,
+  signout: PropTypes.func.isRequired,
+};

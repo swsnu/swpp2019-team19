@@ -25,7 +25,7 @@ export class App extends Component {
     return (
       <ConnectedRouter history={this.props.history}>
         <div className="App">
-          <CustomNavbar />
+          <CustomNavbar history={this.props.history} />
 
           <Switch>
             <Redirect exact from="/" to="/signin" />

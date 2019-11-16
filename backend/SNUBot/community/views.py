@@ -24,6 +24,7 @@ def token(request):
 
 
 @require_http_methods(["POST"])
+@ensure_csrf_cookie
 def signup(request):
     try:
         req_data = json.loads(request.body.decode())
@@ -42,6 +43,7 @@ def signup(request):
 
 
 @require_http_methods(["POST", "PUT"])
+@ensure_csrf_cookie
 def signin(request):
     if request.method == "POST":
         try:
@@ -76,6 +78,7 @@ def signin(request):
 
 
 @require_http_methods(["GET", "PUT"])
+@ensure_csrf_cookie
 def account(request):
     if request.user.is_authenticated:
         if request.method == "GET":
@@ -112,6 +115,7 @@ def account(request):
 
 
 @require_http_methods(["GET"])
+@ensure_csrf_cookie
 def signout(request):
     if request.user.is_authenticated:
         logout(request)
@@ -121,6 +125,7 @@ def signout(request):
 
 
 @require_http_methods(["POST"])
+@ensure_csrf_cookie
 def boards(request):
     try:
         req_data = json.loads(request.body.decode())
@@ -182,6 +187,7 @@ def boards(request):
 
 
 @require_http_methods(["POST"])
+@ensure_csrf_cookie
 def article(request):
     try:
         body = request.body.decode()
@@ -207,6 +213,7 @@ def article(request):
 
 
 @require_http_methods(["GET", "PUT", "DELETE"])
+@ensure_csrf_cookie
 def article_detail(request, article_id):
     try:
         target_article = Article.objects.get(id=article_id)
@@ -257,6 +264,7 @@ def article_detail(request, article_id):
 
 
 @require_http_methods(["PUT"])
+@ensure_csrf_cookie
 def vote(request, article_id):
     if not request.user.is_authenticated:
         return HttpResponse(status=401)
