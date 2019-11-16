@@ -60,6 +60,16 @@ const stubArticleInitialState = {
 const mockStore = getMockStore(stubArticleInitialState, {}, {});
 
 describe('<BoardDetail />', () => {
+  const defaultOption = {
+    currentPageNumber: 1,
+    filterCriteria: 'all',
+    sortCriteria: 'new',
+    searchCriteria: 'title',
+    searchKeyword: '',
+    articlesPerRequest: 6,
+    tmpKeyword: '',
+    articleCreateShow: false,
+  };
   let boardDetail;
   let spyFetchArticleList;
   beforeEach(() => {
@@ -93,46 +103,35 @@ describe('<BoardDetail />', () => {
     expect(spyFetchArticleList).toHaveBeenCalledTimes(0);
     const wrapper = mount(boardDetail);
     expect(spyFetchArticleList).toHaveBeenCalledTimes(1);
+    expect(spyFetchArticleList).toHaveBeenLastCalledWith(defaultOption);
 
     const searchButton = wrapper.find('#search-button').at(0);
-    // const sortCriteria = wrapper.find('#sort-criteria');
+    const sortCriteria = wrapper.find('#sort-criteria').at(4);
     // TODO : test DropdownItem select
-    // sortCriteria.at(0).instance().selected = false;
-    // sortCriteria.at(1).instance().selected = true;
-    // sortCriteria.simulate('select', 'good');
-    // sortCriteria.prop('onSelect')({ value: ['good'] });
-    // const mockMyEventHandler = jest.fn();
-    // wrapper.setProps({ onChange: mockMyEventHandler });
+    sortCriteria.simulate('click');
+
+    const sortByNew = wrapper.find('#sort-by-new').at(2);
+    const sortByOld = wrapper.find('#sort-by-old').at(2);
+    const sortByGood = wrapper.find('#sort-by-good').at(2);
 
     expect(spyFetchArticleList).toHaveBeenCalledTimes(1);
-    searchButton.simulate('click');
+    sortByGood.simulate('click');
     expect(spyFetchArticleList).toHaveBeenCalledTimes(2);
-
     expect(spyFetchArticleList).toHaveBeenLastCalledWith({
-      currentPageNumber: 1,
-      filterCriteria: 'all',
-      sortCriteria: 'new',
-      searchCriteria: 'title',
-      searchKeyword: '',
-      articlesPerRequest: 6,
-      tmpKeyword: '',
-      articleCreateShow: false,
+      ...defaultOption, sortCriteria: 'good',
     });
 
-    // sortCriteria.at(3).simulate('click');
-    // expect(spyFetchArticleList).toHaveBeenCalledTimes(2);
-    // searchButton.simulate('click');
-    // expect(spyFetchArticleList).toHaveBeenCalledTimes(3);
+    expect(spyFetchArticleList).toHaveBeenCalledTimes(2);
+    sortByOld.simulate('click');
+    expect(spyFetchArticleList).toHaveBeenCalledTimes(3);
+    expect(spyFetchArticleList).toHaveBeenLastCalledWith({
+      ...defaultOption, sortCriteria: 'old',
+    });
 
-    // expect(spyFetchArticleList).toHaveBeenLastCalledWith({
-    //   currentPageNumber: 1,
-    //   filterCriteria: 'all',
-    //   sortCriteria: 'new',
-    //   searchCriteria: 'title',
-    //   searchKeyword: '',
-    //   articlesPerRequest: 20,
-    //   tmpKeyword: '',
-    // });
+    expect(spyFetchArticleList).toHaveBeenCalledTimes(3);
+    sortByNew.simulate('click');
+    expect(spyFetchArticleList).toHaveBeenCalledTimes(4);
+    expect(spyFetchArticleList).toHaveBeenLastCalledWith(defaultOption);
   });
 
   it('searches', () => {
@@ -149,16 +148,46 @@ describe('<BoardDetail />', () => {
     searchButton.simulate('click');
     expect(spyFetchArticleList).toHaveBeenCalledTimes(2);
     expect(spyFetchArticleList).toHaveBeenLastCalledWith({
-      currentPageNumber: 1,
-      filterCriteria: 'all',
-      sortCriteria: 'new',
-      searchCriteria: 'title',
+      ...defaultOption,
       searchKeyword: 'ARTICLE_TEST_TITLE_1',
-      articlesPerRequest: 6,
       tmpKeyword: 'ARTICLE_TEST_TITLE_1',
-      articleCreateShow: false,
+    });
+
+    const searchCriteria = wrapper.find('#search-criteria').at(4);
+    searchCriteria.simulate('click');
+
+    const searchByTitle = wrapper.find('#search-by-title').at(2);
+    const searchByNickname = wrapper.find('#search-by-nickname').at(2);
+
+    searchByNickname.simulate('click');
+
+    searchKeyword.instance().value = 'ARTICLE_TEST_TITLE_2';
+    searchKeyword.simulate('change');
+    expect(spyFetchArticleList).toHaveBeenCalledTimes(2);
+    searchButton.simulate('click');
+    expect(spyFetchArticleList).toHaveBeenCalledTimes(3);
+    expect(spyFetchArticleList).toHaveBeenLastCalledWith({
+      ...defaultOption,
+      searchKeyword: 'ARTICLE_TEST_TITLE_2',
+      tmpKeyword: 'ARTICLE_TEST_TITLE_2',
+      searchCriteria: 'nickname',
+    });
+
+    searchByTitle.simulate('click');
+
+    searchKeyword.instance().value = 'ARTICLE_TEST_TITLE_3';
+    searchKeyword.simulate('change');
+    expect(spyFetchArticleList).toHaveBeenCalledTimes(3);
+    searchButton.simulate('click');
+    expect(spyFetchArticleList).toHaveBeenCalledTimes(4);
+    expect(spyFetchArticleList).toHaveBeenLastCalledWith({
+      ...defaultOption,
+      searchKeyword: 'ARTICLE_TEST_TITLE_3',
+      tmpKeyword: 'ARTICLE_TEST_TITLE_3',
+      searchCriteria: 'title',
     });
   });
+  // TODO : resolve UnhandledPromiseRejectionWarning
 
   it('filters', () => {
     expect(spyFetchArticleList).toHaveBeenCalledTimes(0);
@@ -174,41 +203,32 @@ describe('<BoardDetail />', () => {
     const doneButton = wrapper.find('#filter-done').at(0);
     const rejectedButton = wrapper.find('#filter-rejected').at(0);
 
-    const compare = {
-      currentPageNumber: 1,
-      sortCriteria: 'new',
-      searchCriteria: 'title',
-      searchKeyword: '',
-      articlesPerRequest: 6,
-      tmpKeyword: '',
-      articleCreateShow: false,
-    };
     expect(spyFetchArticleList).toHaveBeenCalledTimes(1);
     normalButton.simulate('click');
     expect(spyFetchArticleList).toHaveBeenCalledTimes(2);
     expect(spyFetchArticleList).toHaveBeenLastCalledWith({
-      ...compare, filterCriteria: 'normal',
+      ...defaultOption, filterCriteria: 'normal',
     });
 
     workingButton.simulate('click');
     expect(spyFetchArticleList).toHaveBeenCalledTimes(3);
     expect(spyFetchArticleList).toHaveBeenLastCalledWith({
-      ...compare, filterCriteria: 'working',
+      ...defaultOption, filterCriteria: 'working',
     });
     doneButton.simulate('click');
     expect(spyFetchArticleList).toHaveBeenCalledTimes(4);
     expect(spyFetchArticleList).toHaveBeenLastCalledWith({
-      ...compare, filterCriteria: 'done',
+      ...defaultOption, filterCriteria: 'done',
     });
     rejectedButton.simulate('click');
     expect(spyFetchArticleList).toHaveBeenCalledTimes(5);
     expect(spyFetchArticleList).toHaveBeenLastCalledWith({
-      ...compare, filterCriteria: 'rejected',
+      ...defaultOption, filterCriteria: 'rejected',
     });
     allButton.simulate('click');
     expect(spyFetchArticleList).toHaveBeenCalledTimes(6);
     expect(spyFetchArticleList).toHaveBeenLastCalledWith({
-      ...compare, filterCriteria: 'all',
+      ...defaultOption, filterCriteria: 'all',
     });
   });
 

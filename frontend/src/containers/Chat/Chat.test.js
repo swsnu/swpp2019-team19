@@ -74,6 +74,9 @@ describe('<ArticleCreate />', () => {
     expect(history.location.pathname).toBe('/boards/');
   });
 
+  // TODO : resolve UnhandledPromiseRejectionWarning
+  //        Error: connect ECONNREFUSED 127.0.0.1:5005
+
   it('renders when exist message', () => {
     const event = { target: { value: 'hi' } };
     const component = mount(chat2);

@@ -23,7 +23,6 @@ describe('<ArticleCreate />', () => {
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>
           <Switch>
-            {/* <Route path="/" exact component={ArticleCreate} /> */}
             <ArticleCreate show onHide={spyHide} />
           </Switch>
         </ConnectedRouter>

@@ -48,6 +48,7 @@ const ArticleDetail = (props) => {
             {tagToDescription(props.article.tag)}
           </div>
           <Button
+            id="like-button"
             onClick={() => props.like(props.article.id)}
             variant="outline-primary"
           >
@@ -55,6 +56,7 @@ const ArticleDetail = (props) => {
             {props.article.like}
           </Button>
           <Button
+            id="dislike-button"
             onClick={() => props.dislike(props.article.id)}
             variant="outline-danger"
           >
