@@ -45,7 +45,9 @@ export const signout = () => (dispatch) => (
 );
 
 export const signup = (email, username, password) => (dispatch) => (
-  axios.post(`${remoteURL}/api/signup/`, { username, email, password }).then(() => {
+  axios.post(
+    `${remoteURL}/api/signup/`, { username, email, password },
+  ).then(() => {
     dispatch({
       type: SIGN_UP,
     });
@@ -59,10 +61,10 @@ export const signup = (email, username, password) => (dispatch) => (
   })
 );
 
-// eslint-disable-next-line max-len
-export const changeInfo = (username, newNickname, newEmail, currentPassword, newPassword) => (dispatch) => (
+export const changeInfo = (
+  username, newNickname, newEmail, currentPassword, newPassword,
+) => (dispatch) => (
   axios.put(`${remoteURL}/api/account/`, {
-    // eslint-disable-next-line object-shorthand
     username,
     new_nickname: newNickname,
     new_email: newEmail,

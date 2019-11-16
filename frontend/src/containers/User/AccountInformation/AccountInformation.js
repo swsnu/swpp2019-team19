@@ -71,9 +71,13 @@ class AccountInformation extends Component {
         this.setState({ validPasswordConfirm: false, validPassword: true });
       } else {
         this.setState({ validPassword: true, validPasswordConfirm: true });
-        changeInfo(username, newNickname, newEmail, currentPassword, newPassword);
+        changeInfo(
+          username, newNickname, newEmail, currentPassword, newPassword,
+        );
         clearUser();
-        this.setState({ currentPassword: '', newPassword: '', newPasswordConfirm: '' });
+        this.setState({
+          currentPassword: '', newPassword: '', newPasswordConfirm: '',
+        });
       }
     };
     const {
@@ -125,7 +129,9 @@ class AccountInformation extends Component {
                     Image Here
                   </div>
                   <div className="card-body">
-                    <h5 className="card-title text-center">Change Your Account</h5>
+                    <h5 className="card-title text-center">
+                      Change Your Account
+                    </h5>
                     <form className="form-account">
                       <div className="username">
                         <label>{username}</label>
