@@ -23,8 +23,8 @@ const ArticleDetail = (props) => {
         return '';
     }
   };
-  // TODO : fetch articles... somewhere
-  // TODO : if necessary, move to containers
+
+  // TODO : move to container
   return (
     <div className="ArticleDetail">
       <Modal
@@ -68,9 +68,6 @@ const ArticleDetail = (props) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  fetch: (id) => dispatch(
-    actionCreators.fetchArticle(id),
-  ),
   like: (id) => dispatch(
     actionCreators.putVote('like', id),
   ),

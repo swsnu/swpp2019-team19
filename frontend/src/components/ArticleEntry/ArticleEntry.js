@@ -2,13 +2,16 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
+import { connect } from 'react-redux';
 import { Card, Col } from 'react-bootstrap';
 import { faThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ArticleDetail from '../ArticleDetail/ArticleDetail';
+import * as actionCreators from '../../store/actions';
+
 import './ArticleEntry.css';
 
-export default function ArticleEntry(props) {
+const ArticleEntry = (props) => {
   const ARTICLE_CONTENT_MAX_LEN = 100;
   const tagToBg = (tag) => {
     switch (tag) {
@@ -49,8 +52,12 @@ export default function ArticleEntry(props) {
   return (
     <Col className="ArticleEntry">
       <Card
+        id="article-entry"
         tag="a"
-        onClick={() => setModalShow(true)}
+        onClick={() => {
+          props.fetch(props.article.id);
+          setModalShow(true);
+        }}
         bg={tagToBg(tag)}
         text={tagToText(tag)}
         style={{ width: '18rem' }}
@@ -81,10 +88,25 @@ export default function ArticleEntry(props) {
       {/* article modal happens here */}
       {/* TODO : fetch in articleDetail, not passing article as props */}
       <ArticleDetail
-        article={props.article}
+        article={props.storedArticle}
         show={modalShow}
         onHide={() => setModalShow(false)}
       />
     </Col>
   );
-}
+};
+
+const mapStateToProps = (state) => ({
+  storedArticle: state.article.article,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetch: (id) => dispatch(
+    actionCreators.fetchArticle(id),
+  ),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ArticleEntry);

@@ -40,5 +40,6 @@ describe('<ArticleDetail />', () => {
     const component = mount(articleEntry);
     const wrapper = component.find('.ArticleEntry');
     expect(wrapper.length).toBe(2);
+    expect(component.find('#article-entry')).toHaveLength(2);
   });
 });
