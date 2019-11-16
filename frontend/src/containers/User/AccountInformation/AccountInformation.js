@@ -87,34 +87,24 @@ class AccountInformation extends Component {
     const { fail } = this.props;
 
     const errorToAlert = () => {
+      let message = null;
       if (fail) {
-        return (
-          <Alert
-            variant="warning"
-          >
-            email already exists
-          </Alert>
-        );
+        message = 'email already exists';
+      } else if (!validPassword) {
+        message = 'New Password should be at least 8 characters';
+      } else if (!validPasswordConfirm) {
+        message = 'New Password and New Password Confirm are different';
       }
-      if (!validPassword) {
-        return (
-          <Alert
-            variant="warning"
-          >
-            New Password should be at least 8 characters
-          </Alert>
-        );
+      if (message === null) {
+        return (<p />);
       }
-      if (!validPasswordConfirm) {
-        return (
-          <Alert
-            variant="warning"
-          >
-            New Password and New Password Confirm are different
-          </Alert>
-        );
-      }
-      return (<p />);
+      return (
+        <Alert
+          variant="warning"
+        >
+          {message}
+        </Alert>
+      );
     };
 
     return (

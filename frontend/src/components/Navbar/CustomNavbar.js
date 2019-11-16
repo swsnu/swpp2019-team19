@@ -24,6 +24,18 @@ function CustomNavbar(props) {
     props.history.push(url);
     setShow(false);
   };
+
+  const makeNavLink = (url, display) => {
+    const fullUrl = `http://localhost:3000/${url}`;
+    return (
+      <Nav.Link
+        href={fullUrl}
+        className="nav-link-custom list-group-item list-group-item-action bg-light"
+      >
+        {display}
+      </Nav.Link>
+    );
+  };
   return (
     <>
       {(show) ? (
@@ -77,30 +89,10 @@ function CustomNavbar(props) {
               id="community-group"
               className="flex-column list-group list-group-flush"
             >
-              <Nav.Link
-                href="http://localhost:3000/chat"
-                className="nav-link-custom list-group-item list-group-item-action bg-light"
-              >
-                Chat
-              </Nav.Link>
-              <Nav.Link
-                href="http://localhost:3000/boards"
-                className="nav-link-custom list-group-item list-group-item-action bg-light"
-              >
-                Community Main
-              </Nav.Link>
-              <Nav.Link
-                href="http://localhost:3000/boards/all"
-                className="nav-link-custom list-group-item list-group-item-action bg-light"
-              >
-                All Board
-              </Nav.Link>
-              <Nav.Link
-                href="http://localhost:3000/boards/hot"
-                className="nav-link-custom list-group-item list-group-item-action bg-light"
-              >
-                Hot Board
-              </Nav.Link>
+              {makeNavLink('chat', 'Chat')}
+              {makeNavLink('boards', 'Community Main')}
+              {makeNavLink('boards/all', 'All Board')}
+              {makeNavLink('boards/hot', 'Hot Board')}
             </Nav>
           </div>
           <div className="sidebar-footer">
