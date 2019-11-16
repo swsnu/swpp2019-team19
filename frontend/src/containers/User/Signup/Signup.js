@@ -50,6 +50,7 @@ class Signup extends Component {
     const {
       username, email, password, passwordConfirm,
       validPassword, validPasswordConfirm,
+      loginUsername,
     } = this.state;
     const { fail, history } = this.props;
 
@@ -85,98 +86,100 @@ class Signup extends Component {
     };
 
     return (
-      <div className="Signup">
-        {errorToAlert()}
-        <div className="container">
-          <div className="row">
-            <div className="col-lg-10 col-xl-9 mx-auto">
-              <div className="card card-signup flex-row my-5">
-                <div className="card-img-left d-none d-md-flex">
-                  Image Here
-                </div>
-                <div className="card-body">
-                  <h5 className="card-title text-center">Create Your Account!</h5>
-                  <form className="form-signup">
-                    <div className="form-label-group-signup">
-                      <input
-                        id="username-input"
-                        type="text"
-                        className="form-control"
-                        placeholder="Username"
-                        value={username}
-                        onChange={(event) => this.setState({ username: event.target.value })}
-                        required
-                        autoFocus
-                      />
-                      <label>Username</label>
-                    </div>
-                    <hr />
-                    <div className="form-label-group-signup">
-                      <input
-                        type="text"
-                        id="email-input"
-                        className="form-control"
-                        placeholder="Email address"
-                        value={email}
-                        onChange={(event) => this.setState({ email: event.target.value })}
-                        required
-                      />
-                      <label>Email address</label>
-                    </div>
-                    <hr />
-                    <div className="form-label-group-signup">
-                      <input
-                        type="password"
-                        id="pw-input"
-                        className="form-control"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(event) => this.setState({ password: event.target.value })}
-                        required
-                      />
-                      <label>Password</label>
-                    </div>
-                    <div className="form-label-group-signup">
-                      <input
-                        type="password"
-                        id="pw-confirm-input"
-                        className="form-control"
-                        placeholder="Password"
-                        value={passwordConfirm}
-                        onChange={(event) => this.setState({
-                          passwordConfirm: event.target.value,
-                        })}
-                        required
-                      />
-                      <label>Confirm password</label>
-                    </div>
-                    <hr />
-                    <br />
-                    <br />
-                    <Button
-                      id="Signup-button"
-                      className="btn btn-lg btn-primary btn-block text-uppercase"
-                      type="submit"
-                      onClick={() => SignupHandler()}
-                      disabled={!username || !password}
-                    >
-                      Signup
-                    </Button>
-                    <Button
-                      id="direct-to-signin"
-                      className="btn btn-lg btn-primary btn-block text-uppercase"
-                      type="submit"
-                      onClick={() => history.push('/signin')}
-                    >
-                      Already member of SNUBot?
-                    </Button>
-                  </form>
+      loginUsername === null ? <p /> : (
+        <div className="Signup">
+          {errorToAlert()}
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-10 col-xl-9 mx-auto">
+                <div className="card card-signup flex-row my-5">
+                  <div className="card-img-left d-none d-md-flex">
+                    Image Here
+                  </div>
+                  <div className="card-body">
+                    <h5 className="card-title text-center">Create Your Account!</h5>
+                    <form className="form-signup">
+                      <div className="form-label-group-signup">
+                        <input
+                          id="username-input"
+                          type="text"
+                          className="form-control"
+                          placeholder="Username"
+                          value={username}
+                          onChange={(event) => this.setState({ username: event.target.value })}
+                          required
+                          autoFocus
+                        />
+                        <label>Username</label>
+                      </div>
+                      <hr />
+                      <div className="form-label-group-signup">
+                        <input
+                          type="text"
+                          id="email-input"
+                          className="form-control"
+                          placeholder="Email address"
+                          value={email}
+                          onChange={(event) => this.setState({ email: event.target.value })}
+                          required
+                        />
+                        <label>Email address</label>
+                      </div>
+                      <hr />
+                      <div className="form-label-group-signup">
+                        <input
+                          type="password"
+                          id="pw-input"
+                          className="form-control"
+                          placeholder="Password"
+                          value={password}
+                          onChange={(event) => this.setState({ password: event.target.value })}
+                          required
+                        />
+                        <label>Password</label>
+                      </div>
+                      <div className="form-label-group-signup">
+                        <input
+                          type="password"
+                          id="pw-confirm-input"
+                          className="form-control"
+                          placeholder="Password"
+                          value={passwordConfirm}
+                          onChange={(event) => this.setState({
+                            passwordConfirm: event.target.value,
+                          })}
+                          required
+                        />
+                        <label>Confirm password</label>
+                      </div>
+                      <hr />
+                      <br />
+                      <br />
+                      <Button
+                        id="Signup-button"
+                        className="btn btn-lg btn-primary btn-block text-uppercase"
+                        type="submit"
+                        onClick={() => SignupHandler()}
+                        disabled={!username || !password}
+                      >
+                        Signup
+                      </Button>
+                      <Button
+                        id="direct-to-signin"
+                        className="btn btn-lg btn-primary btn-block text-uppercase"
+                        type="submit"
+                        onClick={() => history.push('/signin')}
+                      >
+                        Already member of SNUBot?
+                      </Button>
+                    </form>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )
     );
   }
 }
