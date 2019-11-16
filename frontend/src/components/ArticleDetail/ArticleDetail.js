@@ -1,13 +1,12 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
+import { useDispatch, useSelector, connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useDispatch, useSelector } from 'react-redux';
 import * as actionCreators from '../../store/actions';
 import Comment from '../Comment/Comment';
-import { connect } from 'react-redux';
 
 const ArticleDetail = (props) => {
   const tagToDescription = (tag) => {
