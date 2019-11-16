@@ -201,6 +201,7 @@ def article(request):
         "author": author.nickname,
         "like": new_vote.like,
         "dislike": new_vote.dislike,
+        "tag": new_vote.tag,
     }
     return JsonResponse(response_dict, status=201)
 
@@ -219,6 +220,7 @@ def article_detail(request, article_id):
             "author": target_article.author.nickname,
             "like": target_article.vote.like,
             "dislike": target_article.vote.dislike,
+            "tag": target_article.tag,
         }
         return JsonResponse(response_dict, safe=False)
     elif request.method == "PUT":
@@ -242,6 +244,7 @@ def article_detail(request, article_id):
             "author": target_article.author.nickname,
             "like": target_article.vote.like,
             "dislike": target_article.vote.dislike,
+            "tag": target_article.tag,
         }
         return JsonResponse(response_dict, status=200)
     else:
