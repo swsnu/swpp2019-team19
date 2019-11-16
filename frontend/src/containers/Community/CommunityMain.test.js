@@ -10,6 +10,13 @@ import { history } from '../../store/store';
 import * as ActionCreators from '../../store/actions/article';
 
 const stubArticleInitialState = {
+  article: {
+    id: 1,
+    author: 1,
+    title: 'ARTICLE_TEST_TITLE_1',
+    tag: 'all',
+    content: 'ARTICLE_TEST_CONTENT_1',
+  },
   articleListAll: [
     {
       id: 1,
@@ -78,7 +85,7 @@ describe('<CommunityMain />', () => {
   it('renders', () => {
     const component = mount(communityMain);
     const wrapper = component.find('.CommunityMain');
-    expect(wrapper.length).toBe(1);
+    expect(wrapper.length).toBe(2);
     expect(spyFetchAllBoard).toHaveBeenCalledTimes(1);
     expect(spyFetchHotBoard).toHaveBeenCalledTimes(1);
   });

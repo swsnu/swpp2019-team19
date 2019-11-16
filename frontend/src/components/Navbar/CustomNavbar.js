@@ -15,22 +15,62 @@ function CustomNavbar() {
   return (
     <>
       {(show) ? (
-        <div show={show} onHide={handleClose} id="sidebar-wrapper">
+        <div id="sidebar-wrapper">
           <div className="sidebar-heading">
-            <Button className="sidebar-hide-button" variant="secondary" onClick={handleClose}>
+            <Button
+              className="sidebar-hide-button"
+              variant="secondary"
+              onClick={handleClose}
+            >
               Close
             </Button>
           </div>
           <div className="sidebar-body">
-            <Nav id="community-group" className="flex-column list-group list-group-flush">
-              <Nav.Link href="http://localhost:3000/chat" className="nav-link-custom list-group-item list-group-item-action bg-light">Chat</Nav.Link>
-              <Nav.Link href="http://localhost:3000/boards" className="nav-link-custom list-group-item list-group-item-action bg-light">Community Main</Nav.Link>
-              <Nav.Link href="http://localhost:3000/boards/all" className="nav-link-custom list-group-item list-group-item-action bg-light">All Board</Nav.Link>
-              <Nav.Link href="http://localhost:3000/boards/hot" className="nav-link-custom list-group-item list-group-item-action bg-light">Hot Board</Nav.Link>
+            <Nav
+              id="community-group"
+              className="flex-column list-group list-group-flush"
+            >
+              <Nav.Link
+                href="http://localhost:3000/chat"
+                className="nav-link-custom list-group-item list-group-item-action bg-light"
+              >
+                Chat
+              </Nav.Link>
+              <Nav.Link
+                href="http://localhost:3000/boards"
+                className="nav-link-custom list-group-item list-group-item-action bg-light"
+              >
+                Community Main
+              </Nav.Link>
+              <Nav.Link
+                href="http://localhost:3000/boards/all"
+                className="nav-link-custom list-group-item list-group-item-action bg-light"
+              >
+                All Board
+              </Nav.Link>
+              <Nav.Link
+                href="http://localhost:3000/boards/hot"
+                className="nav-link-custom list-group-item list-group-item-action bg-light"
+              >
+                Hot Board
+              </Nav.Link>
             </Nav>
-            <Nav id="user-group" className="flex-column list-group list-group-flush">
-              <Nav.Link href="http://localhost:3000/signin" className="nav-link-custom list-group-item list-group-item-action bg-light">Sign In</Nav.Link>
-              <Nav.Link href="http://localhost:3000/signup" className="nav-link-custom-bottom list-group-item list-group-item-action bg-light">Sign Up</Nav.Link>
+            <Nav
+              id="user-group"
+              className="flex-column list-group list-group-flush"
+            >
+              <Nav.Link
+                href="http://localhost:3000/signin"
+                className="nav-link-custom list-group-item list-group-item-action bg-light"
+              >
+                Sign In
+              </Nav.Link>
+              <Nav.Link
+                href="http://localhost:3000/signup"
+                className="nav-link-custom-bottom list-group-item list-group-item-action bg-light"
+              >
+                Sign Up
+              </Nav.Link>
             </Nav>
           </div>
           <div className="sidebar-footer">
@@ -40,13 +80,23 @@ function CustomNavbar() {
       ) : (null)}
       <Navbar className="custom-navbar" bg="dark" expand="lg">
         <Col xs={1} md={1}>
-          <Button className="sidebar-show-button float-left" variant="secondary" onClick={handleShow}>
+          <Button
+            className="sidebar-show-button float-left"
+            variant="secondary"
+            onClick={handleShow}
+          >
             <FontAwesomeIcon icon={faBars} size="2x" />
           </Button>
         </Col>
         <Col xs={3} md={3} />
         <Col xs={4} md={4}>
-          <Navbar.Brand href="http://localhost:3000/chat"><font color="yellow" size="+3">SNUBot</font></Navbar.Brand>
+          <Navbar.Brand
+            href="http://localhost:3000/chat"
+          >
+            <font color="yellow" size="+3">
+              SNUBot
+            </font>
+          </Navbar.Brand>
         </Col>
         <Col xs={4} md={4} />
       </Navbar>

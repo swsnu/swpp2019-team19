@@ -7,8 +7,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actionCreators from '../../store/actions';
 import Comment from '../Comment/Comment';
+import { connect } from 'react-redux';
 
-export default function ArticleDetail(props) {
+const ArticleDetail = (props) => {
   const tagToDescription = (tag) => {
     switch (tag) {
       case 'normal':
@@ -36,6 +37,8 @@ export default function ArticleDetail(props) {
     setComment(e.target.value)
   );
 
+
+  // TODO : move to container
   return (
     <div className="ArticleDetail">
       <Modal
@@ -58,11 +61,19 @@ export default function ArticleDetail(props) {
           <div style={{ textAlign: 'left' }}>
             {tagToDescription(props.article.tag)}
           </div>
-          <Button onClick={props.like} variant="outline-primary">
+          <Button
+            id="like-button"
+            onClick={() => props.like(props.article.id)}
+            variant="outline-primary"
+          >
             <FontAwesomeIcon icon={faThumbsUp} />
             {props.article.like}
           </Button>
-          <Button onClick={props.dislike} variant="outline-danger">
+          <Button
+            id="dislike-button"
+            onClick={() => props.dislike(props.article.id)}
+            variant="outline-danger"
+          >
             <FontAwesomeIcon icon={faThumbsDown} />
             {props.article.dislike}
           </Button>
@@ -87,4 +98,18 @@ export default function ArticleDetail(props) {
       </Modal>
     </div>
   );
-}
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  like: (id) => dispatch(
+    actionCreators.putVote('like', id),
+  ),
+  dislike: (id) => dispatch(
+    actionCreators.putVote('dislike', id),
+  ),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(ArticleDetail);

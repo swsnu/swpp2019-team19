@@ -1,15 +1,18 @@
+/* eslint-disable react/self-closing-comp */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Card } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { Card, Col } from 'react-bootstrap';
 import { faThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ArticleDetail from '../ArticleDetail/ArticleDetail';
 import * as actionCreators from '../../store/actions';
 
+import './ArticleEntry.css';
 
-export default function ArticleEntry(props) {
+const ArticleEntry = (props) => {
   const ARTICLE_CONTENT_MAX_LEN = 100;
   const tagToBg = (tag) => {
     switch (tag) {
@@ -49,17 +52,20 @@ export default function ArticleEntry(props) {
 
   const dispatch = useDispatch();
   return (
-    // w-25 h-25 p-3
-    <div className="ArticleEntry p-2 col-xs-12 col-sm-6 col-md-4">
+    <Col className="ArticleEntry">
       <Card
+        id="article-entry"
         tag="a"
         onClick={() => {
           setModalShow(true);
           dispatch(actionCreators.fetchComment(props.article.id));
+          props.fetch(props.article.id);
+          setModalShow(true);
         }}
         bg={tagToBg(tag)}
         text={tagToText(tag)}
         style={{ width: '18rem' }}
+        className="p-3 card"
       >
         <Card.Body>
           <Card.Title>{title}</Card.Title>
@@ -83,14 +89,31 @@ export default function ArticleEntry(props) {
           <small className="text-muted">{props.article.author}</small>
         </Card.Footer> */}
       </Card>
+      {/* article modal happens here */}
+      {/* TODO : fetch in articleDetail, not passing article as props */}
       <ArticleDetail
-        article={props.article}
+        article={props.storedArticle}
         show={modalShow}
         onHide={() => {
           setModalShow(false);
           dispatch(actionCreators.clearComment());
         }}
       />
-    </div>
+    </Col>
   );
-}
+};
+
+const mapStateToProps = (state) => ({
+  storedArticle: state.article.article,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetch: (id) => dispatch(
+    actionCreators.fetchArticle(id),
+  ),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ArticleEntry);

@@ -1,7 +1,10 @@
+/* eslint-disable react/self-closing-comp */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
+import {
+  Button, Row, Col, Container,
+} from 'react-bootstrap';
 import { connect } from 'react-redux';
 import * as actionCreators from '../../store/actions';
 import ArticleEntry from '../../components/ArticleEntry/ArticleEntry';
@@ -21,28 +24,38 @@ class CommunityMain extends Component {
     const hotBoardThumbnail = this.props.storedHotBoard.map(articleParser);
 
     return (
-      <div className="CommunityMain">
-        <Button
-          variant="link"
-          id="direct-to-hot-board"
-          onClick={() => this.props.history.push('/boards/hot/')}
-        >
-          Hot
-        </Button>
-        <div className="row">
-          {hotBoardThumbnail}
-        </div>
-        <Button
-          variant="link"
-          id="direct-to-all-board"
-          onClick={() => this.props.history.push('/boards/all/')}
-        >
-          ALL
-        </Button>
-        <div className="row">
-          {allBoardThumbnail}
-        </div>
-      </div>
+      <Container className="CommunityMain" fluid>
+        <Row>
+          <Col md={1} lg={2}></Col>
+          <Col>
+            <Button
+              variant="link"
+              id="direct-to-hot-board"
+              onClick={() => this.props.history.push('/boards/hot/')}
+            >
+              Hot
+            </Button>
+            <Container fluid>
+              <Row>
+                {hotBoardThumbnail}
+              </Row>
+            </Container>
+            <Button
+              variant="link"
+              id="direct-to-all-board"
+              onClick={() => this.props.history.push('/boards/all/')}
+            >
+              ALL
+            </Button>
+            <Container fluid>
+              <Row>
+                {allBoardThumbnail}
+              </Row>
+            </Container>
+          </Col>
+          <Col md={1} lg={2}></Col>
+        </Row>
+      </Container>
     );
   }
 }
