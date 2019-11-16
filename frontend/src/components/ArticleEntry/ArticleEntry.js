@@ -86,7 +86,10 @@ export default function ArticleEntry(props) {
       <ArticleDetail
         article={props.article}
         show={modalShow}
-        onHide={() => setModalShow(false)}
+        onHide={() => {
+          setModalShow(false);
+          dispatch(actionCreators.clearComment());
+        }}
       />
     </div>
   );

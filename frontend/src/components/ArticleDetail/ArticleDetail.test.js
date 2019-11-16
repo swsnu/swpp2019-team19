@@ -16,7 +16,7 @@ const stubArticleInitialState = {
     vote_diff: 6,
   },
 };
-const mockStore = getMockStore(stubArticleInitialState, {}, {});
+const mockStore = getMockStore(stubArticleInitialState, {}, {}, {});
 
 describe('<ArticleDetail />', () => {
   let articleDetail;

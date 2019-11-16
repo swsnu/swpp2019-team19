@@ -35,8 +35,8 @@ const stubChatInitialState2 = {
   ],
 };
 
-const mockStore1 = getMockStore({}, {}, stubChatInitialState1);
-const mockStore2 = getMockStore({}, {}, stubChatInitialState2);
+const mockStore1 = getMockStore({}, {}, stubChatInitialState1, {});
+const mockStore2 = getMockStore({}, {}, stubChatInitialState2, {});
 
 describe('<ArticleCreate />', () => {
   let chat1; let

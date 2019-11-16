@@ -17,10 +17,15 @@ const stubChatInitialState = {
 
 };
 
+const stubCommentInitialState = {
+
+};
+
 const mockStore = getMockStore(
   stubArticleInitialState,
   stubUserInitialState,
   stubChatInitialState,
+  stubCommentInitialState,
 );
 
 

@@ -46,7 +46,7 @@ const stubArticleInitialState = {
   articleListHotAck: true,
 };
 
-const mockStore = getMockStore(stubArticleInitialState, {}, {});
+const mockStore = getMockStore(stubArticleInitialState, {}, {}, {});
 
 describe('<CommunityMain />', () => {
   let communityMain;

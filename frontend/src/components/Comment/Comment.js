@@ -3,7 +3,7 @@
 import React from 'react';
 
 const Comment = (props) => (
-  <div className="comment">
+  <div className="Comment">
     {props.content}
     --
     {props.author}

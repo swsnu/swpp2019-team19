@@ -50,7 +50,7 @@ const stubArticleInitialState = {
   articlePages: 1,
 };
 
-const mockStore = getMockStore(stubArticleInitialState, {}, {});
+const mockStore = getMockStore(stubArticleInitialState, {}, {}, {});
 
 describe('<BoardDetail />', () => {
   let boardDetail;

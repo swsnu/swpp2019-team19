@@ -216,9 +216,6 @@ const mapDispatchToProps = (dispatch) => ({
   fetchArticles: (options) => dispatch(
     actionCreators.fetchArticleList(options),
   ),
-  fetchComment: (id) => dispatch(
-    actionCreators.fetchComment(id),
-  )
 });
 
 export default connect(
