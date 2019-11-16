@@ -4,11 +4,11 @@ import React, { Component } from 'react';
 import { Button, Alert } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import './Signin.css';
 import PropTypes from 'prop-types';
 
 import * as actionCreators from '../../../store/actions/index';
 
+import './Signin.css';
 
 class Signin extends Component {
   constructor(props) {
