@@ -40,6 +40,7 @@ export const signout = () => (dispatch) => (
     sessionStorage.removeItem('sessionid');
     sessionStorage.removeItem('username');
     dispatch({ type: SIGN_OUT });
+    window.location.reload(false);
   })
 );
 
@@ -59,12 +60,12 @@ export const signup = (email, username, password) => (dispatch) => (
 );
 
 // eslint-disable-next-line max-len
-export const changeInfo = (username, newnickname, newemail, currentPassword, newPassword) => (dispatch) => (
+export const changeInfo = (username, newNickname, newEmail, currentPassword, newPassword) => (dispatch) => (
   axios.put(`${remoteURL}/api/account/`, {
     // eslint-disable-next-line object-shorthand
     username,
-    new_nickname: newnickname,
-    new_email: newemail,
+    new_nickname: newNickname,
+    new_email: newEmail,
     current_password: currentPassword,
     new_password: newPassword,
   }).then(() => {

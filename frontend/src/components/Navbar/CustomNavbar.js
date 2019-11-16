@@ -29,12 +29,11 @@ function CustomNavbar(props) {
       {(show) ? (
         <div id="sidebar-wrapper">
           <div className="sidebar-heading">
-            {/* TODO : account 관련 기능들 */}
             <Row id="sidebar-account">
-              {
-                sessionStorage.getItem('username') === null
-                  ? (
-                    <Col>
+              <Col>
+                {
+                  sessionStorage.getItem('username') === null
+                    ? (
                       <ButtonGroup id="not-logged-in">
                         <Button
                           onClick={() => redirectAndClose('/signin')}
@@ -47,10 +46,8 @@ function CustomNavbar(props) {
                           sign up
                         </Button>
                       </ButtonGroup>
-                    </Col>
-                  )
-                  : (
-                    <Col>
+                    )
+                    : (
                       <ButtonGroup id="logged-in">
                         <Button
                           onClick={() => redirectAndClose('/account')}
@@ -63,9 +60,9 @@ function CustomNavbar(props) {
                           sign out
                         </Button>
                       </ButtonGroup>
-                    </Col>
-                  )
-              }
+                    )
+                }
+              </Col>
               <Button
                 className="sidebar-hide-button"
                 variant="link"
