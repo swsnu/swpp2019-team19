@@ -302,7 +302,6 @@ def comment(request, id):
     if request.method == 'GET':
         comment = Comment.objects.filter(article=id).values(
             'article', 'content', 'author', 'id')
-        print(comment)
         comment_json = list(comment)
         for comment in comment_json:
             comment["author"] = user.nickname
@@ -311,7 +310,6 @@ def comment(request, id):
         try:
             req_data = json.loads(request.body.decode())
             content = req_data['content']
-            print(content)
         except(KeyError, JSONDecodeError):
             return HttpResponseBadRequest()
         article = Article.objects.get(id=id)

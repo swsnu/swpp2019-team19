@@ -213,9 +213,9 @@ class ArticleTestCase(TestCase):
         Vote.objects.create(article=Article.objects.get(
             title="find title"), like=10)
         Comment.objects.create(article=Article.objects.get(
-            title="title1"), content= 'test1', author = User.objects.get(username="test2"))
+            title="title1"), content= 'test1', author = User.objects.get(username="test1"))
         Comment.objects.create(article=Article.objects.get(
-            title="title1"), content= 'test2', author = User.objects.get(username="test3"))
+            title="title1"), content= 'test2', author = User.objects.get(username="test2"))
 
     def test_board(self):
         client = Client()
@@ -331,3 +331,42 @@ class ArticleTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(str(response.content, encoding='utf8'), {
                              "like": 10, "dislike": 0})
+
+    def test_comment(self):
+        client = Client()
+        ## unauthorized user
+        response = client.get('/api/comment/1/')
+        self.assertEqual(response.status_code, 401)
+        ## login
+        response = client.post('/api/signin/', json.dumps(
+            {'username': 'test1', 'password': 'user1234'}), content_type='application/json')
+        self.assertEqual(response.status_code, 204)
+        # print(Article.objects.all().values())
+        # print(Comment.objects.all().values())
+        article_id = Article.objects.get(title="title1").id
+        # print(id)
+        response = client.get('/api/comment/'+str(article_id)+'/')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('test1', response.content.decode())
+
+        response = client.post('/api/comment/'+str(article_id)+'/', json.dumps(
+            {'content': 'test3'}
+        ), content_type='application/json')
+        self.assertEqual(response.status_code, 201)
+        self.assertIn('test3', response.content.decode())
+
+        response = client.post('/api/comment/'+str(article_id)+'/')
+        self.assertEqual(response.status_code, 400)
+
+        comment_id = Comment.objects.get(content='test2').id
+        response = client.delete('/api/comment/0/')
+        self.assertEqual(response.status_code, 404)
+
+        response = client.delete('/api/comment/'+ str(comment_id) +'/')
+        self.assertEqual(response.status_code, 403)
+
+        comment_id = Comment.objects.get(content='test3').id
+        response = client.delete('/api/comment/'+str(comment_id)+'/')
+        self.assertEqual(response.status_code, 200)
+        
+
