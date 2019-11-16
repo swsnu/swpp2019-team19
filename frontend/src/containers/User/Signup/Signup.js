@@ -97,7 +97,9 @@ class Signup extends Component {
                     Image Here
                   </div>
                   <div className="card-body">
-                    <h5 className="card-title text-center">Create Your Account!</h5>
+                    <h5 className="card-title text-center">
+                      Create Your Account!
+                    </h5>
                     <form className="form-signup">
                       <div className="form-label-group-signup">
                         <input
@@ -106,7 +108,9 @@ class Signup extends Component {
                           className="form-control"
                           placeholder="Username"
                           value={username}
-                          onChange={(event) => this.setState({ username: event.target.value })}
+                          onChange={(event) => this.setState({
+                            username: event.target.value,
+                          })}
                           required
                           autoFocus
                         />
@@ -120,7 +124,9 @@ class Signup extends Component {
                           className="form-control"
                           placeholder="Email address"
                           value={email}
-                          onChange={(event) => this.setState({ email: event.target.value })}
+                          onChange={(event) => this.setState({
+                            email: event.target.value,
+                          })}
                           required
                         />
                         <label>Email address</label>
@@ -133,7 +139,9 @@ class Signup extends Component {
                           className="form-control"
                           placeholder="Password"
                           value={password}
-                          onChange={(event) => this.setState({ password: event.target.value })}
+                          onChange={(event) => this.setState({
+                            password: event.target.value,
+                          })}
                           required
                         />
                         <label>Password</label>
