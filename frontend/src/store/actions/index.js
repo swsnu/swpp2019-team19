@@ -18,6 +18,8 @@ export {
   signout,
   signup,
   changeInfo,
+  fetchUser,
+  clearUser,
 } from './user';
 
 export {

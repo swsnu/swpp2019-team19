@@ -7,11 +7,17 @@ import {
   VALIDATE_USERNAME,
   VALIDATE_USER_ID,
   CHANGE_INFO,
+  FETCH_USER,
+  CLEAR_USER,
+  CHANGE_INFO_FAIL,
 } from '../actions/types';
 
 const initialState = {
+  user: {},
   signinFail: false,
   signupFail: false,
+  loadingUser: true,
+  changeInfoFail: false,
 };
 
 const defaultAction = { type: 'default' };
@@ -29,14 +35,33 @@ export default function (state = initialState, action = defaultAction) {
         ...state, signupFail: false, signinFail: false,
       };
     }
+    case CHANGE_INFO_FAIL: {
+      return { ...state, changeInfoFail: true };
+    }
+    case CHANGE_INFO: {
+      return { ...state, changeInfoFail: false };
+    }
+    case FETCH_USER: {
+      return {
+        ...state,
+        loadingUser: false,
+        user: action.user,
+      };
+    }
+    case CLEAR_USER: {
+      return {
+        ...state,
+        loadingUser: true,
+        user: {},
+      };
+    }
     case SIGN_IN:
     case SIGN_OUT:
     case VALIDATE_USERNAME:
     case VALIDATE_USER_ID:
-    case CHANGE_INFO:
     default:
       return {
-        ...state, signinFail: false, signupFail: false,
+        ...state, loadingUser: true, changeInfoFail: false, signinFail: false, signupFail: false,
       };
   }
 }
