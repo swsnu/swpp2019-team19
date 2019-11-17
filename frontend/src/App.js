@@ -1,8 +1,7 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/destructuring-assignment */
-import React, { Component } from 'react';
+import React from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
+import PropTypes from 'prop-types';
 
 import Chat from './containers/Chat/Chat';
 import CommunityMain from './containers/Community/CommunityMain';
@@ -17,44 +16,48 @@ import NotFound from './containers/NotFound/NotFound';
 
 import ArticleEdit from './containers/Community/BoardDetail/ArticleDetail/ArticleEdit/ArticleEdit';
 import CustomNavbar from './components/Navbar/CustomNavbar';
+
 import './App.css';
 
-// eslint-disable-next-line react/prefer-stateless-function
-export class App extends Component {
-  render() {
-    return (
-      <ConnectedRouter history={this.props.history}>
-        <div className="App">
-          <CustomNavbar />
+const App = (props) => {
+  const { history } = props;
+  return (
+    <ConnectedRouter history={history}>
+      <div className="App">
+        <CustomNavbar history={history} />
 
-          <Switch>
-            <Redirect exact from="/" to="/signin" />
+        <Switch>
+          <Redirect exact from="/" to="/chat" />
 
-            <Route path="/chat" exact component={Chat} />
-            <Route path="/boards" exact component={CommunityMain} />
+          <Route path="/chat" exact component={Chat} />
+          <Route path="/boards" exact component={CommunityMain} />
 
-            <Route
-              path="/boards/:boardName([A-Za-z]+)"
-              exact
-              component={BoardDetail}
-            />
-            <Route
-              path="/boards/:boardName([A-Za-z]+)/:articleId([0-9]+)/edit"
-              exact
-              component={ArticleEdit}
-            />
-            <Route path="/signin" exact component={Signin} />
-            <Route path="/signup" exact component={Signup} />
-            <Route path="/account" exact component={AccountInformation} />
+          <Route
+            path="/boards/:boardName([A-Za-z]+)"
+            exact
+            component={BoardDetail}
+          />
+          <Route
+            path="/boards/:boardName([A-Za-z]+)/:articleId([0-9]+)/edit"
+            exact
+            component={ArticleEdit}
+          />
+          <Route path="/signin" exact component={Signin} />
+          <Route path="/signup" exact component={Signup} />
+          <Route path="/account" exact component={AccountInformation} />
 
-            <Route path="/about" exact component={About} />
+          <Route path="/about" exact component={About} />
 
-            <Route component={NotFound} />
-          </Switch>
-        </div>
-      </ConnectedRouter>
-    );
-  }
-}
+          <Route component={NotFound} />
+        </Switch>
+      </div>
+    </ConnectedRouter>
+  );
+};
 
 export default App;
+
+App.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  history: PropTypes.object.isRequired,
+};

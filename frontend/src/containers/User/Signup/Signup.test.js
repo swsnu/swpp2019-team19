@@ -2,8 +2,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
-import { ConnectedRouter } from 'connected-react-router';
 import Signup from './Signup';
 import { getMockStore } from '../../../test-utils/mocks';
 import { history } from '../../../store/store';
@@ -24,14 +22,11 @@ describe('<Signup />', () => {
   const shortPassword = 'short';
   let signup;
   let spySignup;
+  const historyMock = { goBack: jest.fn(), push: jest.fn() };
   beforeEach(() => {
     signup = (
       <Provider store={mockStore}>
-        <ConnectedRouter history={history}>
-          <Switch>
-            <Route path="/" exact component={Signup} />
-          </Switch>
-        </ConnectedRouter>
+        <Signup history={historyMock} />
       </Provider>
     );
     spySignup = jest
@@ -40,6 +35,7 @@ describe('<Signup />', () => {
   });
 
   afterEach(() => {
+    history.push('/');
     jest.clearAllMocks();
   });
 
@@ -113,7 +109,11 @@ describe('<Signup />', () => {
     expect(passwordInput.instance().value).toEqual(validPassword);
     expect(passwordConfirmInput.instance().value).toEqual(validPassword);
     expect(spySignup).toHaveBeenCalledTimes(0);
+    expect(historyMock.push).toHaveBeenCalledTimes(0);
+
     buttonInput.simulate('click');
+
+    expect(historyMock.push).toHaveBeenCalledTimes(1);
     expect(passwordInput.instance().value).toEqual('');
     expect(passwordConfirmInput.instance().value).toEqual('');
     expect(spySignup).toHaveBeenCalledTimes(1);
@@ -125,14 +125,23 @@ describe('<Signup />', () => {
   });
 
   it('goto signin page', () => {
+    sessionStorage.removeItem('username');
     const wrapper = mount(signup);
     const buttonInput = wrapper.find('#direct-to-signin').at(0);
 
-    expect(history.length).toEqual(1);
-    expect(history.location.pathname).toBe('/');
+    expect(historyMock.push).toHaveBeenCalledTimes(0);
 
     buttonInput.simulate('click');
-    expect(history.length).toEqual(2);
-    expect(history.location.pathname).toBe('/signin');
+
+    expect(historyMock.push).toHaveBeenCalledTimes(1);
+    expect(historyMock.push).toHaveBeenCalledWith('/signin');
+  });
+
+  it('go back if logged in', () => {
+    sessionStorage.setItem('username', 'username');
+    expect(historyMock.goBack).toHaveBeenCalledTimes(0);
+    mount(signup);
+    expect(historyMock.goBack).toHaveBeenCalledTimes(1);
+    sessionStorage.removeItem('username');
   });
 });

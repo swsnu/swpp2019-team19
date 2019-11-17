@@ -45,7 +45,9 @@ export const postArticle = (title, content) => (dispatch) => (
 );
 
 export const editArticle = (id, title, content) => (dispatch) => (
-  axios.put(`${remoteURL}/api/article/${id}/`, { title, content }).then((res) => {
+  axios.put(
+    `${remoteURL}/api/article/${id}/`, { title, content },
+  ).then((res) => {
     dispatch({
       type: EDIT_ARTICLE,
       article: res.data,
@@ -85,7 +87,9 @@ export const clearHotBoard = () => (dispatch) => (
 
 export const fetchArticleList = (options) => (dispatch) => (
   axios.post(`${remoteURL}/api/boards/`, options).then((res) => {
-    dispatch({ type: FETCH_ARTICLE_LIST, page: res.data[0], articles: res.data[1] });
+    dispatch({
+      type: FETCH_ARTICLE_LIST, page: res.data[0], articles: res.data[1],
+    });
   })
 );
 

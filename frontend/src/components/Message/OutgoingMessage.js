@@ -1,15 +1,20 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 
-const OutgoingMessage = (props) => (
-  <>
+import PropTypes from 'prop-types';
+
+const OutgoingMessage = (props) => {
+  const { message } = props;
+  return (
     <div className="outgoing_msg">
       <div className="sent_msg">
-        <p>{props.message}</p>
+        <p>{message}</p>
       </div>
     </div>
-  </>
-);
+  );
+};
 
 export default OutgoingMessage;
+
+OutgoingMessage.propTypes = {
+  message: PropTypes.string.isRequired,
+};

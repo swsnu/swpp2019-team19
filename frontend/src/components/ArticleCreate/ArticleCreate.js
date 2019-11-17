@@ -1,22 +1,25 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import {
   Modal, Tab, Tabs, Form, Button,
 } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 import * as actionCreators from '../../store/actions';
 
 const ArticleCreate = (props) => {
-  const [title, setTitle] = React.useState(props.title);
-  const [content, setContent] = React.useState(props.content);
+  const {
+    title, content, show, onHide,
+  } = props;
+  const [articleTitle, setTitle] = React.useState(title);
+  const [articleContent, setContent] = React.useState(content);
   const [key, setKey] = React.useState('write');
 
   return (
     <Modal
       className="ArticleCreate"
-      show={props.show}
-      onHide={props.onHide}
+      show={show}
+      onHide={onHide}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
@@ -53,11 +56,11 @@ const ArticleCreate = (props) => {
         <Tab eventKey="preview" title="Preview">
           <Modal.Header>
             <Modal.Title id="article-preview-title">
-              <h4 id="article-title">{title}</h4>
+              <h4 id="article-title">{articleTitle}</h4>
             </Modal.Title>
           </Modal.Header>
           <Modal.Body id="article-preview-content">
-            <p id="article-content">{content}</p>
+            <p id="article-content">{articleContent}</p>
           </Modal.Body>
         </Tab>
 
@@ -65,9 +68,9 @@ const ArticleCreate = (props) => {
       <Modal.Footer>
         <Button
           id="create-article-button"
-          disabled={!title || !content}
+          disabled={!articleTitle || !articleContent}
           onClick={() => {
-            props.postArticle(title, content);
+            props.postArticle(articleTitle, articleContent);
             props.onHide();
             setTitle('');
             setContent('');
@@ -92,3 +95,11 @@ export default connect(
   null,
   mapDispatchToProps,
 )(ArticleCreate);
+
+ArticleCreate.propTypes = {
+  postArticle: PropTypes.func.isRequired,
+  show: PropTypes.bool.isRequired,
+  onHide: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  content: PropTypes.string.isRequired,
+};
