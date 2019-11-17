@@ -36,7 +36,6 @@ const ArticleDetail = (props) => {
     setComment(e.target.value)
   );
 
-
   // TODO : move to container
   return (
     <div className="ArticleDetail">
@@ -79,8 +78,9 @@ const ArticleDetail = (props) => {
         </Modal.Footer>
         <div className="comment">
           <div className="comment-input">
-            <input value={newComment} onChange={onChangeComment} />
+            <input id="comment-input" value={newComment} onChange={onChangeComment} />
             <Button
+              id="post-comment-button"
               onClick={() => dispatch(actionCreators.postComment(props.article.id, newComment))}
             >
               Comment
