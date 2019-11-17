@@ -104,9 +104,9 @@ db.sqlite3
 
 # Rasa
 /backend/Rasa_eng/logs/*.*
-/backend/Rasa_eng/models/*.*
+/backend/Rasa_eng/models/*.*.*
 /backend/Rasa_eng/graph.html
 
 /backend/Rasa_kor/logs/*.*
-/backend/Rasa_kor/models/*.*
+/backend/Rasa_kor/models/*.*.*
 /backend/Rasa_kor/graph.html
