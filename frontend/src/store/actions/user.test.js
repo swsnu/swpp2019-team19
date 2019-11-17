@@ -61,10 +61,18 @@ describe('ActionCreators', () => {
   });
 
   it("'signout' should post correctly", (done) => {
-    const spy = jest.spyOn(axios, 'get').mockImplementation(() => status200);
+    const spy = jest.spyOn(axios, 'get').mockImplementation(
+      () => new Promise((resolve) => {
+        const result = {
+          status: 200,
+        };
+        resolve(result);
+      }),
+    );
 
     store.dispatch(actionCreators.signout());
     expect(spy).toHaveBeenCalledTimes(1);
+
     done();
   });
 

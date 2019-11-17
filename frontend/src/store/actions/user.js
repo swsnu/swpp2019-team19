@@ -40,7 +40,6 @@ export const signout = () => (dispatch) => (
     sessionStorage.removeItem('sessionid');
     sessionStorage.removeItem('username');
     dispatch({ type: SIGN_OUT });
-    window.location.reload(false);
   })
 );
 

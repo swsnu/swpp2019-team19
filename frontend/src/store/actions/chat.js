@@ -7,7 +7,9 @@ export const getMessage = (response) => ({ type: RCV_QUESTION, message: response
 
 
 export const sendMessage = (message, sender) => (dispatch) => (
-  axios.post(`${remoteURL}/webhooks/rest/webhook`, { message, sender }).then((response) => {
+  axios.post(
+    `${remoteURL}/webhooks/rest/webhook`, { message, sender },
+  ).then((response) => {
     dispatch({
       type: SEND_QUESTION,
       message,

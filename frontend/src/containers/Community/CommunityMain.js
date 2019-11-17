@@ -1,37 +1,39 @@
-/* eslint-disable react/self-closing-comp */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import {
   Button, Row, Col, Container,
 } from 'react-bootstrap';
-import { connect } from 'react-redux';
-import * as actionCreators from '../../store/actions';
+
+import PropTypes from 'prop-types';
 import ArticleEntry from '../../components/ArticleEntry/ArticleEntry';
+import * as actionCreators from '../../store/actions';
 
 class CommunityMain extends Component {
   constructor(props) {
     super(props);
-    this.props.fetchAllBoard();
-    this.props.fetchHotBoard();
+    const { fetchAllBoard, fetchHotBoard } = this.props;
+    fetchAllBoard();
+    fetchHotBoard();
   }
 
   render() {
     const articleParser = (article) => (
       <ArticleEntry article={article} key={article.id} />
     );
-    const allBoardThumbnail = this.props.storedAllBoard.map(articleParser);
-    const hotBoardThumbnail = this.props.storedHotBoard.map(articleParser);
+    const { history, storedAllBoard, storedHotBoard } = this.props;
+    const allBoardThumbnail = storedAllBoard.map(articleParser);
+    const hotBoardThumbnail = storedHotBoard.map(articleParser);
 
     return (
       <Container className="CommunityMain" fluid>
         <Row>
-          <Col md={1} lg={2}></Col>
+          <Col md={1} lg={2} />
           <Col>
             <Button
               variant="link"
               id="direct-to-hot-board"
-              onClick={() => this.props.history.push('/boards/hot/')}
+              onClick={() => history.push('/boards/hot/')}
             >
               Hot
             </Button>
@@ -43,7 +45,7 @@ class CommunityMain extends Component {
             <Button
               variant="link"
               id="direct-to-all-board"
-              onClick={() => this.props.history.push('/boards/all/')}
+              onClick={() => history.push('/boards/all/')}
             >
               ALL
             </Button>
@@ -53,7 +55,7 @@ class CommunityMain extends Component {
               </Row>
             </Container>
           </Col>
-          <Col md={1} lg={2}></Col>
+          <Col md={1} lg={2} />
         </Row>
       </Container>
     );
@@ -90,3 +92,14 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(CommunityMain);
+
+CommunityMain.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  history: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  storedAllBoard: PropTypes.array.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  storedHotBoard: PropTypes.array.isRequired,
+  fetchAllBoard: PropTypes.func.isRequired,
+  fetchHotBoard: PropTypes.func.isRequired,
+};

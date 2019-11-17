@@ -5,7 +5,6 @@ import React, { Component } from 'react';
 import { Button, Alert } from 'react-bootstrap';
 
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 
 import * as actionCreators from '../../../store/actions';
@@ -24,41 +23,37 @@ class AccountInformation extends Component {
       newPasswordConfirm: '',
       validPassword: true,
       validPasswordConfirm: true,
-      dataloaded: false,
-      fail: false,
     };
 
     const username = sessionStorage.getItem('username');
 
-    const { history, fetchUser, loadingUser } = this.props;
+    const { history, fetchUser } = this.props;
 
     if (username === null) {
       history.push('/signin');
-    } else if (loadingUser) {
-      fetchUser();
     } else {
-      this.state.dataloaded = true;
+      fetchUser();
     }
   }
 
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
-    const { fail, signout, history } = this.props;
+    const username = sessionStorage.getItem('username');
+    const { history, signout } = this.props;
+    if (username === null) {
+      history.push('/signin');
+    }
     if (!nextProps.loadingUser) {
       this.setState({
         username: nextProps.storedUser.username,
         newNickname: nextProps.storedUser.nickname,
         newEmail: nextProps.storedUser.email,
-        dataloaded: true,
       });
     }
-    if (nextProps.fail) {
-      this.setState({ fail: true });
-    } else if (fail) {
+    if (nextProps.success) {
       signout();
       history.push('/signin');
     }
-
   }
 
   render() {
@@ -90,19 +85,19 @@ class AccountInformation extends Component {
       }
     };
     const {
-      dataloaded, validPassword, validPasswordConfirm, username, newNickname,
-      newEmail, currentPassword, newPassword, newPasswordConfirm, fail,
+      validPassword, validPasswordConfirm, username, newNickname,
+      newEmail, currentPassword, newPassword, newPasswordConfirm,
     } = this.state;
 
-
     const errorToAlert = () => {
+      const { fail } = this.props;
       let message = null;
-      if (fail) {
-        message = 'Password is wrong';
-      } else if (!validPassword) {
+      if (!validPassword) {
         message = 'Password should be at least 8 characters';
       } else if (!validPasswordConfirm) {
         message = 'Password and Password Confirm are different';
+      } else if (fail) {
+        message = 'Password is wrong';
       }
       if (message === null) {
         return (<p />);
@@ -112,8 +107,10 @@ class AccountInformation extends Component {
       );
     };
 
+    const { loadingUser } = this.props;
+
     return (
-      !dataloaded ? <p /> : (
+      loadingUser ? (<p />) : (
         <div className="AccountInformation">
           {errorToAlert()}
           <div className="container">
@@ -244,11 +241,16 @@ const mapStateToProps = (state) => ({
   storedUser: state.user.user,
   loadingUser: state.user.loadingUser,
   fail: state.user.changeInfoFail,
+  success: state.user.changeInfoSuccess,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  changeInfo: (username, newnickname, newEmail, currentPassword, newPassword) => dispatch(
-    actionCreators.changeInfo(username, newnickname, newEmail, currentPassword, newPassword),
+  changeInfo: (
+    username, newnickname, newEmail, currentPassword, newPassword,
+  ) => dispatch(
+    actionCreators.changeInfo(
+      username, newnickname, newEmail, currentPassword, newPassword,
+    ),
   ),
   fetchUser: () => dispatch(
     actionCreators.fetchUser(),
@@ -264,7 +266,7 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withRouter(AccountInformation));
+)(AccountInformation);
 
 AccountInformation.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
@@ -273,6 +275,7 @@ AccountInformation.propTypes = {
   storedUser: PropTypes.object.isRequired,
   loadingUser: PropTypes.bool.isRequired,
   fail: PropTypes.bool.isRequired,
+  success: PropTypes.bool.isRequired,
   changeInfo: PropTypes.func.isRequired,
   fetchUser: PropTypes.func.isRequired,
   clearUser: PropTypes.func.isRequired,

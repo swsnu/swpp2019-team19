@@ -7,7 +7,7 @@ import * as ActionCreators from '../../store/actions/article';
 
 import ArticleDetail from './ArticleDetail';
 
-const stubArticleInitialState = {
+const stubArticleNormal = {
   article: {
     id: 1,
     title: 'TEST_ARTICLE_TITLE_1',
@@ -16,20 +16,60 @@ const stubArticleInitialState = {
     dislike: 4,
     like: 10,
     vote_diff: 6,
+    tag: 'normal',
   },
 };
-const mockStore = getMockStore(stubArticleInitialState, {}, {});
+const stubArticleWorking = {
+  article: {
+    id: 1,
+    title: 'TEST_ARTICLE_TITLE_1',
+    content: 'TEST_ARTICLE_CONTENT_1',
+    author: 'TEST_AUTHOR',
+    dislike: 4,
+    like: 10,
+    vote_diff: 6,
+    tag: 'working',
+  },
+};
+const stubArticleDone = {
+  article: {
+    id: 1,
+    title: 'TEST_ARTICLE_TITLE_1',
+    content: 'TEST_ARTICLE_CONTENT_1',
+    author: 'TEST_AUTHOR',
+    dislike: 4,
+    like: 10,
+    vote_diff: 6,
+    tag: 'done',
+  },
+};
+const stubArticleRejected = {
+  article: {
+    id: 1,
+    title: 'TEST_ARTICLE_TITLE_1',
+    content: 'TEST_ARTICLE_CONTENT_1',
+    author: 'TEST_AUTHOR',
+    dislike: 4,
+    like: 10,
+    vote_diff: 6,
+    tag: 'rejected',
+  },
+};
+
+const mockStore = getMockStore(stubArticleNormal, {}, {});
 
 describe('<ArticleDetail />', () => {
   let articleDetail;
   let spyVote;
+  const spyOnHide = jest.fn();
 
   beforeEach(() => {
     articleDetail = (
       <Provider store={mockStore}>
         <ArticleDetail
-          article={stubArticleInitialState.article}
-          key={stubArticleInitialState.article.id}
+          article={stubArticleNormal.article}
+          key={stubArticleNormal.article.id}
+          onHide={spyOnHide}
           show
         />
       </Provider>
@@ -48,7 +88,64 @@ describe('<ArticleDetail />', () => {
     const wrapper = component.find('.ArticleDetail');
     expect(wrapper.length).toBe(1);
   });
+  it('displays normal tag', () => {
+    const wrapper = mount(
+      <Provider store={mockStore}>
+        <ArticleDetail
+          article={stubArticleNormal.article}
+          key={stubArticleNormal.article.id}
+          onHide={spyOnHide}
+          show
+        />
+      </Provider>,
+    );
+    const description = wrapper.find('#tag-description');
+    expect(description.text()).toBe('this suggestion is not reviewed yet');
+  });
 
+  it('displays working tag', () => {
+    const wrapper = mount(
+      <Provider store={mockStore}>
+        <ArticleDetail
+          article={stubArticleWorking.article}
+          key={stubArticleWorking.article.id}
+          onHide={spyOnHide}
+          show
+        />
+      </Provider>,
+    );
+    const description = wrapper.find('#tag-description');
+    expect(description.text()).toBe('we are working on it!');
+  });
+  it('displays done tag', () => {
+    const wrapper = mount(
+      <Provider store={mockStore}>
+        <ArticleDetail
+          article={stubArticleDone.article}
+          key={stubArticleDone.article.id}
+          onHide={spyOnHide}
+          show
+        />
+      </Provider>,
+    );
+    const description = wrapper.find('#tag-description');
+    expect(description.text()).toBe('this suggestion is applied!');
+  });
+
+  it('displays rejected tag', () => {
+    const wrapper = mount(
+      <Provider store={mockStore}>
+        <ArticleDetail
+          article={stubArticleRejected.article}
+          key={stubArticleRejected.article.id}
+          onHide={spyOnHide}
+          show
+        />
+      </Provider>,
+    );
+    const description = wrapper.find('#tag-description');
+    expect(description.text()).toBe('this suggestion was rejected');
+  });
   it('like and dislike', () => {
     const component = mount(articleDetail);
     const likeButton = component.find('#like-button').at(1);

@@ -48,11 +48,13 @@ function CustomNavbar(props) {
                     ? (
                       <ButtonGroup id="not-logged-in">
                         <Button
+                          id="signin-button"
                           onClick={() => redirectAndClose('/signin')}
                         >
                           sign in
                         </Button>
                         <Button
+                          id="signup-button"
                           onClick={() => redirectAndClose('/signup')}
                         >
                           sign up
@@ -62,11 +64,13 @@ function CustomNavbar(props) {
                     : (
                       <ButtonGroup id="logged-in">
                         <Button
+                          id="account-button"
                           onClick={() => redirectAndClose('/account')}
                         >
                           account
                         </Button>
                         <Button
+                          id="signout-button"
                           onClick={() => handleSignout()}
                         >
                           sign out
@@ -104,7 +108,7 @@ function CustomNavbar(props) {
         <Col xs={1} md={1}>
           <Button
             className="sidebar-show-button float-left"
-            variant="secondary"
+            variant="link"
             onClick={handleShow}
           >
             <FontAwesomeIcon icon={faBars} size="2x" />

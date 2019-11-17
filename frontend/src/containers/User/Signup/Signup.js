@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { Button, Alert } from 'react-bootstrap';
 
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
 import * as actionCreators from '../../../store/actions/index';
 
@@ -72,7 +71,7 @@ class Signup extends Component {
     };
 
     return (
-      loginUsername === null ? <p /> : (
+      loginUsername !== null ? <p /> : (
         <div className="Signup">
           {errorToAlert()}
           <div className="container">
@@ -191,7 +190,7 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(withRouter(Signup));
+)(Signup);
 
 Signup.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types

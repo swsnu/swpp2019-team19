@@ -27,7 +27,7 @@ const App = (props) => {
         <CustomNavbar history={history} />
 
         <Switch>
-          <Redirect exact from="/" to="/signin" />
+          <Redirect exact from="/" to="/chat" />
 
           <Route path="/chat" exact component={Chat} />
           <Route path="/boards" exact component={CommunityMain} />

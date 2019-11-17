@@ -13,11 +13,12 @@ import {
 } from '../actions/types';
 
 const initialState = {
-  user: {},
+  user: { username: '', email: '', nickname: '' },
   signinFail: false,
   signupFail: false,
   loadingUser: true,
   changeInfoFail: false,
+  changeInfoSuccess: false,
 };
 
 const defaultAction = { type: 'default' };
@@ -36,10 +37,10 @@ export default function (state = initialState, action = defaultAction) {
       };
     }
     case CHANGE_INFO_FAIL: {
-      return { ...state, changeInfoFail: true };
+      return { ...state, changeInfoFail: true, changeInfoSuccess: false };
     }
     case CHANGE_INFO: {
-      return { ...state, changeInfoFail: false };
+      return { ...state, changeInfoFail: false, changeInfoSuccess: true };
     }
     case FETCH_USER: {
       return {
@@ -64,6 +65,7 @@ export default function (state = initialState, action = defaultAction) {
         ...state,
         loadingUser: true,
         changeInfoFail: false,
+        changeInfoSuccess: false,
         signinFail: false,
         signupFail: false,
       };

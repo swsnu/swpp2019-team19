@@ -1,21 +1,29 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 
-const IncomingMessage = (props) => (
-  <div className="incoming_msg">
+import PropTypes from 'prop-types';
 
-    <div className="received_msg">
-      <div className="received_withd_msg">
-        {
-          props.message.text === undefined
-            ? <img alt="response-img" src={props.message.image} />
-            : <p>{props.message.text}</p>
-        }
-        <p />
+const IncomingMessage = (props) => {
+  const { message } = props;
+  return (
+    <div className="incoming_msg">
+      <div className="received_msg">
+        <div className="received_withd_msg">
+          {
+            message.text === undefined
+              ? <img alt="response-img" src={message.image} />
+              : <p>{message.text}</p>
+          }
+          <p />
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
+
 
 export default IncomingMessage;
+
+IncomingMessage.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  message: PropTypes.object.isRequired,
+};

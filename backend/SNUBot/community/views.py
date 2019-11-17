@@ -207,7 +207,7 @@ def article(request):
         "author": author.nickname,
         "like": new_vote.like,
         "dislike": new_vote.dislike,
-        "tag": new_vote.tag,
+        "tag": new_article.tag,
     }
     return JsonResponse(response_dict, status=201)
 

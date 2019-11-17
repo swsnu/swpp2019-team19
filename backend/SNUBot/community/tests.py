@@ -265,7 +265,9 @@ class ArticleTestCase(TestCase):
         self.assertEqual(response.status_code, 404)
         response = client.get('/api/article/'+str(id)+'/')
         self.assertJSONEqual(str(response.content, encoding='utf8'), {
-                             "id": id, "title": "title1", "content": "content1", "author": "test1", "like": 20, "dislike": 0})
+                             "id": id, "title": "title1", "content": "content1",
+                              "author": "test1", "like": 20, "dislike": 0,
+                             "tag": "normal"})
         response = client.put('/api/article/'+str(id)+'/', json.dumps(
             {'title': 'title1'}), content_type='application/json')
         self.assertEqual(response.status_code, 400)
@@ -273,7 +275,7 @@ class ArticleTestCase(TestCase):
             {'title': 'editedtitle', 'content': 'editedcontent'}), content_type='application/json')
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(str(response.content, encoding='utf8'), {
-                             "id": id, "title": "editedtitle", "content": "editedcontent", "author": "test1", "like": 20, "dislike": 0})
+                             "id": id, "title": "editedtitle", "content": "editedcontent", "author": "test1", "like": 20, "dislike": 0, "tag": "normal"})
         response = client.put('/api/article/'+str(id+1)+'/', json.dumps(
             {'title': 'title1', 'content': 'content1'}), content_type='application/json')
         self.assertEqual(response.status_code, 403)

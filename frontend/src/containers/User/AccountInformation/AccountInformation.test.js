@@ -10,10 +10,21 @@ import { history } from '../../../store/store';
 import * as ActionCreators from '../../../store/actions/user';
 
 const stubUserInitialState = {
+  user: { username: '', email: '', nickname: '' },
+  signinFail: false,
+  signupFail: false,
+  loadingUser: false,
   changeInfoFail: false,
+  changeInfoSuccess: false,
+};
+
+const stubUserLoadingState = {
+  ...stubUserInitialState,
+  loadingUser: true,
 };
 
 const mockStore = getMockStore({}, stubUserInitialState, {});
+const loadingStore = getMockStore({}, stubUserLoadingState, {});
 
 describe('<AccountInformation />', () => {
   const username = 'mj';
@@ -28,14 +39,12 @@ describe('<AccountInformation />', () => {
   let spyChangeInfo;
   let spyfetchUser;
   let spyclearUser;
+  const historyMock = { push: jest.fn() };
   beforeEach(() => {
+    sessionStorage.setItem('username', 'username logged in');
     accountinformation = (
       <Provider store={mockStore}>
-        <ConnectedRouter history={history}>
-          <Switch>
-            <Route path="/" exact component={AccountInformation} />
-          </Switch>
-        </ConnectedRouter>
+        <AccountInformation history={historyMock} />
       </Provider>
     );
     spyChangeInfo = jest
@@ -49,25 +58,22 @@ describe('<AccountInformation />', () => {
       .mockImplementation(() => (dispatch) => { });
   });
   afterEach(() => {
-    // history.push('/');
+    sessionStorage.removeItem('username');
+    history.push('/');
     jest.clearAllMocks();
   });
 
   it('renders', () => {
-    sessionStorage.setItem(
-      'sessionid',
-      'asdfkjaweifjlkasdg',
+    expect(spyfetchUser).not.toHaveBeenCalled();
+    mount(
+      <Provider store={loadingStore}>
+        <AccountInformation history={historyMock} />
+      </Provider>,
     );
-    const component = mount(accountinformation);
-    const wrapper = component.find('.AccountInformation');
-    expect(wrapper.length).toBe(1);
+    expect(spyfetchUser).toHaveBeenCalled();
   });
 
   it('input text and click button, fail', () => {
-    sessionStorage.setItem(
-      'sessionid',
-      'asdfkjaweifjlkasdg',
-    );
     const wrapper = mount(accountinformation);
     const usernameInput = wrapper.find('#username-input');
     const nicknameInput = wrapper.find('#nickname-input');
@@ -112,10 +118,6 @@ describe('<AccountInformation />', () => {
   });
 
   it('input text and click button, success', () => {
-    sessionStorage.setItem(
-      'sessionid',
-      'asdfkjaweifjlkasdg',
-    );
     const wrapper = mount(accountinformation);
     const usernameInput = wrapper.find('#username-input');
     const nicknameInput = wrapper.find('#nickname-input');
@@ -170,10 +172,6 @@ describe('<AccountInformation />', () => {
   });
 
   it('input text and click button, failed wrong confirm', () => {
-    sessionStorage.setItem(
-      'sessionid',
-      'asdfkjaweifjlkasdg',
-    );
     const wrapper = mount(accountinformation);
     const usernameInput = wrapper.find('#username-input');
     const nicknameInput = wrapper.find('#nickname-input');
@@ -220,10 +218,17 @@ describe('<AccountInformation />', () => {
 
   it('not logged in', () => {
     sessionStorage.clear();
-    const component = mount(accountinformation);
+    expect(spyfetchUser).not.toHaveBeenCalled();
+    const component = mount(
+      <Provider store={loadingStore}>
+        <AccountInformation history={historyMock} />
+      </Provider>,
+    );
+    expect(spyfetchUser).not.toHaveBeenCalled();
     const wrapper = component.find('.AccountInformation');
-    expect(wrapper.length).toBe(0);
 
-    expect(history.location.pathname).toBe('/signin');
+    expect(historyMock.push).toHaveBeenCalledWith('/signin');
+
+    expect(wrapper.length).toBe(0);
   });
 });
