@@ -266,9 +266,6 @@ const mapDispatchToProps = (dispatch) => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-<<<<<<< HEAD
-)(withRouter(AccountInformation));
-=======
 )(AccountInformation);
 
 AccountInformation.propTypes = {
@@ -284,4 +281,3 @@ AccountInformation.propTypes = {
   clearUser: PropTypes.func.isRequired,
   signout: PropTypes.func.isRequired,
 };
->>>>>>> afa74161ce21f3439c7836323a5765d80b58a5d3

@@ -55,7 +55,7 @@ const stubArticleRejected = {
     tag: 'rejected',
   },
 };
-const mockStore = getMockStore(stubArticleInitialState, {}, {}, {});
+const mockStore = getMockStore(stubArticleNormal, {}, {}, {});
 
 describe('<ArticleDetail />', () => {
   let articleDetail;
