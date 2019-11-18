@@ -2,7 +2,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
+import { Switch } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import ArticleCreate from './ArticleCreate';
 import { getMockStore } from '../../test-utils/mocks';
@@ -23,7 +23,12 @@ describe('<ArticleCreate />', () => {
       <Provider store={mockStore}>
         <ConnectedRouter history={history}>
           <Switch>
-            <ArticleCreate show onHide={spyHide} />
+            <ArticleCreate
+              show
+              onHide={spyHide}
+              title="title"
+              content="content"
+            />
           </Switch>
         </ConnectedRouter>
       </Provider>

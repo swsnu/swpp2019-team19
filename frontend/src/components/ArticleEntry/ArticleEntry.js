@@ -1,12 +1,12 @@
-/* eslint-disable react/self-closing-comp */
-/* eslint-disable react/prop-types */
-/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { useDispatch, connect } from 'react-redux';
 import { Card, Col } from 'react-bootstrap';
 import { faThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import PropTypes from 'prop-types';
 import ArticleDetail from '../ArticleDetail/ArticleDetail';
+
 import * as actionCreators from '../../store/actions';
 
 import './ArticleEntry.css';
@@ -45,9 +45,10 @@ const ArticleEntry = (props) => {
 
   const [modalShow, setModalShow] = React.useState(false);
 
+  const { article, storedArticle } = props;
   const {
     tag, content, title, author,
-  } = props.article;
+  } = article;
 
   const dispatch = useDispatch();
   return (
@@ -80,7 +81,7 @@ const ArticleEntry = (props) => {
           </footer>
           <div className="vote-difference">
             <FontAwesomeIcon icon={faThumbsUp} />
-            {props.article.vote_diff}
+            {article.vote_diff}
           </div>
         </Card.Body>
         {/* additional information in footer if needed */}
@@ -91,7 +92,7 @@ const ArticleEntry = (props) => {
       {/* article modal happens here */}
       {/* TODO : fetch in articleDetail, not passing article as props */}
       <ArticleDetail
-        article={props.storedArticle}
+        article={storedArticle}
         show={modalShow}
         onHide={() => {
           setModalShow(false);
@@ -116,3 +117,11 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(ArticleEntry);
+
+ArticleEntry.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  article: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  storedArticle: PropTypes.object.isRequired,
+  fetch: PropTypes.func.isRequired,
+};

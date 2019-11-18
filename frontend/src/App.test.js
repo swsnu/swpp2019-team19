@@ -14,7 +14,7 @@ const stubUserInitialState = {
 
 };
 const stubChatInitialState = {
-
+  chatHistory: [],
 };
 
 const stubCommentInitialState = {

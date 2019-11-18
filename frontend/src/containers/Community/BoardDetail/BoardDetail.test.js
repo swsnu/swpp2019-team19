@@ -105,7 +105,7 @@ describe('<BoardDetail />', () => {
     expect(spyFetchArticleList).toHaveBeenCalledTimes(1);
     expect(spyFetchArticleList).toHaveBeenLastCalledWith(defaultOption);
 
-    const searchButton = wrapper.find('#search-button').at(0);
+    // const searchButton = wrapper.find('#search-button').at(0);
     const sortCriteria = wrapper.find('#sort-criteria').at(4);
     // TODO : test DropdownItem select
     sortCriteria.simulate('click');
@@ -187,7 +187,6 @@ describe('<BoardDetail />', () => {
       searchCriteria: 'title',
     });
   });
-  // TODO : resolve UnhandledPromiseRejectionWarning
 
   it('filters', () => {
     expect(spyFetchArticleList).toHaveBeenCalledTimes(0);

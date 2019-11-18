@@ -11,7 +11,8 @@ export default function (state = initialState, action = defaultAction) {
     case RCV_QUESTION: {
       const rcv = action.message.map((response) => ({
         from: 'bot',
-        message: response.text === undefined ? { image: response.image } : { text: response.text },
+        message: response.text === undefined
+          ? { image: response.image } : { text: response.text },
       }));
       return { ...state, chatHistory: state.chatHistory.concat(rcv) };
     }

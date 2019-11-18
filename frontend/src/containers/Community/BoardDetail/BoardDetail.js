@@ -1,6 +1,6 @@
-/* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   ButtonGroup,
   Button,
@@ -14,99 +14,107 @@ import {
   Col,
 } from 'react-bootstrap';
 
-import { connect } from 'react-redux';
-import * as actionCreators from '../../../store/actions';
+import PropTypes from 'prop-types';
+
 import ArticleEntry from '../../../components/ArticleEntry/ArticleEntry';
 import ArticleCreate from '../../../components/ArticleCreate/ArticleCreate';
+import * as actionCreators from '../../../store/actions';
 import './BoardDetail.css';
 
 class BoardDetail extends Component {
-  /* eslint-disable */
   constructor(props) {
     super(props);
+    const { match, fetchArticles } = this.props;
     this.state = {
       currentPageNumber: 1,
       filterCriteria: 'all',
       sortCriteria: 'new',
       searchCriteria: 'title',
       searchKeyword: '',
-      boardName: this.props.match.params.boardName,
+      boardName: match.params.boardName,
       articlesPerRequest: 6,
       tmpKeyword: '',
       articleCreateShow: false,
-    }
-    this.props.fetchArticles(this.state);
+    };
+    fetchArticles(this.state);
   }
-  /* eslint-disable */
 
 
   render() {
-    const setArticleCreateShow = (input_bool) => {
-      this.setState({ articleCreateShow: input_bool });
-    }
+    const setArticleCreateShow = (inputBool) => {
+      this.setState({ articleCreateShow: inputBool });
+    };
 
     const statusToSelected = (status) => {
-      return this.state.filterCriteria === status ? 'primary' : 'secondary';
-    }
+      const { filterCriteria } = this.state;
+      return filterCriteria === status ? 'primary' : 'secondary';
+    };
     const setAndFetch = (filter) => {
       this.setState({ filterCriteria: filter });
-      this.props.fetchArticles({
-        ...this.state, filterCriteria: filter
+      const { fetchArticles } = this.props;
+      fetchArticles({
+        ...this.state, filterCriteria: filter,
       });
-    }
+    };
 
     const setSortCriteriaAndFetch = (criteria) => {
       this.setState({ sortCriteria: criteria });
-      this.props.fetchArticles({
-        ...this.state, sortCriteria: criteria
-      })
-    }
+      const { fetchArticles } = this.props;
+      fetchArticles({
+        ...this.state, sortCriteria: criteria,
+      });
+    };
 
     const setCurrentPageNumberAndFetch = (num) => {
       this.setState({ currentPageNumber: num });
-      this.props.fetchArticles({
-        ...this.state, currentPageNumber: num
+      const { fetchArticles } = this.props;
+      fetchArticles({
+        ...this.state, currentPageNumber: num,
       });
-    }
+    };
 
     const makeArticleEntry = (article) => (
       <ArticleEntry article={article} key={article.id} />
     );
-    let active = this.state.currentPageNumber;
-    let items = [];
-    const leftEnd = (this.state.currentPageNumber - 2 > 0) ?
-      (this.state.currentPageNumber - 2) : (1);
-    const rightEnd = (this.state.currentPageNumber + 2 < this.props.storedPages) ?
-      (this.state.currentPageNumber + 2) : (this.props.storedPages);
+    const { currentPageNumber } = this.state;
+    const { storedPages } = this.props;
+    const active = currentPageNumber;
+    const items = [];
+    const leftEnd = (currentPageNumber - 2 > 0)
+      ? (currentPageNumber - 2) : (1);
+    const rightEnd = (currentPageNumber + 2 < storedPages)
+      ? (currentPageNumber + 2) : (storedPages);
     items.push(
       <Pagination.First
-        key='go-first-page'
+        key="go-first-page"
         onClick={() => setCurrentPageNumberAndFetch(1)}
-      />
+      />,
     );
     items.push(
       <Pagination.Prev
-        key='go-previous-page'
+        key="go-previous-page"
         onClick={() => setCurrentPageNumberAndFetch(
-          (this.state.currentPageNumber - 1 > 1) ?
-            (this.state.currentPageNumber - 1) : (1))}
-      />
+          (currentPageNumber - 1 > 1)
+            ? (currentPageNumber - 1) : (1),
+        )}
+      />,
     );
-    if (this.state.currentPageNumber > 3) {
+    if (currentPageNumber > 3) {
       items.push(
         <Pagination.Ellipsis
-          key='go-previous-page-group'
+          key="go-previous-page-group"
           onClick={() => setCurrentPageNumberAndFetch(
-            (this.state.currentPageNumber - 3))}
-        />
+            (currentPageNumber - 3),
+          )}
+        />,
       );
     }
 
-    for (let number = leftEnd; number <= rightEnd; number++) {
+    for (let number = leftEnd; number <= rightEnd; number += 1) {
       items.push(
         <Pagination.Item
           key={number}
-          className={"page" + number}
+          className={`page${number}`}
           active={number === active}
           onClick={() => setCurrentPageNumberAndFetch(number)}
         >
@@ -114,33 +122,33 @@ class BoardDetail extends Component {
         </Pagination.Item>,
       );
     }
-    if (this.state.currentPageNumber + 2 < this.props.storedPages) {
+    if (currentPageNumber + 2 < storedPages) {
       items.push(
         <Pagination.Ellipsis
-          key='go-next-page-group'
+          key="go-next-page-group"
           onClick={() => setCurrentPageNumberAndFetch(
-            (this.state.currentPageNumber + 3)
+            (currentPageNumber + 3),
           )}
-        />
+        />,
       );
     }
 
     items.push(
       <Pagination.Next
-        key='go-next-page'
+        key="go-next-page"
         onClick={() => setCurrentPageNumberAndFetch(
-          (this.state.currentPageNumber < this.props.storedPages) ?
-            (this.state.currentPageNumber + 1) : (this.props.storedPages)
+          (currentPageNumber < storedPages)
+            ? (currentPageNumber + 1) : (storedPages),
         )}
-      />
+      />,
     );
     items.push(
       <Pagination.Last
-        key='go-last-page'
+        key="go-last-page"
         onClick={() => setCurrentPageNumberAndFetch(
-          this.props.storedPages
+          storedPages,
         )}
-      />
+      />,
     );
 
     const pagination = (
@@ -151,15 +159,54 @@ class BoardDetail extends Component {
       </div>
     );
 
+    const buttonFactory = (name) => {
+      const newId = `filter-${name}`;
+      return (
+        <Button
+          id={newId}
+          variant={statusToSelected(name)}
+          onClick={() => setAndFetch(name)}
+        >
+          {name}
+        </Button>
+      );
+    };
+
+    const dropdownItemFactory = (type, name) => {
+      const newId = `${type}-by-${name}`;
+      if (type === 'sort') {
+        return (
+          <DropdownItem
+            id={newId}
+            onSelect={() => setSortCriteriaAndFetch(name)}
+          >
+            {name}
+          </DropdownItem>
+        );
+      }
+      return (
+        <DropdownItem
+          id={newId}
+          onSelect={() => this.setState({ searchCriteria: name })}
+        >
+          {name}
+        </DropdownItem>
+      );
+    };
+
+    const { history, storedArticles, fetchArticles } = this.props;
+    const {
+      sortCriteria, searchCriteria, tmpKeyword, articleCreateShow,
+    } = this.state;
     return (
       <Container fluid className="BoardDetail">
         <Row>
-          <Col md={1} lg={2}></Col>
+          <Col md={1} lg={2} />
           <Col>
             <Button
-              variant='link'
-              id='direct-to-board'
-              onClick={() => this.props.history.push('/boards')}
+              variant="link"
+              id="direct-to-board"
+              onClick={() => history.push('/boards')}
             >
               go to main page...
             </Button>
@@ -170,54 +217,25 @@ class BoardDetail extends Component {
               <Col>
                 <DropdownButton
                   as={InputGroup.Prepend}
-                  variant='outline-secondary'
-                  title={this.state.sortCriteria}
-                  id='sort-criteria'
+                  variant="outline-secondary"
+                  title={sortCriteria}
+                  id="sort-criteria"
                 >
-                  <DropdownItem
-                    id='sort-by-new'
-                    onSelect={() => setSortCriteriaAndFetch('new')}
-                  >new</DropdownItem>
-                  <DropdownItem
-                    id='sort-by-old'
-                    onSelect={() => setSortCriteriaAndFetch('old')}
-                  >old</DropdownItem>
-                  <DropdownItem
-                    id='sort-by-good'
-                    onSelect={() => setSortCriteriaAndFetch('good')}
-                  >good</DropdownItem>
+                  {dropdownItemFactory('sort', 'new')}
+                  {dropdownItemFactory('sort', 'old')}
+                  {dropdownItemFactory('sort', 'good')}
                 </DropdownButton>
               </Col>
               <Col>
                 <ButtonGroup
-                  aria-label='filter-criteria'
+                  aria-label="filter-criteria"
                   className="float-left"
                 >
-                  <Button
-                    id='filter-all'
-                    variant={statusToSelected('all')}
-                    onClick={() => setAndFetch('all')}
-                  >all</Button>
-                  <Button
-                    id='filter-normal'
-                    variant={statusToSelected('normal')}
-                    onClick={() => setAndFetch('normal')}
-                  >normal</Button>
-                  <Button
-                    id='filter-working'
-                    variant={statusToSelected('working')}
-                    onClick={() => setAndFetch('working')}
-                  >working</Button>
-                  <Button
-                    id='filter-done'
-                    variant={statusToSelected('done')}
-                    onClick={() => setAndFetch('done')}
-                  >done</Button>
-                  <Button
-                    id='filter-rejected'
-                    variant={statusToSelected('rejected')}
-                    onClick={() => setAndFetch('rejected')}
-                  >rejected</Button>
+                  {buttonFactory('all')}
+                  {buttonFactory('normal')}
+                  {buttonFactory('working')}
+                  {buttonFactory('done')}
+                  {buttonFactory('rejected')}
                 </ButtonGroup>
               </Col>
 
@@ -225,7 +243,7 @@ class BoardDetail extends Component {
                 <Button
                   className="float-right"
                   float="right"
-                  id='write-button'
+                  id="write-button"
                   onClick={() => setArticleCreateShow(true)}
                 >
                   Write
@@ -235,54 +253,54 @@ class BoardDetail extends Component {
 
             <Container fluid>
               <Row>
-                {this.props.storedArticles.map(makeArticleEntry)}
+                {storedArticles.map(makeArticleEntry)}
               </Row>
             </Container>
-            <InputGroup className='mb-3'>
+            <InputGroup className="mb-3">
               <DropdownButton
                 as={InputGroup.Prepend}
-                variant='outline-secondary'
-                title={this.state.searchCriteria}
-                id='search-criteria'
+                variant="outline-secondary"
+                title={searchCriteria}
+                id="search-criteria"
               >
-                <DropdownItem
-                  id='search-by-title'
-                  onSelect={() => this.setState({ searchCriteria: 'title' })}
-                >title</DropdownItem>
-                <DropdownItem
-                  id='search-by-nickname'
-                  onSelect={() => this.setState({ searchCriteria: 'nickname' })}
-                >nickname</DropdownItem>
+                {dropdownItemFactory('search', 'title')}
+                {dropdownItemFactory('search', 'nickname')}
               </DropdownButton>
               <Form.Control
-                id='search-keyword'
-                aria-describedby='search-keyword'
-                placeholder='input keyword...'
-                value={this.state.tmpKeyword}
+                id="search-keyword"
+                aria-describedby="search-keyword"
+                placeholder="input keyword..."
+                value={tmpKeyword}
                 onChange={(event) => this.setState({
-                  tmpKeyword: event.target.value
+                  tmpKeyword: event.target.value,
                 })}
               />
               <Button
-                id='search-button'
+                id="search-button"
                 onClick={() => {
-                  this.setState({ searchKeyword: this.state.tmpKeyword });
-                  this.props.fetchArticles({
-                    ...this.state, searchKeyword: this.state.tmpKeyword
-                  })
+                  this.setState((prevState) => ({
+                    searchKeyword: prevState.tmpKeyword,
+                  }));
+                  fetchArticles({
+                    ...this.state, searchKeyword: tmpKeyword,
+                  });
                 }}
-                disabled={this.state.tmpKeyword.length === 1}
-              >search</Button>
+                disabled={tmpKeyword.length === 1}
+              >
+                search
+              </Button>
             </InputGroup>
             <div className="board-detail-pagination">
               {pagination}
             </div>
           </Col>
-          <Col md={1} lg={2}></Col>
+          <Col md={1} lg={2} />
         </Row>
         <ArticleCreate
-          show={this.state.articleCreateShow}
+          show={articleCreateShow}
           onHide={() => setArticleCreateShow(false)}
+          title=""
+          content=""
         />
       </Container>
     );
@@ -304,3 +322,14 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(BoardDetail);
+
+BoardDetail.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  match: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  history: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  storedArticles: PropTypes.array.isRequired,
+  storedPages: PropTypes.number.isRequired,
+  fetchArticles: PropTypes.func.isRequired,
+};

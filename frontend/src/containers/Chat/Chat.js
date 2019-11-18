@@ -1,17 +1,17 @@
-/* eslint-disable no-irregular-whitespace */
 /* eslint-disable react/prefer-stateless-function */
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import { Button, Form } from 'react-bootstrap';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import './Chat.css';
-import { connect } from 'react-redux';
-import * as actionCreators from '../../store/actions';
+
+import PropTypes from 'prop-types';
 import OutgoingMessage from '../../components/Message/OutgoingMessage';
 import IncomingMessage from '../../components/Message/IncomingMessage';
 
+import * as actionCreators from '../../store/actions';
+import './Chat.css';
 
 class Chat extends Component {
   constructor(props) {
@@ -33,16 +33,16 @@ class Chat extends Component {
   }
 
   render() {
-    const sendMessage = (message) => {
-      this.props.sendMessage(message);
-      this.setState({ userInput: '' });
-    };
     const getUUID = () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
       const r = Math.random() * 16;
       const v = ((c === 'x') ? r : (((r % 3) * 17) % 8));
       return v.toString(16);
     });
-    const chatLog = this.props.chatHistory.map((message) => {
+
+    const { chatHistory, history, sendMessage } = this.props;
+    const { userInput } = this.state;
+
+    const chatLog = chatHistory.map((message) => {
       if (message.from === 'user') {
         return (
           <OutgoingMessage
@@ -58,6 +58,7 @@ class Chat extends Component {
         />
       );
     });
+
     return (
       <div className="chat container">
         <div className="row vertical-center">
@@ -81,7 +82,7 @@ class Chat extends Component {
                         <br />
                         <Button
                           id="direct-to-boards"
-                          onClick={() => this.props.history.push('/boards/')}
+                          onClick={() => history.push('/boards/')}
                         >
                           Go!
                         </Button>
@@ -95,7 +96,7 @@ class Chat extends Component {
                         id="input-chat"
                         aria-describedby="input-chat"
                         placeholder="ask me anything..."
-                        value={this.state.userInput}
+                        value={userInput}
                         onChange={(event) => this.setState({
                           userInput: event.target.value,
                         })}
@@ -104,7 +105,10 @@ class Chat extends Component {
                         variant="outline-dark"
                         className="msg_send_btn"
                         type="button"
-                        onClick={() => sendMessage(this.state.userInput)}
+                        onClick={() => {
+                          sendMessage(userInput);
+                          this.setState({ userInput: '' });
+                        }}
                       >
                         <FontAwesomeIcon icon={faPaperPlane} />
                       </Button>
@@ -135,3 +139,11 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
 )(Chat);
+
+Chat.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  chatHistory: PropTypes.array.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  history: PropTypes.object.isRequired,
+  sendMessage: PropTypes.func.isRequired,
+};

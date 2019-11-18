@@ -1,76 +1,102 @@
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
 import {
-  Navbar, Col, Button, Nav,
+  Navbar, Row, Col, Button, Nav, ButtonGroup,
 } from 'react-bootstrap';
-import './CustomNavbar.css';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faWindowClose } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-function CustomNavbar() {
-  const [show, setShow] = useState(false);
+import PropTypes from 'prop-types';
+import './CustomNavbar.css';
 
+import * as actionCreators from '../../store/actions/user';
+
+function CustomNavbar(props) {
+  const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const handleSignout = () => {
+    props.signout();
+    setShow(false);
+  };
+  const redirectAndClose = (url) => {
+    props.history.push(url);
+    setShow(false);
+  };
+
+  const makeNavLink = (url, display) => {
+    const fullUrl = `http://localhost:3000/${url}`;
+    return (
+      <Nav.Link
+        href={fullUrl}
+        className="nav-link-custom list-group-item list-group-item-action bg-light"
+      >
+        {display}
+      </Nav.Link>
+    );
+  };
   return (
     <>
       {(show) ? (
         <div id="sidebar-wrapper">
           <div className="sidebar-heading">
-            <Button
-              className="sidebar-hide-button"
-              variant="secondary"
-              onClick={handleClose}
-            >
-              Close
-            </Button>
+            <Row id="sidebar-account">
+              <Col>
+                {
+                  sessionStorage.getItem('username') === null
+                    ? (
+                      <ButtonGroup id="not-logged-in">
+                        <Button
+                          id="signin-button"
+                          onClick={() => redirectAndClose('/signin')}
+                        >
+                          sign in
+                        </Button>
+                        <Button
+                          id="signup-button"
+                          onClick={() => redirectAndClose('/signup')}
+                        >
+                          sign up
+                        </Button>
+                      </ButtonGroup>
+                    )
+                    : (
+                      <ButtonGroup id="logged-in">
+                        <Button
+                          id="account-button"
+                          onClick={() => redirectAndClose('/account')}
+                        >
+                          account
+                        </Button>
+                        <Button
+                          id="signout-button"
+                          onClick={() => handleSignout()}
+                        >
+                          sign out
+                        </Button>
+                      </ButtonGroup>
+                    )
+                }
+              </Col>
+              <Button
+                className="sidebar-hide-button"
+                variant="link"
+                onClick={handleClose}
+              >
+                <FontAwesomeIcon icon={faWindowClose} size="2x" />
+              </Button>
+            </Row>
           </div>
           <div className="sidebar-body">
             <Nav
               id="community-group"
               className="flex-column list-group list-group-flush"
             >
-              <Nav.Link
-                href="http://localhost:3000/chat"
-                className="nav-link-custom list-group-item list-group-item-action bg-light"
-              >
-                Chat
-              </Nav.Link>
-              <Nav.Link
-                href="http://localhost:3000/boards"
-                className="nav-link-custom list-group-item list-group-item-action bg-light"
-              >
-                Community Main
-              </Nav.Link>
-              <Nav.Link
-                href="http://localhost:3000/boards/all"
-                className="nav-link-custom list-group-item list-group-item-action bg-light"
-              >
-                All Board
-              </Nav.Link>
-              <Nav.Link
-                href="http://localhost:3000/boards/hot"
-                className="nav-link-custom list-group-item list-group-item-action bg-light"
-              >
-                Hot Board
-              </Nav.Link>
-            </Nav>
-            <Nav
-              id="user-group"
-              className="flex-column list-group list-group-flush"
-            >
-              <Nav.Link
-                href="http://localhost:3000/signin"
-                className="nav-link-custom list-group-item list-group-item-action bg-light"
-              >
-                Sign In
-              </Nav.Link>
-              <Nav.Link
-                href="http://localhost:3000/signup"
-                className="nav-link-custom-bottom list-group-item list-group-item-action bg-light"
-              >
-                Sign Up
-              </Nav.Link>
+              {makeNavLink('chat', 'Chat')}
+              {makeNavLink('boards', 'Community Main')}
+              {makeNavLink('boards/all', 'All Board')}
+              {makeNavLink('boards/hot', 'Hot Board')}
             </Nav>
           </div>
           <div className="sidebar-footer">
@@ -82,7 +108,7 @@ function CustomNavbar() {
         <Col xs={1} md={1}>
           <Button
             className="sidebar-show-button float-left"
-            variant="secondary"
+            variant="link"
             onClick={handleShow}
           >
             <FontAwesomeIcon icon={faBars} size="2x" />
@@ -105,4 +131,19 @@ function CustomNavbar() {
 }
 
 
-export default CustomNavbar;
+const mapDispatchToProps = (dispatch) => ({
+  signout: () => dispatch(
+    actionCreators.signout(),
+  ),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(CustomNavbar);
+
+CustomNavbar.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  history: PropTypes.object.isRequired,
+  signout: PropTypes.func.isRequired,
+};
