@@ -39,6 +39,7 @@ class BoardDetail extends Component {
     fetchArticles(this.state);
   }
 
+
   render() {
     const setArticleCreateShow = (inputBool) => {
       this.setState({ articleCreateShow: inputBool });

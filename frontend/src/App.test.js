@@ -17,10 +17,15 @@ const stubChatInitialState = {
   chatHistory: [],
 };
 
+const stubCommentInitialState = {
+
+};
+
 const mockStore = getMockStore(
   stubArticleInitialState,
   stubUserInitialState,
   stubChatInitialState,
+  stubCommentInitialState,
 );
 
 

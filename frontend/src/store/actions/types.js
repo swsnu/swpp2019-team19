@@ -34,3 +34,9 @@ export const VOTE = 'VOTE';
 // Chat
 export const SEND_QUESTION = 'SEND_QUESTION';
 export const RCV_QUESTION = 'RCV_QUESTION';
+
+// Comment
+export const FETCH_COMMENT = 'FETCH_COMMENT';
+export const CLEAR_COMMENT = 'CLEAR_COMMENT';
+export const DELETE_COMMENT = 'DELETE_COMMENT';
+export const POST_COMMENT = 'POST_COMMENT';

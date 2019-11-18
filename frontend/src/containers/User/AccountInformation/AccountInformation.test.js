@@ -23,8 +23,8 @@ const stubUserLoadingState = {
   loadingUser: true,
 };
 
-const mockStore = getMockStore({}, stubUserInitialState, {});
-const loadingStore = getMockStore({}, stubUserLoadingState, {});
+const mockStore = getMockStore({}, stubUserInitialState, {}, {});
+const loadingStore = getMockStore({}, stubUserLoadingState, {}, {});
 
 describe('<AccountInformation />', () => {
   const username = 'mj';

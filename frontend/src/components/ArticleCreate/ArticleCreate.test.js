@@ -12,7 +12,7 @@ import * as ActionCreators from '../../store/actions/article';
 
 const stubArticleInitialState = {};
 
-const mockStore = getMockStore(stubArticleInitialState, {}, {});
+const mockStore = getMockStore(stubArticleInitialState, {}, {}, {});
 
 describe('<ArticleCreate />', () => {
   let articleCreate;

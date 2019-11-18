@@ -18,6 +18,10 @@ const getMockChatReducer = jest.fn(
   (initialState) => (state = initialState) => state,
 );
 
+const getMockCommentReducer = jest.fn(
+  (initialState) => (state = initialState) => state,
+);
+
 // eslint-disable-next-line no-unused-vars
 const logger = (store) => (next) => (action) => {
   const result = next(action);
@@ -29,14 +33,17 @@ export const getMockStore = (
   articleInitialState,
   userInitialState,
   chatInitialState,
+  commentInitialState,
 ) => {
   const mockArticleReducer = getMockArticleReducer(articleInitialState);
   const mockUserReducer = getMockUserReducer(userInitialState);
   const mockChatReducer = getMockChatReducer(chatInitialState);
+  const mockCommentReducer = getMockCommentReducer(commentInitialState);
   const rootReducer = combineReducers({
     article: mockArticleReducer,
     user: mockUserReducer,
     chat: mockChatReducer,
+    comment: mockCommentReducer,
     router: connectRouter(history),
   });
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

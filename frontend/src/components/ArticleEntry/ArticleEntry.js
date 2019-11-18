@@ -1,6 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
-
+import { useDispatch, connect } from 'react-redux';
 import { Card, Col } from 'react-bootstrap';
 import { faThumbsUp } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -51,12 +50,15 @@ const ArticleEntry = (props) => {
     tag, content, title, author,
   } = article;
 
+  const dispatch = useDispatch();
   return (
     <Col className="ArticleEntry">
       <Card
         id="article-entry"
         tag="a"
         onClick={() => {
+          setModalShow(true);
+          dispatch(actionCreators.fetchComment(props.article.id));
           props.fetch(props.article.id);
           setModalShow(true);
         }}
@@ -92,7 +94,10 @@ const ArticleEntry = (props) => {
       <ArticleDetail
         article={storedArticle}
         show={modalShow}
-        onHide={() => setModalShow(false)}
+        onHide={() => {
+          setModalShow(false);
+          dispatch(actionCreators.clearComment());
+        }}
       />
     </Col>
   );

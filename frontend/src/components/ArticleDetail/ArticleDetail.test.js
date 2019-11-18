@@ -55,12 +55,12 @@ const stubArticleRejected = {
     tag: 'rejected',
   },
 };
-
-const mockStore = getMockStore(stubArticleNormal, {}, {});
+const mockStore = getMockStore(stubArticleNormal, {}, {}, {});
 
 describe('<ArticleDetail />', () => {
   let articleDetail;
   let spyVote;
+  // let spyPostComment;
   const spyOnHide = jest.fn();
 
   beforeEach(() => {
@@ -74,6 +74,9 @@ describe('<ArticleDetail />', () => {
         />
       </Provider>
     );
+    // spyPostComment = jest
+    //   .spyOn(ActionCreators, 'postComment')
+    //   .mockImplementation((id, content) => (dispatch) => { });
     spyVote = jest
       .spyOn(ActionCreators, 'putVote')
       .mockImplementation(() => (dispatch) => { });
@@ -161,4 +164,15 @@ describe('<ArticleDetail />', () => {
     expect(spyVote).toHaveBeenCalledTimes(2);
     expect(spyVote).toHaveBeenLastCalledWith('dislike', 1);
   });
+
+  // it('post comment', () => {
+  //   const component = mount(articleDetail);
+  //   const postCommentButton = component.find('#post-component-button').at(0);
+  //   const input = component.find('#comment-input');
+  //   expect(spyPostComment).toHaveBeenCalledTimes(0);
+  //   expect(input).simulate('change', { target: { value: 'hello' } });
+  //   postCommentButton.simulate('click');
+  //   expect(spyPostComment).toHaveBeenCalledTimes(1);
+  //   // expect(spyPostComment).toHaveBeenLastCalledWith('content', )
+  // });
 });
