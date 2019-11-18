@@ -83,7 +83,7 @@ const ArticleDetail = (props) => {
           <div className="comment-input">
             <input id="comment-input" value={newComment} onChange={onChangeComment} />
             <Button
-              id="post-comment-button"
+              id="comment-write-button"
               onClick={() => dispatch(actionCreators.postComment(props.article.id, newComment))}
             >
               Comment
