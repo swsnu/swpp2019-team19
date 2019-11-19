@@ -320,10 +320,10 @@ def comment(request, id):
         article = Article.objects.get(id=id)
         new_comment = Comment(article=article, content=content, author=user)
         new_comment.save()
-        comments = Comment.objects.all().values("article", "content", "author", "id")
+        comments = Comment.objects.filter(article=id).values(
+            "article", "content", "author__nickname", "id"
+        )
         comment_json = list(comments)
-        for comment in comment_json:
-            comment["author"] = user.nickname
         return JsonResponse(comment_json, status=201, safe=False)
     else:
         comment = get_object_or_404(Comment, pk=id)
