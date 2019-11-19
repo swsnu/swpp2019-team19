@@ -2,8 +2,10 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
+// import { render, fireEvent, getByTestId } from '@testing-library/react';
 import { getMockStore } from '../../test-utils/mocks';
 import * as ActionCreators from '../../store/actions/article';
+import * as commentAction from '../../store/actions/comment';
 
 import ArticleDetail from './ArticleDetail';
 
@@ -55,12 +57,13 @@ const stubArticleRejected = {
     tag: 'rejected',
   },
 };
+
 const mockStore = getMockStore(stubArticleNormal, {}, {}, {});
 
 describe('<ArticleDetail />', () => {
   let articleDetail;
   let spyVote;
-  // let spyPostComment;
+  let spyPostComment;
   const spyOnHide = jest.fn();
 
   beforeEach(() => {
@@ -74,9 +77,9 @@ describe('<ArticleDetail />', () => {
         />
       </Provider>
     );
-    // spyPostComment = jest
-    //   .spyOn(ActionCreators, 'postComment')
-    //   .mockImplementation((id, content) => (dispatch) => { });
+    spyPostComment = jest
+      .spyOn(commentAction, 'postComment')
+      .mockImplementation((id, content) => (dispatch) => { });
     spyVote = jest
       .spyOn(ActionCreators, 'putVote')
       .mockImplementation(() => (dispatch) => { });
@@ -165,14 +168,17 @@ describe('<ArticleDetail />', () => {
     expect(spyVote).toHaveBeenLastCalledWith('dislike', 1);
   });
 
-  // it('post comment', () => {
-  //   const component = mount(articleDetail);
-  //   const postCommentButton = component.find('#post-component-button').at(0);
-  //   const input = component.find('#comment-input');
-  //   expect(spyPostComment).toHaveBeenCalledTimes(0);
-  //   expect(input).simulate('change', { target: { value: 'hello' } });
-  //   postCommentButton.simulate('click');
-  //   expect(spyPostComment).toHaveBeenCalledTimes(1);
-  //   // expect(spyPostComment).toHaveBeenLastCalledWith('content', )
-  // });
+  it('post comment', () => {
+    const component = mount(articleDetail);
+    const commentInput = component.find('#comment-input');
+    const commentButton = component.find('#comment-write-button').at(0);
+    // const commentList = component.find('#comment-list');
+    commentInput.instance().value = 'new comment';
+    commentInput.simulate('change');
+    expect(commentInput.instance().value).toEqual('new comment');
+    expect(spyPostComment).toHaveBeenCalledTimes(0);
+    commentButton.simulate('click');
+    expect(spyPostComment).toHaveBeenCalledTimes(1);
+    expect(commentInput.instance().value).toEqual('');
+  });
 });
