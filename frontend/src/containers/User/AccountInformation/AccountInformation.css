@@ -48,6 +48,7 @@
 
 .form-label-group-account input {
     height: auto;
+    text-align: center;
     border-radius: 2rem;
 }
 
