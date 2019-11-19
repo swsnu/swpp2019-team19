@@ -10,10 +10,10 @@ from rasa.nlu.training_data import Message, TrainingData
 
 import MeCab
 
-class KoreanTokenizer(Tokenizer, Component):
-    
-    provides = ["tokens"]
 
+class KoreanTokenizer(Tokenizer, Component):
+
+    provides = ["tokens"]
 
     def train(
         self, training_data: TrainingData, config: RasaNLUModelConfig, **kwargs: Any
@@ -23,18 +23,16 @@ class KoreanTokenizer(Tokenizer, Component):
 
     def process(self, message: Message, **kwargs: Any) -> None:
 
-        message.set(
-            "tokens", self.tokenize(message.text)
-        )
+        message.set("tokens", self.tokenize(message.text))
 
     @staticmethod
     def tokenize(text: Text) -> List[Token]:
 
-        mt = MeCab.Tagger()
+        mt = MeCab.Tagger("-d /usr/local/lib/mecab/dic/mecab-ko-dic")
         parsed = mt.parse(text)
-        x = (parsed.replace('\n', '\t').split('\t'))
+        x = parsed.replace("\n", "\t").split("\t")
         words = []
-        for i in range(0, len(x)-2, 2):
+        for i in range(0, len(x) - 2, 2):
             w = x[i]
             words.append(w)
 
