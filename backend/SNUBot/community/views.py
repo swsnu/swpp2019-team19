@@ -142,19 +142,17 @@ def boards(request):
         article_list = [
             article
             for article in Article.objects.filter(board=board_name).values(
-                "id", "title", "content", "author", "tag", "vote"
+                "id", "title", "content", "author__nickname", "tag", "vote"
             )
         ]
     else:
         article_list = [
             article
             for article in Article.objects.filter(board=board_name, tag=tag).values(
-                "id", "title", "content", "author", "tag", "vote"
+                "id", "title", "content", "author__nickname", "tag", "vote"
             )
         ]
     for article in article_list:
-        target_user = User.objects.get(id=article["author"])
-        article["author"] = target_user.nickname
         target_vote = Vote.objects.get(id=article["vote"])
         article["vote_diff"] = target_vote.like - target_vote.dislike
         article["like"] = target_vote.like
@@ -164,7 +162,7 @@ def boards(request):
             article_list = [
                 article
                 for article in article_list
-                if article["author"].find(search_keyword) != -1
+                if article["author_nickname"].find(search_keyword) != -1
             ]
         else:  # if search_criteria == 'title':
             article_list = [
@@ -203,7 +201,7 @@ def article(request):
         "id": new_article.id,
         "title": title,
         "content": content,
-        "author": author.nickname,
+        "author__nickname": author.nickname,
         "like": new_vote.like,
         "dislike": new_vote.dislike,
         "tag": new_article.tag,
@@ -220,7 +218,7 @@ def article_detail(request, article_id):
             "id": target_article.id,
             "title": target_article.title,
             "content": target_article.content,
-            "author": target_article.author.nickname,
+            "author__nickname": target_article.author.nickname,
             "like": target_article.vote.like,
             "dislike": target_article.vote.dislike,
             "tag": target_article.tag,
@@ -244,7 +242,7 @@ def article_detail(request, article_id):
             "id": target_article.id,
             "title": target_article.title,
             "content": target_article.content,
-            "author": target_article.author.nickname,
+            "author__nickname": target_article.author.nickname,
             "like": target_article.vote.like,
             "dislike": target_article.vote.dislike,
             "tag": target_article.tag,
@@ -271,8 +269,8 @@ def vote(request, article_id):
     except (KeyError, JSONDecodeError):
         return HttpResponseBadRequest()
     target_vote = Vote.objects.get(article__id=article_id)
-    is_voted_like = user.liker.filter(article__id=article_id)
-    is_voted_dislike = user.disliker.filter(article__id=article_id)
+    is_voted_like = user.liker.filter(article=article_id)
+    is_voted_dislike = user.disliker.filter(article=article_id)
     if (not is_voted_like) and (not is_voted_dislike):
         if request_vote == "like":
             target_vote.like += 1
