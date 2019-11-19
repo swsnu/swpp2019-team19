@@ -162,7 +162,7 @@ def boards(request):
             article_list = [
                 article
                 for article in article_list
-                if article["author_nickname"].find(search_keyword) != -1
+                if article["author__nickname"].find(search_keyword) != -1
             ]
         else:  # if search_criteria == 'title':
             article_list = [
