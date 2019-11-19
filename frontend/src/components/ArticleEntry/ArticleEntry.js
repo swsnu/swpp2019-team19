@@ -47,8 +47,9 @@ const ArticleEntry = (props) => {
 
   const { article, storedArticle } = props;
   const {
-    tag, content, title, author__nickname,
+    tag, content, title,
   } = article;
+  const author = article.author__nickname;
 
   const dispatch = useDispatch();
   return (
@@ -77,7 +78,7 @@ const ArticleEntry = (props) => {
             }
           </Card.Text>
           <footer className="blockquote-footer">
-            <cite title="author">{author__nickname}</cite>
+            <cite title="author">{author}</cite>
           </footer>
           <div className="vote-difference">
             <FontAwesomeIcon icon={faThumbsUp} />
