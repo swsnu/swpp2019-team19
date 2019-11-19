@@ -32,7 +32,7 @@ const ArticleDetail = (props) => {
   const [newComment, setComment] = useState('');
 
   const makeCommentEntry = (comment) => (
-    <Comment content={comment.content} author={comment.author} key={comment.id} />
+    <Comment content={comment.content} author={comment.author__nickname} key={comment.id} />
   );
   const onChangeComment = (e) => (
     setComment(e.target.value)
@@ -56,7 +56,7 @@ const ArticleDetail = (props) => {
         </Modal.Header>
         <Modal.Body>
           <h4>{article.content}</h4>
-          <p>{article.author}</p>
+          <p>{article.author__nickname}</p>
         </Modal.Body>
         <Modal.Footer>
           <div id="tag-description" style={{ textAlign: 'left' }}>

@@ -24,9 +24,10 @@ pip install django-cors-headers
 pip install rasa-x --extra-index-url https://pypi.rasa.com/simple
 if ubuntu:
 pip install mysqlclient
-if max:
+if mac:
 pip install pymysql
 ```
+* insatll mecab-ko-dic, Check [here](https://bitbucket.org/eunjeon/mecab-ko-dic/src/master/)
 * make mySQL DB Table. Check [here](https://github.com/swsnu/swpp2019-team19/blob/master/DB.md)
 
 

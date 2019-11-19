@@ -47,8 +47,9 @@ const ArticleEntry = (props) => {
 
   const { article, storedArticle } = props;
   const {
-    tag, content, title, author,
+    tag, content, title,
   } = article;
+  const author = article.author__nickname;
 
   const dispatch = useDispatch();
   return (

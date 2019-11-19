@@ -37,7 +37,8 @@ def signup(request):
         return HttpResponseBadRequest()
     try:
         User.objects.create_user(
-            username=username, email=email, nickname=nickname, password=password)
+            username=username, email=email, nickname=nickname, password=password
+        )
     except (IntegrityError):
         return HttpResponse(status=409)
     return HttpResponse(status=201)
@@ -67,8 +68,7 @@ def signin(request):
             new_password = req_data["new_password"]
         except (KeyError, JSONDecodeError):
             return HttpResponseBadRequest()
-        user = authenticate(request, username=username,
-                            password=current_password)
+        user = authenticate(request, username=username, password=current_password)
         if user is not None:
             target_user = User.objects.get(username=username)
             target_user.set_password(new_password)
@@ -99,8 +99,7 @@ def account(request):
                 new_password = req_data["new_password"]
             except (KeyError, JSONDecodeError):
                 return HttpResponseBadRequest()
-            user = authenticate(request, username=username,
-                                password=current_password)
+            user = authenticate(request, username=username, password=current_password)
             if user is not None:
                 target_user = User.objects.get(username=username)
                 target_user.set_password(new_password)
@@ -143,19 +142,17 @@ def boards(request):
         article_list = [
             article
             for article in Article.objects.filter(board=board_name).values(
-                "id", "title", "content", "author", "tag", "vote"
+                "id", "title", "content", "author__nickname", "tag", "vote"
             )
         ]
     else:
         article_list = [
             article
             for article in Article.objects.filter(board=board_name, tag=tag).values(
-                "id", "title", "content", "author", "tag", "vote"
+                "id", "title", "content", "author__nickname", "tag", "vote"
             )
         ]
     for article in article_list:
-        target_user = User.objects.get(id=article["author"])
-        article["author"] = target_user.nickname
         target_vote = Vote.objects.get(id=article["vote"])
         article["vote_diff"] = target_vote.like - target_vote.dislike
         article["like"] = target_vote.like
@@ -165,7 +162,7 @@ def boards(request):
             article_list = [
                 article
                 for article in article_list
-                if article["author"].find(search_keyword) != -1
+                if article["author__nickname"].find(search_keyword) != -1
             ]
         else:  # if search_criteria == 'title':
             article_list = [
@@ -174,14 +171,13 @@ def boards(request):
                 if article["title"].find(search_keyword) != -1
             ]
     if sort_criteria == "good":
-        article_list = sorted(
-            article_list, key=itemgetter("vote"), reverse=True)
+        article_list = sorted(article_list, key=itemgetter("vote"), reverse=True)
     elif sort_criteria == "new":
         article_list.reverse()
-    max_page = math.ceil(len(article_list)/article_count)
+    max_page = math.ceil(len(article_list) / article_count)
     if len(article_list) > article_count:
         article_list = article_list[
-            article_count * (cur_page_num - 1): article_count * cur_page_num
+            article_count * (cur_page_num - 1) : article_count * cur_page_num
         ]
     return_list = [max_page, article_list]
     return JsonResponse(return_list, safe=False)
@@ -205,7 +201,7 @@ def article(request):
         "id": new_article.id,
         "title": title,
         "content": content,
-        "author": author.nickname,
+        "author__nickname": author.nickname,
         "like": new_vote.like,
         "dislike": new_vote.dislike,
         "tag": new_article.tag,
@@ -216,16 +212,13 @@ def article(request):
 @require_http_methods(["GET", "PUT", "DELETE"])
 @ensure_csrf_cookie
 def article_detail(request, article_id):
-    try:
-        target_article = Article.objects.get(id=article_id)
-    except Article.DoesNotExist:
-        return HttpResponseNotFound()
+    target_article = get_object_or_404(Article, pk=article_id)
     if request.method == "GET":
         response_dict = {
             "id": target_article.id,
             "title": target_article.title,
             "content": target_article.content,
-            "author": target_article.author.nickname,
+            "author__nickname": target_article.author.nickname,
             "like": target_article.vote.like,
             "dislike": target_article.vote.dislike,
             "tag": target_article.tag,
@@ -249,7 +242,7 @@ def article_detail(request, article_id):
             "id": target_article.id,
             "title": target_article.title,
             "content": target_article.content,
-            "author": target_article.author.nickname,
+            "author__nickname": target_article.author.nickname,
             "like": target_article.vote.like,
             "dislike": target_article.vote.dislike,
             "tag": target_article.tag,
@@ -276,8 +269,8 @@ def vote(request, article_id):
     except (KeyError, JSONDecodeError):
         return HttpResponseBadRequest()
     target_vote = Vote.objects.get(article__id=article_id)
-    is_voted_like = user.liker.filter(article__id=article_id)
-    is_voted_dislike = user.disliker.filter(article__id=article_id)
+    is_voted_like = user.liker.filter(article=article_id)
+    is_voted_dislike = user.disliker.filter(article=article_id)
     if (not is_voted_like) and (not is_voted_dislike):
         if request_vote == "like":
             target_vote.like += 1
@@ -307,30 +300,28 @@ def vote(request, article_id):
 
 @require_http_methods(["GET", "POST", "DELETE"])
 def comment(request, id):
+    if request.method == "GET":
+        comment = Comment.objects.filter(article=id).values(
+            "article", "content", "author__nickname", "id"
+        )
+        comment_json = list(comment)
+        return JsonResponse(comment_json, status=200, safe=False)
     if not request.user.is_authenticated:
         return HttpResponse(status=401)
     user = request.user
-    if request.method == 'GET':
-        comment = Comment.objects.filter(article=id).values(
-            'article', 'content', 'author', 'id')
-        comment_json = list(comment)
-        for comment in comment_json:
-            comment["author"] = user.nickname
-        return JsonResponse(comment_json, status=200, safe=False)
-    elif request.method == 'POST':
+    if request.method == "POST":
         try:
             req_data = json.loads(request.body.decode())
-            content = req_data['content']
-        except(KeyError, JSONDecodeError):
+            content = req_data["content"]
+        except (KeyError, JSONDecodeError):
             return HttpResponseBadRequest()
         article = Article.objects.get(id=id)
-        new_comment = Comment(
-            article=article, content=content, author=user)
+        new_comment = Comment(article=article, content=content, author=user)
         new_comment.save()
-        comments = Comment.objects.all().values('article', 'content', 'author', 'id')
+        comments = Comment.objects.filter(article=id).values(
+            "article", "content", "author__nickname", "id"
+        )
         comment_json = list(comments)
-        for comment in comment_json:
-            comment["author"] = user.nickname
         return JsonResponse(comment_json, status=201, safe=False)
     else:
         comment = get_object_or_404(Comment, pk=id)
