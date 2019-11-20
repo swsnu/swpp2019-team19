@@ -51,7 +51,6 @@ class BoardDetail extends Component {
     };
     const setAndFetch = (filter) => {
       this.setState({ filterCriteria: filter });
-      const { fetchArticles } = this.props;
       fetchArticles({
         ...this.state, filterCriteria: filter,
       });
@@ -59,7 +58,6 @@ class BoardDetail extends Component {
 
     const setSortCriteriaAndFetch = (criteria) => {
       this.setState({ sortCriteria: criteria });
-      const { fetchArticles } = this.props;
       fetchArticles({
         ...this.state, sortCriteria: criteria,
       });
@@ -67,7 +65,6 @@ class BoardDetail extends Component {
 
     const setCurrentPageNumberAndFetch = (num) => {
       this.setState({ currentPageNumber: num });
-      const { fetchArticles } = this.props;
       fetchArticles({
         ...this.state, currentPageNumber: num,
       });
