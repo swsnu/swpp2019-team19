@@ -39,7 +39,6 @@ img {
 .msg_history {
   height: 600px;
   overflow-y: auto;
-  overflow-x: hidden;
   padding: 0 16px;
   margin-bottom: 5px;
 }
