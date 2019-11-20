@@ -39,6 +39,9 @@ img {
 .msg_history {
   height: 600px;
   overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 16px;
+  margin-bottom: 5px;
 }
 
 .msg_history ::-webkit-scrollbar {
@@ -55,18 +58,6 @@ img {
 .msg_history ::-webkit-scrollbar-thumb {
   background: #b3ada7;
 }
-
-.msg_history {
-  overflow-x: hidden;
-  padding: 0 16px;
-  margin-bottom: 5px;
-}
-
-/* .msg_history {
-  content: "";
-  display: table;
-  clear: both;
-} */
 
 /* message */
 .received_msg {
@@ -99,21 +90,18 @@ img {
 }
 
 .sent_msg {
-  display: inline-block;
+  /* display: inline-block; */
   padding: 0 0 0 10px;
   vertical-align: top;
   width: 92%;
+  float: right;
+  width: 46%;
 }
 
 
 .outgoing_msg {
   overflow: hidden;
   margin: 13px 0 13px;
-}
-
-.sent_msg {
-  float: right;
-  width: 46%;
 }
 
 .input_msg_write input {
