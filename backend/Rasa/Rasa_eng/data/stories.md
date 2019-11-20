@@ -43,7 +43,7 @@
   - utter_suggest_meal
 * hungry OR affirm
   - utter_meal
-  - utter_did_that_help
+  - utter_did_inthat_help
 * affirm
   - utter_happy
 
