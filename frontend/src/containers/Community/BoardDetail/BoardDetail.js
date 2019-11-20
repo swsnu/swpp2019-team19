@@ -41,6 +41,8 @@ class BoardDetail extends Component {
 
 
   render() {
+    const { fetchArticles } = this.props;
+
     const setArticleCreateShow = (inputBool) => {
       this.setState({ articleCreateShow: inputBool });
     };
@@ -191,7 +193,7 @@ class BoardDetail extends Component {
       );
     };
 
-    const { history, storedArticles, fetchArticles } = this.props;
+    const { history, storedArticles } = this.props;
     const {
       sortCriteria, searchCriteria, tmpKeyword, articleCreateShow,
     } = this.state;
