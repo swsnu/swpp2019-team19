@@ -94,7 +94,7 @@ def actions(request):
             action_name=action_name,
             action_type=action_type,
             text_value=text_value,
-            image_value=image_value,
+            image_value=image_value,  # 여기 테스트 안해봄
         )
         new_action.save()
         for intent in intent_list:
@@ -310,7 +310,7 @@ def slot_detail(request, id):
         return HttpResponse(status=200)
 
 
-@require_http_methods(["GET", "POST"])
+@require_http_methods(["POST"])
 @ensure_csrf_cookie
 def make_train_file(request):
     """

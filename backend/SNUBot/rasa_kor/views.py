@@ -308,7 +308,7 @@ def slot_detail(request, id):
         return HttpResponse(status=200)
 
 
-@require_http_methods(["GET", "POST"])
+@require_http_methods(["POST"])
 @ensure_csrf_cookie
 def make_train_file(request):
     kor_path = os.getcwd() + "/rasa_kor/train_data_check/"
