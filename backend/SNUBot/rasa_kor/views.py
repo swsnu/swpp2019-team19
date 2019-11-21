@@ -13,6 +13,7 @@ from .models import IntentKor, ActionKor, StoryKor, EntityKor, SlotKor
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
+from django.db import transaction
 from operator import itemgetter
 from django.shortcuts import get_object_or_404
 
@@ -308,7 +309,7 @@ def slot_detail(request, id):
         return HttpResponse(status=200)
 
 
-@require_http_methods(["POST"])
+@require_http_methods(["POSTtra"])
 @ensure_csrf_cookie
 def make_train_file(request):
     kor_path = os.getcwd() + "/rasa_kor/train_data_check/"
