@@ -13,8 +13,8 @@ import './ArticleEntry.css';
 
 const ArticleEntry = (props) => {
   const ARTICLE_CONTENT_MAX_LEN = 100;
-  const tagToBg = (tag) => {
-    switch (tag) {
+  const tagToBg = (backGroundTag) => {
+    switch (backGroundTag) {
       case 'normal': {
         return 'light';
       }
@@ -31,8 +31,8 @@ const ArticleEntry = (props) => {
     }
   };
 
-  const tagToText = (tag) => {
-    switch (tag) {
+  const tagToText = (textTag) => {
+    switch (textTag) {
       case 'working':
       case 'normal': {
         return 'dark';
@@ -58,7 +58,6 @@ const ArticleEntry = (props) => {
         id="article-entry"
         tag="a"
         onClick={() => {
-          setModalShow(true);
           dispatch(actionCreators.fetchComment(props.article.id));
           props.fetch(props.article.id);
           setModalShow(true);

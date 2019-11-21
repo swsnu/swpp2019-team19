@@ -41,6 +41,8 @@ class BoardDetail extends Component {
 
 
   render() {
+    const { fetchArticles } = this.props;
+
     const setArticleCreateShow = (inputBool) => {
       this.setState({ articleCreateShow: inputBool });
     };
@@ -51,7 +53,6 @@ class BoardDetail extends Component {
     };
     const setAndFetch = (filter) => {
       this.setState({ filterCriteria: filter });
-      const { fetchArticles } = this.props;
       fetchArticles({
         ...this.state, filterCriteria: filter,
       });
@@ -59,7 +60,6 @@ class BoardDetail extends Component {
 
     const setSortCriteriaAndFetch = (criteria) => {
       this.setState({ sortCriteria: criteria });
-      const { fetchArticles } = this.props;
       fetchArticles({
         ...this.state, sortCriteria: criteria,
       });
@@ -67,7 +67,6 @@ class BoardDetail extends Component {
 
     const setCurrentPageNumberAndFetch = (num) => {
       this.setState({ currentPageNumber: num });
-      const { fetchArticles } = this.props;
       fetchArticles({
         ...this.state, currentPageNumber: num,
       });
@@ -194,7 +193,7 @@ class BoardDetail extends Component {
       );
     };
 
-    const { history, storedArticles, fetchArticles } = this.props;
+    const { history, storedArticles } = this.props;
     const {
       sortCriteria, searchCriteria, tmpKeyword, articleCreateShow,
     } = this.state;
