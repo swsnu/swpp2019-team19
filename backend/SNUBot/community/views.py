@@ -68,7 +68,8 @@ def signin(request):
             new_password = req_data["new_password"]
         except (KeyError, JSONDecodeError):
             return HttpResponseBadRequest()
-        user = authenticate(request, username=username, password=current_password)
+        user = authenticate(request, username=username,
+                            password=current_password)
         if user is not None:
             target_user = User.objects.get(username=username)
             target_user.set_password(new_password)
@@ -78,7 +79,7 @@ def signin(request):
             return HttpResponse(status=401)
 
 
-@require_http_methods(["GET", "PUT"])
+@require_http_methods(["GET", "PUT", "DELETE"])
 @ensure_csrf_cookie
 def account(request):
     if request.user.is_authenticated:
@@ -89,7 +90,7 @@ def account(request):
                 "nickname": request.user.nickname,
             }
             return JsonResponse(response_dict, safe=False)
-        else:
+        elif request.method == "PUT":
             try:
                 req_data = json.loads(request.body.decode())
                 username = req_data["username"]
@@ -99,7 +100,8 @@ def account(request):
                 new_password = req_data["new_password"]
             except (KeyError, JSONDecodeError):
                 return HttpResponseBadRequest()
-            user = authenticate(request, username=username, password=current_password)
+            user = authenticate(request, username=username,
+                                password=current_password)
             if user is not None:
                 target_user = User.objects.get(username=username)
                 target_user.set_password(new_password)
@@ -107,6 +109,21 @@ def account(request):
                 target_user.nickname = new_nickname
                 target_user.save()
                 login(request, target_user)
+                return HttpResponse(status=204)
+            else:
+                return HttpResponse(status=401)
+        else:
+            try:
+                req_data = json.loads(request.body.decode())
+                username = req_data["username"]
+                current_password = req_data["current_password"]
+            except (KeyError, JSONDecodeError):
+                return HttpResponseBadRequest
+            user = authenticate(request, username=username,
+                                password=current_password)
+            if user is not None:
+                target_user = User.objects.get(username=username)
+                target_user.delete()
                 return HttpResponse(status=204)
             else:
                 return HttpResponse(status=401)
@@ -171,13 +188,14 @@ def boards(request):
                 if article["title"].find(search_keyword) != -1
             ]
     if sort_criteria == "good":
-        article_list = sorted(article_list, key=itemgetter("vote"), reverse=True)
+        article_list = sorted(
+            article_list, key=itemgetter("vote"), reverse=True)
     elif sort_criteria == "new":
         article_list.reverse()
     max_page = math.ceil(len(article_list) / article_count)
     if len(article_list) > article_count:
         article_list = article_list[
-            article_count * (cur_page_num - 1) : article_count * cur_page_num
+            article_count * (cur_page_num - 1): article_count * cur_page_num
         ]
     return_list = [max_page, article_list]
     return JsonResponse(return_list, safe=False)
