@@ -191,6 +191,36 @@ class UserTestCase(TestCase):
             content_type="application/json",
         )
         self.assertEqual(response.status_code, 204)
+        # signin for authentication
+        response = client.post(
+            "/api/signin/",
+            json.dumps({"username": "changeinfo", "password": "user1234"}),
+            content_type="application/json",
+        )
+        # unscribe SNUBot Fail
+        response = client.delete(
+            "/api/account/", 
+            json.dumps(
+                {
+                    "username": "changeinfo",
+                    "current_password": "user123",
+                }
+            ),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 401)
+        # unscribe SNUBot Success
+        response = client.delete(
+            "/api/account/", 
+            json.dumps(
+                {
+                    "username": "changeinfo",
+                    "current_password": "user1234",
+                }
+            ),
+            content_type="application/json"
+        )
+        self.assertEqual(response.status_code, 204)
 
 
 class ArticleTestCase(TestCase):
