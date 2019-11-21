@@ -300,8 +300,8 @@ def slot_detail(request, id):
 
 @require_http_methods(["GET", "POST"])
 @ensure_csrf_cookie
-def maketrainfile(request):
-    eng_path = os.getcwd() + "/rasa_eng/check/"
+def make_train_file(request):
+    eng_path = os.getcwd() + "/rasa_eng/train_data_check/"
     nlu = open(eng_path + "nlu.md", "w")
     for intent in IntentEng.objects.all():
         nlu.write("## intent:" + intent.intent_name)

@@ -1,0 +1,33 @@
+intents:
+- greet
+- goodbye
+- affirm
+- deny
+- mood_great
+- mood_unhappy
+- bot_challenge
+
+actions:
+- utter_greet
+- utter_cheer_up
+- utter_did_that_help
+- utter_happy
+- utter_goodbye
+- utter_iamabot
+- utter_fallback
+
+templates:
+	utter_greet:
+	- text: "안녕! 잘지내?"
+	utter_cheer_up:
+	- text: "힘 내!"
+	utter_did_that_help:
+	- text: "도움이 됐니?"
+	utter_happy:
+	- text: "좋아 계속해봐!"
+	utter_goodbye:
+	- text: "다음에 봐!"
+	utter_iamabot:
+	- text: "나는 스누봇이야"
+	utter_fallback:
+	- text: "무슨 뜻인지 모르겠어요...ㅠㅠ"
