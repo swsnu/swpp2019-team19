@@ -26,6 +26,8 @@ def foo():
 
 
 if __name__ == "__main__":
+    main()
+    """
     mp.set_start_method("spawn")
     q = mp.Queue()
     p1 = mp.Process(target=main)
@@ -34,3 +36,5 @@ if __name__ == "__main__":
     # p2.start()
     p1.join()
     # p2.join()
+"""
+

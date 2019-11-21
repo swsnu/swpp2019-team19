@@ -117,7 +117,7 @@ def action_detail(request, id):
             return HttpResponseBadRequest()
         action = get_object_or_404(ActionEng, pk=id)
         action.action_name = action_name
-        action.relations.through.objects.all().delete()
+        action.intent.clear()
         for intent in intent_list:
             target_intent = get_object_or_404(IntentEng, intent_name=intent)
             action.intent.append(target_intent)
@@ -189,7 +189,9 @@ def story_detail(request, id):
             return HttpResponseBadRequest()
         story = get_object_or_404(StoryEng, pk=id)
         story.story_name = story_name
-        story.relations.through.objects.all().delete()
+        story.story_path_1.clear()
+        story.story_path_2.clear()
+        story.story_path_3.clear()
         # 아래서 만약 404 반환할 경우 delete해야하나?
         for intent in story_path_1:
             target_intent = get_object_or_404(IntentEng, intent_name=intent)
