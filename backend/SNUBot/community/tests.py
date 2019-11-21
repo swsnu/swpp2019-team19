@@ -197,7 +197,7 @@ class UserTestCase(TestCase):
             json.dumps({"username": "changeinfo", "password": "user1234"}),
             content_type="application/json",
         )
-        # unscribe SNUBot Fail
+        # unsubscribe SNUBot Fail
         response = client.delete(
             "/api/account/", 
             json.dumps(
@@ -209,7 +209,7 @@ class UserTestCase(TestCase):
             content_type="application/json"
         )
         self.assertEqual(response.status_code, 401)
-        # unscribe SNUBot Success
+        # unsubscribe SNUBot Success
         response = client.delete(
             "/api/account/", 
             json.dumps(
