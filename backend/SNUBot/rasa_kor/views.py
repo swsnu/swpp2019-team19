@@ -15,12 +15,14 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
 from operator import itemgetter
 from django.shortcuts import get_object_or_404
+
 import math
 import os
 
 
 @require_http_methods(["GET", "POST"])
 @ensure_csrf_cookie
+@transaction.atomic
 def intents(request):
     if request.method == "GET":
         intent = IntentKor.objects.all().values("intent_name", "intent_tokens")
@@ -34,12 +36,13 @@ def intents(request):
         except (KeyError, JSONDecodeError):
             return HttpResponseBadRequest()
         new_intent = IntentKor(intent_name=intent_name, intent_tokens=intent_tokens)
-        new_intent.save()  # 여기서 try except로 중복 시 return 정해주기
+        new_intent.save()
         return HttpResponse(status=201)
 
 
 @require_http_methods(["GET", "PUT", "DELETE"])
 @ensure_csrf_cookie
+@transaction.atomic
 def intent_detail(request, id):
     if request.method == "GET":
         intent = get_object_or_404(IntentKor, pk=id)
@@ -55,7 +58,7 @@ def intent_detail(request, id):
         intent = get_object_or_404(IntentKor, pk=id)
         intent.intent_name = intent_name
         intent.intent_tokens = intent_tokens
-        intent.save()  # 여기서 try except로 중복 시 return 정해주기
+        intent.save()
         return HttpResponse(status=201)
     else:
         intent = get_object_or_404(IntentKor, pk=id)
@@ -65,6 +68,7 @@ def intent_detail(request, id):
 
 @require_http_methods(["GET", "POST"])
 @ensure_csrf_cookie
+@transaction.atomic
 def actions(request):
     if request.method == "GET":
         action = ActionKor.objects.all().values(
@@ -92,7 +96,7 @@ def actions(request):
             text_value=text_value,
             image_value=image_value,
         )
-        new_action.save()  # 여기서 try except로 중복 시 return 정해주기
+        new_action.save()
         for intent in intent_list:
             target_intent = get_object_or_404(IntentKor, intent_name=intent)
         return HttpResponse(status=201)
@@ -100,6 +104,7 @@ def actions(request):
 
 @require_http_methods(["GET", "PUT", "DELETE"])
 @ensure_csrf_cookie
+@transaction.atomic
 def action_detail(request, id):
     if request.method == "GET":
         action = get_object_or_404(ActionKor, pk=id)
@@ -124,7 +129,7 @@ def action_detail(request, id):
         action.action_type = action_type
         action.text_value = text_value
         action.image_value = image_value
-        action.save()  # 여기서 try except로 중복 시 return 정해주기
+        action.save()
         return HttpResponse(status=201)
     else:
         action = get_object_or_404(ActionKor, pk=id)
@@ -134,9 +139,9 @@ def action_detail(request, id):
 
 @require_http_methods(["GET", "POST"])
 @ensure_csrf_cookie
+@transaction.atomic
 def stories(request):
     if request.method == "GET":
-        print(os.getcwd())
         story_list = [
             story
             for story in StoryKor.objects.all().values(
@@ -158,7 +163,6 @@ def stories(request):
             return HttpResponseBadRequest()
         new_story = StoryKor(story_name=story_name)
         new_story.save()
-        # 아래서 만약 404 반환할 경우 delete해야하나?
         for intent in story_path_1:
             target_intent = get_object_or_404(IntentKor, intent_name=intent)
             new_story.story_path_1.append(target_intent)
@@ -173,6 +177,7 @@ def stories(request):
 
 @require_http_methods(["GET", "PUT", "DELETE"])
 @ensure_csrf_cookie
+@transaction.atomic
 def story_detail(request, id):
     if request.method == "GET":
         story = get_object_or_404(StoryKor, pk=id)
@@ -192,7 +197,6 @@ def story_detail(request, id):
         story.story_path_1.clear()
         story.story_path_2.clear()
         story.story_path_3.clear()
-        # 아래서 만약 404 반환할 경우 delete해야하나?
         for intent in story_path_1:
             target_intent = get_object_or_404(IntentKor, intent_name=intent)
             story.story_path_1.append(target_intent)
@@ -212,6 +216,7 @@ def story_detail(request, id):
 
 @require_http_methods(["GET", "POST"])
 @ensure_csrf_cookie
+@transaction.atomic
 def entities(request):
     if request.method == "GET":
         entity = EntityKor.objects.all().values("entity_name")
@@ -224,12 +229,13 @@ def entities(request):
         except (KeyError, JSONDecodeError):
             return HttpResponseBadRequest()
         new_entity = EntityKor(entity_name=entity_name)
-        new_entity.save()  # 여기서 try except로 중복 시 return 정해주기
+        new_entity.save()
         return HttpResponse(status=201)
 
 
 @require_http_methods(["GET", "PUT", "DELETE"])
 @ensure_csrf_cookie
+@transaction.atomic
 def entity_detail(request, id):
     if request.method == "GET":
         entity = get_object_or_404(EntityKor, pk=id)
@@ -243,7 +249,7 @@ def entity_detail(request, id):
             return HttpResponseBadRequest()
         entity = get_object_or_404(EntityKor, pk=id)
         entity.entity_name = entity_name
-        entity.save()  # 여기서 try except로 중복 시 return 정해주기
+        entity.save()
         return HttpResponse(status=201)
     else:
         entity = get_object_or_404(EntityKor, pk=id)
@@ -253,6 +259,7 @@ def entity_detail(request, id):
 
 @require_http_methods(["GET", "POST"])
 @ensure_csrf_cookie
+@transaction.atomic
 def slots(request):
     if request.method == "GET":
         slot = SlotKor.objects.all().values("slot_name", "slot_type", "slot_value")
@@ -269,12 +276,13 @@ def slots(request):
         new_slot = SlotKor(
             slot_name=slot_name, slot_type=slot_type, slot_value=slot_value
         )
-        new_slot.save()  # 여기서 try except로 중복 시 return 정해주기
+        new_slot.save()
         return HttpResponse(status=201)
 
 
 @require_http_methods(["GET", "PUT", "DELETE"])
 @ensure_csrf_cookie
+@transaction.atomic
 def slot_detail(request, id):
     if request.method == "GET":
         slot = get_object_or_404(SlotKor, pk=id)
@@ -292,7 +300,7 @@ def slot_detail(request, id):
         slot.slot_name = slot_name
         slot.slot_type = slot_type
         slot.slot_value = slot_value
-        slot.save()  # 여기서 try except로 중복 시 return 정해주기
+        slot.save()
         return HttpResponse(status=201)
     else:
         slot = get_object_or_404(SlotKor, pk=id)
