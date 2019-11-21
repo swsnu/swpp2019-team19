@@ -12,5 +12,5 @@ urlpatterns = [
     path("entity/<int:id>", views.entity_detail),
     path("slots/", views.slots),
     path("slot/<int:id>", views.slot_detail),
-    path("maketrainfile/", views.make_train_file),
+    path("makefile/", views.make_train_file),
 ]
