@@ -25,16 +25,14 @@ function CustomNavbar(props) {
     setShow(false);
   };
 
-  const makeNavLink = (url, display) => {
-    return (
-      <Nav.Link
-        onClick={() => redirectAndClose(`/${url}`)}
-        className="nav-link-custom list-group-item list-group-item-action bg-light"
-      >
-        {display}
-      </Nav.Link>
-    );
-  };
+  const makeNavLink = (url, display) => (
+    <Nav.Link
+      onClick={() => redirectAndClose(`/${url}`)}
+      className="nav-link-custom list-group-item list-group-item-action bg-light"
+    >
+      {display}
+    </Nav.Link>
+  );
   return (
     <>
       {(show) ? (
@@ -116,7 +114,7 @@ function CustomNavbar(props) {
         <Col xs={3} md={3} />
         <Col xs={4} md={4}>
           <Navbar.Brand
-            onClick={() => redirectAndClose(`/chat`)}
+            onClick={() => redirectAndClose('/chat')}
           >
             <font color="yellow" size="+3">
               SNUBot
