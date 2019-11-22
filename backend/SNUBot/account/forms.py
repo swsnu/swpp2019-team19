@@ -8,62 +8,62 @@ from .models import User, UserManager
 class UserCreationForm(forms.ModelForm):
     # 사용자 생성 폼
     username = forms.CharField(
-        label=_('Nickname'),
+        label=_("Username"),
         required=True,
         widget=forms.TextInput(
             attrs={
-                'class': 'form-control',
-                'placeholder': _('Username'),
-                'required': 'True',
+                "class": "form-control",
+                "placeholder": _("Username"),
+                "required": "True",
             }
-        )
+        ),
     )
     email = forms.EmailField(
-        label=_('Email'),
+        label=_("Email"),
         required=True,
         widget=forms.EmailInput(
             attrs={
-                'class': 'form-control',
-                'placeholder': _('Email address'),
-                'required': 'True',
+                "class": "form-control",
+                "placeholder": _("Email address"),
+                "required": "True",
             }
-        )
+        ),
     )
     nickname = forms.CharField(
-        label=_('Nickname'),
+        label=_("Nickname"),
         required=True,
         widget=forms.TextInput(
             attrs={
-                'class': 'form-control',
-                'placeholder': _('Nickname'),
-                'required': 'True',
+                "class": "form-control",
+                "placeholder": _("Nickname"),
+                "required": "True",
             }
-        )
+        ),
     )
     password1 = forms.CharField(
-        label=_('Password'),
+        label=_("Password"),
         widget=forms.PasswordInput(
             attrs={
-                'class': 'form-control',
-                'placeholder': _('Password'),
-                'required': 'True',
+                "class": "form-control",
+                "placeholder": _("Password"),
+                "required": "True",
             }
-        )
+        ),
     )
     password2 = forms.CharField(
-        label=_('Password confirmation'),
+        label=_("Password confirmation"),
         widget=forms.PasswordInput(
             attrs={
-                'class': 'form-control',
-                'placeholder': _('Password confirmation'),
-                'required': 'True',
+                "class": "form-control",
+                "placeholder": _("Password confirmation"),
+                "required": "True",
             }
-        )
+        ),
     )
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'nickname')
+        fields = ("username", "email", "nickname")
 
     def clean_password2(self):
         # 두 비밀번호 입력 일치 확인
@@ -76,7 +76,7 @@ class UserCreationForm(forms.ModelForm):
     def save(self, commit=True):
         # Save the provided password in hashed format
         user = super(UserCreationForm, self).save(commit=False)
-        user.email = UserManager.normalize_email(self.cleaned_data['email'])
+        user.email = UserManager.normalize_email(self.cleaned_data["email"])
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
@@ -85,13 +85,11 @@ class UserCreationForm(forms.ModelForm):
 
 class UserChangeForm(forms.ModelForm):
     # 비밀번호 변경 폼
-    password = ReadOnlyPasswordHashField(
-        label=_('Password')
-    )
+    password = ReadOnlyPasswordHashField(label=_("Password"))
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password', 'is_active', 'is_superuser')
+        fields = ("username", "email", "password", "is_active", "is_superuser")
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.

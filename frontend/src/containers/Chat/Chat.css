@@ -2,11 +2,6 @@ html body {
   background-color: whitesmoke;
 }
 
-.container {
-  max-width: 30vh;
-  margin: auto;
-}
-
 .vertical-center {
   min-height: 85vh;
   display: flex;
