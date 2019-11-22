@@ -26,10 +26,9 @@ function CustomNavbar(props) {
   };
 
   const makeNavLink = (url, display) => {
-    const fullUrl = `http://localhost:3000/${url}`;
     return (
       <Nav.Link
-        href={fullUrl}
+        onClick={() => redirectAndClose(`/${url}`)}
         className="nav-link-custom list-group-item list-group-item-action bg-light"
       >
         {display}
@@ -117,7 +116,7 @@ function CustomNavbar(props) {
         <Col xs={3} md={3} />
         <Col xs={4} md={4}>
           <Navbar.Brand
-            href="http://localhost:3000/chat"
+            onClick={() => redirectAndClose(`/chat`)}
           >
             <font color="yellow" size="+3">
               SNUBot
