@@ -1,4 +1,6 @@
+import os
 import json
+import math
 from json import JSONDecodeError
 from django.db import IntegrityError
 from django.http import (
@@ -8,22 +10,22 @@ from django.http import (
     HttpResponseNotFound,
     HttpResponseForbidden,
 )
-from account.models import User
-from .models import IntentKor, ActionKor, StoryKor, EntityKor, SlotKor
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
-from django.db import transaction
-from operator import itemgetter
 from django.shortcuts import get_object_or_404
-
-import math
-import os
+from django.db import transaction
+from django.forms.models import model_to_dict
+from account.models import User
+from .models import IntentKor, ActionKor, StoryKor, EntityKor, SlotKor
+from custom.decorator import require_super_user
+from custom.func import to_dict
 
 
 @require_http_methods(["GET", "POST"])
 @ensure_csrf_cookie
 @transaction.atomic
+@require_super_user
 def intents(request):
     if request.method == "GET":
         intent = IntentKor.objects.all().values("intent_name", "intent_tokens")
@@ -44,11 +46,11 @@ def intents(request):
 @require_http_methods(["GET", "PUT", "DELETE"])
 @ensure_csrf_cookie
 @transaction.atomic
+@require_super_user
 def intent_detail(request, id):
     if request.method == "GET":
         intent = get_object_or_404(IntentKor, pk=id)
-        intent_json = list(intent)
-        return JsonResponse(intent_json, status=200, safe=False)
+        return JsonResponse(model_to_dict(intent), status=200, safe=False)
     elif request.method == "PUT":
         try:
             body = request.body.decode()
@@ -70,6 +72,7 @@ def intent_detail(request, id):
 @require_http_methods(["GET", "POST"])
 @ensure_csrf_cookie
 @transaction.atomic
+@require_super_user
 def actions(request):
     if request.method == "GET":
         action = ActionKor.objects.all().values(
@@ -95,7 +98,7 @@ def actions(request):
             action_name=action_name,
             action_type=action_type,
             text_value=text_value,
-            image_value=image_value,
+            image_value=image_value,  # 여기 테스트 안해봄
         )
         new_action.save()
         for intent in intent_list:
@@ -106,11 +109,11 @@ def actions(request):
 @require_http_methods(["GET", "PUT", "DELETE"])
 @ensure_csrf_cookie
 @transaction.atomic
+@require_super_user
 def action_detail(request, id):
     if request.method == "GET":
         action = get_object_or_404(ActionKor, pk=id)
-        action_json = list(action)
-        return JsonResponse(action_json, status=200, safe=False)
+        return JsonResponse(to_dict(action, "intent_name"), status=200, safe=False)
     elif request.method == "PUT":
         try:
             body = request.body.decode()
@@ -126,7 +129,7 @@ def action_detail(request, id):
         action.intent.clear()
         for intent in intent_list:
             target_intent = get_object_or_404(IntentKor, intent_name=intent)
-            action.intent.append(target_intent)
+            action.intent.add(target_intent)
         action.action_type = action_type
         action.text_value = text_value
         action.image_value = image_value
@@ -141,6 +144,7 @@ def action_detail(request, id):
 @require_http_methods(["GET", "POST"])
 @ensure_csrf_cookie
 @transaction.atomic
+@require_super_user
 def stories(request):
     if request.method == "GET":
         story_list = [
@@ -164,26 +168,27 @@ def stories(request):
             return HttpResponseBadRequest()
         new_story = StoryKor(story_name=story_name)
         new_story.save()
+        # 아래서 만약 404 반환할 경우 delete해야하나? -> transaction
         for intent in story_path_1:
             target_intent = get_object_or_404(IntentKor, intent_name=intent)
-            new_story.story_path_1.append(target_intent)
+            new_story.story_path_1.add(target_intent)
         for intent in story_path_2:
             target_intent = get_object_or_404(IntentKor, intent_name=intent)
-            new_story.story_path_2.append(target_intent)
+            new_story.story_path_2.add(target_intent)
         for intent in story_path_3:
             target_intent = get_object_or_404(IntentKor, intent_name=intent)
-            new_story.story_path_3.append(target_intent)
+            new_story.story_path_3.add(target_intent)
         return HttpResponse(status=201)
 
 
 @require_http_methods(["GET", "PUT", "DELETE"])
 @ensure_csrf_cookie
 @transaction.atomic
+@require_super_user
 def story_detail(request, id):
     if request.method == "GET":
         story = get_object_or_404(StoryKor, pk=id)
-        story_json = list(story)
-        return JsonResponse(story_json, status=200, safe=False)
+        return JsonResponse(to_dict(story, "intent_name"), status=200, safe=False)
     elif request.method == "PUT":
         try:
             body = request.body.decode()
@@ -198,15 +203,16 @@ def story_detail(request, id):
         story.story_path_1.clear()
         story.story_path_2.clear()
         story.story_path_3.clear()
+        # 아래서 만약 404 반환할 경우 delete해야하나? -> transaction
         for intent in story_path_1:
             target_intent = get_object_or_404(IntentKor, intent_name=intent)
-            story.story_path_1.append(target_intent)
+            story.story_path_1.add(target_intent)
         for intent in story_path_2:
             target_intent = get_object_or_404(IntentKor, intent_name=intent)
-            story.story_path_2.append(target_intent)
+            story.story_path_2.add(target_intent)
         for intent in story_path_3:
             target_intent = get_object_or_404(IntentKor, intent_name=intent)
-            story.story_path_3.append(target_intent)
+            story.story_path_3.add(target_intent)
         story.save()
         return HttpResponse(status=201)
     else:
@@ -218,6 +224,7 @@ def story_detail(request, id):
 @require_http_methods(["GET", "POST"])
 @ensure_csrf_cookie
 @transaction.atomic
+@require_super_user
 def entities(request):
     if request.method == "GET":
         entity = EntityKor.objects.all().values("entity_name")
@@ -237,11 +244,11 @@ def entities(request):
 @require_http_methods(["GET", "PUT", "DELETE"])
 @ensure_csrf_cookie
 @transaction.atomic
+@require_super_user
 def entity_detail(request, id):
     if request.method == "GET":
         entity = get_object_or_404(EntityKor, pk=id)
-        entity_json = list(entity)
-        return JsonResponse(entity_json, status=200, safe=False)
+        return JsonResponse(model_to_dict(entity), status=200, safe=False)
     elif request.method == "PUT":
         try:
             body = request.body.decode()
@@ -260,6 +267,7 @@ def entity_detail(request, id):
 
 @require_http_methods(["GET", "POST"])
 @ensure_csrf_cookie
+@require_super_user
 @transaction.atomic
 def slots(request):
     if request.method == "GET":
@@ -284,11 +292,11 @@ def slots(request):
 @require_http_methods(["GET", "PUT", "DELETE"])
 @ensure_csrf_cookie
 @transaction.atomic
+@require_super_user
 def slot_detail(request, id):
     if request.method == "GET":
         slot = get_object_or_404(SlotKor, pk=id)
-        slot_json = list(slot)
-        return JsonResponse(slot_json, status=200, safe=False)
+        return JsonResponse(model_to_dict(slot), status=200, safe=False)
     elif request.method == "PUT":
         try:
             body = request.body.decode()
@@ -309,9 +317,13 @@ def slot_detail(request, id):
         return HttpResponse(status=200)
 
 
-@require_http_methods(["POSTtra"])
+@require_http_methods(["POST"])
 @ensure_csrf_cookie
+@require_super_user
 def make_train_file(request):
+    """
+    알수 없는 이유로 파일 작성에 실패한 경우에 대한 에러메세지 추가 필요
+    """
     kor_path = os.getcwd() + "/rasa_kor/train_data_check/"
     nlu = open(kor_path + "nlu.md", "w")
     for intent in IntentKor.objects.all():

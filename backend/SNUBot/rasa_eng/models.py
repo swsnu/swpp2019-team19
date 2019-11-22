@@ -23,7 +23,9 @@ class ActionEng(models.Model):
     intent = models.ManyToManyField(IntentEng, related_name="related_action")
     action_type = models.CharField(max_length=10, choices=RET_CHOICES, default="text")
     text_value = models.TextField(blank=True)
-    image_value = models.ImageField(blank=True)
+    image_value = models.TextField(blank=True)
+    # image_value = models.URLField(blank=True)
+    # image_value = models.ImageField(blank=True)
 
 
 class StoryEng(models.Model):
