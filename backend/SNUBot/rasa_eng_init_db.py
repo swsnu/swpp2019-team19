@@ -114,7 +114,7 @@ action = ActionEng(
     text_value="Goodbye, have a nice day!",
 )
 action.save()
-action.intent.add(IntentEng.objects.get(intent_name="Goodbye"))
+action.intent.add(IntentEng.objects.get(intent_name="goodbye"))
 action = ActionEng(
     action_name="utter_iamabot",
     action_type="text",
