@@ -57,12 +57,11 @@ class AccountInformation extends Component {
   }
 
   render() {
+    const {
+      validPassword, validPasswordConfirm, username, newNickname,
+      newEmail, currentPassword, newPassword, newPasswordConfirm,
+    } = this.state;
     const ChangeInfoHandler = () => {
-      const {
-        username, newNickname, newEmail, currentPassword,
-        newPassword, newPasswordConfirm,
-      } = this.state;
-
       const { changeInfo, clearUser } = this.props;
 
       this.setState({
@@ -84,10 +83,6 @@ class AccountInformation extends Component {
         });
       }
     };
-    const {
-      validPassword, validPasswordConfirm, username, newNickname,
-      newEmail, currentPassword, newPassword, newPasswordConfirm,
-    } = this.state;
 
     const errorToAlert = () => {
       const { fail } = this.props;

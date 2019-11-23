@@ -28,11 +28,13 @@ class Signup extends Component {
   }
 
   render() {
+    const {
+      username, email, password, passwordConfirm,
+      validPassword, validPasswordConfirm,
+      loginUsername,
+    } = this.state;
+    const { fail, history, signup } = this.props;
     const SignupHandler = () => {
-      const {
-        email, username, password, passwordConfirm,
-      } = this.state;
-      const { signup, history } = this.props;
       this.setState({ password: '', passwordConfirm: '' });
       if (password.length < 8) {
         this.setState({ validPassword: false, validPasswordConfirm: true });
@@ -44,15 +46,6 @@ class Signup extends Component {
         history.push('/signin');
       }
     };
-
-
-    const {
-      username, email, password, passwordConfirm,
-      validPassword, validPasswordConfirm,
-      loginUsername,
-    } = this.state;
-    const { fail, history } = this.props;
-
     const errorToAlert = () => {
       let message = null;
       if (fail) {
