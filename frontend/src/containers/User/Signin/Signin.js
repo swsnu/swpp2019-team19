@@ -25,13 +25,12 @@ class Signin extends Component {
   }
 
   render() {
+    const { loginUsername, username, password } = this.state;
     const SigninHandler = () => {
-      const { username, password } = this.state;
       this.setState({ password: '' });
       const { signin } = this.props;
       signin(username, password);
     };
-    const { loginUsername, username, password } = this.state;
     const { fail, history } = this.props;
     return (
       loginUsername !== null ? <p /> : (
