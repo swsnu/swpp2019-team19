@@ -33,27 +33,23 @@ class Chat extends Component {
   }
 
   render() {
-    const getUUID = () => 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-      const r = Math.random() * 16;
-      const v = ((c === 'x') ? r : (((r % 3) * 17) % 8));
-      return v.toString(16);
-    });
-
     const { chatHistory, history, sendMessage } = this.props;
     const { userInput } = this.state;
 
+    let counter = 0;
     const chatLog = chatHistory.map((message) => {
+      counter += 1;
       if (message.from === 'user') {
         return (
           <OutgoingMessage
-            key={getUUID()}
+            key={counter}
             message={message.message}
           />
         );
       }
       return (
         <IncomingMessage
-          key={getUUID()}
+          key={counter}
           message={message.message}
         />
       );
