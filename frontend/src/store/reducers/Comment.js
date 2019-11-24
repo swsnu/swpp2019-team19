@@ -7,17 +7,16 @@ import {
 
 const initialState = {
   commentList: [],
-  commentAck: false,
 };
 const defaultAction = { type: 'default' };
 
 export default function (state = initialState, action = defaultAction) {
   switch (action.type) {
     case FETCH_COMMENT: {
-      return { ...state, commentList: action.comment, commentAck: true };
+      return { ...state, commentList: action.comment };
     }
     case CLEAR_COMMENT: {
-      return { ...state, commentList: [], commentAck: false };
+      return { ...state, commentList: [] };
     }
     // case DELETE_COMMENT: {
     //   deleted_id = action.deleted_id;

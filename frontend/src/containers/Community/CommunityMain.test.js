@@ -33,7 +33,6 @@ const stubArticleInitialState = {
       content: 'ARTICLE_TEST_CONTENT_2',
     },
   ],
-  articleListAllAck: true,
   articleListHot: [
     {
       id: 3,
@@ -50,7 +49,6 @@ const stubArticleInitialState = {
       content: 'ARTICLE_TEST_CONTENT_2',
     },
   ],
-  articleListHotAck: true,
 };
 
 const mockStore = getMockStore(stubArticleInitialState, {}, {}, {});

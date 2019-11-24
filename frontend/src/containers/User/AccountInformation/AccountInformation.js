@@ -1,6 +1,3 @@
-/* eslint-disable jsx-a11y/no-autofocus */
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable react/prefer-stateless-function */
 import React, { Component } from 'react';
 import { Button, Alert } from 'react-bootstrap';
 
@@ -132,9 +129,11 @@ class AccountInformation extends Component {
                             username: event.target.value,
                           })}
                           required
+                          // eslint-disable-next-line jsx-a11y/no-autofocus
                           autoFocus
                           disabled
                         />
+                        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                         <label>username</label>
                       </div>
                       <div className="form-label-group-account">
@@ -150,6 +149,7 @@ class AccountInformation extends Component {
                           required
                           disabled
                         />
+                        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                         <label>Email address</label>
                       </div>
                       <div className="form-label-group-account">
@@ -164,6 +164,7 @@ class AccountInformation extends Component {
                           })}
                           required
                         />
+                        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                         <label>nickname</label>
                       </div>
                       <div className="form-label-group-account">
@@ -178,6 +179,7 @@ class AccountInformation extends Component {
                           })}
                           required
                         />
+                        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                         <label>Current Password</label>
                       </div>
                       <div className="form-label-group-account">
@@ -192,6 +194,7 @@ class AccountInformation extends Component {
                           })}
                           required
                         />
+                        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                         <label>New Password</label>
                       </div>
                       <div className="form-label-group-account">
@@ -206,6 +209,7 @@ class AccountInformation extends Component {
                           })}
                           required
                         />
+                        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                         <label>Confirm New Password</label>
                       </div>
                       <hr />

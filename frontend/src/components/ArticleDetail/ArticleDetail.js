@@ -79,27 +79,31 @@ const ArticleDetail = (props) => {
             {article.dislike}
           </Button>
         </Modal.Footer>
-        <div className="comment">
-          <div className="comment-input">
-            <input id="comment-input" value={newComment} onChange={onChangeComment} />
-            <Button
-              id="comment-write-button"
-              onClick={() => {
-                dispatch(actionCreators.postComment(props.article.id, newComment));
-                setComment('');
-              }}
-            >
-              Comment
-            </Button>
+        <Modal.Footer>
+          <div className="comment">
+            <div className="comment-input">
+              <input
+                id="comment-input"
+                value={newComment}
+                onChange={onChangeComment}
+              />
+              <Button
+                id="comment-write-button"
+                onClick={() => {
+                  dispatch(actionCreators.postComment(props.article.id, newComment));
+                  setComment('');
+                }}
+              >
+                Comment
+              </Button>
+            </div>
+            <div className="comment-list">
+              {
+                storedComment.commentList.map(makeCommentEntry)
+              }
+            </div>
           </div>
-          <div className="comment-list">
-            {
-              storedComment.commentAck === true
-                ? storedComment.commentList.map(makeCommentEntry)
-                : <div />
-            }
-          </div>
-        </div>
+        </Modal.Footer>
       </Modal>
     </div>
   );
