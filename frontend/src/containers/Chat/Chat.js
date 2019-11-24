@@ -2,7 +2,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Button, Form, Container, Row, Col } from 'react-bootstrap';
+import {
+  Button, Form, Container, Row, Col,
+} from 'react-bootstrap';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
