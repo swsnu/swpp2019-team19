@@ -21,7 +21,6 @@ const initialState = {
   articlePages: 0,
 };
 const defaultAction = { type: 'default' };
-// TODO
 
 /* eslint no-case-declarations: "error" */
 /* eslint-env es6 */
@@ -37,7 +36,15 @@ export default function (state = initialState, action = defaultAction) {
       };
     }
     case POST_ARTICLE: {
-      return { ...state, article: action.article };
+      // TODO: append action.article to head of it
+      const newArticle = action.article;
+      const newArticleList = [newArticle].concat(state.articleList);
+      newArticleList.pop();
+      return {
+        ...state,
+        article: newArticle,
+        articleList: newArticleList,
+      };
     }
     case EDIT_ARTICLE: {
       return { ...state, article: action.article };

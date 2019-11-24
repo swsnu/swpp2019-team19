@@ -248,7 +248,7 @@ class BoardDetail extends Component {
                 </Button>
               </Col>
             </Row>
-
+            <br />
             <Container fluid>
               <Row>
                 {storedArticles.map(makeArticleEntry)}
