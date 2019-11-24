@@ -62,6 +62,9 @@ const ArticleEntry = (props) => {
           props.fetch(props.article.id);
           setModalShow(true);
         }}
+        onFocus={() => {
+          console.log('mouseover');
+        }}
         bg={tagToBg(tag)}
         text={tagToText(tag)}
         style={{ width: '18rem' }}
