@@ -42,4 +42,17 @@ describe('<ArticleDetail />', () => {
     expect(wrapper.length).toBe(2);
     expect(component.find('#article-entry')).toHaveLength(2);
   });
+
+  it('mouseover and mouseout', () => {
+    const component = mount(articleEntry);
+    const wrapper = component.find('#article-entry').at(1);
+    wrapper.simulate('mouseover');
+    wrapper.simulate('mouseout');
+  });
+  it('focus and blur', () => {
+    const component = mount(articleEntry);
+    const wrapper = component.find('#article-entry').at(1);
+    wrapper.simulate('focus');
+    wrapper.simulate('blur');
+  });
 });
