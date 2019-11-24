@@ -176,8 +176,8 @@ describe('<ArticleDetail />', () => {
 
   it('post comment', () => {
     const component = mount(articleDetail);
-    const commentInput = component.find('#comment-input');
-    const commentButton = component.find('#comment-write-button').at(0);
+    const commentInput = component.find('#comment-input').at(1);
+    const commentButton = component.find('#comment-write-button').at(1);
     // const commentList = component.find('#comment-list');
     commentInput.instance().value = 'new comment';
     commentInput.simulate('change');

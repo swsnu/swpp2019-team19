@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector, connect } from 'react-redux';
-import { Modal, Button } from 'react-bootstrap';
+import {
+  Modal, Button, InputGroup, Form,
+} from 'react-bootstrap';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
@@ -78,13 +80,13 @@ const ArticleDetail = (props) => {
             {article.dislike}
           </Button>
         </Modal.Footer>
-        <Modal.Footer>
-          <div className="comment">
-            <div className="comment-list">
-              {storedComment.commentList.map(makeCommentEntry)}
-            </div>
-            <div className="comment-input">
-              <input
+        <div className="comment">
+          <div className="comment-list">
+            {storedComment.commentList.map(makeCommentEntry)}
+          </div>
+          <Modal.Footer className="comment-input">
+            <InputGroup>
+              <Form.Control
                 id="comment-input"
                 value={newComment}
                 onChange={(e) => setComment(e.target.value)}
@@ -98,9 +100,9 @@ const ArticleDetail = (props) => {
               >
                 Comment
               </Button>
-            </div>
-          </div>
-        </Modal.Footer>
+            </InputGroup>
+          </Modal.Footer>
+        </div>
       </Modal>
     </div>
   );
