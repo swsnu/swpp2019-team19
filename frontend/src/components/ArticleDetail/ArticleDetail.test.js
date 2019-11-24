@@ -58,7 +58,13 @@ const stubArticleRejected = {
   },
 };
 
-const mockStore = getMockStore(stubArticleNormal, {}, {}, {});
+const stubCommentInitialState = {
+  commentList: [],
+};
+
+const mockStore = getMockStore(
+  stubArticleNormal, {}, {}, stubCommentInitialState,
+);
 
 describe('<ArticleDetail />', () => {
   let articleDetail;

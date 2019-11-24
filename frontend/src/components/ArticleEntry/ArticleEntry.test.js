@@ -16,9 +16,16 @@ const stubArticleInitialState = {
     vote_diff: 6,
   },
 };
-const mockStore = getMockStore(stubArticleInitialState, {}, {}, {});
 
-describe('<ArticleDetail />', () => {
+const stubCommentInitialState = {
+  commentList: [],
+};
+
+const mockStore = getMockStore(
+  stubArticleInitialState, {}, {}, stubCommentInitialState,
+);
+
+describe('<ArticleEntry />', () => {
   let articleEntry;
 
   beforeEach(() => {

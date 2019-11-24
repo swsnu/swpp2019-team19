@@ -51,7 +51,13 @@ const stubArticleInitialState = {
   ],
 };
 
-const mockStore = getMockStore(stubArticleInitialState, {}, {}, {});
+const stubCommentInitialState = {
+  commentList: [],
+};
+
+const mockStore = getMockStore(
+  stubArticleInitialState, {}, {}, stubCommentInitialState,
+);
 
 describe('<CommunityMain />', () => {
   let communityMain;
@@ -88,7 +94,7 @@ describe('<CommunityMain />', () => {
     expect(spyFetchHotBoard).toHaveBeenCalledTimes(1);
   });
 
-  it('direct-to-all board buton', () => {
+  it('direct-to-all board button', () => {
     const wrapper = mount(communityMain);
     const allButton = wrapper.find('#direct-to-all-board').at(0);
 
@@ -97,7 +103,7 @@ describe('<CommunityMain />', () => {
     expect(history.location.pathname).toBe('/boards/all/');
   });
 
-  it('direct-to-hot board buton', () => {
+  it('direct-to-hot board button', () => {
     const wrapper = mount(communityMain);
     const hotButton = wrapper.find('#direct-to-hot-board').at(0);
 

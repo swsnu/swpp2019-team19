@@ -1,5 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { useDispatch, useSelector, connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
@@ -32,13 +30,14 @@ const ArticleDetail = (props) => {
   const [newComment, setComment] = useState('');
 
   const makeCommentEntry = (comment) => (
-    <Comment content={comment.content} author={comment.author__nickname} key={comment.id} />
-  );
-  const onChangeComment = (e) => (
-    setComment(e.target.value)
+    <Modal.Footer key={comment.id}>
+      <Comment
+        content={comment.content}
+        author={comment.author__nickname}
+      />
+    </Modal.Footer>
   );
 
-  // TODO : move to container
   const { show, onHide, article } = props;
   return (
     <div className="ArticleDetail">
@@ -81,11 +80,14 @@ const ArticleDetail = (props) => {
         </Modal.Footer>
         <Modal.Footer>
           <div className="comment">
+            <div className="comment-list">
+              {storedComment.commentList.map(makeCommentEntry)}
+            </div>
             <div className="comment-input">
               <input
                 id="comment-input"
                 value={newComment}
-                onChange={onChangeComment}
+                onChange={(e) => setComment(e.target.value)}
               />
               <Button
                 id="comment-write-button"
@@ -96,11 +98,6 @@ const ArticleDetail = (props) => {
               >
                 Comment
               </Button>
-            </div>
-            <div className="comment-list">
-              {
-                storedComment.commentList.map(makeCommentEntry)
-              }
             </div>
           </div>
         </Modal.Footer>
