@@ -297,11 +297,11 @@ def vote(request, article_id):
             target_vote.dislike += 1
             target_vote.dislike_voter.add(user)
     elif is_voted_like:
-        if request_vote == "dislike":
+        if request_vote == "like":
             target_vote.like -= 1
             target_vote.like_voter.remove(user)
     else:
-        if request_vote == "like":
+        if request_vote == "dislike":
             target_vote.dislike -= 1
             target_vote.dislike_voter.remove(user)
     target_vote.save()

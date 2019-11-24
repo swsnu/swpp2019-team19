@@ -36,6 +36,6 @@ describe('<Comment />', () => {
   it('renders', () => {
     const component = mount(comment);
     const wrapper = component.find('.Comment');
-    expect(wrapper.length).toBe(1);
+    expect(wrapper.length).toBe(2);
   });
 });

@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-autofocus */
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { Component } from 'react';
 import { Button, Alert } from 'react-bootstrap';
 import { connect } from 'react-redux';
@@ -65,8 +63,10 @@ class Signin extends Component {
                             username: event.target.value,
                           })}
                           required
+                          // eslint-disable-next-line jsx-a11y/no-autofocus
                           autoFocus
                         />
+                        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                         <label>Username</label>
                       </div>
                       <div className="form-label-group-signin">
@@ -81,6 +81,7 @@ class Signin extends Component {
                           })}
                           required
                         />
+                        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                         <label htmlFor="inputPassword">Password</label>
                       </div>
                       <br />

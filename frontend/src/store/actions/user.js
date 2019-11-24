@@ -35,13 +35,13 @@ export const signin = (username, password) => (dispatch) => (
   })
 );
 
-export const signout = () => (dispatch) => (
+export const signout = () => (dispatch) => {
+  sessionStorage.removeItem('sessionid');
+  sessionStorage.removeItem('username');
   axios.get(`${remoteURL}/api/signout/`).then(() => {
-    sessionStorage.removeItem('sessionid');
-    sessionStorage.removeItem('username');
     dispatch({ type: SIGN_OUT });
-  })
-);
+  });
+};
 
 export const signup = (email, username, password) => (dispatch) => (
   axios.post(

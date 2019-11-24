@@ -16,9 +16,16 @@ const stubArticleInitialState = {
     vote_diff: 6,
   },
 };
-const mockStore = getMockStore(stubArticleInitialState, {}, {}, {});
 
-describe('<ArticleDetail />', () => {
+const stubCommentInitialState = {
+  commentList: [],
+};
+
+const mockStore = getMockStore(
+  stubArticleInitialState, {}, {}, stubCommentInitialState,
+);
+
+describe('<ArticleEntry />', () => {
   let articleEntry;
 
   beforeEach(() => {
@@ -41,5 +48,18 @@ describe('<ArticleDetail />', () => {
     const wrapper = component.find('.ArticleEntry');
     expect(wrapper.length).toBe(2);
     expect(component.find('#article-entry')).toHaveLength(2);
+  });
+
+  it('mouseover and mouseout', () => {
+    const component = mount(articleEntry);
+    const wrapper = component.find('#article-entry').at(1);
+    wrapper.simulate('mouseover');
+    wrapper.simulate('mouseout');
+  });
+  it('focus and blur', () => {
+    const component = mount(articleEntry);
+    const wrapper = component.find('#article-entry').at(1);
+    wrapper.simulate('focus');
+    wrapper.simulate('blur');
   });
 });

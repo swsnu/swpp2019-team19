@@ -56,8 +56,13 @@ const stubArticleInitialState = {
   ],
   articlePages: 1,
 };
+const stubCommentInitialState = {
+  commentList: [],
+};
 
-const mockStore = getMockStore(stubArticleInitialState, {}, {}, {});
+const mockStore = getMockStore(
+  stubArticleInitialState, {}, {}, stubCommentInitialState,
+);
 
 describe('<BoardDetail />', () => {
   const defaultOption = {
@@ -105,9 +110,7 @@ describe('<BoardDetail />', () => {
     expect(spyFetchArticleList).toHaveBeenCalledTimes(1);
     expect(spyFetchArticleList).toHaveBeenLastCalledWith(defaultOption);
 
-    // const searchButton = wrapper.find('#search-button').at(0);
     const sortCriteria = wrapper.find('#sort-criteria').at(4);
-    // TODO : test DropdownItem select
     sortCriteria.simulate('click');
 
     const sortByNew = wrapper.find('#sort-by-new').at(2);

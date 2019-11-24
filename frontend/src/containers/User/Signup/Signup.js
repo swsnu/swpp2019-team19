@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/no-autofocus */
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { Component } from 'react';
 import { Button, Alert } from 'react-bootstrap';
 
@@ -90,8 +88,10 @@ class Signup extends Component {
                             username: event.target.value,
                           })}
                           required
+                          // eslint-disable-next-line jsx-a11y/no-autofocus
                           autoFocus
                         />
+                        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                         <label>Username</label>
                       </div>
                       <hr />
@@ -107,6 +107,7 @@ class Signup extends Component {
                           })}
                           required
                         />
+                        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                         <label>Email address</label>
                       </div>
                       <hr />
@@ -122,6 +123,7 @@ class Signup extends Component {
                           })}
                           required
                         />
+                        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                         <label>Password</label>
                       </div>
                       <div className="form-label-group-signup">
@@ -136,6 +138,7 @@ class Signup extends Component {
                           })}
                           required
                         />
+                        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                         <label>Confirm password</label>
                       </div>
                       <hr />

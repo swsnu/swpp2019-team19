@@ -1,8 +1,8 @@
-/* eslint-disable react/destructuring-assignment */
-/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import { useDispatch, useSelector, connect } from 'react-redux';
-import { Modal, Button } from 'react-bootstrap';
+import {
+  Modal, Button, InputGroup, Form,
+} from 'react-bootstrap';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
@@ -32,13 +32,14 @@ const ArticleDetail = (props) => {
   const [newComment, setComment] = useState('');
 
   const makeCommentEntry = (comment) => (
-    <Comment content={comment.content} author={comment.author__nickname} key={comment.id} />
-  );
-  const onChangeComment = (e) => (
-    setComment(e.target.value)
+    <Modal.Footer key={comment.id}>
+      <Comment
+        content={comment.content}
+        author={comment.author__nickname}
+      />
+    </Modal.Footer>
   );
 
-  // TODO : move to container
   const { show, onHide, article } = props;
   return (
     <div className="ArticleDetail">
@@ -80,25 +81,27 @@ const ArticleDetail = (props) => {
           </Button>
         </Modal.Footer>
         <div className="comment">
-          <div className="comment-input">
-            <input id="comment-input" value={newComment} onChange={onChangeComment} />
-            <Button
-              id="comment-write-button"
-              onClick={() => {
-                dispatch(actionCreators.postComment(props.article.id, newComment));
-                setComment('');
-              }}
-            >
-              Comment
-            </Button>
-          </div>
           <div className="comment-list">
-            {
-              storedComment.commentAck === true
-                ? storedComment.commentList.map(makeCommentEntry)
-                : <div />
-            }
+            {storedComment.commentList.map(makeCommentEntry)}
           </div>
+          <Modal.Footer className="comment-input">
+            <InputGroup>
+              <Form.Control
+                id="comment-input"
+                value={newComment}
+                onChange={(e) => setComment(e.target.value)}
+              />
+              <Button
+                id="comment-write-button"
+                onClick={() => {
+                  dispatch(actionCreators.postComment(props.article.id, newComment));
+                  setComment('');
+                }}
+              >
+                Comment
+              </Button>
+            </InputGroup>
+          </Modal.Footer>
         </div>
       </Modal>
     </div>
