@@ -115,6 +115,9 @@ function CustomNavbar(props) {
         <Col xs={4} md={4}>
           <Navbar.Brand
             onClick={() => redirectAndClose('/chat')}
+            style={{
+              cursor: 'pointer',
+            }}
           >
             <font color="yellow" size="+3">
               SNUBot

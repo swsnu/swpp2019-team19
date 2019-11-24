@@ -102,19 +102,15 @@ const ArticleEntry = (props) => {
             {article.vote_diff}
           </div>
         </Card.Body>
-        {/* additional information in footer if needed */}
-        {/* <Card.Footer>
-          <small className="text-muted">{props.article.author}</small>
-        </Card.Footer> */}
       </Card>
       {/* article modal happens here */}
-      {/* TODO : fetch in articleDetail, not passing article as props */}
       <ArticleDetail
         article={storedArticle}
         show={modalShow}
         onHide={() => {
           setModalShow(false);
-          dispatch(actionCreators.clearComment());
+          props.clearArticle();
+          props.clearComment();
         }}
       />
     </Col>
@@ -129,6 +125,12 @@ const mapDispatchToProps = (dispatch) => ({
   fetch: (id) => dispatch(
     actionCreators.fetchArticle(id),
   ),
+  clearArticle: () => dispatch(
+    actionCreators.clearArticle(),
+  ),
+  clearComment: () => dispatch(
+    actionCreators.clearComment(),
+  ),
 });
 
 export default connect(
@@ -142,4 +144,6 @@ ArticleEntry.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   storedArticle: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
+  clearArticle: PropTypes.func.isRequired,
+  clearComment: PropTypes.func.isRequired,
 };
