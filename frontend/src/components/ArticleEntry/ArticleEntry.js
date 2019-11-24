@@ -44,6 +44,7 @@ const ArticleEntry = (props) => {
   };
 
   const [modalShow, setModalShow] = React.useState(false);
+  const [focus, setFocus] = React.useState(false);
 
   const { article, storedArticle } = props;
   const {
@@ -62,12 +63,26 @@ const ArticleEntry = (props) => {
           props.fetch(props.article.id);
           setModalShow(true);
         }}
+        onMouseOver={() => {
+          setFocus(true);
+        }}
+        onMouseOut={() => {
+          setFocus(false);
+        }}
         onFocus={() => {
-          console.log('mouseover');
+          setFocus(true);
+        }}
+        onBlur={() => {
+          setFocus(false);
         }}
         bg={tagToBg(tag)}
         text={tagToText(tag)}
-        style={{ width: '18rem' }}
+        style={{
+          width: '18rem',
+          cursor: 'pointer',
+          zoom: focus ? '1.05' : '1',
+          transition: 'all 1.5s ease',
+        }}
         className="p-3 card"
       >
         <Card.Body>
