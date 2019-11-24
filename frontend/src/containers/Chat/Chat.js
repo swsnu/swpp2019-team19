@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Button, Form } from 'react-bootstrap';
+import { Button, Form, Container, Row, Col } from 'react-bootstrap';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -56,66 +56,74 @@ class Chat extends Component {
     });
 
     return (
-      <div className="chat container">
-        <div className="row vertical-center">
-          <div className="col-12 align-self-center">
-            <div className="chat">
-              <div className="inbox_msg">
-                <div className="mesgs">
-                  <div
-                    className="msg_history"
-                    ref={(div) => {
-                      this.msg_history = div;
-                    }}
-                  >
-                    {(chatLog.length < 1) ? (
-                      <div className="short-guide">
-                        <p className="title">Short Guide</p>
-                        <p>Ask anything you want to know about SNU.</p>
-                        <p>But... Since I&apos;m not a god,</p>
-                        <p>I can&apos;t tell you what I don&apos;t know.</p>
-                        <p>If you want to know later or make me smarter,</p>
-                        <br />
-                        <Button
-                          id="direct-to-boards"
-                          onClick={() => history.push('/boards/')}
+      <Container>
+        <Row>
+          <Col xs={0} md={2} lg={3} />
+          <Col>
+            <div className="chat container">
+              <div className="row vertical-center">
+                <div className="col-12 align-self-center">
+                  <div className="chat">
+                    <div className="inbox_msg">
+                      <div className="mesgs">
+                        <div
+                          className="msg_history"
+                          ref={(div) => {
+                            this.msg_history = div;
+                          }}
                         >
-                          Go!
-                        </Button>
+                          {(chatLog.length < 1) ? (
+                            <div className="short-guide">
+                              <p className="title">Short Guide</p>
+                              <p>Ask anything you want to know about SNU.</p>
+                              <p>But... Since I&apos;m not a god,</p>
+                              <p>I can&apos;t tell you what I don&apos;t know.</p>
+                              <p>If you want to know later or make me smarter,</p>
+                              <br />
+                              <Button
+                                id="direct-to-boards"
+                                onClick={() => history.push('/boards/')}
+                              >
+                                Go!
+                              </Button>
+                            </div>
+                          ) : (chatLog)}
+                        </div>
+                        <div className="type_msg">
+                          <div className="input_msg_write">
+                            <Form.Control
+                              className="write_msg"
+                              id="input-chat"
+                              aria-describedby="input-chat"
+                              placeholder="ask me anything..."
+                              value={userInput}
+                              onChange={(event) => this.setState({
+                                userInput: event.target.value,
+                              })}
+                            />
+                            <Button
+                              variant="outline-dark"
+                              className="msg_send_btn"
+                              type="button"
+                              onClick={() => {
+                                sendMessage(userInput);
+                                this.setState({ userInput: '' });
+                              }}
+                            >
+                              <FontAwesomeIcon icon={faPaperPlane} />
+                            </Button>
+                          </div>
+                        </div>
                       </div>
-                    ) : (chatLog)}
-                  </div>
-                  <div className="type_msg">
-                    <div className="input_msg_write">
-                      <Form.Control
-                        className="write_msg"
-                        id="input-chat"
-                        aria-describedby="input-chat"
-                        placeholder="ask me anything..."
-                        value={userInput}
-                        onChange={(event) => this.setState({
-                          userInput: event.target.value,
-                        })}
-                      />
-                      <Button
-                        variant="outline-dark"
-                        className="msg_send_btn"
-                        type="button"
-                        onClick={() => {
-                          sendMessage(userInput);
-                          this.setState({ userInput: '' });
-                        }}
-                      >
-                        <FontAwesomeIcon icon={faPaperPlane} />
-                      </Button>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
+          </Col>
+          <Col xs={0} md={2} lg={3} />
+        </Row>
+      </Container>
     );
   }
 }
