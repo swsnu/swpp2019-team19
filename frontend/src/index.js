@@ -13,8 +13,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.withCredentials = true;
-if(Cookie.get().csrftoken===undefined){
-	axios.get('/api/token/');
+if (Cookie.get().csrftoken === undefined) {
+  axios.get('/api/token/');
 }
 ReactDOM.render(
   <Provider store={store}>
