@@ -31,9 +31,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "9uwk%h7jdd6xd7znqz=ba7fr&k%*gew6^=tw+k(vs5^7oewhhn"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '52.141.7.7', 'www.snubot.xyz']
 
 
 # Application definition
@@ -90,6 +90,10 @@ WSGI_APPLICATION = "SNUBot.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
+        "OPTIONS": {
+            "charset": "utf8mb4",
+            "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
         "NAME": "SNUBot",
         "USER": "SNUBot",
         "PASSWORD": "SNUBot",
@@ -134,11 +138,15 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 CSRF_COOKIE_NAME = "csrftoken"
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = False
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = (
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
+    "http://localhost",
+    "http://127.0.0.1",
+    "http://52.141.7.7",
+    "https://52.141.7.7",
+    "https://www.snubot.xyz",
+    "http://www.snubot.xyz",
 )
 
 SESSION_COOKIE_HTTPONLY = False
