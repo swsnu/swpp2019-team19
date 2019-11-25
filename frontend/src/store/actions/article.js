@@ -17,7 +17,6 @@ import {
 } from './types';
 
 
-
 export const fetchArticle = (id) => (dispatch) => (
   axios.get(`/api/article/${id}/`).then((res) => {
     dispatch({
@@ -32,7 +31,7 @@ export const clearArticle = () => (dispatch) => (
 );
 
 export const postArticle = (title, content) => (dispatch) => (
-  axios.post(`/api/article/`, { title, content }).then((res) => {
+  axios.post('/api/article/', { title, content }).then((res) => {
     dispatch({
       type: POST_ARTICLE,
       article: res.data,
@@ -63,7 +62,7 @@ export const deleteArticle = (id) => (dispatch) => (
 );
 
 export const fetchAllBoard = (options) => (dispatch) => (
-  axios.post(`/api/boards/`, options).then((res) => {
+  axios.post('/api/boards/', options).then((res) => {
     dispatch({ type: FETCH_ALL_BOARD, articles: res.data[1] });
   })
 );
@@ -73,7 +72,7 @@ export const clearAllBoard = () => (dispatch) => (
 );
 
 export const fetchHotBoard = (options) => (dispatch) => (
-  axios.post(`/api/boards/`, options).then((res) => {
+  axios.post('/api/boards/', options).then((res) => {
     dispatch({ type: FETCH_HOT_BOARD, articles: res.data[1] });
   })
 );
@@ -83,7 +82,7 @@ export const clearHotBoard = () => (dispatch) => (
 );
 
 export const fetchArticleList = (options) => (dispatch) => (
-  axios.post(`/api/boards/`, options).then((res) => {
+  axios.post('/api/boards/', options).then((res) => {
     dispatch({
       type: FETCH_ARTICLE_LIST, page: res.data[0], articles: res.data[1],
     });
