@@ -20,7 +20,8 @@ class Chat extends Component {
     this.state = {
       userInput: '',
     };
-    this.props.clearChatHistory();
+    const { clearChatHistory } = this.props;
+    clearChatHistory();
   }
 
   componentDidUpdate() {
