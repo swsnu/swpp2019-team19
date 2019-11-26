@@ -93,12 +93,8 @@ describe('<Chat />', () => {
   it('change language', () => {
     const component = mount(chat2);
     const languageToggleButton = component.find('.toggle-button').at(0);
-    // expect(languageToggleButton.props().children[0]).toBe('Eng');
-    // console.log(component.props());
-    // expect(component.state().language).toEqual('Eng');
+    expect(languageToggleButton.text()).toBe('Eng');
     languageToggleButton.simulate('click');
-    // expect(languageToggleButton.props().children[0]).toBe('Kor');
-
-    // expect(component.state().language).toEqual('Kor');
+    expect(languageToggleButton.text()).toBe('Kor');
   });
 });

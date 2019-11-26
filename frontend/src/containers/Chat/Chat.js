@@ -35,18 +35,9 @@ class Chat extends Component {
   }
 
   render() {
-    const {
-      chatHistory, history, sendEngMessage, sendKorMessage,
-    } = this.props;
+    const { chatHistory, history, sendMessage } = this.props;
     const { userInput, language } = this.state;
 
-    const sendMessageHandler = (message) => {
-      if (language === 'Eng') {
-        sendEngMessage(message);
-      } else {
-        sendKorMessage(message);
-      }
-    };
     let counter = 0;
     const chatLog = chatHistory.map((message) => {
       counter += 1;
@@ -127,7 +118,7 @@ class Chat extends Component {
                               className="msg_send_btn"
                               type="button"
                               onClick={() => {
-                                sendMessageHandler(userInput);
+                                sendMessage(userInput, language);
                                 this.setState({ userInput: '' });
                               }}
                             >
@@ -155,11 +146,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  sendEngMessage: (message) => dispatch(
-    actionCreators.sendEngMessage(message, 'default'),
-  ),
-  sendKorMessage: (message) => dispatch(
-    actionCreators.sendKorMessage(message, 'default'),
+  sendMessage: (message, language) => dispatch(
+    actionCreators.sendMessage(message, 'default', language),
   ),
 });
 
@@ -173,6 +161,5 @@ Chat.propTypes = {
   chatHistory: PropTypes.array.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   history: PropTypes.object.isRequired,
-  sendEngMessage: PropTypes.func.isRequired,
-  sendKorMessage: PropTypes.func.isRequired,
+  sendMessage: PropTypes.func.isRequired,
 };

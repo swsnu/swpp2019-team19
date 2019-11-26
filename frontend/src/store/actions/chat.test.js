@@ -44,7 +44,7 @@ describe('action chat', () => {
       }),
     );
 
-    store.dispatch(actionCreators.sendEngMessage(stubEngChat)).then(() => {
+    store.dispatch(actionCreators.sendMessage(stubEngChat, 'Eng')).then(() => {
       const newState = store.getState();
       expect(spy).toHaveBeenCalledTimes(1);
       done();
@@ -62,7 +62,7 @@ describe('action chat', () => {
       }),
     );
 
-    store.dispatch(actionCreators.sendKorMessage(stubKorChat)).then(() => {
+    store.dispatch(actionCreators.sendMessage(stubKorChat, 'Kor')).then(() => {
       const newState = store.getState();
       expect(spy).toHaveBeenCalledTimes(1);
       done();

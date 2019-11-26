@@ -23,8 +23,7 @@ export {
 } from './user';
 
 export {
-  sendEngMessage,
-  sendKorMessage,
+  sendMessage,
 } from './chat';
 
 export {
