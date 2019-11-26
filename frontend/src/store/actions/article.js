@@ -94,7 +94,7 @@ export const clearArticleList = () => (dispatch) => (
 );
 
 export const putVote = (vote, id) => (dispatch) => (
-  axios.put(`$/api/vote/${id}/`, { id, vote }).then((res) => {
+  axios.put(`/api/vote/${id}/`, { id, vote }).then((res) => {
     dispatch({
       type: VOTE,
       d: res.data,
