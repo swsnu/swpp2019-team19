@@ -156,4 +156,5 @@ Chat.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   history: PropTypes.object.isRequired,
   sendMessage: PropTypes.func.isRequired,
+  clearChatHistory: propTypes.func.isRequired,
 };
