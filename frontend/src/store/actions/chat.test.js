@@ -47,6 +47,5 @@ describe('action chat', () => {
     const newState = store.getState();
     expect(newState.chat.chatHistory.length).toBe(0);
     done();
-
-  })
+  });
 });
