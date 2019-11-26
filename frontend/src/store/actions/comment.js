@@ -7,12 +7,9 @@ import {
   POST_COMMENT,
 } from './types';
 
-const remoteURL = 'http://localhost:8000';
-axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
-axios.defaults.xsrfCookieName = 'csrftoken';
 
 export const fetchComment = (id) => (dispatch) => (
-  axios.get(`${remoteURL}/api/comment/${id}/`).then((res) => {
+  axios.get(`/api/comment/${id}/`).then((res) => {
     dispatch({
       comment: res.data,
       type: FETCH_COMMENT,
@@ -25,7 +22,7 @@ export const clearComment = () => (dispatch) => (
 );
 
 export const postComment = (id, content) => (dispatch) => (
-  axios.post(`${remoteURL}/api/comment/${id}/`, { content }).then((res) => {
+  axios.post(`/api/comment/${id}/`, { content }).then((res) => {
     dispatch({
       comment: res.data,
       type: POST_COMMENT,
