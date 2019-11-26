@@ -37,10 +37,12 @@ const stubChatInitialState2 = {
 
 const mockStore1 = getMockStore({}, {}, stubChatInitialState1, {});
 const mockStore2 = getMockStore({}, {}, stubChatInitialState2, {});
+// const mockStore3 = getMockStore({}, {}, stubChatInitialState3, {});
 
-describe('<ArticleCreate />', () => {
-  let chat1; let
-    chat2;
+describe('<Chat />', () => {
+  let chat1;
+  let chat2;
+
   beforeEach(() => {
     chat1 = (
       <Provider store={mockStore1}>
@@ -86,5 +88,17 @@ describe('<ArticleCreate />', () => {
     formControlWrapper.at(0).simulate('change', event);
     const submitButtonWrpper = component.find('.msg_send_btn');
     submitButtonWrpper.at(0).simulate('click');
+  });
+
+  it('change language', () => {
+    const component = mount(chat2);
+    const languageToggleButton = component.find('.toggle-button').at(0);
+    // expect(languageToggleButton.props().children[0]).toBe('Eng');
+    // console.log(component.props());
+    // expect(component.state().language).toEqual('Eng');
+    languageToggleButton.simulate('click');
+    // expect(languageToggleButton.props().children[0]).toBe('Kor');
+
+    // expect(component.state().language).toEqual('Kor');
   });
 });
