@@ -24,6 +24,7 @@ export {
 
 export {
   sendMessage,
+  clearChatHistory,
 } from './chat';
 
 export {

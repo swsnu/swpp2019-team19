@@ -20,6 +20,7 @@ class Chat extends Component {
     this.state = {
       userInput: '',
     };
+    this.props.clearChatHistory();
   }
 
   componentDidUpdate() {
@@ -137,6 +138,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   sendMessage: (message) => dispatch(
     actionCreators.sendMessage(message, 'default'),
+  ),
+  clearChatHistory: () => dispatch(
+    actionCreators.clearChatHistory(),
   ),
 });
 
