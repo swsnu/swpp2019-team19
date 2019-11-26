@@ -23,7 +23,7 @@ describe('action chat', () => {
     jest.clearAllMocks();
   });
 
-  it('setdMessage', (done) => {
+  it('sendMessage', (done) => {
     const spy = jest.spyOn(axios, 'post').mockImplementation(
       (response) => new Promise((resolve) => {
         const result = {
@@ -41,4 +41,12 @@ describe('action chat', () => {
       done();
     });
   });
+
+  it('clear chat history', (done) => {
+    store.dispatch(actionCreators.clearChatHistory());
+    const newState = store.getState();
+    expect(newState.chat.chatHistory.length).toBe(0);
+    done();
+
+  })
 });
