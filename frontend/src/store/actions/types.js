@@ -34,6 +34,7 @@ export const VOTE = 'VOTE';
 // Chat
 export const SEND_QUESTION = 'SEND_QUESTION';
 export const RCV_QUESTION = 'RCV_QUESTION';
+export const CLEAR_CHAT_HISTORY = 'CLEAR_CHAT_HISTORY';
 
 // Comment
 export const FETCH_COMMENT = 'FETCH_COMMENT';

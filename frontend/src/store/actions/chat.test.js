@@ -32,7 +32,7 @@ describe('action chat', () => {
     jest.clearAllMocks();
   });
 
-  it('sendEngMessage', (done) => {
+  it('sendMessage', (done) => {
     const spy = jest.spyOn(axios, 'post').mockImplementation(
       (response) => new Promise((resolve) => {
         const result = {
@@ -67,5 +67,12 @@ describe('action chat', () => {
       expect(spy).toHaveBeenCalledTimes(1);
       done();
     });
+  });
+
+  it('clear chat history', (done) => {
+    store.dispatch(actionCreators.clearChatHistory());
+    const newState = store.getState();
+    expect(newState.chat.chatHistory.length).toBe(0);
+    done();
   });
 });

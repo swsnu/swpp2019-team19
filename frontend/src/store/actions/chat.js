@@ -1,9 +1,13 @@
 import axios from 'axios';
-import { SEND_QUESTION, RCV_QUESTION } from './types';
+import { SEND_QUESTION, RCV_QUESTION, CLEAR_CHAT_HISTORY } from './types';
 
 export const getMessage = (response) => ({ type: RCV_QUESTION, message: response });
 
+<<<<<<< HEAD
 export const sendMessage = (message, sender, language) => (dispatch) => (
+=======
+export const sendMessage = (message, sender) => (dispatch) => (
+>>>>>>> 8031f98c1087b5f67e1ce6f8e64e4196ef7147df
   axios.post(
     `/webhooks${language}/rest/webhook`, { message, sender },
   ).then((response) => {
@@ -13,4 +17,8 @@ export const sendMessage = (message, sender, language) => (dispatch) => (
     });
     dispatch(getMessage(response.data));
   })
+);
+
+export const clearChatHistory = () => (dispatch) => (
+  dispatch({ type: CLEAR_CHAT_HISTORY })
 );

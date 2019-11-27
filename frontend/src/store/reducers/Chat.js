@@ -1,5 +1,5 @@
 
-import { SEND_QUESTION, RCV_QUESTION } from '../actions/types';
+import { SEND_QUESTION, RCV_QUESTION, CLEAR_CHAT_HISTORY } from '../actions/types';
 
 const initialState = {
   chatHistory: [],
@@ -20,6 +20,10 @@ export default function (state = initialState, action = defaultAction) {
       const updateChatHistory = JSON.parse(JSON.stringify(state.chatHistory));
       updateChatHistory.push({ from: 'user', message: action.message });
       return { ...state, chatHistory: updateChatHistory };
+    }
+    case CLEAR_CHAT_HISTORY: {
+      const clearChatHistory = [];
+      return { ...state, chatHistory: clearChatHistory };
     }
     default:
       return state;
