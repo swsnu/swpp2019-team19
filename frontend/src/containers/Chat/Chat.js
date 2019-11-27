@@ -20,6 +20,8 @@ class Chat extends Component {
     this.state = {
       userInput: '',
     };
+    const { clearChatHistory } = this.props;
+    clearChatHistory();
   }
 
   componentDidUpdate() {
@@ -138,6 +140,9 @@ const mapDispatchToProps = (dispatch) => ({
   sendMessage: (message) => dispatch(
     actionCreators.sendMessage(message, 'default'),
   ),
+  clearChatHistory: () => dispatch(
+    actionCreators.clearChatHistory(),
+  ),
 });
 
 export default connect(
@@ -151,4 +156,5 @@ Chat.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   history: PropTypes.object.isRequired,
   sendMessage: PropTypes.func.isRequired,
+  clearChatHistory: PropTypes.func.isRequired,
 };
