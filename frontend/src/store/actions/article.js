@@ -17,12 +17,8 @@ import {
 } from './types';
 
 
-const remoteURL = 'http://localhost:8000';
-axios.defaults.xsrfHeaderName = 'X-CSRFTOKEN';
-axios.defaults.xsrfCookieName = 'csrftoken';
-
 export const fetchArticle = (id) => (dispatch) => (
-  axios.get(`${remoteURL}/api/article/${id}/`).then((res) => {
+  axios.get(`/api/article/${id}/`).then((res) => {
     dispatch({
       article: res.data,
       type: FETCH_ARTICLE,
@@ -35,7 +31,7 @@ export const clearArticle = () => (dispatch) => (
 );
 
 export const postArticle = (title, content) => (dispatch) => (
-  axios.post(`${remoteURL}/api/article/`, { title, content }).then((res) => {
+  axios.post('/api/article/', { title, content }).then((res) => {
     dispatch({
       type: POST_ARTICLE,
       article: res.data,
@@ -46,7 +42,7 @@ export const postArticle = (title, content) => (dispatch) => (
 
 export const editArticle = (id, title, content) => (dispatch) => (
   axios.put(
-    `${remoteURL}/api/article/${id}/`, { title, content },
+    `/api/article/${id}/`, { title, content },
   ).then((res) => {
     dispatch({
       type: EDIT_ARTICLE,
@@ -57,7 +53,7 @@ export const editArticle = (id, title, content) => (dispatch) => (
 );
 
 export const deleteArticle = (id) => (dispatch) => (
-  axios.delete(`${remoteURL}/api/article/${id}/`).then(() => {
+  axios.delete(`/api/article/${id}/`).then(() => {
     dispatch({
       type: DELETE_ARTICLE,
     });
@@ -66,7 +62,7 @@ export const deleteArticle = (id) => (dispatch) => (
 );
 
 export const fetchAllBoard = (options) => (dispatch) => (
-  axios.post(`${remoteURL}/api/boards/`, options).then((res) => {
+  axios.post('/api/boards/', options).then((res) => {
     dispatch({ type: FETCH_ALL_BOARD, articles: res.data[1] });
   })
 );
@@ -76,7 +72,7 @@ export const clearAllBoard = () => (dispatch) => (
 );
 
 export const fetchHotBoard = (options) => (dispatch) => (
-  axios.post(`${remoteURL}/api/boards/`, options).then((res) => {
+  axios.post('/api/boards/', options).then((res) => {
     dispatch({ type: FETCH_HOT_BOARD, articles: res.data[1] });
   })
 );
@@ -86,7 +82,7 @@ export const clearHotBoard = () => (dispatch) => (
 );
 
 export const fetchArticleList = (options) => (dispatch) => (
-  axios.post(`${remoteURL}/api/boards/`, options).then((res) => {
+  axios.post('/api/boards/', options).then((res) => {
     dispatch({
       type: FETCH_ARTICLE_LIST, page: res.data[0], articles: res.data[1],
     });
@@ -98,7 +94,7 @@ export const clearArticleList = () => (dispatch) => (
 );
 
 export const putVote = (vote, id) => (dispatch) => (
-  axios.put(`${remoteURL}/api/vote/${id}/`, { id, vote }).then((res) => {
+  axios.put(`/api/vote/${id}/`, { id, vote }).then((res) => {
     dispatch({
       type: VOTE,
       d: res.data,

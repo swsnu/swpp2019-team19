@@ -4,16 +4,25 @@ import axios from 'axios';
 import * as actionCreators from './chat';
 import store from '../store';
 
-const stubChat = {
+const stubEngChat = {
   message: 'hi',
   sender: 'default',
 };
-const stubResponse = [
+const stubKorChat = {
+  message: '안녕',
+  sender: 'default',
+};
+const stubEngResponse = [
   {
     text: 'hi',
   },
   {
     image: 'hi',
+  },
+];
+const stubKorResponse = [
+  {
+    text: '안녕',
   },
 ];
 
@@ -23,22 +32,47 @@ describe('action chat', () => {
     jest.clearAllMocks();
   });
 
-  it('setdMessage', (done) => {
+  it('sendMessage', (done) => {
     const spy = jest.spyOn(axios, 'post').mockImplementation(
       (response) => new Promise((resolve) => {
         const result = {
           status: 200,
-          data: stubResponse,
+          data: stubEngResponse,
         };
 
         resolve(result);
       }),
     );
 
-    store.dispatch(actionCreators.sendMessage(stubChat)).then(() => {
+    store.dispatch(actionCreators.sendMessage(stubEngChat, 'Eng')).then(() => {
       const newState = store.getState();
       expect(spy).toHaveBeenCalledTimes(1);
       done();
     });
+  });
+
+  it('sendKorMessage', (done) => {
+    const spy = jest.spyOn(axios, 'post').mockImplementation(
+      (response) => new Promise((resolve) => {
+        const result = {
+          status: 200,
+          data: stubKorResponse,
+        };
+        resolve(result);
+      }),
+    );
+
+    store.dispatch(actionCreators.sendMessage(stubKorChat, 'Kor')).then(() => {
+      const newState = store.getState();
+      expect(spy).toHaveBeenCalledTimes(1);
+      done();
+    });
+  });
+
+  it('clear chat history', (done) => {
+    store.dispatch(actionCreators.clearChatHistory());
+    const newState = store.getState();
+    expect(newState.chat.chatHistory.length).toBe(0);
+    done();
   });
 });

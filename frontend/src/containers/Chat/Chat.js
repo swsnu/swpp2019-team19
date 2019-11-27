@@ -19,7 +19,10 @@ class Chat extends Component {
     super(props);
     this.state = {
       userInput: '',
+      language: 'Eng',
     };
+    const { clearChatHistory } = this.props;
+    clearChatHistory();
   }
 
   componentDidUpdate() {
@@ -35,7 +38,7 @@ class Chat extends Component {
 
   render() {
     const { chatHistory, history, sendMessage } = this.props;
-    const { userInput } = this.state;
+    const { userInput, language } = this.state;
 
     let counter = 0;
     const chatLog = chatHistory.map((message) => {
@@ -63,6 +66,16 @@ class Chat extends Component {
           <Col>
             <div className="chat container">
               <div className="row vertical-center">
+                <Button
+                  className="toggle-button"
+                  onClick={() => (
+                    (language === 'Eng')
+                      ? this.setState({ language: 'Kor' })
+                      : this.setState({ language: 'Eng' })
+                  )}
+                >
+                  {language}
+                </Button>
                 <div className="col-12 align-self-center">
                   <div className="chat">
                     <div className="inbox_msg">
@@ -107,7 +120,7 @@ class Chat extends Component {
                               className="msg_send_btn"
                               type="button"
                               onClick={() => {
-                                sendMessage(userInput);
+                                sendMessage(userInput, language);
                                 this.setState({ userInput: '' });
                               }}
                             >
@@ -135,8 +148,11 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  sendMessage: (message) => dispatch(
-    actionCreators.sendMessage(message, 'default'),
+  sendMessage: (message, language) => dispatch(
+    actionCreators.sendMessage(message, 'default', language),
+  ),
+  clearChatHistory: () => dispatch(
+    actionCreators.clearChatHistory(),
   ),
 });
 
@@ -151,4 +167,5 @@ Chat.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   history: PropTypes.object.isRequired,
   sendMessage: PropTypes.func.isRequired,
+  clearChatHistory: PropTypes.func.isRequired,
 };
