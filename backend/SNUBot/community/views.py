@@ -189,7 +189,7 @@ def boards(request):
             ]
     if sort_criteria == "good":
         article_list = sorted(
-            article_list, key=itemgetter("vote"), reverse=True)
+            article_list, key=itemgetter("vote_diff"), reverse=True)
     elif sort_criteria == "new":
         article_list.reverse()
     max_page = math.ceil(len(article_list) / article_count)
