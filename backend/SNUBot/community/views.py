@@ -170,7 +170,7 @@ def boards(request):
             )
         ]
     for article in article_list:
-        article["vote_diff"] = article.vote__like - article.vote__dislike
+        article["vote_diff"] = article["vote__like"] - article["vote__dislike"]
     if search_keyword != "":
         if search_criteria == "nickname":
             article_list = [
