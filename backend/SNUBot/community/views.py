@@ -157,23 +157,20 @@ def boards(request):
         return HttpResponseBadRequest()
     if tag == "all":
         article_list = [
-            article
-            for article in Article.objects.filter(board=board_name).values(
-                "id", "title", "content", "author__nickname", "tag", "vote"
+            article 
+            for article in Article.objects.select_related("vote").filter(board==board_name).values(
+                "id", "title", "content", "author__nickname", "tag", "vote__like", "vote__dislike"
             )
         ]
     else:
         article_list = [
-            article
-            for article in Article.objects.filter(board=board_name, tag=tag).values(
-                "id", "title", "content", "author__nickname", "tag", "vote"
+            article 
+            for article in Article.objects.select_related("vote").filter(board==board_name, tag=tag).values(
+                "id", "title", "content", "author__nickname", "tag", "vote__like", "vote__dislike"
             )
         ]
     for article in article_list:
-        target_vote = Vote.objects.get(id=article["vote"])
-        article["vote_diff"] = target_vote.like - target_vote.dislike
-        article["like"] = target_vote.like
-        article["dislike"] = target_vote.dislike
+        article["vote_diff"] = article.vote__like - article.vote__dislike
     if search_keyword != "":
         if search_criteria == "nickname":
             article_list = [
