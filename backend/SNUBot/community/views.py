@@ -158,14 +158,14 @@ def boards(request):
     if tag == "all":
         article_list = [
             article 
-            for article in Article.objects.select_related("vote").filter(board==board_name).values(
+            for article in Article.objects.select_related("vote").filter(board=board_name).values(
                 "id", "title", "content", "author__nickname", "tag", "vote__like", "vote__dislike"
             )
         ]
     else:
         article_list = [
             article 
-            for article in Article.objects.select_related("vote").filter(board==board_name, tag=tag).values(
+            for article in Article.objects.select_related("vote").filter(board=board_name, tag=tag).values(
                 "id", "title", "content", "author__nickname", "tag", "vote__like", "vote__dislike"
             )
         ]
