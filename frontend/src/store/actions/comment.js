@@ -5,6 +5,7 @@ import {
   CLEAR_COMMENT,
   // DELETE_COMMENT,
   POST_COMMENT,
+  EDIT_COMMENT,
 } from './types';
 
 
@@ -21,11 +22,25 @@ export const clearComment = () => (dispatch) => (
   dispatch({ type: CLEAR_COMMENT })
 );
 
-export const postComment = (id, content) => (dispatch) => (
-  axios.post(`/api/comment/${id}/`, { content }).then((res) => {
+export const postComment = (articleId, content) => (dispatch) => (
+  axios.post(`/api/comment/${articleId}/`, {
+    content,
+  }).then((res) => {
     dispatch({
       comment: res.data,
       type: POST_COMMENT,
+    });
+  })
+);
+
+export const editComment = (articleId, commentId, content) => (dispatch) => (
+  axios.put(`/api/comment/${articleId}/`, {
+    commentId, content,
+  }).then(() => {
+    dispatch({
+      id: commentId,
+      comment: content,
+      type: EDIT_COMMENT,
     });
   })
 );

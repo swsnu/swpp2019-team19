@@ -21,7 +21,6 @@ const initialState = {
   articlePages: 0,
 };
 const defaultAction = { type: 'default' };
-// TODO
 
 /* eslint no-case-declarations: "error" */
 /* eslint-env es6 */
@@ -37,10 +36,29 @@ export default function (state = initialState, action = defaultAction) {
       };
     }
     case POST_ARTICLE: {
-      return { ...state, article: action.article };
+      const newArticle = action.article;
+      const newArticleList = [newArticle].concat(state.articleList);
+      newArticleList.pop();
+      return {
+        ...state,
+        article: newArticle,
+        articleList: newArticleList,
+      };
     }
     case EDIT_ARTICLE: {
-      return { ...state, article: action.article };
+      const newArticle = action.article;
+      const index = state.articleList.findIndex(
+        (article) => article.id === newArticle.id,
+      );
+      const head = state.articleList.slice(0, index);
+      const tail = state.articleList.slice(index + 1);
+      const newArticleList = head.concat(newArticle).concat(tail);
+      newArticleList[index] = newArticle;
+      return {
+        ...state,
+        article: newArticle,
+        articleList: newArticleList,
+      };
     }
     case DELETE_ARTICLE: {
       return { ...state, article: {} };

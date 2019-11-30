@@ -231,7 +231,7 @@ describe('action article', () => {
       }),
     );
 
-    store.dispatch(actionCreators.fetchArticleList(0)).then(() => {
+    store.dispatch(actionCreators.fetchArticleList(1)).then(() => {
       const newState = store.getState();
       expect(newState.article.articleList).toBe(stubArticleList3);
       expect(spy).toHaveBeenCalledTimes(1);

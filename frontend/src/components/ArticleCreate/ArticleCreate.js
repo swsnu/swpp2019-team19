@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  Modal, Tab, Tabs, Form, Button,
+  Modal, Tab, Tabs, Form, Button, Alert,
 } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -9,11 +9,20 @@ import * as actionCreators from '../../store/actions';
 
 const ArticleCreate = (props) => {
   const {
-    title, content, show, onHide,
+    id, title, content, show, onHide, postArticle, editArticle,
   } = props;
-  const [articleTitle, setTitle] = React.useState(title);
-  const [articleContent, setContent] = React.useState(content);
-  const [key, setKey] = React.useState('write');
+  const [articleTitle, setTitle] = useState(title);
+  const [articleContent, setContent] = useState(content);
+  const [key, setKey] = useState('write');
+
+  const requiresLogin = (sessionStorage.getItem('username') === null);
+
+  if (articleTitle === '' && articleTitle !== title) {
+    setTitle(title);
+  }
+  if (articleContent === '' && articleContent !== content) {
+    setContent(content);
+  }
 
   return (
     <Modal
@@ -37,6 +46,7 @@ const ArticleCreate = (props) => {
                 placeholder="enter title ..."
                 aria-label="article-title"
                 id="article-title-input"
+                value={articleTitle}
                 onChange={(e) => setTitle(e.target.value)}
               />
             </Modal.Title>
@@ -48,6 +58,7 @@ const ArticleCreate = (props) => {
               aria-label="article-content"
               id="article-content-input"
               placeholder="enter content ..."
+              value={articleContent}
               onChange={(e) => setContent(e.target.value)}
             />
           </Modal.Body>
@@ -66,11 +77,28 @@ const ArticleCreate = (props) => {
 
       </Tabs>
       <Modal.Footer>
+        {
+          requiresLogin
+            ? (
+              <Alert variant="warning">
+                Requires
+                {' '}
+                <Alert.Link href="/signin">
+                  Login!
+                </Alert.Link>
+              </Alert>
+            )
+            : <div />
+        }
         <Button
           id="create-article-button"
-          disabled={!articleTitle || !articleContent}
+          disabled={!articleTitle || !articleContent || requiresLogin}
           onClick={() => {
-            props.postArticle(articleTitle, articleContent);
+            if (id === -1) {
+              postArticle(articleTitle, articleContent);
+            } else {
+              editArticle(id, articleTitle, articleContent);
+            }
             props.onHide();
             setTitle('');
             setContent('');
@@ -88,6 +116,9 @@ const mapDispatchToProps = (dispatch) => ({
   postArticle: (title, content) => dispatch(
     actionCreators.postArticle(title, content),
   ),
+  editArticle: (id, title, content) => dispatch(
+    actionCreators.editArticle(id, title, content),
+  ),
 });
 
 
@@ -98,8 +129,16 @@ export default connect(
 
 ArticleCreate.propTypes = {
   postArticle: PropTypes.func.isRequired,
+  editArticle: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired,
   onHide: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
+  id: PropTypes.number,
+  title: PropTypes.string,
+  content: PropTypes.string,
+};
+
+ArticleCreate.defaultProps = {
+  id: (-1),
+  title: '',
+  content: '',
 };

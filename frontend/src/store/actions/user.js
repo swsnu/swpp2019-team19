@@ -13,11 +13,27 @@ import {
   CHANGE_INFO_FAIL,
 } from './types';
 
+export const fetchUser = () => (dispatch) => (
+  axios.get('/api/account/').then((res) => {
+    sessionStorage.setItem('nickname', res.data.nickname);
+    dispatch({
+      username: res.data.username,
+      nickname: res.data.nickname,
+      email: res.data.email,
+      user: res.data,
+      type: FETCH_USER,
+    });
+  })
+);
+
 
 export const signin = (username, password) => (dispatch) => (
   axios.post('/api/signin/', { username, password }).then(() => {
     sessionStorage.setItem('sessionid', Cookie.get().sessionid);
     sessionStorage.setItem('username', username);
+    axios.get('/api/account/').then((res) => {
+      sessionStorage.setItem('nickname', res.data.nickname);
+    });
     dispatch({
       type: SIGN_IN,
     });
@@ -34,14 +50,15 @@ export const signin = (username, password) => (dispatch) => (
 export const signout = () => (dispatch) => {
   sessionStorage.removeItem('sessionid');
   sessionStorage.removeItem('username');
-  axios.get('$/api/signout/').then(() => {
+  sessionStorage.removeItem('nickname');
+  axios.get('/api/signout/').then(() => {
     dispatch({ type: SIGN_OUT });
   });
 };
 
 export const signup = (email, username, password) => (dispatch) => (
   axios.post(
-    '$/api/signup/', { username, email, password },
+    '/api/signup/', { username, email, password },
   ).then(() => {
     dispatch({
       type: SIGN_UP,
@@ -59,7 +76,7 @@ export const signup = (email, username, password) => (dispatch) => (
 export const changeInfo = (
   username, newNickname, newEmail, currentPassword, newPassword,
 ) => (dispatch) => (
-  axios.put('$/api/account/', {
+  axios.put('/api/account/', {
     username,
     new_nickname: newNickname,
     new_email: newEmail,
@@ -76,18 +93,6 @@ export const changeInfo = (
       });
       // dispatch(push('/account'));
     }
-  })
-);
-
-export const fetchUser = () => (dispatch) => (
-  axios.get('$/api/account/').then((res) => {
-    dispatch({
-      username: res.data.username,
-      nickname: res.data.nickname,
-      email: res.data.email,
-      user: res.data,
-      type: FETCH_USER,
-    });
   })
 );
 

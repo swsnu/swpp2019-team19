@@ -39,5 +39,6 @@ export const CLEAR_CHAT_HISTORY = 'CLEAR_CHAT_HISTORY';
 // Comment
 export const FETCH_COMMENT = 'FETCH_COMMENT';
 export const CLEAR_COMMENT = 'CLEAR_COMMENT';
-export const DELETE_COMMENT = 'DELETE_COMMENT';
+// export const DELETE_COMMENT = 'DELETE_COMMENT';
 export const POST_COMMENT = 'POST_COMMENT';
+export const EDIT_COMMENT = 'EDIT_COMMENT';

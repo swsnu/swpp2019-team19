@@ -3,6 +3,7 @@ import {
   CLEAR_COMMENT,
   // DELETE_COMMENT,
   POST_COMMENT,
+  EDIT_COMMENT,
 } from '../actions/types';
 
 const initialState = {
@@ -18,12 +19,25 @@ export default function (state = initialState, action = defaultAction) {
     case CLEAR_COMMENT: {
       return { ...state, commentList: [] };
     }
+    // TODO : delete on comment and article
     // case DELETE_COMMENT: {
-    //   deleted_id = action.deleted_id;
-    //   return {}
+    // deleted_id = action.deleted_id;
+    // return { ...state };
     // }
     case POST_COMMENT: {
       return { ...state, commentList: action.comment };
+    }
+    case EDIT_COMMENT: {
+      const commentId = action.id;
+      const index = state.commentList.findIndex(
+        (comment) => comment.id === commentId,
+      );
+      const head = state.commentList.slice(0, index);
+      const edit = state.commentList.slice(index, index + 1);
+      edit[0].content = action.comment;
+      const tail = state.commentList.slice(index + 1);
+      const newCommentList = head.concat(edit).concat(tail);
+      return { ...state, commentList: newCommentList };
     }
     default: {
       return state;

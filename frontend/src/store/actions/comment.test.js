@@ -14,6 +14,11 @@ const stubPostedComment = {
   content: 'content 2',
   author_id: 1,
 };
+const edittedComment = {
+  id: 1,
+  content: 'editted',
+  author_id: 1,
+};
 const stubCommentList1 = [
   {
     id: 1,
@@ -113,6 +118,42 @@ describe('action comment', () => {
         const newState = store.getState();
         expect(newState.comment.commentList).toBe(stubPostedComment);
         expect(spy).toHaveBeenCalledTimes(1);
+        done();
+      });
+  });
+
+  it('edit comment', (done) => {
+    const spyEdit = jest.spyOn(axios, 'put').mockImplementation(
+      (id, commentId, content) => new Promise((resolve) => {
+        const result = {
+          status: 200,
+        };
+        resolve(result);
+      }),
+    );
+    const spyFetch = jest.spyOn(axios, 'get').mockImplementation(
+      (id) => new Promise((resolve) => {
+        const result = {
+          status: 200,
+          data: stubComment,
+        };
+        resolve(result);
+      }),
+    );
+
+    store.dispatch(actionCreators.fetchComment(0)).then(() => {
+      const newState = store.getState();
+      expect(newState.comment.commentList).toBe(stubComment);
+      expect(spyFetch).toHaveBeenCalledTimes(1);
+      done();
+    });
+
+    store
+      .dispatch(actionCreators.editComment(1, 1, 'editted'))
+      .then(() => {
+        const newState = store.getState();
+        expect(newState.comment.commentList).toBe(edittedComment);
+        expect(spyEdit).toHaveBeenCalledTimes(1);
         done();
       });
   });

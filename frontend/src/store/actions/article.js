@@ -48,7 +48,7 @@ export const editArticle = (id, title, content) => (dispatch) => (
       type: EDIT_ARTICLE,
       article: res.data,
     });
-    dispatch(push('/boards'));
+    // dispatch(push('/boards'));
   })
 );
 

@@ -111,7 +111,7 @@ describe('<ArticleDetail />', () => {
         />
       </Provider>,
     );
-    const description = wrapper.find('#tag-description');
+    const description = wrapper.find('#tag-description').at(1);
     expect(description.text()).toBe('this suggestion is not reviewed yet');
   });
 
@@ -126,7 +126,7 @@ describe('<ArticleDetail />', () => {
         />
       </Provider>,
     );
-    const description = wrapper.find('#tag-description');
+    const description = wrapper.find('#tag-description').at(1);
     expect(description.text()).toBe('we are working on it!');
   });
   it('displays done tag', () => {
@@ -140,7 +140,7 @@ describe('<ArticleDetail />', () => {
         />
       </Provider>,
     );
-    const description = wrapper.find('#tag-description');
+    const description = wrapper.find('#tag-description').at(1);
     expect(description.text()).toBe('this suggestion is applied!');
   });
 
@@ -155,10 +155,11 @@ describe('<ArticleDetail />', () => {
         />
       </Provider>,
     );
-    const description = wrapper.find('#tag-description');
+    const description = wrapper.find('#tag-description').at(1);
     expect(description.text()).toBe('this suggestion was rejected');
   });
-  it('like and dislike', () => {
+  it('like and dislike (logged in)', () => {
+    sessionStorage.setItem('username', 'hello');
     const component = mount(articleDetail);
     const likeButton = component.find('#like-button').at(1);
     const dislikeButton = component.find('#dislike-button').at(1);
@@ -172,13 +173,26 @@ describe('<ArticleDetail />', () => {
     dislikeButton.simulate('click');
     expect(spyVote).toHaveBeenCalledTimes(2);
     expect(spyVote).toHaveBeenLastCalledWith('dislike', 1);
+    sessionStorage.clear();
   });
 
-  it('post comment', () => {
+  it('like and dislike (not logged in)', () => {
+    const component = mount(articleDetail);
+    const likeButton = component.find('#like-button').at(1);
+    const dislikeButton = component.find('#dislike-button').at(1);
+
+    expect(spyVote).toHaveBeenCalledTimes(0);
+    likeButton.simulate('click');
+    expect(spyVote).toHaveBeenCalledTimes(0);
+    dislikeButton.simulate('click');
+    expect(spyVote).toHaveBeenCalledTimes(0);
+  });
+
+  it('post comment (logged in)', () => {
+    sessionStorage.setItem('username', 'hello');
     const component = mount(articleDetail);
     const commentInput = component.find('#comment-input').at(1);
     const commentButton = component.find('#comment-write-button').at(1);
-    // const commentList = component.find('#comment-list');
     commentInput.instance().value = 'new comment';
     commentInput.simulate('change');
     expect(commentInput.instance().value).toEqual('new comment');
@@ -186,5 +200,18 @@ describe('<ArticleDetail />', () => {
     commentButton.simulate('click');
     expect(spyPostComment).toHaveBeenCalledTimes(1);
     expect(commentInput.instance().value).toEqual('');
+    sessionStorage.clear();
+  });
+  it('post comment (not logged in)', () => {
+    const component = mount(articleDetail);
+    const commentInput = component.find('#comment-input').at(1);
+    const commentButton = component.find('#comment-write-button').at(1);
+    commentInput.instance().value = 'new comment';
+    commentInput.simulate('change');
+    expect(commentInput.instance().value).toEqual('new comment');
+    expect(spyPostComment).toHaveBeenCalledTimes(0);
+    commentButton.simulate('click');
+    expect(spyPostComment).toHaveBeenCalledTimes(0);
+    expect(commentInput.instance().value).toEqual('new comment');
   });
 });
