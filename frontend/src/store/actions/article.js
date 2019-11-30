@@ -48,7 +48,7 @@ export const editArticle = (id, title, content) => (dispatch) => (
       type: EDIT_ARTICLE,
       article: res.data,
     });
-    dispatch(push('/boards'));
+    // dispatch(push('/boards'));
   })
 );
 
@@ -81,13 +81,13 @@ export const clearHotBoard = () => (dispatch) => (
   dispatch({ type: CLEAR_HOT_BOARD })
 );
 
-export const fetchArticleList = (options) => (dispatch) => (
+export const fetchArticleList = (options) => (dispatch) => {
   axios.post('/api/boards/', options).then((res) => {
     dispatch({
       type: FETCH_ARTICLE_LIST, page: res.data[0], articles: res.data[1],
     });
-  })
-);
+  });
+};
 
 export const clearArticleList = () => (dispatch) => (
   dispatch({ type: CLEAR_ARTICLE_LIST })

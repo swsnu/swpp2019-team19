@@ -316,7 +316,7 @@ def vote(request, article_id):
     return JsonResponse(response_dict, status=200)
 
 
-@require_http_methods(["GET", "POST", "DELETE"])
+@require_http_methods(["GET", "POST", "PUT", "DELETE"])
 def comment(request, id):
     if request.method == "GET":
         comment = Comment.objects.filter(article=id).values(
@@ -341,6 +341,18 @@ def comment(request, id):
         )
         comment_json = list(comments)
         return JsonResponse(comment_json, status=201, safe=False)
+    if request.method == "PUT":
+        try:
+            req_data = json.loads(request.body.decode())
+            comment_id = req_data["commentId"]
+            content = req_data["content"]
+        except (KeyError, JSONDecodeError):
+            return HttpResponseBadRequest()
+        edit_comment = Comment.objects.get(pk=comment_id)
+        edit_comment.content = content
+        edit_comment.save()
+
+        return HttpResponse(status=201)
     else:
         comment = get_object_or_404(Comment, pk=id)
         article_id = comment.article.id

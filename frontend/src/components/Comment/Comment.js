@@ -1,27 +1,91 @@
-import React from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import {
+  Container, Row, Col, Button, Form, InputGroup,
+} from 'react-bootstrap';
 
 import PropTypes from 'prop-types';
+import * as actionCreators from '../../store/actions';
 
 
 const Comment = (props) => {
-  const { author, content } = props;
+  const {
+    author, content, editComment, articleId, commentId,
+  } = props;
+  const [edit, setEdit] = useState(false);
+  const [newContent, setNewContent] = useState(content);
+  const isAuthor = (author === sessionStorage.getItem('nickname'));
   return (
     <Container className="Comment">
       <Row>
         <Col xs={3} id="comment-author">
           {author}
         </Col>
-        <Col id="comment-content">
-          <h6>{content}</h6>
-        </Col>
+        {edit ? <div /> : (
+          <Col id="comment-content">
+            <h6>{content}</h6>
+          </Col>
+        )}
+        {edit ? <div /> : (
+          <Col align="right">
+            {
+              isAuthor
+                ? (
+                  <Button
+                    id="comment-edit-button"
+                    onClick={() => setEdit(true)}
+                  >
+                    Edit
+                  </Button>
+                )
+                : <div />
+            }
+          </Col>
+        )}
+        {edit ? (
+          <Col>
+            <InputGroup>
+              <Form.Control
+                id="comment-edit"
+                value={newContent}
+                onChange={(e) => setNewContent(e.target.value)}
+              />
+              <Button
+                id="comment-edit-confirm-button"
+                onClick={() => {
+                  editComment(articleId, commentId, newContent);
+                  setEdit(false);
+                }}
+              >
+                Confirm
+              </Button>
+            </InputGroup>
+          </Col>
+        ) : <div />}
       </Row>
     </Container>
   );
 };
-export default Comment;
+
+const mapDispatchToProps = (dispatch) => ({
+  editComment: (id, commentId, comment) => dispatch(
+    actionCreators.editComment(id, commentId, comment),
+  ),
+});
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(Comment);
 
 Comment.propTypes = {
+  editComment: PropTypes.func.isRequired,
+  articleId: PropTypes.number,
+  commentId: PropTypes.number.isRequired,
   author: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
+};
+
+Comment.defaultProps = {
+  articleId: (-1),
 };

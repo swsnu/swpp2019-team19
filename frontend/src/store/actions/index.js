@@ -32,4 +32,5 @@ export {
   clearComment,
   postComment,
   // deleteComment,
+  editComment,
 } from './comment';
