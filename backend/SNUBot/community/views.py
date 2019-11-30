@@ -339,17 +339,11 @@ def comment(request, id):
         comment_json = list(comments)
         return JsonResponse(comment_json, status=201, safe=False)
     if request.method == "PUT":
-        print('put call')
         try:
-            print('1')
             req_data = json.loads(request.body.decode())
-            print('2')
             comment_id = req_data["commentId"]
-            print('3')
             content = req_data["content"]
-            print('4')
             handle = req_data["handle"]
-            print('6')
         except (KeyError, JSONDecodeError):
             return HttpResponseBadRequest()
         if (handle == "edit"):
