@@ -31,6 +31,6 @@ export {
   fetchComment,
   clearComment,
   postComment,
-  // deleteComment,
+  deleteComment,
   editComment,
 } from './comment';

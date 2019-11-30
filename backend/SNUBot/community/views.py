@@ -157,14 +157,14 @@ def boards(request):
         return HttpResponseBadRequest()
     if tag == "all":
         article_list = [
-            article 
+            article
             for article in Article.objects.select_related("vote").filter(board=board_name).values(
                 "id", "title", "content", "author__nickname", "tag", "vote__like", "vote__dislike"
             )
         ]
     else:
         article_list = [
-            article 
+            article
             for article in Article.objects.select_related("vote").filter(board=board_name, tag=tag).values(
                 "id", "title", "content", "author__nickname", "tag", "vote__like", "vote__dislike"
             )
@@ -324,6 +324,7 @@ def comment(request, id):
     if not request.user.is_authenticated:
         return HttpResponse(status=401)
     user = request.user
+
     if request.method == "POST":
         try:
             req_data = json.loads(request.body.decode())
@@ -338,6 +339,7 @@ def comment(request, id):
         )
         comment_json = list(comments)
         return JsonResponse(comment_json, status=201, safe=False)
+
     if request.method == "PUT":
         try:
             req_data = json.loads(request.body.decode())
@@ -345,16 +347,19 @@ def comment(request, id):
             content = req_data["content"]
         except (KeyError, JSONDecodeError):
             return HttpResponseBadRequest()
-        edit_comment = Comment.objects.get(pk=comment_id)
+
+        edit_comment = get_object_or_404(Comment, pk=comment_id)
         edit_comment.content = content
         edit_comment.save()
-
         return HttpResponse(status=201)
-    else:
-        comment = get_object_or_404(Comment, pk=id)
-        article_id = comment.article.id
-        if comment.author == user:
-            comment.delete()
-            return HttpResponse(article_id, status=200)
-        else:
-            return HttpResponseForbidden()
+
+    if request.method == "DELETE":
+        try:
+            req_data = json.loads(request.body.decode())
+            comment_id = req_data["commentId"]
+        except (KeyError, JSONDecodeError):
+            return HttpResponseBadRequest()
+
+        article_to_delete = get_object_or_404(Comment, pk=comment_id)
+        article_to_delete.delete()
+        return HttpResponse(status=204)

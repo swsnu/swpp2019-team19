@@ -3,6 +3,7 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { getMockStore } from '../../test-utils/mocks';
 
+import * as ActionCreators from '../../store/actions/article';
 import ArticleEntry from './ArticleEntry';
 
 const stubArticleInitialState = {
@@ -61,5 +62,19 @@ describe('<ArticleEntry />', () => {
     const wrapper = component.find('#article-entry').at(1);
     wrapper.simulate('focus');
     wrapper.simulate('blur');
+  });
+  it('fetch when clicked, clear when closed', () => {
+    const wrapper = mount(articleEntry);
+    const clickable = wrapper.find('#article-entry').at(1);
+    const spyFetch = jest
+      .spyOn(ActionCreators, 'fetchArticle')
+      // eslint-disable-next-line no-unused-vars
+      .mockImplementation(() => (dispatch) => { });
+
+    expect(spyFetch).not.toHaveBeenCalled();
+    expect(clickable.exists()).toBeTruthy();
+    clickable.simulate('click');
+
+    expect(spyFetch).toHaveBeenCalled();
   });
 });

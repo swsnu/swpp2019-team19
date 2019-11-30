@@ -1065,12 +1065,17 @@ class ArticleTestCase(TestCase):
         self.assertEqual(response.status_code, 400)
 
         comment_id = Comment.objects.get(content="test2").id
-        response = client.delete("/api/comment/0/")
+        response = client.delete("/api/comment/0/", data={
+            "commentId": -1,
+        }, content_type="application/json")
         self.assertEqual(response.status_code, 404)
 
-        response = client.delete("/api/comment/" + str(comment_id) + "/")
-        self.assertEqual(response.status_code, 403)
+        response = client.delete("/api/comment/" + str(comment_id) + "/",
+                                 content_type="application/json")
+        self.assertEqual(response.status_code, 400)
 
         comment_id = Comment.objects.get(content="test3").id
-        response = client.delete("/api/comment/" + str(comment_id) + "/")
-        self.assertEqual(response.status_code, 200)
+        response = client.delete("/api/comment/1/", data={
+            "commentId": comment_id,
+        }, content_type="application/json")
+        self.assertEqual(response.status_code, 204)

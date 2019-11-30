@@ -48,7 +48,6 @@ export const editArticle = (id, title, content) => (dispatch) => (
       type: EDIT_ARTICLE,
       article: res.data,
     });
-    // dispatch(push('/boards'));
   })
 );
 
@@ -57,7 +56,7 @@ export const deleteArticle = (id) => (dispatch) => (
     dispatch({
       type: DELETE_ARTICLE,
     });
-    dispatch(push('/articles'));
+    window.location.reload();
   })
 );
 
