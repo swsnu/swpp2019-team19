@@ -34,10 +34,10 @@ export const postComment = (articleId, content) => (dispatch) => (
 );
 
 export const editComment = (
-  articleId, commentId, content, handle = 'edit',
+  articleId, commentId, content,
 ) => (dispatch) => (
   axios.put(`/api/comment/${articleId}/`, {
-    commentId, content, handle,
+    commentId, content,
   }).then(() => {
     dispatch({
       id: commentId,
@@ -48,10 +48,10 @@ export const editComment = (
 );
 
 export const deleteComment = (
-  articleId, commentId, content = '', handle = 'delete',
+  articleId, commentId,
 ) => (dispatch) => (
-  axios.put(`/api/comment/${articleId}/`, {
-    commentId, content, handle,
+  axios.delete(`/api/comment/${articleId}/`, {
+    data: { commentId: commentId.toString() },
   }).then(() => {
     dispatch({
       type: DELETE_COMMENT,

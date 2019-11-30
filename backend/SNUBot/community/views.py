@@ -324,6 +324,7 @@ def comment(request, id):
     if not request.user.is_authenticated:
         return HttpResponse(status=401)
     user = request.user
+
     if request.method == "POST":
         try:
             req_data = json.loads(request.body.decode())
@@ -338,19 +339,27 @@ def comment(request, id):
         )
         comment_json = list(comments)
         return JsonResponse(comment_json, status=201, safe=False)
+
     if request.method == "PUT":
         try:
             req_data = json.loads(request.body.decode())
             comment_id = req_data["commentId"]
             content = req_data["content"]
-            handle = req_data["handle"]
         except (KeyError, JSONDecodeError):
             return HttpResponseBadRequest()
-        if (handle == "edit"):
-            edit_comment = Comment.objects.get(pk=comment_id)
-            edit_comment.content = content
-            edit_comment.save()
-            return HttpResponse(status=201)
-        else:
-            Comment.objects.get(pk=comment_id).delete()
-            return HttpResponse(status=204)
+
+        edit_comment = get_object_or_404(Comment, pk=comment_id)
+        edit_comment.content = content
+        edit_comment.save()
+        return HttpResponse(status=201)
+
+    if request.method == "DELETE":
+        try:
+            req_data = json.loads(request.body.decode())
+            comment_id = req_data["commentId"]
+        except (KeyError, JSONDecodeError):
+            return HttpResponseBadRequest()
+
+        article_to_delete = get_object_or_404(Comment, pk=comment_id)
+        article_to_delete.delete()
+        return HttpResponse(status=204)
