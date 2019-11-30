@@ -164,10 +164,10 @@ describe('action comment', () => {
         resolve(result);
       }),
     );
-    const spyDelete = jest.spyOn(axios, 'put').mockImplementation(
+    const spyDelete = jest.spyOn(axios, 'delete').mockImplementation(
       (id, commentId) => new Promise((resolve) => {
         const result = {
-          status: 200,
+          status: 204,
         };
         resolve(result);
       }),
