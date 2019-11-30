@@ -157,14 +157,14 @@ def boards(request):
         return HttpResponseBadRequest()
     if tag == "all":
         article_list = [
-            article 
+            article
             for article in Article.objects.select_related("vote").filter(board=board_name).values(
                 "id", "title", "content", "author__nickname", "tag", "vote__like", "vote__dislike"
             )
         ]
     else:
         article_list = [
-            article 
+            article
             for article in Article.objects.select_related("vote").filter(board=board_name, tag=tag).values(
                 "id", "title", "content", "author__nickname", "tag", "vote__like", "vote__dislike"
             )
@@ -339,22 +339,24 @@ def comment(request, id):
         comment_json = list(comments)
         return JsonResponse(comment_json, status=201, safe=False)
     if request.method == "PUT":
+        print('put call')
         try:
+            print('1')
             req_data = json.loads(request.body.decode())
+            print('2')
             comment_id = req_data["commentId"]
+            print('3')
             content = req_data["content"]
+            print('4')
+            handle = req_data["handle"]
+            print('6')
         except (KeyError, JSONDecodeError):
             return HttpResponseBadRequest()
-        edit_comment = Comment.objects.get(pk=comment_id)
-        edit_comment.content = content
-        edit_comment.save()
-
-        return HttpResponse(status=201)
-    else:
-        comment = get_object_or_404(Comment, pk=id)
-        article_id = comment.article.id
-        if comment.author == user:
-            comment.delete()
-            return HttpResponse(article_id, status=200)
+        if (handle == "edit"):
+            edit_comment = Comment.objects.get(pk=comment_id)
+            edit_comment.content = content
+            edit_comment.save()
+            return HttpResponse(status=201)
         else:
-            return HttpResponseForbidden()
+            Comment.objects.get(pk=comment_id).delete()
+            return HttpResponse(status=204)

@@ -166,6 +166,10 @@ describe('action article', () => {
   });
 
   it("'deleteArticle' should delete Article correctly", (done) => {
+    const { location } = window;
+    delete window.location;
+    window.location = { reload: jest.fn() };
+
     const spy = jest.spyOn(axios, 'delete').mockImplementation(
       (id) => new Promise((resolve) => {
         const result = {
@@ -175,8 +179,11 @@ describe('action article', () => {
       }),
     );
 
+    expect(window.location.reload).not.toHaveBeenCalled();
     store.dispatch(actionCreators.deleteArticle()).then(() => {
       expect(spy).toHaveBeenCalledTimes(1);
+      expect(window.location.reload).toHaveBeenCalled();
+      window.location = location;
       done();
     });
   });

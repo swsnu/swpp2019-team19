@@ -10,7 +10,7 @@ import * as actionCreators from '../../store/actions';
 
 const Comment = (props) => {
   const {
-    author, content, editComment, articleId, commentId,
+    author, content, editComment, deleteComment, articleId, commentId,
   } = props;
   const [edit, setEdit] = useState(false);
   const [newContent, setNewContent] = useState(content);
@@ -31,12 +31,21 @@ const Comment = (props) => {
             {
               isAuthor
                 ? (
-                  <Button
-                    id="comment-edit-button"
-                    onClick={() => setEdit(true)}
-                  >
-                    Edit
-                  </Button>
+                  <div id="author-only">
+                    <Button
+                      id="comment-edit-button"
+                      onClick={() => setEdit(true)}
+                    >
+                      Edit
+                    </Button>
+                    {' '}
+                    <Button
+                      id="comment-delete-button"
+                      onClick={() => deleteComment(articleId, commentId)}
+                    >
+                      Delete
+                    </Button>
+                  </div>
                 )
                 : <div />
             }
@@ -71,6 +80,9 @@ const mapDispatchToProps = (dispatch) => ({
   editComment: (id, commentId, comment) => dispatch(
     actionCreators.editComment(id, commentId, comment),
   ),
+  deleteComment: (articleId, commentId) => dispatch(
+    actionCreators.deleteComment(articleId, commentId),
+  ),
 });
 
 export default connect(
@@ -80,6 +92,7 @@ export default connect(
 
 Comment.propTypes = {
   editComment: PropTypes.func.isRequired,
+  deleteComment: PropTypes.func.isRequired,
   articleId: PropTypes.number,
   commentId: PropTypes.number.isRequired,
   author: PropTypes.string.isRequired,

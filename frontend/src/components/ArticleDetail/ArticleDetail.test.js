@@ -14,7 +14,7 @@ const stubArticleNormal = {
     id: 1,
     title: 'TEST_ARTICLE_TITLE_1',
     content: 'TEST_ARTICLE_CONTENT_1',
-    author: 'TEST_AUTHOR',
+    author__nickname: 'TEST_AUTHOR',
     dislike: 4,
     like: 10,
     vote_diff: 6,
@@ -213,5 +213,62 @@ describe('<ArticleDetail />', () => {
     commentButton.simulate('click');
     expect(spyPostComment).toHaveBeenCalledTimes(0);
     expect(commentInput.instance().value).toEqual('new comment');
+  });
+  it('edit', () => {
+    sessionStorage.setItem('nickname', 'TEST_AUTHOR');
+    const wrapper = mount(
+      <Provider store={mockStore}>
+        <ArticleDetail
+          article={stubArticleNormal.article}
+          key={stubArticleNormal.article.id}
+          onHide={spyOnHide}
+          show
+        />
+      </Provider>,
+    );
+    const editButton = wrapper.find('#article-edit-button').at(1);
+    expect(editButton.exists()).toBeTruthy();
+
+    editButton.simulate('click');
+
+    const editCard = wrapper.find('.article-edit-card');
+    expect(editCard.exists()).toBeTruthy();
+
+    sessionStorage.clear();
+  });
+  it('delete', () => {
+    sessionStorage.setItem('nickname', 'TEST_AUTHOR');
+    const spyDelete = jest
+      .spyOn(ActionCreators, 'deleteArticle')
+      .mockImplementation(() => (dispatch) => { });
+    const wrapper = mount(
+      <Provider store={mockStore}>
+        <ArticleDetail
+          article={stubArticleNormal.article}
+          key={stubArticleNormal.article.id}
+          onHide={spyOnHide}
+          show
+        />
+      </Provider>,
+    );
+    const deleteButton = wrapper.find('#article-delete-button').at(1);
+    expect(deleteButton.exists()).toBeTruthy();
+
+    deleteButton.simulate('click');
+
+    const deleteNoButton = wrapper.find('#delete-confirm-no').at(1);
+    expect(deleteNoButton.exists()).toBeTruthy();
+
+    deleteNoButton.simulate('click');
+    deleteButton.simulate('click');
+
+    const deleteYesButton = wrapper.find('#delete-confirm-yes').at(1);
+    expect(deleteYesButton.exists()).toBeTruthy();
+
+    expect(spyDelete).not.toHaveBeenCalled();
+    deleteYesButton.simulate('click');
+    expect(spyDelete).toHaveBeenCalledTimes(1);
+
+    sessionStorage.clear();
   });
 });

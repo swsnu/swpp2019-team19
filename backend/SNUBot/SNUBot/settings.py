@@ -138,7 +138,7 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 CSRF_COOKIE_NAME = "csrftoken"
-CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = (
     "http://localhost",

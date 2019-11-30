@@ -32,9 +32,10 @@ const ArticleDetail = (props) => {
   const [newComment, setComment] = useState('');
   const [showLogin, setShowLogin] = useState(false);
   const [edit, setEdit] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
 
   const {
-    show, onHide, article, postComment, like, dislike,
+    show, onHide, article, postComment, deleteArticle, like, dislike,
   } = props;
 
   const makeCommentEntry = (comment) => (
@@ -98,6 +99,17 @@ const ArticleDetail = (props) => {
                     onClick={() => setEdit(true)}
                   >
                     Edit
+                  </Button>
+                  {' '}
+                  <Button
+                    id="article-delete-button"
+                    onClick={() => setShowDelete(true)}
+                  // onClick={() => {
+                  //   deleteArticle(article.id);
+                  //   onHide();
+                  // }}
+                  >
+                    Delete
                   </Button>
                 </Col>
               )
@@ -173,7 +185,37 @@ const ArticleDetail = (props) => {
         id={article.id}
         title={articleTitle}
         content={articleContent}
+        className="article-edit-card"
       />
+      <Modal
+        show={showDelete}
+        onHide={() => {
+          setShowDelete(false);
+          onHide();
+        }}
+      >
+        <Modal.Header closeButton>
+          <h5>Are you sure to delete?</h5>
+        </Modal.Header>
+        <Modal.Footer>
+          <Button
+            id="delete-confirm-yes"
+            onClick={() => {
+              deleteArticle(article.id);
+              onHide();
+              setShowDelete(false);
+            }}
+          >
+            Yes
+          </Button>
+          <Button
+            id="delete-confirm-no"
+            onClick={() => setShowDelete(false)}
+          >
+            No
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
@@ -181,6 +223,9 @@ const ArticleDetail = (props) => {
 const mapDispatchToProps = (dispatch) => ({
   postComment: (id, comment) => dispatch(
     actionCreators.postComment(id, comment),
+  ),
+  deleteArticle: (id) => dispatch(
+    actionCreators.deleteArticle(id),
   ),
   like: (id) => dispatch(
     actionCreators.putVote('like', id),
@@ -197,6 +242,7 @@ export default connect(
 
 ArticleDetail.propTypes = {
   postComment: PropTypes.func.isRequired,
+  deleteArticle: PropTypes.func.isRequired,
   like: PropTypes.func.isRequired,
   dislike: PropTypes.func.isRequired,
   show: PropTypes.bool.isRequired,

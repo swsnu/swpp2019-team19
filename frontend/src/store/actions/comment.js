@@ -3,7 +3,7 @@ import axios from 'axios';
 import {
   FETCH_COMMENT,
   CLEAR_COMMENT,
-  // DELETE_COMMENT,
+  DELETE_COMMENT,
   POST_COMMENT,
   EDIT_COMMENT,
 } from './types';
@@ -33,9 +33,11 @@ export const postComment = (articleId, content) => (dispatch) => (
   })
 );
 
-export const editComment = (articleId, commentId, content) => (dispatch) => (
+export const editComment = (
+  articleId, commentId, content, handle = 'edit',
+) => (dispatch) => (
   axios.put(`/api/comment/${articleId}/`, {
-    commentId, content,
+    commentId, content, handle,
   }).then(() => {
     dispatch({
       id: commentId,
@@ -45,13 +47,15 @@ export const editComment = (articleId, commentId, content) => (dispatch) => (
   })
 );
 
-// export const deleteComment = (id) => (dispatch) => (
-//   axios.delete(`${remoteURL}/api/comment/${id}/`).then((res) => {
-//     const article_id = res;
-//     fetchComment(articleId);
-//     // dispatch({
-//     //   type: DELETE_COMMENT,
-//     //   deleted_id: id,
-//     // })
-//   })
-// )
+export const deleteComment = (
+  articleId, commentId, content = '', handle = 'delete',
+) => (dispatch) => (
+  axios.put(`/api/comment/${articleId}/`, {
+    commentId, content, handle,
+  }).then(() => {
+    dispatch({
+      type: DELETE_COMMENT,
+      deletedCommentId: commentId,
+    });
+  })
+);
