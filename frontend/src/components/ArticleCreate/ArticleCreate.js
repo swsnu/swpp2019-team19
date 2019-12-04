@@ -16,7 +16,6 @@ const ArticleCreate = (props) => {
   const [key, setKey] = useState('write');
 
   const requiresLogin = (sessionStorage.getItem('username') === null);
-  console.log(show)
 
   if (show) {
     if (articleTitle === '' && articleTitle !== title) {
