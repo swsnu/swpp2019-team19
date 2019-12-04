@@ -14,7 +14,6 @@ import AccountInformation from './containers/User/AccountInformation/AccountInfo
 import About from './containers/About/About';
 import NotFound from './containers/NotFound/NotFound';
 
-import ArticleEdit from './containers/Community/BoardDetail/ArticleDetail/ArticleEdit/ArticleEdit';
 import CustomNavbar from './components/Navbar/CustomNavbar';
 
 import './App.css';
@@ -36,11 +35,6 @@ const App = (props) => {
             path="/boards/:boardName([A-Za-z]+)"
             exact
             component={BoardDetail}
-          />
-          <Route
-            path="/boards/:boardName([A-Za-z]+)/:articleId([0-9]+)/edit"
-            exact
-            component={ArticleEdit}
           />
           <Route path="/signin" exact component={Signin} />
           <Route path="/signup" exact component={Signup} />
