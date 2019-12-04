@@ -194,7 +194,7 @@ class BoardDetail extends Component {
 
     const { history, storedArticles } = this.props;
     const {
-      sortCriteria, searchCriteria, tmpKeyword, articleCreateShow
+      sortCriteria, searchCriteria, tmpKeyword, articleCreateShow,
     } = this.state;
     return (
       <Container fluid className="BoardDetail">
