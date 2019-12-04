@@ -16,12 +16,15 @@ const ArticleCreate = (props) => {
   const [key, setKey] = useState('write');
 
   const requiresLogin = (sessionStorage.getItem('username') === null);
+  console.log(show)
 
-  if (articleTitle === '' && articleTitle !== title) {
-    setTitle(title);
-  }
-  if (articleContent === '' && articleContent !== content) {
-    setContent(content);
+  if (show) {
+    if (articleTitle === '' && articleTitle !== title) {
+      setTitle(title);
+    }
+    if (articleContent === '' && articleContent !== content) {
+      setContent(content);
+    }
   }
 
   return (
