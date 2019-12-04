@@ -17,11 +17,13 @@ const ArticleCreate = (props) => {
 
   const requiresLogin = (sessionStorage.getItem('username') === null);
 
-  if (articleTitle === '' && articleTitle !== title) {
-    setTitle(title);
-  }
-  if (articleContent === '' && articleContent !== content) {
-    setContent(content);
+  if (show) {
+    if (articleTitle === '' && articleTitle !== title) {
+      setTitle(title);
+    }
+    if (articleContent === '' && articleContent !== content) {
+      setContent(content);
+    }
   }
 
   return (
