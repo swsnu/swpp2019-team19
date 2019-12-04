@@ -32,7 +32,7 @@ const App = (props) => {
           <Route path="/boards" exact component={CommunityMain} />
 
           <Route
-            path="/boards/:boardName([A-Za-z]+)"
+            path="/boards/:boardName((all)|(hot))"
             exact
             component={BoardDetail}
           />

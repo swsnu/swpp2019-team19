@@ -194,11 +194,8 @@ class BoardDetail extends Component {
 
     const { history, storedArticles } = this.props;
     const {
-      sortCriteria, searchCriteria, tmpKeyword, articleCreateShow, boardName
+      sortCriteria, searchCriteria, tmpKeyword, articleCreateShow
     } = this.state;
-    if (!(boardName === 'all' || boardName === 'hot')) {
-      history.push('/404')
-    }
     return (
       <Container fluid className="BoardDetail">
         <Row>
