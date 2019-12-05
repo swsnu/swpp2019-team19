@@ -90,10 +90,31 @@ export default function (state = initialState, action = defaultAction) {
       return { ...state, articleListHot: [] };
     }
     case VOTE: {
+      const updatedArticleList = JSON.parse(JSON.stringify(state.articleList));
+      const updatedArticleListAll = JSON.parse(JSON.stringify(state.articleListAll));
+      const updatedArticleListHot = JSON.parse(JSON.stringify(state.articleListHot));
+      if (updatedArticleList.filter((article) => article.id === action.id).length !== 0) {
+        updatedArticleList.filter((article) => article.id === action.id)[0]
+          .vote_diff = action.like - action.dislike;
+      }
+      if (updatedArticleListAll.filter((article) => article.id === action.id).length !== 0) {
+        updatedArticleListAll.filter((article) => article.id === action.id)[0]
+          .vote_diff = action.like - action.dislike;
+      }
+      if (updatedArticleListHot.filter((article) => article.id === action.id).length !== 0) {
+        updatedArticleListHot.filter((article) => article.id === action.id)[0]
+          .vote_diff = action.like - action.dislike;
+      }
       const updatedArticle = JSON.parse(JSON.stringify(state.article));
       updatedArticle.like = action.like;
       updatedArticle.dislike = action.dislike;
-      return { ...state, article: updatedArticle };
+      return {
+        ...state,
+        article: updatedArticle,
+        articleList: updatedArticleList,
+        articleListAll: updatedArticleListAll,
+        articleListHot: updatedArticleListHot,
+      };
     }
     default: {
       return state;
