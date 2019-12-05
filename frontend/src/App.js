@@ -34,7 +34,7 @@ const App = (props) => {
           <Route
             path="/boards/:boardName(all|hot)"
             exact
-            component={BoardDetail}
+            component={(props) => <BoardDetail key ={props.match.params.boardName} {...props} />}
           />
           <Route path="/signin" exact component={Signin} />
           <Route path="/signup" exact component={Signup} />
