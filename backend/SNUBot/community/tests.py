@@ -200,14 +200,18 @@ class UserTestCase(TestCase):
         # unsubscribe SNUBot Fail
         response = client.delete(
             "/api/account/",
-            json.dumps({"username": "changeinfo", "current_password": "user123",}),
+            json.dumps(
+                {"username": "changeinfo", "current_password": "user123",}
+            ),
             content_type="application/json",
         )
         self.assertEqual(response.status_code, 401)
         # unsubscribe SNUBot Success
         response = client.delete(
             "/api/account/",
-            json.dumps({"username": "changeinfo", "current_password": "user1234",}),
+            json.dumps(
+                {"username": "changeinfo", "current_password": "user1234",}
+            ),
             content_type="application/json",
         )
         self.assertEqual(response.status_code, 204)
@@ -615,83 +619,123 @@ class ArticleTestCase(TestCase):
             board="all",
             author=User.objects.get(username="test20"),
         )
-        Vote.objects.create(article=Article.objects.get(title="title1"), like="20")
+        Vote.objects.create(
+            article=Article.objects.get(title="title1"), like="20"
+        )
         Vote.objects.get(article__title="title1").like_voter.add(
             User.objects.get(username="test2")
         )
-        Vote.objects.create(article=Article.objects.get(title="title2"), like="20")
+        Vote.objects.create(
+            article=Article.objects.get(title="title2"), like="20"
+        )
         Vote.objects.get(article__title="title2").like_voter.add(
             User.objects.get(username="test3")
         )
-        Vote.objects.create(article=Article.objects.get(title="title3"), like="20")
+        Vote.objects.create(
+            article=Article.objects.get(title="title3"), like="20"
+        )
         Vote.objects.get(article__title="title3").like_voter.add(
             User.objects.get(username="test4")
         )
-        Vote.objects.create(article=Article.objects.get(title="title4"), like="20")
+        Vote.objects.create(
+            article=Article.objects.get(title="title4"), like="20"
+        )
         Vote.objects.get(article__title="title4").like_voter.add(
             User.objects.get(username="test5")
         )
-        Vote.objects.create(article=Article.objects.get(title="title5"), like="20")
+        Vote.objects.create(
+            article=Article.objects.get(title="title5"), like="20"
+        )
         Vote.objects.get(article__title="title5").like_voter.add(
             User.objects.get(username="test6")
         )
-        Vote.objects.create(article=Article.objects.get(title="title6"), like="20")
+        Vote.objects.create(
+            article=Article.objects.get(title="title6"), like="20"
+        )
         Vote.objects.get(article__title="title6").like_voter.add(
             User.objects.get(username="test7")
         )
-        Vote.objects.create(article=Article.objects.get(title="title7"), like="20")
+        Vote.objects.create(
+            article=Article.objects.get(title="title7"), like="20"
+        )
         Vote.objects.get(article__title="title7").like_voter.add(
             User.objects.get(username="test8")
         )
-        Vote.objects.create(article=Article.objects.get(title="title8"), like="20")
+        Vote.objects.create(
+            article=Article.objects.get(title="title8"), like="20"
+        )
         Vote.objects.get(article__title="title8").like_voter.add(
             User.objects.get(username="test9")
         )
-        Vote.objects.create(article=Article.objects.get(title="title9"), like="20")
+        Vote.objects.create(
+            article=Article.objects.get(title="title9"), like="20"
+        )
         Vote.objects.get(article__title="title9").like_voter.add(
             User.objects.get(username="test10")
         )
-        Vote.objects.create(article=Article.objects.get(title="title10"), like="20")
+        Vote.objects.create(
+            article=Article.objects.get(title="title10"), like="20"
+        )
         Vote.objects.get(article__title="title10").like_voter.add(
             User.objects.get(username="test11")
         )
-        Vote.objects.create(article=Article.objects.get(title="title11"), like="20")
+        Vote.objects.create(
+            article=Article.objects.get(title="title11"), like="20"
+        )
         Vote.objects.get(article__title="title11").like_voter.add(
             User.objects.get(username="test12")
         )
-        Vote.objects.create(article=Article.objects.get(title="title12"), like="20")
+        Vote.objects.create(
+            article=Article.objects.get(title="title12"), like="20"
+        )
         Vote.objects.get(article__title="title12").like_voter.add(
             User.objects.get(username="test13")
         )
-        Vote.objects.create(article=Article.objects.get(title="title13"), like="20")
+        Vote.objects.create(
+            article=Article.objects.get(title="title13"), like="20"
+        )
         Vote.objects.get(article__title="title13").like_voter.add(
             User.objects.get(username="test14")
         )
-        Vote.objects.create(article=Article.objects.get(title="title14"), like="20")
+        Vote.objects.create(
+            article=Article.objects.get(title="title14"), like="20"
+        )
         Vote.objects.get(article__title="title14").like_voter.add(
             User.objects.get(username="test15")
         )
-        Vote.objects.create(article=Article.objects.get(title="title15"), like="20")
+        Vote.objects.create(
+            article=Article.objects.get(title="title15"), like="20"
+        )
         Vote.objects.get(article__title="title15").like_voter.add(
             User.objects.get(username="test16")
         )
-        Vote.objects.create(article=Article.objects.get(title="title16"), like="20")
+        Vote.objects.create(
+            article=Article.objects.get(title="title16"), like="20"
+        )
         Vote.objects.get(article__title="title16").like_voter.add(
             User.objects.get(username="test17")
         )
-        Vote.objects.create(article=Article.objects.get(title="title17"), like="20")
+        Vote.objects.create(
+            article=Article.objects.get(title="title17"), like="20"
+        )
         Vote.objects.get(article__title="title17").like_voter.add(
             User.objects.get(username="test18")
         )
-        Vote.objects.create(article=Article.objects.get(title="title18"), like="20")
+        Vote.objects.create(
+            article=Article.objects.get(title="title18"), like="20"
+        )
         Vote.objects.get(article__title="title18").like_voter.add(
             User.objects.get(username="test19")
         )
-        Vote.objects.create(article=Article.objects.get(title="title19"), like="20")
+        Vote.objects.create(
+            article=Article.objects.get(title="title19"), like="20"
+        )
         Vote.objects.get(article__title="title19").like_voter.add(
             User.objects.get(username="test20")
         )
-        Vote.objects.create(article=Article.objects.get(title="title20"), like="20")
+        Vote.objects.create(
+            article=Article.objects.get(title="title20"), like="20"
+        )
         Vote.objects.get(article__title="title20").like_voter.add(
             User.objects.get(username="test1")
         )
@@ -714,7 +758,9 @@ class ArticleTestCase(TestCase):
         Vote.objects.create(article=Article.objects.get(title="title37"))
         Vote.objects.create(article=Article.objects.get(title="title38"))
         Vote.objects.create(article=Article.objects.get(title="title39"))
-        Vote.objects.create(article=Article.objects.get(title="find title"), like=10)
+        Vote.objects.create(
+            article=Article.objects.get(title="find title"), like=10
+        )
         Comment.objects.create(
             article=Article.objects.get(title="title1"),
             content="test1",
@@ -927,7 +973,9 @@ class ArticleTestCase(TestCase):
 
     def test_vote(self):
         client = Client()
-        id = Vote.objects.get(article__id=Article.objects.get(title="title1").id).id
+        id = Vote.objects.get(
+            article__id=Article.objects.get(title="title1").id
+        ).id
         response = client.put(
             "/api/vote/" + str(id) + "/",
             json.dumps({"vote": "like"}),
@@ -1034,12 +1082,15 @@ class ArticleTestCase(TestCase):
 
         comment_id = Comment.objects.get(content="test2").id
         response = client.delete(
-            "/api/comment/0/", data={"commentId": -1,}, content_type="application/json"
+            "/api/comment/0/",
+            data={"commentId": -1,},
+            content_type="application/json",
         )
         self.assertEqual(response.status_code, 404)
 
         response = client.delete(
-            "/api/comment/" + str(comment_id) + "/", content_type="application/json"
+            "/api/comment/" + str(comment_id) + "/",
+            content_type="application/json",
         )
         self.assertEqual(response.status_code, 400)
 
