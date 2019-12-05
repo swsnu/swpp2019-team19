@@ -32,7 +32,9 @@ class Signup extends Component {
       validPassword, validPasswordConfirm,
       loginUsername,
     } = this.state;
-    const { createFail, submitFail, history, signup } = this.props;
+    const {
+      createFail, submitFail, history, signup,
+    } = this.props;
     const SignupHandler = () => {
       this.setState({ password: '', passwordConfirm: '' });
       if (password.length < 8) {

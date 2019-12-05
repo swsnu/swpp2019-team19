@@ -59,7 +59,9 @@ export const signout = () => (dispatch) => {
 
 export const signup = (email, username, nickname, password) => (dispatch) => (
   axios.post(
-    '/api/signup/', { username, email, nickname, password },
+    '/api/signup/', {
+      username, email, nickname, password,
+    },
   ).then(() => {
     dispatch({
       type: SIGN_UP,
@@ -70,11 +72,10 @@ export const signup = (email, username, nickname, password) => (dispatch) => (
       dispatch({
         type: SIGN_UP_CREATE_FAIL,
       });
-    }
-    else if (error.response.status === 400) {
+    } else if (error.response.status === 400) {
       dispatch({
         type: SIGN_UP_SUBMIT_FAIL,
-      })
+      });
     }
   })
 );
