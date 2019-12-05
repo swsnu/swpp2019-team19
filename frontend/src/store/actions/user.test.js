@@ -91,9 +91,9 @@ describe('ActionCreators', () => {
     done();
   });
 
-  it('signup fail', (done) => {
+  it('signup create fail', (done) => {
     const spy = jest.spyOn(axios, 'post').mockImplementation(
-      (email, username, password) => new Promise((resolve, reject) => {
+      (email, username, nickname, password) => new Promise((resolve, reject) => {
         const result = {
           response: {
             status: 409,
@@ -103,9 +103,29 @@ describe('ActionCreators', () => {
       }),
     );
 
+    store.dispatch(actionCreators.signup('email', 'username', 'nickname', 'password')).then(() => {
+      const newState = store.getState();
+      expect(newState.user.signupCreateFail).toBe(true);
+      expect(spy).toHaveBeenCalledTimes(1);
+      done();
+    });
+  });
+
+  it('signup submit fail', (done) => {
+    const spy = jest.spyOn(axios, 'post').mockImplementation(
+      (email, username, password) => new Promise((resolve, reject) => {
+        const result = {
+          response: {
+            status: 400,
+          },
+        };
+        reject(result);
+      }),
+    );
+
     store.dispatch(actionCreators.signup('email', 'username', 'password')).then(() => {
       const newState = store.getState();
-      expect(newState.user.signupFail).toBe(true);
+      expect(newState.user.signupSubmitFail).toBe(true);
       expect(spy).toHaveBeenCalledTimes(1);
       done();
     });

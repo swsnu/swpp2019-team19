@@ -6,7 +6,8 @@ import {
   SIGN_IN_FAIL,
   SIGN_OUT,
   SIGN_UP,
-  SIGN_UP_FAIL,
+  SIGN_UP_CREATE_FAIL,
+  SIGN_UP_SUBMIT_FAIL,
   CHANGE_INFO,
   FETCH_USER,
   CLEAR_USER,
@@ -56,9 +57,9 @@ export const signout = () => (dispatch) => {
   });
 };
 
-export const signup = (email, username, password) => (dispatch) => (
+export const signup = (email, username, nickname, password) => (dispatch) => (
   axios.post(
-    '/api/signup/', { username, email, password },
+    '/api/signup/', { username, email, nickname, password },
   ).then(() => {
     dispatch({
       type: SIGN_UP,
@@ -67,8 +68,13 @@ export const signup = (email, username, password) => (dispatch) => (
   }, (error) => {
     if (error.response.status === 409) {
       dispatch({
-        type: SIGN_UP_FAIL,
+        type: SIGN_UP_CREATE_FAIL,
       });
+    }
+    else if (error.response.status === 400) {
+      dispatch({
+        type: SIGN_UP_SUBMIT_FAIL,
+      })
     }
   })
 );

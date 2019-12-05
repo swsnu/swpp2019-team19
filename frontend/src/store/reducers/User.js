@@ -3,7 +3,8 @@ import {
   SIGN_IN_FAIL,
   SIGN_OUT,
   SIGN_UP,
-  SIGN_UP_FAIL,
+  SIGN_UP_CREATE_FAIL,
+  SIGN_UP_SUBMIT_FAIL,
   VALIDATE_USERNAME,
   VALIDATE_USER_ID,
   CHANGE_INFO,
@@ -15,7 +16,8 @@ import {
 const initialState = {
   user: { username: '', email: '', nickname: '' },
   signinFail: false,
-  signupFail: false,
+  signupCreateFail: false,
+  signupSubmitFail: false,
   loadingUser: true,
   changeInfoFail: false,
   changeInfoSuccess: false,
@@ -28,12 +30,15 @@ export default function (state = initialState, action = defaultAction) {
     case SIGN_IN_FAIL: {
       return { ...state, signinFail: true };
     }
-    case SIGN_UP_FAIL: {
-      return { ...state, signupFail: true };
+    case SIGN_UP_CREATE_FAIL: {
+      return { ...state, signupCreateFail: true, signupSubmitFail: false };
+    }
+    case SIGN_UP_SUBMIT_FAIL: {
+      return { ...state, signupCreateFail: false, signupSubmitFail: true };
     }
     case SIGN_UP: {
       return {
-        ...state, signupFail: false, signinFail: false,
+        ...state, signupCreateFail: false, signupSubmitFail: true, signinFail: false,
       };
     }
     case CHANGE_INFO_FAIL: {
@@ -67,7 +72,8 @@ export default function (state = initialState, action = defaultAction) {
         changeInfoFail: false,
         changeInfoSuccess: false,
         signinFail: false,
-        signupFail: false,
+        signupCreateFail: false,
+        signupSubmitFail: true,
       };
   }
 }

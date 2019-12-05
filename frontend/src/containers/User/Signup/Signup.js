@@ -13,6 +13,7 @@ class Signup extends Component {
     this.state = {
       loginUsername: sessionStorage.getItem('username'),
       username: '',
+      nickname: '',
       email: '',
       password: '',
       passwordConfirm: '',
@@ -27,11 +28,11 @@ class Signup extends Component {
 
   render() {
     const {
-      username, email, password, passwordConfirm,
+      username, nickname, email, password, passwordConfirm,
       validPassword, validPasswordConfirm,
       loginUsername,
     } = this.state;
-    const { fail, history, signup } = this.props;
+    const { createFail, submitFail, history, signup } = this.props;
     const SignupHandler = () => {
       this.setState({ password: '', passwordConfirm: '' });
       if (password.length < 8) {
@@ -40,18 +41,20 @@ class Signup extends Component {
         this.setState({ validPasswordConfirm: false, validPassword: true });
       } else {
         this.setState({ validPassword: true, validPasswordConfirm: true });
-        signup(email, username, password);
+        signup(email, username, nickname, password);
         history.push('/signin');
       }
     };
     const errorToAlert = () => {
       let message = null;
-      if (fail) {
+      if (createFail) {
         message = 'email or username already exists';
       } else if (!validPassword) {
         message = 'Password should be at least 8 characters';
       } else if (!validPasswordConfirm) {
         message = 'Password and Password Confirm are different';
+      } else if (submitFail) {
+        message = 'all field must be filled';
       }
       if (message === null) {
         return (<p />);
@@ -93,6 +96,24 @@ class Signup extends Component {
                         />
                         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                         <label>Username</label>
+                      </div>
+                      <hr />
+                      <div className="form-label-group-signup">
+                        <input
+                          id="nickname-input"
+                          type="text"
+                          className="form-control"
+                          placeholder="Nickname"
+                          value={nickname}
+                          onChange={(event) => this.setState({
+                            nickname: event.target.value,
+                          })}
+                          required
+                          // eslint-disable-next-line jsx-a11y/no-autofocus
+                          autoFocus
+                        />
+                        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+                        <label>Nickname</label>
                       </div>
                       <hr />
                       <div className="form-label-group-signup">
@@ -174,12 +195,13 @@ class Signup extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  fail: state.user.signupFail,
+  createFail: state.user.signupCreateFail,
+  submitFail: state.user.signupSubmitFail,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  signup: (email, username, password) => dispatch(
-    actionCreators.signup(email, username, password),
+  signup: (email, username, nickname, password) => dispatch(
+    actionCreators.signup(email, username, nickname, password),
   ),
 });
 
@@ -192,5 +214,6 @@ Signup.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   history: PropTypes.object.isRequired,
   signup: PropTypes.func.isRequired,
-  fail: PropTypes.bool.isRequired,
+  createFail: PropTypes.bool.isRequired,
+  submitFail: PropTypes.bool.isRequired,
 };
