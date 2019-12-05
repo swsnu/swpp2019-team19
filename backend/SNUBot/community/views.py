@@ -68,8 +68,7 @@ def signin(request):
             new_password = req_data["new_password"]
         except (KeyError, JSONDecodeError):
             return HttpResponseBadRequest()
-        user = authenticate(request, username=username,
-                            password=current_password)
+        user = authenticate(request, username=username, password=current_password)
         if user is not None:
             target_user = User.objects.get(username=username)
             target_user.set_password(new_password)
@@ -100,8 +99,7 @@ def account(request):
                 new_password = req_data["new_password"]
             except (KeyError, JSONDecodeError):
                 return HttpResponseBadRequest()
-            user = authenticate(request, username=username,
-                                password=current_password)
+            user = authenticate(request, username=username, password=current_password)
             if user is not None:
                 target_user = User.objects.get(username=username)
                 target_user.set_password(new_password)
@@ -119,8 +117,7 @@ def account(request):
                 current_password = req_data["current_password"]
             except (KeyError, JSONDecodeError):
                 return HttpResponseBadRequest
-            user = authenticate(request, username=username,
-                                password=current_password)
+            user = authenticate(request, username=username, password=current_password)
             if user is not None:
                 target_user = User.objects.get(username=username)
                 target_user.delete()
@@ -158,15 +155,31 @@ def boards(request):
     if tag == "all":
         article_list = [
             article
-            for article in Article.objects.select_related("vote").filter(board=board_name).values(
-                "id", "title", "content", "author__nickname", "tag", "vote__like", "vote__dislike"
+            for article in Article.objects.select_related("vote")
+            .filter(board=board_name)
+            .values(
+                "id",
+                "title",
+                "content",
+                "author__nickname",
+                "tag",
+                "vote__like",
+                "vote__dislike",
             )
         ]
     else:
         article_list = [
             article
-            for article in Article.objects.select_related("vote").filter(board=board_name, tag=tag).values(
-                "id", "title", "content", "author__nickname", "tag", "vote__like", "vote__dislike"
+            for article in Article.objects.select_related("vote")
+            .filter(board=board_name, tag=tag)
+            .values(
+                "id",
+                "title",
+                "content",
+                "author__nickname",
+                "tag",
+                "vote__like",
+                "vote__dislike",
             )
         ]
     for article in article_list:
@@ -185,14 +198,13 @@ def boards(request):
                 if article["title"].find(search_keyword) != -1
             ]
     if sort_criteria == "good":
-        article_list = sorted(
-            article_list, key=itemgetter("vote_diff"), reverse=True)
+        article_list = sorted(article_list, key=itemgetter("vote_diff"), reverse=True)
     elif sort_criteria == "new":
         article_list.reverse()
     max_page = math.ceil(len(article_list) / article_count)
     if len(article_list) > article_count:
         article_list = article_list[
-            article_count * (cur_page_num - 1): article_count * cur_page_num
+            article_count * (cur_page_num - 1) : article_count * cur_page_num
         ]
     return_list = [max_page, article_list]
     return JsonResponse(return_list, safe=False)
@@ -294,13 +306,11 @@ def vote(request, article_id):
             target_vote.dislike += 1
             target_vote.dislike_voter.add(user)
     elif is_voted_like:
-        if request_vote == "like":
-            target_vote.like -= 1
-            target_vote.like_voter.remove(user)
+        target_vote.like -= 1
+        target_vote.like_voter.remove(user)
     else:
-        if request_vote == "dislike":
-            target_vote.dislike -= 1
-            target_vote.dislike_voter.remove(user)
+        target_vote.dislike -= 1
+        target_vote.dislike_voter.remove(user)
     target_vote.save()
     target_article = target_vote.article
     dif = target_vote.like - target_vote.dislike
