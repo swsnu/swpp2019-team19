@@ -35,6 +35,9 @@ class Signup extends Component {
     const {
       createFail, submitFail, history, signup,
     } = this.props;
+    // SignupHandler에 nickname, username 등에 대한 Validation이 더 들어가야 할 것 같습니다.
+    // 예를 들어 nickname이 공백인 경우 400을 반환하는게 아니라, 공백인 닉네임을 가진 유저가 생성되어서
+    // length같은 기준을 정해야 할 것 같습니다.
     const SignupHandler = () => {
       this.setState({ password: '', passwordConfirm: '' });
       if (password.length < 8) {
@@ -44,17 +47,19 @@ class Signup extends Component {
       } else {
         this.setState({ validPassword: true, validPasswordConfirm: true });
         signup(email, username, nickname, password);
-        history.push('/signin');
+        if (!createFail && !submitFail) {
+          history.push('/signin');
+        }
       }
     };
     const errorToAlert = () => {
       let message = null;
-      if (createFail) {
-        message = 'email or username already exists';
-      } else if (!validPassword) {
+      if (!validPassword) {
         message = 'Password should be at least 8 characters';
       } else if (!validPasswordConfirm) {
         message = 'Password and Password Confirm are different';
+      } else if (createFail) {
+        message = 'email, username or nickname already exists';
       } else if (submitFail) {
         message = 'all field must be filled';
       }
