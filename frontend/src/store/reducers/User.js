@@ -38,7 +38,7 @@ export default function (state = initialState, action = defaultAction) {
     }
     case SIGN_UP: {
       return {
-        ...state, signupCreateFail: false, signupSubmitFail: true, signinFail: false,
+        ...state, signupCreateFail: false, signupSubmitFail: false, signinFail: false,
       };
     }
     case CHANGE_INFO_FAIL: {
@@ -73,7 +73,7 @@ export default function (state = initialState, action = defaultAction) {
         changeInfoSuccess: false,
         signinFail: false,
         signupCreateFail: false,
-        signupSubmitFail: true,
+        signupSubmitFail: false,
       };
   }
 }

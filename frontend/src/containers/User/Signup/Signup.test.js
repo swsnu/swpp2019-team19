@@ -93,7 +93,7 @@ describe('<Signup />', () => {
     expect(passwordInput.instance().value).toEqual(validPassword);
     expect(passwordConfirmInput.instance().value).toEqual(typoPassword);
     buttonInput.simulate('click');
-    expect(passwordInput.instance().value).toEqual('');
+    expect(passwordInput.instance().value).toEqual(validPassword);
     expect(passwordConfirmInput.instance().value).toEqual('');
   });
 
@@ -129,8 +129,8 @@ describe('<Signup />', () => {
     buttonInput.simulate('click');
 
     expect(historyMock.push).toHaveBeenCalledTimes(1);
-    expect(passwordInput.instance().value).toEqual('');
-    expect(passwordConfirmInput.instance().value).toEqual('');
+    expect(passwordInput.instance().value).toEqual(validPassword);
+    expect(passwordConfirmInput.instance().value).toEqual(validPassword);
     expect(spySignup).toHaveBeenCalledTimes(1);
     expect(spySignup).toHaveBeenCalledWith(
       validEmail,
@@ -177,8 +177,8 @@ describe('<Signup />', () => {
     buttonInput.simulate('click');
 
     expect(historyMock.push).toHaveBeenCalledTimes(0);
-    expect(passwordInput.instance().value).toEqual('');
-    expect(passwordConfirmInput.instance().value).toEqual('');
+    expect(passwordInput.instance().value).toEqual(validPassword);
+    expect(passwordConfirmInput.instance().value).toEqual(validPassword);
     expect(spySignup).toHaveBeenCalledTimes(1);
     expect(spySignup).toHaveBeenCalledWith(
       validEmail,
