@@ -34,7 +34,8 @@ const App = (props) => {
           <Route
             path="/boards/:boardName(all|hot)"
             exact
-            component={BoardDetail}
+            // eslint-disable-next-line react/jsx-props-no-spreading
+            component={(pass) => <BoardDetail key={pass.match.params.boardName} {...pass} />}
           />
           <Route path="/signin" exact component={Signin} />
           <Route path="/signup" exact component={Signup} />
@@ -51,7 +52,9 @@ const App = (props) => {
 
 export default App;
 
+/* eslint-disable react/forbid-prop-types */
 App.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
   history: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  params: PropTypes.object.isRequired,
 };
