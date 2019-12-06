@@ -40,7 +40,9 @@ class Signup extends Component {
     // length같은 기준을 정해야 할 것 같습니다.
     const SignupHandler = () => {
       if (password.length < 8) {
-        this.setState({ validPassword: false, validPasswordConfirm: true, password: '', passwordConfirm: '' });
+        this.setState({
+          validPassword: false, validPasswordConfirm: true, password: '', passwordConfirm: '',
+        });
       } else if (password !== passwordConfirm) {
         this.setState({ validPasswordConfirm: false, validPassword: true, passwordConfirm: '' });
       } else {
