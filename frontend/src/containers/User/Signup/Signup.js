@@ -39,11 +39,10 @@ class Signup extends Component {
     // 예를 들어 nickname이 공백인 경우 400을 반환하는게 아니라, 공백인 닉네임을 가진 유저가 생성되어서
     // length같은 기준을 정해야 할 것 같습니다.
     const SignupHandler = () => {
-      this.setState({ password: '', passwordConfirm: '' });
       if (password.length < 8) {
-        this.setState({ validPassword: false, validPasswordConfirm: true });
+        this.setState({ validPassword: false, validPasswordConfirm: true, password: '', passwordConfirm: '' });
       } else if (password !== passwordConfirm) {
-        this.setState({ validPasswordConfirm: false, validPassword: true });
+        this.setState({ validPasswordConfirm: false, validPassword: true, passwordConfirm: '' });
       } else {
         this.setState({ validPassword: true, validPasswordConfirm: true });
         signup(email, username, nickname, password);
