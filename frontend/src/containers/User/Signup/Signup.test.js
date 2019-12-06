@@ -9,14 +9,21 @@ import * as ActionCreators from '../../../store/actions/user';
 
 const stubUserInitialState = {
   signinFail: false,
-  signupFail: false,
+  signupCreateFail: false,
+  signupSubmitFail: false,
 };
 
+const stubFailState = {
+  signinFail: false,
+  signupCreateFail: true,
+  signupSubmitFail: false,
+};
 const mockStore = getMockStore({}, stubUserInitialState, {}, {});
-
+const failMockStore = getMockStore({}, stubFailState, {}, {});
 describe('<Signup />', () => {
   const validEmail = 'lightb0x@naver.com';
   const validUsername = 'lightb0x';
+  const validNickname = 'lightb0x';
   const validPassword = 'password_test123';
   const typoPassword = 'password-test123';
   const shortPassword = 'short';
@@ -49,6 +56,7 @@ describe('<Signup />', () => {
     const wrapper = mount(signup);
     const emailInput = wrapper.find('#email-input');
     const usernameInput = wrapper.find('#username-input');
+    const nicknameInput = wrapper.find('#nickname-input');
     const passwordInput = wrapper.find('#pw-input');
     const passwordConfirmInput = wrapper.find('#pw-confirm-input');
     const buttonInput = wrapper.find('#Signup-button').at(0);
@@ -58,6 +66,9 @@ describe('<Signup />', () => {
 
     usernameInput.instance().value = validUsername;
     usernameInput.simulate('change');
+
+    nicknameInput.instance().value = validNickname;
+    nicknameInput.simulate('change');
 
     passwordInput.instance().value = shortPassword;
     passwordInput.simulate('change');
@@ -90,6 +101,7 @@ describe('<Signup />', () => {
     const wrapper = mount(signup);
     const emailInput = wrapper.find('#email-input');
     const usernameInput = wrapper.find('#username-input');
+    const nicknameInput = wrapper.find('#nickname-input');
     const passwordInput = wrapper.find('#pw-input');
     const passwordConfirmInput = wrapper.find('#pw-confirm-input');
     const buttonInput = wrapper.find('#Signup-button').at(0);
@@ -99,6 +111,9 @@ describe('<Signup />', () => {
 
     usernameInput.instance().value = validUsername;
     usernameInput.simulate('change');
+
+    nicknameInput.instance().value = validNickname;
+    nicknameInput.simulate('change');
 
     passwordInput.instance().value = validPassword;
     passwordInput.simulate('change');
@@ -120,6 +135,55 @@ describe('<Signup />', () => {
     expect(spySignup).toHaveBeenCalledWith(
       validEmail,
       validUsername,
+      validNickname,
+      validPassword,
+    );
+  });
+
+  it('input text and click button, fail and call signup', () => {
+    const failSignup = (
+      <Provider store={failMockStore}>
+        <Signup history={historyMock} />
+      </Provider>
+    );
+    const wrapper = mount(failSignup);
+    const emailInput = wrapper.find('#email-input');
+    const usernameInput = wrapper.find('#username-input');
+    const nicknameInput = wrapper.find('#nickname-input');
+    const passwordInput = wrapper.find('#pw-input');
+    const passwordConfirmInput = wrapper.find('#pw-confirm-input');
+    const buttonInput = wrapper.find('#Signup-button').at(0);
+
+    emailInput.instance().value = validEmail;
+    emailInput.simulate('change');
+
+    usernameInput.instance().value = validUsername;
+    usernameInput.simulate('change');
+
+    nicknameInput.instance().value = validNickname;
+    nicknameInput.simulate('change');
+
+    passwordInput.instance().value = validPassword;
+    passwordInput.simulate('change');
+
+    passwordConfirmInput.instance().value = validPassword;
+    passwordConfirmInput.simulate('change');
+
+    expect(passwordInput.instance().value).toEqual(validPassword);
+    expect(passwordConfirmInput.instance().value).toEqual(validPassword);
+    expect(spySignup).toHaveBeenCalledTimes(0);
+    expect(historyMock.push).toHaveBeenCalledTimes(0);
+
+    buttonInput.simulate('click');
+
+    expect(historyMock.push).toHaveBeenCalledTimes(0);
+    expect(passwordInput.instance().value).toEqual('');
+    expect(passwordConfirmInput.instance().value).toEqual('');
+    expect(spySignup).toHaveBeenCalledTimes(1);
+    expect(spySignup).toHaveBeenCalledWith(
+      validEmail,
+      validUsername,
+      validNickname,
       validPassword,
     );
   });

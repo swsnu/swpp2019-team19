@@ -38,7 +38,7 @@ class Signin extends Component {
               <Alert
                 variant="warning"
               >
-                Uername or Password is wrong
+                Username or Password is wrong
               </Alert>
             ) : <p />
           }
