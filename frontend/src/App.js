@@ -58,4 +58,3 @@ App.propTypes = {
   match: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
 };
-
