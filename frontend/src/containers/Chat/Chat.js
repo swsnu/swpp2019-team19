@@ -114,6 +114,11 @@ class Chat extends Component {
                               onChange={(event) => this.setState({
                                 userInput: event.target.value,
                               })}
+                              onKeyDown={(event) => {
+                                if (event.key === "Enter") {
+                                  document.getElementsByClassName('msg_send_btn')[0].click();
+                                }
+                              }}
                             />
                             <Button
                               variant="outline-dark"
