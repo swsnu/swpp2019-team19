@@ -82,9 +82,7 @@ class ActionMeal(Action):
                     # print(child)
                     response_message = response_message + str(child) + "<br>"
         else:
-            if not (
-                meal == "Student Center" or meal == "Dormitory" or meal == "901"
-            ):
+            if not meal == "학생회관":
                 k = 1
             for target in targets:
                 response_message = response_message + time[k] + "<br>"
