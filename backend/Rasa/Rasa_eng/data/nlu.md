@@ -13,58 +13,59 @@
 - see you later
 - catch you later
 
-## intent:hungry
-- I'm hungry
-- im hungry
-- aren't you hungry?
-- hungry, aren't you?
+## intent:request_menu
+- Today's menu at [Student Center](meal)
+- Today's menu at [No.3](meal)
+- Today's menu at [D75-1](meal)
+- Today's menu at [두레미담](meal)
+- Today's menu at [서당골](meal)
+- Today's menu at [사범대](meal)
+- Today's menu at [아름드리]](meal)
+- Today's menu at [예술]](meal)
+- Today's menu at [감골식당]](meal)
+- Today's menu at [Dongwon](meal)
+- Today's menu at [Jahayeon](meal)
+- Today's menu at [220](meal)
+- Today's menu at [301](meal)
+- Today's menu at [302](meal)
+- Today's menu at [Dormitory](meal)
+- Today's menu at [기숙사](meal)
+- Today's menu at [901](meal)
+- Today's menu at [공깡](meal)
+- Tell me the menu at [Student Center](meal)
+- Tell me the menu at [No.3](meal)
+- Tell me the menu at [D75-1](meal)
+- Tell me the menu at [두레미담](meal)
+- Tell me the menu at [서당골](meal)
+- Tell me the menu at [사범대](meal)
+- Tell me the menu at [아름드리]](meal)
+- Tell me the menu at [예술]](meal)
+- Tell me the menu at [감골식당]](meal)
+- Tell me the menu at [Dongwon](meal)
+- Tell me the menu at [Jahayeon](meal)
+- Tell me the menu at [220](meal)
+- Tell me the menu at [301](meal)
+- Tell me the menu at [302](meal)
+- Tell me the menu at [Dormitory](meal)
+- Tell me the menu at [기숙사](meal)
+- Tell me the menu at [901](meal)
+- Tell me the menu at [공깡](meal)
+- Tell me the menu at [Student Center](meal)
+- [No.3](meal) menu
+- [D75-1](meal) menu
+- [두레미담](meal) menu
+- [서당골](meal) menu
+- [사범대](meal) menu
+- [아름드리]](meal) menu
+- [예술]](meal) menu
+- [감골식당]](meal) menu
+- [Dongwon](meal) menu
+- [Jahayeon](meal) menu
+- [220](meal) menu
+- [301](meal) menu
+- [302](meal) menu
+- [Dormitory](meal) menu
+- [기숙사](meal) menu
+- [901](meal) menu
+- [공깡](meal) menu
 
-## intent:not_hungry
-- I'm not hungry
-- I'm full
-- I don't think I'm hungry
-
-## intent:affirm
-- yes
-- indeed
-- of course
-- that sounds good
-- correct
-- that's great!
-
-## intent:deny
-- no
-- never
-- I don't think so
-- don't like that
-- no way
-- not really
-- no, thanks
-
-## intent:mood_great
-- perfect
-- very good
-- great
-- amazing
-- wonderful
-- I am feeling very good
-- I am great
-- I'm good
-
-## intent:mood_unhappy
-- sad
-- very sad
-- unhappy
-- bad
-- very bad
-- awful
-- terrible
-- not very good
-- extremely sad
-- so sad
-
-## intent:bot_challenge
-- are you a bot?
-- are you a human?
-- am I talking to a bot?
-- am I talking to a human?

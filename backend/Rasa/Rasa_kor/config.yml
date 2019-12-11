@@ -18,6 +18,7 @@ policies:
   - name: MemoizationPolicy
     max_history: 3
   - name: MappingPolicy
+  - name: FormPolicy
   - name: FallbackPolicy
     nlu_threshold: 0.4
     core_threshold: 0.3

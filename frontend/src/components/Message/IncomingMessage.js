@@ -4,6 +4,16 @@ import PropTypes from 'prop-types';
 
 const IncomingMessage = (props) => {
   const { message } = props;
+  const parseIncomingText = (text) => {
+    let retText = '';
+    const splitText = text.split('<br>');
+    splitText.forEach((element) => {
+      if (element !== '<br/>') {
+        retText += `${element}<br>`;
+      }
+    });
+    return retText;
+  };
   return (
     <div className="incoming_msg">
       <div className="received_msg">
@@ -11,7 +21,11 @@ const IncomingMessage = (props) => {
           {
             message.text === undefined
               ? <img alt="response-img" src={message.image} />
-              : <p>{message.text}</p>
+              : (
+                <p>
+                  <div dangerouslySetInnerHTML={{ __html: parseIncomingText(message.text) }} />
+                </p>
+              )
           }
           <p />
         </div>
