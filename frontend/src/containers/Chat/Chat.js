@@ -63,7 +63,7 @@ class Chat extends Component {
       <Container>
         <Row>
           <Col xs={0} md={2} lg={3} />
-          <Col>
+          <Col xs={12} md={8} lg={6}>
             <div className="chat container">
               <div className="row vertical-center">
                 <Button
@@ -114,6 +114,11 @@ class Chat extends Component {
                               onChange={(event) => this.setState({
                                 userInput: event.target.value,
                               })}
+                              onKeyDown={(event) => {
+                                if (event.key === 'Enter') {
+                                  document.getElementsByClassName('msg_send_btn')[0].click();
+                                }
+                              }}
                             />
                             <Button
                               variant="outline-dark"
