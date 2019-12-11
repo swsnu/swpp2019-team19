@@ -18,7 +18,9 @@ time = ["breakfast", "lunch", "dinner"]
 engineering = ["prof", "foodcourt"]
 agricultural = ["lunch", "dinner", "order"]
 eng_ggang = ["foodcourt"]
-idxerr_msg = "메뉴를 불러오는 중 에러가 발생했습니다.<br>글 남겨주시면 감사하겠습니다."
+idxerr_msg = (
+    "Error occured during loading menu.<br>Please post a article about it."
+)
 
 
 class ActionMeal(Action):
