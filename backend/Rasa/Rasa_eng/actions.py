@@ -50,7 +50,9 @@ class ActionMeal(Action):
 
         k = 0
         response_message = ""
-        if meal == "301":
+        if targets == []:
+            response_message = "Tell me the exact name of the cafeteria"
+        elif meal == "301":
             for target in targets:
                 response_message = response_message + engineering[k] + "<br>"
                 # print(time[k])
