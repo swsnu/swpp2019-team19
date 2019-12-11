@@ -1,52 +1,25 @@
+slots:
+  meal:
+    type: text
+
 intents:
 - greet
 - goodbye
-- hungry
-- not_hungry
-- affirm
-- deny
-- mood_great
-- mood_unhappy
-- bot_challenge
+- request_menu
+
+entities:
+  - meal
 
 actions:
   - utter_greet
-  - utter_cheer_up
-  - utter_did_that_help
-  - utter_happy
   - utter_goodbye
-  - utter_iamabot
-  - utter_suggest_meal
-  - utter_meal
-  - utter_ok
+  - action_meal
 
 templates:
   utter_greet:
   - text: "Hey! How are you?"
 
-  utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/zBjVIRl.mp4"
-
-  utter_did_that_help:
-  - text: "Did that help you?"
-
-  utter_happy:
-  - text: "Great, carry on!"
-
   utter_goodbye:
   - text: "Goodbye, have a nice day!"
 
-  utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
 
-  utter_suggest_meal:
-  - text: "aren't you hungry?"
-
-  utter_meal:
-  - text: "today's dinner is as follows:
-  Tofu stew with roe of a pollack, 2,500won
-  Steamed pork & spicy buckwheat noodle with mixed vegetables, 4,000won"
-  
-  utter_ok:
-  - text: "oh, I see"

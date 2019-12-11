@@ -4,7 +4,8 @@ pip install rasa-x --extra-index-url https://pypi.rasa.com/simple
 rasa train
 mkdir logs
 touch logs/rasa.log
-python -m rasa run -m ./models --endpoints ./projects/endpoints.yml --port 5005 --log-file ./logs/rasa.log -vv --enable-api --cors "*"
+python -m rasa run -m ./models --endpoints ./endpoints.yml --port 5010 --log-file ./logs/rasa.log -vv --enable-api --cors "*"
+rasa run actions
 ```
 ```
 post api
