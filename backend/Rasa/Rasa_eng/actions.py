@@ -18,6 +18,7 @@ time = ["breakfast", "lunch", "dinner"]
 engineering = ["prof", "foodcourt"]
 agricultural = ["lunch", "dinner", "order"]
 eng_ggang = ["foodcourt"]
+idxerr_msg = "메뉴를 불러오는 중 에러가 발생했습니다.<br>글 남겨주시면 감사하겠습니다."
 
 
 class ActionMeal(Action):
@@ -50,44 +51,60 @@ class ActionMeal(Action):
 
         k = 0
         response_message = ""
-        if targets == []:
-            response_message = "Tell me the exact name of the cafeteria"
-        elif meal == "301":
-            for target in targets:
-                response_message = response_message + engineering[k] + "<br>"
-                # print(time[k])
-                k = k + 1
-                for child in target.contents[2].children:
-                    # print(child)
-                    response_message = response_message + str(child) + "<br>"
-        elif meal == "공깡":
-            for target in targets:
-                response_message = response_message + eng_ggang[k] + "<br>"
-                # print(time[k])
-                k = k + 1
-                for child in target.contents[2].children:
-                    # print(child)
-                    response_message = response_message + str(child) + "<br>"
-        elif meal == "두레미담":
-            for target in targets:
-                response_message = response_message + agricultural[k] + "<br>"
-                # print(time[k])
-                k = k + 1
-                for child in target.contents[2].children:
-                    # print(child)
-                    response_message = response_message + str(child) + "<br>"
-        else:
-            if not (
-                meal == "Student Center" or meal == "Dormitory" or meal == "901"
-            ):
-                k = 1
-            for target in targets:
-                response_message = response_message + time[k] + "<br>"
-                # print(time[k])
-                k = k + 1
-                for child in target.contents[2].children:
-                    # print(child)
-                    response_message = response_message + str(child) + "<br>"
+        try:
+            if targets == []:
+                response_message = "Tell me the exact name of the cafeteria"
+            elif meal == "301":
+                for target in targets:
+                    response_message = (
+                        response_message + engineering[k] + "<br>"
+                    )
+                    # print(time[k])
+                    k = k + 1
+                    for child in target.contents[2].children:
+                        # print(child)
+                        response_message = (
+                            response_message + str(child) + "<br>"
+                        )
+            elif meal == "공깡":
+                for target in targets:
+                    response_message = response_message + eng_ggang[k] + "<br>"
+                    # print(time[k])
+                    k = k + 1
+                    for child in target.contents[2].children:
+                        # print(child)
+                        response_message = (
+                            response_message + str(child) + "<br>"
+                        )
+            elif meal == "두레미담":
+                for target in targets:
+                    response_message = (
+                        response_message + agricultural[k] + "<br>"
+                    )
+                    # print(time[k])
+                    k = k + 1
+                    for child in target.contents[2].children:
+                        # print(child)
+                        response_message = (
+                            response_message + str(child) + "<br>"
+                        )
+            else:
+                if not (
+                    meal == "Student Center"
+                    or meal == "Dormitory"
+                    or meal == "901"
+                ):
+                    k = 1
+                for target in targets:
+                    response_message = response_message + time[k] + "<br>"
+                    k = k + 1
+                    for child in target.contents[2].children:
+                        response_message = (
+                            response_message + str(child) + "<br>"
+                        )
+        except IndexError as e:
+            dispatcher.utter_message(idxerr_msg)
+            return [SlotSet("meal", meal)]
 
         dispatcher.utter_message(response_message)
         return [SlotSet("meal", meal)]
