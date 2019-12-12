@@ -21,7 +21,6 @@ matrix:
         - sonar-scanner
       after_success:
         - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
-        - cd ../
     - language: python
       sudo: enabled
       services:
