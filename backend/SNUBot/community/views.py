@@ -9,6 +9,7 @@ from django.http import (
     HttpResponseForbidden,
 )
 from account.models import User
+from django.core.cache import cache
 from django.contrib.auth import login, authenticate, logout
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
@@ -68,7 +69,9 @@ def signin(request):
             new_password = req_data["new_password"]
         except (KeyError, JSONDecodeError):
             return HttpResponseBadRequest()
-        user = authenticate(request, username=username, password=current_password)
+        user = authenticate(
+            request, username=username, password=current_password
+        )
         if user is not None:
             target_user = User.objects.get(username=username)
             target_user.set_password(new_password)
@@ -99,7 +102,9 @@ def account(request):
                 new_password = req_data["new_password"]
             except (KeyError, JSONDecodeError):
                 return HttpResponseBadRequest()
-            user = authenticate(request, username=username, password=current_password)
+            user = authenticate(
+                request, username=username, password=current_password
+            )
             if user is not None:
                 target_user = User.objects.get(username=username)
                 target_user.set_password(new_password)
@@ -117,7 +122,9 @@ def account(request):
                 current_password = req_data["current_password"]
             except (KeyError, JSONDecodeError):
                 return HttpResponseBadRequest
-            user = authenticate(request, username=username, password=current_password)
+            user = authenticate(
+                request, username=username, password=current_password
+            )
             if user is not None:
                 target_user = User.objects.get(username=username)
                 target_user.delete()
@@ -152,36 +159,43 @@ def boards(request):
         search_keyword = req_data["searchKeyword"]
     except (KeyError, JSONDecodeError):
         return HttpResponseBadRequest()
+
     if tag == "all":
-        article_list = [
-            article
-            for article in Article.objects.select_related("vote")
-            .filter(board=board_name)
-            .values(
-                "id",
-                "title",
-                "content",
-                "author__nickname",
-                "tag",
-                "vote__like",
-                "vote__dislike",
-            )
-        ]
+        article_list = cache.get("articles_all")
+        if not article_list:
+            article_list = [
+                article
+                for article in Article.objects.select_related("vote")
+                .filter(board=board_name)
+                .values(
+                    "id",
+                    "title",
+                    "content",
+                    "author__nickname",
+                    "tag",
+                    "vote__like",
+                    "vote__dislike",
+                )
+            ]
+            cache.set("articles_all", article_list)
     else:
-        article_list = [
-            article
-            for article in Article.objects.select_related("vote")
-            .filter(board=board_name, tag=tag)
-            .values(
-                "id",
-                "title",
-                "content",
-                "author__nickname",
-                "tag",
-                "vote__like",
-                "vote__dislike",
-            )
-        ]
+        article_list = cache.get("articles_hot")
+        if not article_list:
+            article_list = [
+                article
+                for article in Article.objects.select_related("vote")
+                .filter(board=board_name, tag=tag)
+                .values(
+                    "id",
+                    "title",
+                    "content",
+                    "author__nickname",
+                    "tag",
+                    "vote__like",
+                    "vote__dislike",
+                )
+            ]
+            cache.set("articles_hot", article_list)
     for article in article_list:
         article["vote_diff"] = article["vote__like"] - article["vote__dislike"]
     if search_keyword != "":
@@ -198,7 +212,9 @@ def boards(request):
                 if article["title"].find(search_keyword) != -1
             ]
     if sort_criteria == "good":
-        article_list = sorted(article_list, key=itemgetter("vote_diff"), reverse=True)
+        article_list = sorted(
+            article_list, key=itemgetter("vote_diff"), reverse=True
+        )
     elif sort_criteria == "new":
         article_list.reverse()
     max_page = math.ceil(len(article_list) / article_count)

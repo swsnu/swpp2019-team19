@@ -39,6 +39,7 @@ matrix:
         - mysql -e "CREATE DATABASE SNUBot;"
         - mysql -e "CREATE USER 'SNUBot'@'localhost' IDENTIFIED BY 'SNUBot';"
         - mysql -e "GRANT ALL PRIVILEGES ON *.* to 'SNUBot'@'localhost';"
+        - sudo redis-server /etc/redis/redis.conf --port 6379
       install:
         - pip install -r backend/SNUBot/requirements.txt
       before_script:
