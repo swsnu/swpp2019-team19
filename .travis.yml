@@ -42,14 +42,16 @@ matrix:
         - sudo redis-server /etc/redis/redis.conf --port 6379
       install:
         - pip install -r backend/SNUBot/requirements.txt
+        - pip install coveralls
       before_script:
         - cd backend/SNUBot
         - python3 manage.py makemigrations
         - python3 manage.py migrate
       script:
         - coverage run --source="./community/" manage.py test
-      after_success:
         - coverage report -m
+      after_success:
+        - coveralls --merge=../../frontend/coverage.json
       after_script:
         - cd ../../
 
