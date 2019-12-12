@@ -237,7 +237,7 @@ class RasaKorTestCase(TestCase):
         response = client.post(
             "/rasa_kor/stories/",
             json.dumps(
-                {"story_name": "test_story", "story_path_1": [], "story_path_2": [],}
+                {"story_name": "test_story", "story_path_1": [],}
             ),
             content_type="application/json",
         )
@@ -280,7 +280,6 @@ class RasaKorTestCase(TestCase):
                     "story_name": "test_story",
                     "story_path_1": ["greet"],
                     "story_path_2": [],
-                    "story_path_3": [],
                 }
             ),
             content_type="application/json",
@@ -295,7 +294,6 @@ class RasaKorTestCase(TestCase):
                 "story_name": "test_story",
                 "story_path_1": ["greet"],
                 "story_path_2": [],
-                "story_path_3": [],
             },
         )
         response = client.delete("/rasa_kor/story/" + str(id) + "/")

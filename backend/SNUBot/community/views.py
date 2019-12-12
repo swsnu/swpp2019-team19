@@ -159,8 +159,7 @@ def boards(request):
         search_keyword = req_data["searchKeyword"]
     except (KeyError, JSONDecodeError):
         return HttpResponseBadRequest()
-
-    if tag == "all":
+    if board_name == "all":
         article_list = cache.get("articles_all")
         if not article_list:
             article_list = [
@@ -184,7 +183,7 @@ def boards(request):
             article_list = [
                 article
                 for article in Article.objects.select_related("vote")
-                .filter(board=board_name, tag=tag)
+                .filter(board=board_name)
                 .values(
                     "id",
                     "title",
@@ -196,6 +195,8 @@ def boards(request):
                 )
             ]
             cache.set("articles_hot", article_list)
+    if tag != "all":
+        article_list = list(filter(lambda t: t["tag"] == tag, article_list))
     for article in article_list:
         article["vote_diff"] = article["vote__like"] - article["vote__dislike"]
     if search_keyword != "":
