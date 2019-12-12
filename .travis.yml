@@ -17,10 +17,10 @@ matrix:
       script:
         - ./node_modules/.bin/eslint src
         - yarn test --coverage --watchAll=false
+        - cd ../
         - sonar-scanner
       after_success:
-        - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
-        - cd ../
+        - cat ./frontend/coverage/lcov.info | ./frontend/node_modules/coveralls/bin/coveralls.js
     - language: python
       sudo: enabled
       services:
@@ -42,13 +42,19 @@ matrix:
         - sudo redis-server /etc/redis/redis.conf --port 6379
       install:
         - pip install -r backend/SNUBot/requirements.txt
+        - pip install coveralls
       before_script:
         - cd backend/SNUBot
         - python3 manage.py makemigrations
         - python3 manage.py migrate
       script:
         - coverage run --source="./community/" manage.py test
+        - coverage report -m
+        - coverage xml
       after_success:
         - coveralls
       after_script:
         - cd ../../
+
+
+        
