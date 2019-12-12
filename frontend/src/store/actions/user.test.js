@@ -17,7 +17,14 @@ const status200 = new Promise((resolve) => {
   };
   resolve(result);
 });
-
+const status401 = new Promise((resolve, reject) => {
+  const result = {
+    response: {
+      status: 401,
+    },
+  };
+  reject(result);
+});
 
 describe('ActionCreators', () => {
   afterEach(() => {
@@ -40,16 +47,9 @@ describe('ActionCreators', () => {
     });
   });
 
-  it("'signin' should catch 410 error", (done) => {
+  it("'signin' should catch 401 error", (done) => {
     const spy = jest.spyOn(axios, 'post').mockImplementation(
-      (username, password) => new Promise((resolve, reject) => {
-        const result = {
-          response: {
-            status: 401,
-          },
-        };
-        reject(result);
-      }),
+      (username, password) => status401
     );
 
     store.dispatch(actionCreators.signin()).then(() => {
@@ -62,12 +62,7 @@ describe('ActionCreators', () => {
 
   it("'signout' should post correctly", (done) => {
     const spy = jest.spyOn(axios, 'get').mockImplementation(
-      () => new Promise((resolve) => {
-        const result = {
-          status: 200,
-        };
-        resolve(result);
-      }),
+      () => status200
     );
 
     store.dispatch(actionCreators.signout());
@@ -147,14 +142,7 @@ describe('ActionCreators', () => {
     const spy = jest
       .spyOn(axios, 'put')
       .mockImplementation(
-        (username, newnickname) => new Promise((resolve, reject) => {
-          const result = {
-            response: {
-              status: 401,
-            },
-          };
-          reject(result);
-        }),
+        (username, newnickname) => status401
       );
     store.dispatch(actionCreators.changeInfo('email', 'username', 'password')).then(() => {
       const newState = store.getState();
