@@ -75,7 +75,9 @@ class RasaEngTestCase(TestCase):
         story.story_path_2.add(IntentEng.objects.get(intent_name="goodbye"))
         story = StoryEng(story_name="bot path")
         story.save()
-        story.story_path_1.add(IntentEng.objects.get(intent_name="bot_challenge"))
+        story.story_path_1.add(
+            IntentEng.objects.get(intent_name="bot_challenge")
+        )
 
     def test_intents(self):
         client = Client()
@@ -95,7 +97,9 @@ class RasaEngTestCase(TestCase):
         self.assertEqual(response.status_code, 400)
         response = client.post(
             "/rasa_eng/intents/",
-            json.dumps({"intent_name": "test_intent", "intent_tokens": ["hi", "bye"]}),
+            json.dumps(
+                {"intent_name": "test_intent", "intent_tokens": ["hi", "bye"]}
+            ),
             content_type="application/json",
         )
         self.assertEqual(response.status_code, 201)
@@ -120,7 +124,10 @@ class RasaEngTestCase(TestCase):
         response = client.put(
             "/rasa_eng/intent/" + str(id) + "/",
             json.dumps(
-                {"intent_name": "test_intent", "intent_tokens": ["hello", "bye"]}
+                {
+                    "intent_name": "test_intent",
+                    "intent_tokens": ["hello", "bye"],
+                }
             ),
             content_type="application/json",
         )
@@ -129,7 +136,11 @@ class RasaEngTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
             str(response.content, encoding="utf8"),
-            {"id": id, "intent_name": "test_intent", "intent_tokens": ["hello", "bye"]},
+            {
+                "id": id,
+                "intent_name": "test_intent",
+                "intent_tokens": ["hello", "bye"],
+            },
         )
         response = client.delete("/rasa_eng/intent/" + str(id) + "/")
         self.assertEqual(response.status_code, 200)
@@ -236,9 +247,7 @@ class RasaEngTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         response = client.post(
             "/rasa_eng/stories/",
-            json.dumps(
-                {"story_name": "test_story", "story_path_1": [], "story_path_2": [],}
-            ),
+            json.dumps({"story_name": "test_story", "story_path_1": []}),
             content_type="application/json",
         )
         self.assertEqual(response.status_code, 400)
@@ -280,7 +289,6 @@ class RasaEngTestCase(TestCase):
                     "story_name": "test_story",
                     "story_path_1": ["greet"],
                     "story_path_2": [],
-                    "story_path_3": [],
                 }
             ),
             content_type="application/json",
@@ -295,7 +303,6 @@ class RasaEngTestCase(TestCase):
                 "story_name": "test_story",
                 "story_path_1": ["greet"],
                 "story_path_2": [],
-                "story_path_3": [],
             },
         )
         response = client.delete("/rasa_eng/story/" + str(id) + "/")
