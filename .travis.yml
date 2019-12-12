@@ -50,6 +50,7 @@ matrix:
       script:
         - coverage run --source="./community/" manage.py test
         - coverage report -m
+        - coverage xml
       after_success:
         - coveralls --merge=../../frontend/coverage.json
       after_script:
