@@ -24,6 +24,4 @@ templates:
   - text: "Goodbye, have a nice day!"
 
   utter_fallback:
-  - text: "I can't understand"
-
-
+  - text: "I can't understand!"

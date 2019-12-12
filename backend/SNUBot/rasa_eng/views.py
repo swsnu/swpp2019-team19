@@ -263,7 +263,6 @@ def entity_detail(request, id):
         except (KeyError, JSONDecodeError):
             return HttpResponseBadRequest()
         entity = get_object_or_404(EntityEng, pk=id)
-
         entity.entity_name = entity_name
         entity.entity_tokens = entity_tokens
         entity.intent.clear()
