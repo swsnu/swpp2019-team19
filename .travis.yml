@@ -49,9 +49,11 @@ matrix:
         - python3 manage.py migrate
       script:
         - coverage run --source="./community/" manage.py test
+        - coveralls
+        - coverage run --source="./rasa_eng/" manage.py test
+        - coveralls
+        - coverage run --source="./rasa_kor/" manage.py test
+        - coveralls
         - cd ../../
         - sonar-scanner
-      after_success:
-        - coveralls
-      after_script:
-        - cd ../../
+        
