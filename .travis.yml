@@ -52,7 +52,7 @@ matrix:
         - coverage report -m
         - coverage xml
       after_success:
-        - coveralls --merge=../../frontend/coverage.json
+        - coveralls
       after_script:
         - cd ../../
 
