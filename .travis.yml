@@ -20,7 +20,7 @@ matrix:
         - cd ../
         - sonar-scanner
       after_success:
-        - cat .frontend/coverage/lcov.info | .frontend/node_modules/coveralls/bin/coveralls.js
+        - cat ./frontend/coverage/lcov.info | ./frontend/node_modules/coveralls/bin/coveralls.js
     - language: python
       sudo: enabled
       services:
