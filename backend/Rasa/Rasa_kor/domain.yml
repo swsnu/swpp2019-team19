@@ -21,7 +21,7 @@ templates:
   - text: "안녕! 잘지내?"
 
   utter_goodbye:
-  - text: "다음에 봐"
+  - text: "다음에 봐!"
 
   utter_fallback:
-  - text: "무슨 뜻인지 모르겠어요"
+  - text: "무슨 뜻인지 모르겠어요."
