@@ -196,7 +196,7 @@ def boards(request):
             ]
             cache.set("articles_hot", article_list)
     if tag != "all":
-        article_list = article_list.filter(tag=tag)
+        article_list = list(filter(lambda t: t["tag"] == tag, article_list))
     for article in article_list:
         article["vote_diff"] = article["vote__like"] - article["vote__dislike"]
     if search_keyword != "":
