@@ -49,7 +49,7 @@ describe('ActionCreators', () => {
 
   it("'signin' should catch 401 error", (done) => {
     const spy = jest.spyOn(axios, 'post').mockImplementation(
-      (username, password) => status401
+      (username, password) => status401,
     );
 
     store.dispatch(actionCreators.signin()).then(() => {
@@ -62,7 +62,7 @@ describe('ActionCreators', () => {
 
   it("'signout' should post correctly", (done) => {
     const spy = jest.spyOn(axios, 'get').mockImplementation(
-      () => status200
+      () => status200,
     );
 
     store.dispatch(actionCreators.signout());
@@ -142,7 +142,7 @@ describe('ActionCreators', () => {
     const spy = jest
       .spyOn(axios, 'put')
       .mockImplementation(
-        (username, newnickname) => status401
+        (username, newnickname) => status401,
       );
     store.dispatch(actionCreators.changeInfo('email', 'username', 'password')).then(() => {
       const newState = store.getState();
