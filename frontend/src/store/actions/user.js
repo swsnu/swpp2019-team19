@@ -59,14 +59,14 @@ export const signout = () => (dispatch) => {
 
 export const signup = (email, username, nickname, password) => (dispatch) => (
   axios.post(
-    '/api/signup/', {
+    '/api/signup/',
+    {
       username, email, nickname, password,
     },
   ).then(() => {
     dispatch({
       type: SIGN_UP,
     });
-    dispatch(push('/signin'));
   }, (error) => {
     if (error.response.status === 409) {
       dispatch({

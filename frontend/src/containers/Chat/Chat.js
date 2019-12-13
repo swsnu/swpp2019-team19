@@ -154,7 +154,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   sendMessage: (message, language) => dispatch(
-    actionCreators.sendMessage(message, 'default', language),
+    actionCreators.sendMessage(message, language),
   ),
   clearChatHistory: () => dispatch(
     actionCreators.clearChatHistory(),

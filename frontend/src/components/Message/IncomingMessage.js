@@ -23,7 +23,12 @@ const IncomingMessage = (props) => {
               ? <img alt="response-img" src={message.image} />
               : (
                 <p>
-                  <div dangerouslySetInnerHTML={{ __html: parseIncomingText(message.text) }} />
+                  <div
+                    // eslint-disable-next-line react/no-danger
+                    dangerouslySetInnerHTML={
+                      { __html: parseIncomingText(message.text) }
+                    }
+                  />
                 </p>
               )
           }

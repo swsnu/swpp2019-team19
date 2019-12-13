@@ -55,6 +55,6 @@ export default App;
 /* eslint-disable react/forbid-prop-types */
 App.propTypes = {
   history: PropTypes.object.isRequired,
-  match: PropTypes.object.isRequired,
-  params: PropTypes.object.isRequired,
+  // match: PropTypes.object.isRequired,
+  // params: PropTypes.object.isRequired,
 };
