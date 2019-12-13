@@ -42,7 +42,7 @@ export const postArticle = (title, content) => (dispatch) => (
 
 export const editArticle = (id, title, content) => (dispatch) => (
   axios.put(
-    `/api/article/${id}/`, { title, content },
+    `http://localhost:8000/api/article/${id}/`, { title, content },
   ).then((res) => {
     dispatch({
       type: EDIT_ARTICLE,

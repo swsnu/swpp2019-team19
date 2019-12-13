@@ -17,6 +17,7 @@ class Signup extends Component {
       email: '',
       password: '',
       passwordConfirm: '',
+      validNickname: true,
       validPassword: true,
       validPasswordConfirm: true,
     };
@@ -29,33 +30,47 @@ class Signup extends Component {
   render() {
     const {
       username, nickname, email, password, passwordConfirm,
-      validPassword, validPasswordConfirm,
+      validNickname, validPassword, validPasswordConfirm,
       loginUsername,
     } = this.state;
     const {
       createFail, submitFail, history, signup,
     } = this.props;
-    // SignupHandler에 nickname, username 등에 대한 Validation이 더 들어가야 할 것 같습니다.
-    // 예를 들어 nickname이 공백인 경우 400을 반환하는게 아니라, 공백인 닉네임을 가진 유저가 생성되어서
-    // length같은 기준을 정해야 할 것 같습니다.
+
     const SignupHandler = () => {
-      if (password.length < 8) {
+      if (nickname.length < 2) {
         this.setState({
-          validPassword: false, validPasswordConfirm: true, password: '', passwordConfirm: '',
+          validNickname: false,
+        });
+      } else if (password.length < 8) {
+        this.setState({
+          validPassword: false,
+          validPasswordConfirm: true,
+          password: '',
+          passwordConfirm: '',
         });
       } else if (password !== passwordConfirm) {
-        this.setState({ validPasswordConfirm: false, validPassword: true, passwordConfirm: '' });
+        this.setState({
+          validPasswordConfirm: false,
+          validPassword: true,
+          passwordConfirm: '',
+        });
       } else {
-        this.setState({ validPassword: true, validPasswordConfirm: true });
+        this.setState({
+          validPassword: true,
+          validPasswordConfirm: true,
+        });
         signup(email, username, nickname, password);
-        if (!createFail && !submitFail) {
-          history.push('/signin');
-        }
+        // if (!createFail && !submitFail) {
+        //   history.push('/signin');
+        // }
       }
     };
     const errorToAlert = () => {
       let message = null;
-      if (!validPassword) {
+      if (!validNickname) {
+        message = 'Nickname should be at least 2 characters';
+      } else if (!validPassword) {
         message = 'Password should be at least 8 characters';
       } else if (!validPasswordConfirm) {
         message = 'Password and Password Confirm are different';
@@ -80,9 +95,7 @@ class Signup extends Component {
             <div className="row">
               <div className="col-lg-10 col-xl-9 mx-auto">
                 <div className="card card-signup flex-row my-5">
-                  <div className="card-img-left d-none d-md-flex">
-                    Image Here
-                  </div>
+                  <div className="card-img-left d-none d-md-flex" />
                   <div className="card-body">
                     <h5 className="card-title text-center">
                       Create Your Account!

@@ -46,9 +46,7 @@ class Signin extends Component {
             <div className="row">
               <div className="col-lg-10 col-xl-9 mx-auto">
                 <div className="card card-signin flex-row my-5">
-                  <div className="card-img-left d-none d-md-flex">
-                    Image Here
-                  </div>
+                  <div className="card-img-left d-none d-md-flex" />
                   <div className="card-body">
                     <h5 className="card-title text-center">Sign In</h5>
                     <form className="form-signin">
