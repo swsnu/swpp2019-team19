@@ -462,7 +462,7 @@ class RasaEngTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 201)
 
-    def test_entity_detail(self):
+    def test_slot_detail(self):
         client = Client()
         response = client.post(
             signin_api,
@@ -495,3 +495,19 @@ class RasaEngTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         response = client.get(slot_api + str(id) + "/")
         self.assertEqual(response.status_code, 404)
+
+    def test_makefile(self):
+        client = Client()
+        response = client.post(
+            signin_api,
+            json.dumps({"username": "test1", "password": "user1234"}),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 204)
+        response = client.post(
+            "/rasa_eng/makefile/",
+            json.dumps({"test": "test"}),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 200)
+

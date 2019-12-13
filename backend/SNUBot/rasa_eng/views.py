@@ -13,7 +13,7 @@ from django.http import (
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
-from django.core.exceptions import ObjectDoesNotExist, FieldDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
 from django.db import transaction
 from django.forms.models import model_to_dict
@@ -255,7 +255,7 @@ def entity_detail(request, id):
     if request.method == "GET":
         try:
             entity = EntityEng.objects.select_related("intent").get(pk=id)
-        except ObjectDoesNotExist as e1:
+        except ObjectDoesNotExist:
             return HttpResponse(status=404)
         response_dict = {}
         response_dict["entity_name"] = entity.entity_name

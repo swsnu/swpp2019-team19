@@ -1,4 +1,4 @@
-from django.db.models.fields.related import ManyToManyField
+from django.db.models.fields.related import ManyToManyField, OneToOneField
 
 
 def to_dict(instance, field):

@@ -14,6 +14,7 @@ from django.contrib.auth import authenticate
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
 from django.shortcuts import get_object_or_404
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.forms.models import model_to_dict
 from account.models import User
@@ -237,12 +238,12 @@ def entities(request):
             intent = json.loads(body)["intent"]
         except (KeyError, JSONDecodeError):
             return HttpResponseBadRequest()
-        new_entity = EntityKor(
-            entity_name=entity_name, entity_tokens=entity_tokens
-        )
-        new_entity.save()
         target_intent = get_object_or_404(IntentKor, intent_name=intent)
-        new_entity.intent.add(target_intent)
+        EntityKor(
+            entity_name=entity_name,
+            entity_tokens=entity_tokens,
+            intent=target_intent,
+        ).save()
         return HttpResponse(status=201)
 
 
@@ -252,8 +253,15 @@ def entities(request):
 @require_super_user
 def entity_detail(request, id):
     if request.method == "GET":
-        entity = get_object_or_404(EntityKor, pk=id)
-        return JsonResponse(model_to_dict(entity), status=200, safe=False)
+        try:
+            entity = EntityKor.objects.select_related("intent").get(pk=id)
+        except ObjectDoesNotExist:
+            return HttpResponse(status=404)
+        response_dict = {}
+        response_dict["entity_name"] = entity.entity_name
+        response_dict["entity_tokens"] = entity.entity_tokens
+        response_dict["intent"] = entity.intent.intent_name
+        return JsonResponse(response_dict, status=200, safe=False)
     elif request.method == "PUT":
         try:
             body = request.body.decode()
@@ -265,9 +273,8 @@ def entity_detail(request, id):
         entity = get_object_or_404(EntityKor, pk=id)
         entity.entity_name = entity_name
         entity.entity_tokens = entity_tokens
-        entity.intent.clear()
         target_intent = get_object_or_404(IntentKor, intent_name=intent)
-        entity.intent.add(target_intent)
+        entity.intent = target_intent
         entity.save()
         return HttpResponse(status=201)
     else:
