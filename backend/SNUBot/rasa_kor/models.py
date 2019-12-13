@@ -33,8 +33,6 @@ class ActionKor(models.Model):
     )
     text_value = models.TextField(blank=True)
     image_value = models.TextField(blank=True)
-    # image_value = models.URLField(blank=True)
-    # image_value = models.ImageField(blank=True)
 
 
 class StoryKor(models.Model):

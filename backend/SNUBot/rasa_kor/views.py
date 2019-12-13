@@ -326,11 +326,14 @@ def slot_detail(request, id):
 @require_http_methods(["POST"])
 @ensure_csrf_cookie
 @require_super_user
+# The relation of the Rasa model is quite complex so it can't reduce its Cognitive Complixity
+# NOSONAR
 def make_train_file(request):
     """
     알수 없는 이유로 파일 작성에 실패한 경우에 대한 에러메세지 추가 필요
     """
     entity_wildcard = "[*]"
+    token_prefix = "\n  - "
     eng_path = os.getcwd() + "/../Rasa/Rasa_kor/"
     nlu = open(eng_path + "data/nlu.md", "w")
     for intent in IntentKor.objects.all():
@@ -344,7 +347,7 @@ def make_train_file(request):
                 entity_name = entities.entity_name
                 for entity in entities.entity_tokens:
                     nlu.write(
-                        "\n  - "
+                        token_prefix
                         + token_first
                         + "["
                         + entity
@@ -354,7 +357,7 @@ def make_train_file(request):
                         + token_last
                     )
             else:
-                nlu.write("\n  - " + token)
+                nlu.write(token_prefix + token)
         nlu.write("\n\n")
     nlu.close()
     stories = open(eng_path + "data/stories.md", "w")
@@ -364,12 +367,12 @@ def make_train_file(request):
         for path1 in story.story_path_1.all():
             path1_str = "\n* " + path1.intent_name
             for action in path1.related_action.all():
-                path1_str += "\n  - " + action.action_name
+                path1_str += token_prefix + action.action_name
             path1_list.append(path1_str)
         for path2 in story.story_path_2.all():
             path2_str = "\n* " + path2.intent_name
             for action in path2.related_action.all():
-                path2_str += "\n  - " + action.action_name
+                path2_str += token_prefix + action.action_name
             path2_list.append(path2_str)
         count = 1
         idx_1 = 0
@@ -399,10 +402,10 @@ def make_train_file(request):
         domain.write("\n- " + intent.intent_name)
     domain.write("\n\nentities:")
     for entity in EntityKor.objects.all():
-        domain.write("\n  - " + entity.entity_name)
+        domain.write(token_prefix + entity.entity_name)
     domain.write("\n\nactions:")
     for action in ActionKor.objects.all():
-        domain.write("\n  - " + action.action_name)
+        domain.write(token_prefix + action.action_name)
     domain.write("\n\ntemplates:")
     for action in ActionKor.objects.all():
         if action.action_type == "action":

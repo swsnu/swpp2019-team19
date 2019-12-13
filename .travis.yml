@@ -1,53 +1,40 @@
 matrix:
   include:
-    - language: node_js
+    - language: python
+      sudo: enabled
+      python:
+        - "3.6.8"      # current default Python on Travis CI
       node_js:
         - "10"
-      dist: trusty
+      dist: bionic
+      services:
+        - mysql
       addons:
         sonarcloud:
           organization: "swsnu"
           token:
             secure: "Uy5CPayr47N8STjYn7i2dnKiDaucdKwdRRLvyoGxUzQN+2ZOoo2r+CjxD7n7fHdqDeNQzCMXt9EWYLBfIIOjyoyc9n310TB35+BMw4ISMmzz0OwsCkz3xXi8Nx8gWT0GwR1Jb5Yp7SPqeMcPK7V6RdPU6EQ13V6HqQ2qmws1BtP80WeAiV/ESjMU6dGVtrb7HIBE7y+0AJZTRqV6iRvGG7KBDVPd5spgwYOssW44qcnkIFeCYg7mLHQ3ehrn4XZFD9Iz3tSUBfwkNwifV6uQufcPuV/BY0Rwh5828pzK8k7QQcUZgWHoTrKKq72sTnCoPP8J3gr7ARbkJRBRGKdmk0h8QLLn0bKmlHRDTND4qrDknD7guB/0kDxg8eawVkXDhfMKUC2ksZDtUxtTqOf0kPhzygGz/53N639gKtM6KUVWCRjUTJq1l+pTht2OZYKlFtTES0tXiSLA3CfaV6EtztNNbzJ+Q3ZeURyeneNyufAEWbiIPSoiEisnMJcM2P0VxB8+6Je2GObulGCXsNbvor0ANKU5wo4LIwp2nwM9W0ReH9th97Y+01gE1b433v6BqW+bIEpqIzc/lrf/svBZmExsCSgA2cPA+6ODzHunamMYFypl6oOYQKMlf/TYckaUP4mTLmYGBDVA9UChQD7exomlB90wh6CI3eu2Z98skp4="
       before_install:
-        - cd frontend
-      install:
-        - yarn install
-        - yarn add coveralls
-      script:
-        - ./node_modules/.bin/eslint src
-        - yarn test --coverage --watchAll=false
-        - cd ../
-        - sonar-scanner
-      after_success:
-        - cat ./frontend/coverage/lcov.info | ./frontend/node_modules/coveralls/bin/coveralls.js
-    - language: python
-      sudo: enabled
-      services:
-        - mysql
-      addons:
-        apt:
-          sources:
-            - mysql-5.7-trusty
-          packages:
-            - mysql-server
-      python:
-        - "3.6"      # current default Python on Travis CI
-        - "3.7"
-        - "3.8"
-      before_install:
         - mysql -e "CREATE DATABASE SNUBot;"
         - mysql -e "CREATE USER 'SNUBot'@'localhost' IDENTIFIED BY 'SNUBot';"
         - mysql -e "GRANT ALL PRIVILEGES ON *.* to 'SNUBot'@'localhost';"
         - sudo redis-server /etc/redis/redis.conf --port 6379
       install:
-        - pip install -r backend/SNUBot/requirements.txt
+        - cd frontend
+        - yarn install
+        - yarn add coveralls
+        - cd ../backend/SNUBot
+        - pip install -r requirements.txt
         - pip install coveralls
       before_script:
-        - cd backend/SNUBot
         - python3 manage.py makemigrations
         - python3 manage.py migrate
+        - cd ../../frontend
       script:
+        - ./node_modules/.bin/eslint src
+        - yarn test --coverage --watchAll=false
+        - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+        - cd ../backend/SNUBot
         - coverage run --source="./community/" manage.py test
         - coverage report -m
         - coverage xml
@@ -55,6 +42,4 @@ matrix:
         - coveralls
       after_script:
         - cd ../../
-
-
-        
+        - sonar-scanner      

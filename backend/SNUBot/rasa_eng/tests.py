@@ -3,10 +3,21 @@ from .models import IntentEng, ActionEng, StoryEng
 from account.models import User
 import json
 
+signin_api = "/api/signin/"
+intents_api = "/rasa_eng/intents/"
+intent_api = "/rasa_eng/intent/"
+actions_api = "/rasa_eng/actions/"
+action_api = "/rasa_eng/action/"
+stories_api = "/rasa_eng/stories/"
+story_api = "/rasa_eng/story/"
+
+
+content_type = "application/json"
+
 
 class RasaEngTestCase(TestCase):
     def setUp(self):
-        user1 = User.objects.create_superuser(
+        User.objects.create_superuser(
             username="test1",
             email="test1@snubot.com",
             nickname="test1",
@@ -82,57 +93,57 @@ class RasaEngTestCase(TestCase):
     def test_intents(self):
         client = Client()
         response = client.post(
-            "/api/signin/",
+            signin_api,
             json.dumps({"username": "test1", "password": "user1234"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 204)
-        response = client.get("/rasa_eng/intents/")
+        response = client.get(intents_api)
         self.assertEqual(response.status_code, 200)
         response = client.post(
-            "/rasa_eng/intents/",
+            intents_api,
             json.dumps({"intent_name": "test_intent"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 400)
         response = client.post(
-            "/rasa_eng/intents/",
+            intents_api,
             json.dumps(
                 {"intent_name": "test_intent", "intent_tokens": ["hi", "bye"]}
             ),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 201)
 
     def test_intent_detail(self):
         client = Client()
         response = client.post(
-            "/api/signin/",
+            signin_api,
             json.dumps({"username": "test1", "password": "user1234"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 204)
         id = IntentEng.objects.get(intent_name="greet").id
-        response = client.get("/rasa_eng/intent/" + str(id) + "/")
+        response = client.get(intent_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         response = client.put(
-            "/rasa_eng/intent/" + str(id) + "/",
+            intent_api + str(id) + "/",
             json.dumps({"intent_name": "test_intent"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 400)
         response = client.put(
-            "/rasa_eng/intent/" + str(id) + "/",
+            intent_api + str(id) + "/",
             json.dumps(
                 {
                     "intent_name": "test_intent",
                     "intent_tokens": ["hello", "bye"],
                 }
             ),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 201)
-        response = client.get("/rasa_eng/intent/" + str(id) + "/")
+        response = client.get(intent_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
             str(response.content, encoding="utf8"),
@@ -142,23 +153,23 @@ class RasaEngTestCase(TestCase):
                 "intent_tokens": ["hello", "bye"],
             },
         )
-        response = client.delete("/rasa_eng/intent/" + str(id) + "/")
+        response = client.delete(intent_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
-        response = client.get("/rasa_eng/intent/" + str(id) + "/")
+        response = client.get(intent_api + str(id) + "/")
         self.assertEqual(response.status_code, 404)
 
     def test_actions(self):
         client = Client()
         response = client.post(
-            "/api/signin/",
+            signin_api,
             json.dumps({"username": "test1", "password": "user1234"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 204)
-        response = client.get("/rasa_eng/actions/")
+        response = client.get(actions_api)
         self.assertEqual(response.status_code, 200)
         response = client.post(
-            "/rasa_eng/actions/",
+            actions_api,
             json.dumps(
                 {
                     "action_name": "test_action",
@@ -167,11 +178,11 @@ class RasaEngTestCase(TestCase):
                     "intent_list": ["intent_1", "intent_2"],
                 }
             ),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 400)
         response = client.post(
-            "/rasa_eng/actions/",
+            actions_api,
             json.dumps(
                 {
                     "action_name": "test_action",
@@ -181,29 +192,29 @@ class RasaEngTestCase(TestCase):
                     "intent_list": ["greet"],
                 }
             ),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 201)
 
     def test_action_detail(self):
         client = Client()
         response = client.post(
-            "/api/signin/",
+            signin_api,
             json.dumps({"username": "test1", "password": "user1234"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 204)
         id = ActionEng.objects.get(action_name="utter_goodbye").id
-        response = client.get("/rasa_eng/action/" + str(id) + "/")
+        response = client.get(action_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         response = client.put(
-            "/rasa_eng/action/" + str(id) + "/",
+            action_api + str(id) + "/",
             json.dumps({"action_name": "test_action"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 400)
         response = client.put(
-            "/rasa_eng/action/" + str(id) + "/",
+            action_api + str(id) + "/",
             json.dumps(
                 {
                     "action_name": "test_action",
@@ -213,10 +224,10 @@ class RasaEngTestCase(TestCase):
                     "intent_list": ["greet", "goodbye"],
                 }
             ),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 201)
-        response = client.get("/rasa_eng/action/" + str(id) + "/")
+        response = client.get(action_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
             str(response.content, encoding="utf8"),
@@ -229,30 +240,29 @@ class RasaEngTestCase(TestCase):
                 "intent": ["greet", "goodbye"],
             },
         )
-        response = client.delete("/rasa_eng/action/" + str(id) + "/")
+        response = client.delete(action_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
-        response = client.get("/rasa_eng/action/" + str(id) + "/")
+        response = client.get(action_api + str(id) + "/")
         self.assertEqual(response.status_code, 404)
 
-        def test_stories(self):
-            client = Client()
-
+    def test_stories(self):
+        client = Client()
         response = client.post(
-            "/api/signin/",
+            signin_api,
             json.dumps({"username": "test1", "password": "user1234"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 204)
-        response = client.get("/rasa_eng/actions/")
+        response = client.get(actions_api)
         self.assertEqual(response.status_code, 200)
         response = client.post(
-            "/rasa_eng/stories/",
+            stories_api,
             json.dumps({"story_name": "test_story", "story_path_1": []}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 400)
         response = client.post(
-            "/rasa_eng/stories/",
+            stories_api,
             json.dumps(
                 {
                     "story_name": "test_story",
@@ -261,29 +271,29 @@ class RasaEngTestCase(TestCase):
                     "story_path_3": [],
                 }
             ),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 201)
 
     def test_story_detail(self):
         client = Client()
         response = client.post(
-            "/api/signin/",
+            signin_api,
             json.dumps({"username": "test1", "password": "user1234"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 204)
         id = StoryEng.objects.get(story_name="greet path").id
-        response = client.get("/rasa_eng/story/" + str(id) + "/")
+        response = client.get(story_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         response = client.put(
-            "/rasa_eng/story/" + str(id) + "/",
+            story_api + str(id) + "/",
             json.dumps({"story_name": "test_story"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 400)
         response = client.put(
-            "/rasa_eng/story/" + str(id) + "/",
+            story_api + str(id) + "/",
             json.dumps(
                 {
                     "story_name": "test_story",
@@ -291,10 +301,10 @@ class RasaEngTestCase(TestCase):
                     "story_path_2": [],
                 }
             ),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 201)
-        response = client.get("/rasa_eng/story/" + str(id) + "/")
+        response = client.get(story_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
             str(response.content, encoding="utf8"),
@@ -305,8 +315,8 @@ class RasaEngTestCase(TestCase):
                 "story_path_2": [],
             },
         )
-        response = client.delete("/rasa_eng/story/" + str(id) + "/")
+        response = client.delete(story_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
-        response = client.get("/rasa_eng/story/" + str(id) + "/")
+        response = client.get(story_api + str(id) + "/")
         self.assertEqual(response.status_code, 404)
 
