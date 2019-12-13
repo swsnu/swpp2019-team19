@@ -7,6 +7,3 @@ python3 manage.py createsuperuser
 for filename in ../Init_db/*.py; do
   python3 manage.py shell < $filename
 done
-for filename in ../Additional_db/*.py; do
-  python3 manage.py shell < $filename
-done
