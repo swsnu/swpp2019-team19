@@ -13,6 +13,7 @@ from django.http import (
 from django.contrib.auth import authenticate
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
 from django.db import transaction
 from django.forms.models import model_to_dict
@@ -237,12 +238,12 @@ def entities(request):
             intent = json.loads(body)["intent"]
         except (KeyError, JSONDecodeError):
             return HttpResponseBadRequest()
-        new_entity = EntityEng(
-            entity_name=entity_name, entity_tokens=entity_tokens
-        )
-        new_entity.save()
         target_intent = get_object_or_404(IntentEng, intent_name=intent)
-        new_entity.intent.add(target_intent)
+        EntityEng(
+            entity_name=entity_name,
+            entity_tokens=entity_tokens,
+            intent=target_intent,
+        ).save()
         return HttpResponse(status=201)
 
 
@@ -252,8 +253,15 @@ def entities(request):
 @require_super_user
 def entity_detail(request, id):
     if request.method == "GET":
-        entity = get_object_or_404(EntityEng, pk=id)
-        return JsonResponse(model_to_dict(entity), status=200, safe=False)
+        try:
+            entity = EntityEng.objects.select_related("intent").get(pk=id)
+        except ObjectDoesNotExist:
+            return HttpResponse(status=404)
+        response_dict = {}
+        response_dict["entity_name"] = entity.entity_name
+        response_dict["entity_tokens"] = entity.entity_tokens
+        response_dict["intent"] = entity.intent.intent_name
+        return JsonResponse(response_dict, status=200, safe=False)
     elif request.method == "PUT":
         try:
             body = request.body.decode()
@@ -265,9 +273,8 @@ def entity_detail(request, id):
         entity = get_object_or_404(EntityEng, pk=id)
         entity.entity_name = entity_name
         entity.entity_tokens = entity_tokens
-        entity.intent.clear()
         target_intent = get_object_or_404(IntentEng, intent_name=intent)
-        entity.intent.add(target_intent)
+        entity.intent = target_intent
         entity.save()
         return HttpResponse(status=201)
     else:
@@ -326,11 +333,14 @@ def slot_detail(request, id):
 @require_http_methods(["POST"])
 @ensure_csrf_cookie
 @require_super_user
+# The relation of the Rasa model is quite complex so it can't reduce its Cognitive Complixity
+# NOSONAR
 def make_train_file(request):
     """
     알수 없는 이유로 파일 작성에 실패한 경우에 대한 에러메세지 추가 필요
     """
     entity_wildcard = "[*]"
+    token_prefix = "\n  - "
     eng_path = os.getcwd() + "/../Rasa/Rasa_eng/"
     nlu = open(eng_path + "data/nlu.md", "w")
     for intent in IntentEng.objects.all():
@@ -344,7 +354,7 @@ def make_train_file(request):
                 entity_name = entities.entity_name
                 for entity in entities.entity_tokens:
                     nlu.write(
-                        "\n  - "
+                        token_prefix
                         + token_first
                         + "["
                         + entity
@@ -354,7 +364,7 @@ def make_train_file(request):
                         + token_last
                     )
             else:
-                nlu.write("\n  - " + token)
+                nlu.write(token_prefix + token)
         nlu.write("\n\n")
     nlu.close()
     stories = open(eng_path + "data/stories.md", "w")
@@ -364,12 +374,12 @@ def make_train_file(request):
         for path1 in story.story_path_1.all():
             path1_str = "\n* " + path1.intent_name
             for action in path1.related_action.all():
-                path1_str += "\n  - " + action.action_name
+                path1_str += token_prefix + action.action_name
             path1_list.append(path1_str)
         for path2 in story.story_path_2.all():
             path2_str = "\n* " + path2.intent_name
             for action in path2.related_action.all():
-                path2_str += "\n  - " + action.action_name
+                path2_str += token_prefix + action.action_name
             path2_list.append(path2_str)
         count = 1
         idx_1 = 0
@@ -399,10 +409,10 @@ def make_train_file(request):
         domain.write("\n- " + intent.intent_name)
     domain.write("\n\nentities:")
     for entity in EntityEng.objects.all():
-        domain.write("\n  - " + entity.entity_name)
+        domain.write(token_prefix + entity.entity_name)
     domain.write("\n\nactions:")
     for action in ActionEng.objects.all():
-        domain.write("\n  - " + action.action_name)
+        domain.write(token_prefix + action.action_name)
     domain.write("\n\ntemplates:")
     for action in ActionEng.objects.all():
         if action.action_type == "action":

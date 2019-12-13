@@ -6,6 +6,7 @@ import {
   CLEAR_ARTICLE,
   POST_ARTICLE,
   EDIT_ARTICLE,
+  EDIT_ARTICLE_TAG,
   DELETE_ARTICLE,
   FETCH_ALL_BOARD,
   FETCH_HOT_BOARD,
@@ -46,6 +47,15 @@ export const editArticle = (id, title, content) => (dispatch) => (
   ).then((res) => {
     dispatch({
       type: EDIT_ARTICLE,
+      article: res.data,
+    });
+  })
+);
+
+export const editArticleTag = (id, newTag) => (dispatch) => (
+  axios.put(`/api/article/${id}/`, { newTag }).then((res) => {
+    dispatch({
+      type: EDIT_ARTICLE_TAG,
       article: res.data,
     });
   })

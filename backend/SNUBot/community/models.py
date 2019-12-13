@@ -34,7 +34,7 @@ class Article(models.Model):
     def delete(self, *args, **kwargs):
         cache.delete("articles_all")
         cache.delete("articles_hot")
-        super().save(*args, **kwargs)
+        super().delete(*args, **kwargs)
 
 
 class Vote(models.Model):
@@ -45,11 +45,6 @@ class Vote(models.Model):
     dislike_voter = models.ManyToManyField(User, related_name="disliker")
 
     def save(self, *args, **kwargs):
-        cache.delete("articles_all")
-        cache.delete("articles_hot")
-        super().save(*args, **kwargs)
-
-    def delete(self, *args, **kwargs):
         cache.delete("articles_all")
         cache.delete("articles_hot")
         super().save(*args, **kwargs)

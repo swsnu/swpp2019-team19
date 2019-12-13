@@ -34,11 +34,12 @@ export const signin = (username, password) => (dispatch) => (
     sessionStorage.setItem('username', username);
     axios.get('/api/account/').then((res) => {
       sessionStorage.setItem('nickname', res.data.nickname);
+      dispatch({
+        type: SIGN_IN,
+        isSuper: res.data.super,
+      });
+      dispatch(push('/boards'));
     });
-    dispatch({
-      type: SIGN_IN,
-    });
-    dispatch(push('/boards'));
   }, (error) => {
     if (error.response.status === 401) {
       dispatch({
@@ -59,14 +60,14 @@ export const signout = () => (dispatch) => {
 
 export const signup = (email, username, nickname, password) => (dispatch) => (
   axios.post(
-    '/api/signup/', {
+    '/api/signup/',
+    {
       username, email, nickname, password,
     },
   ).then(() => {
     dispatch({
       type: SIGN_UP,
     });
-    dispatch(push('/signin'));
   }, (error) => {
     if (error.response.status === 409) {
       dispatch({

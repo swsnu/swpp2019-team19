@@ -97,25 +97,6 @@ describe('action article', () => {
     jest.clearAllMocks();
   });
 
-  it("'fetchArticles' should fetch Articles correctly", (done) => {
-    const spy = jest.spyOn(axios, 'get').mockImplementation(
-      (id) => new Promise((resolve) => {
-        const result = {
-          status: 200,
-          data: stubArticle,
-        };
-        resolve(result);
-      }),
-    );
-
-    store.dispatch(actionCreators.fetchArticle(0)).then(() => {
-      const newState = store.getState();
-      expect(newState.article.article).toBe(stubArticle);
-      expect(spy).toHaveBeenCalledTimes(1);
-      done();
-    });
-  });
-
   it("'clearArticle' should clear Article correctly", (done) => {
     store.dispatch(actionCreators.clearArticle());
     const newState = store.getState();
@@ -267,7 +248,7 @@ describe('action article', () => {
     done();
   });
 
-  it("'putVote' should put Article correctly", (done) => {
+  it("'fetchArticles' should fetch Articles correctly, then 'putVote' should put Article correctly", (done) => {
     const spyGet = jest.spyOn(axios, 'get').mockImplementation(
       (id) => new Promise((resolve) => {
         const result = {

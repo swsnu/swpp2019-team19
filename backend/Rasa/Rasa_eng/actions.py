@@ -12,7 +12,12 @@ from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 import requests
-from bs4 import BeautifulSoup
+import redis
+from bs4 import BeautifulSoup as bs
+from datetime import datetime, timedelta
+import json
+
+fallback_message = "I can't understand!"
 
 time = ["breakfast", "lunch", "dinner"]
 engineering = ["prof", "foodcourt"]
@@ -27,6 +32,22 @@ class ActionMeal(Action):
     def name(self) -> Text:
         return "action_meal"
 
+    def meal_parser(self, meal) -> Text:
+        """
+        This function can handle unexpected input but sounds valid.
+        Feel free to add the case.
+        """
+        if meal == "학생회관" or meal == "학관":
+            return "학생회관"
+        elif meal == "전망대" or meal == "농대" or meal == "농식":
+            return "전망대"
+        elif meal == "서당골" or meal == "사범대":
+            return "서당골"
+        elif meal == "아름드리" or meal == "예술":
+            return "아름드리"
+        else:
+            return meal
+
     def run(
         self,
         dispatcher: CollectingDispatcher,
@@ -34,79 +55,138 @@ class ActionMeal(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         meal = tracker.get_slot("meal")
-        response = requests.get("http://mini.snu.kr/cafe/today/-/eng")
-        if response.status_code != 200:
-            dispatcher.ustter_message("mini.snu.ac.kr doesn't reply")
+        if not meal:
+            dispatcher.utter_message(fallback_message)
             return [SlotSet("meal", meal)]
+        meal = self.meal_parser(meal)
+        cached = redis.StrictRedis(host="127.0.0.1", port=6379, db=2)
+        dt = datetime.now() + timedelta(hours=9)
+        tg_str = str(dt.month) + str(dt.day) + meal + "eng"
+        tg = cached.get(tg_str)
+        if not tg:
+            response = requests.get("http://mini.snu.kr/cafe/today/-/eng")
+            if response.status_code != 200:
+                dispatcher.ustter_message("mini.snu.ac.kr doesn't reply")
+                return [SlotSet("meal", meal)]
 
-        parsed_soup = BeautifulSoup(response.content, "html.parser")
+            parsed_soup = BeautifulSoup(response.content, "html.parser")
 
-        trs = parsed_soup.find_all("tr")
-        targets = []
-        for tr in trs:
-            for td in tr.td.contents:
-                if meal in td:
-                    targets.append(tr)
+            trs = parsed_soup.find_all("tr")
+            targets = []
+            for tr in trs:
+                for td in tr.td.contents:
+                    if meal in td:
+                        targets.append(tr)
 
-        for target in targets:
-            [s.extract() for s in target("span")]
+            for target in targets:
+                [s.extract() for s in target("span")]
 
-        k = 0
-        response_message = ""
-        try:
-            if targets == []:
-                response_message = "Tell me the exact name of the cafeteria"
-            elif meal == "301":
-                for target in targets:
-                    response_message = (
-                        response_message + engineering[k] + "<br>"
-                    )
-                    # print(time[k])
-                    k = k + 1
-                    for child in target.contents[2].children:
-                        # print(child)
+            k = 0
+            response_message = ""
+            try:
+                if targets == []:
+                    response_message = "Tell me the exact name of the cafeteria"
+                elif meal == "301":
+                    for target in targets:
                         response_message = (
-                            response_message + str(child) + "<br>"
+                            response_message + engineering[k] + "<br>"
                         )
-            elif meal == "공깡":
-                for target in targets:
-                    response_message = response_message + eng_ggang[k] + "<br>"
-                    # print(time[k])
-                    k = k + 1
-                    for child in target.contents[2].children:
-                        # print(child)
+                        k = k + 1
+                        for child in target.contents[2].children:
+                            response_message = (
+                                response_message + str(child) + "<br>"
+                            )
+                elif meal == "공깡":
+                    for target in targets:
                         response_message = (
-                            response_message + str(child) + "<br>"
+                            response_message + eng_ggang[k] + "<br>"
                         )
-            elif meal == "두레미담":
-                for target in targets:
-                    response_message = (
-                        response_message + agricultural[k] + "<br>"
-                    )
-                    # print(time[k])
-                    k = k + 1
-                    for child in target.contents[2].children:
-                        # print(child)
+                        k = k + 1
+                        for child in target.contents[2].children:
+                            response_message = (
+                                response_message + str(child) + "<br>"
+                            )
+                elif meal == "두레미담":
+                    for target in targets:
                         response_message = (
-                            response_message + str(child) + "<br>"
+                            response_message + agricultural[k] + "<br>"
                         )
-            else:
-                if not (
-                    meal == "Student Center"
-                    or meal == "Dormitory"
-                    or meal == "901"
-                ):
-                    k = 1
-                for target in targets:
-                    response_message = response_message + time[k] + "<br>"
-                    k = k + 1
-                    for child in target.contents[2].children:
-                        response_message = (
-                            response_message + str(child) + "<br>"
-                        )
-        except IndexError as e:
-            dispatcher.utter_message(idxerr_msg)
+                        k = k + 1
+                        for child in target.contents[2].children:
+                            response_message = (
+                                response_message + str(child) + "<br>"
+                            )
+                else:
+                    if not (
+                        meal == "Student Center"
+                        or meal == "Dormitory"
+                        or meal == "901"
+                    ):
+                        k = 1
+                    for target in targets:
+                        response_message = response_message + time[k] + "<br>"
+                        k = k + 1
+                        for child in target.contents[2].children:
+                            response_message = (
+                                response_message + str(child) + "<br>"
+                            )
+            except IndexError as e:
+                dispatcher.utter_message(idxerr_msg)
+                return [SlotSet("meal", meal)]
+
+            dispatcher.utter_message(response_message)
+            cached.set(tg_str, response_message)
             return [SlotSet("meal", meal)]
-
-        dispatcher.utter_message(response_message)
+        dispatcher.utter_message(tg)
         return [SlotSet("meal", meal)]
+
+
+class ActionMap(Action):
+    def name(self) -> Text:
+        return "action_map"
+
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        place = tracker.get_slot("place")
+        if not place:
+            dispatcher.utter_message(fallback_message)
+            return [SlotSet("place", place)]
+        cached = redis.StrictRedis(host="127.0.0.1", port=6379, db=4)
+        tg = cached.get(place)
+        if not tg:
+            url_prefix = "http://map.snu.ac.kr/api/search.action?search_word="
+            url_suffix = "&lang_type=ENG"
+            response = requests.get(url_prefix + place + url_suffix)
+            if response.status_code != 200:
+                dispatcher.ustter_message("mini.snu.ac.kr doesn't reply")
+                return [SlotSet("place", place)]
+
+            parsed_soup = bs(response.content, "html.parser")
+            targets = []
+            contents = json.loads(str(parsed_soup))["search_list"]
+            for content in contents:
+                floors = content["floor_info"]
+                for floor in floors:
+                    if floor["convin_inst_kor_nm"] == content["ename"]:
+                        targets.append(
+                            content["ename"]
+                            + ": build number "
+                            + content["vil_dong_nm"]
+                            + floor["flr_nm"]
+                        )
+            response_message = ""
+            if targets == []:
+                response_message = "We can't find the place you request"
+            else:
+                for target in targets:
+                    response_message += target + "<br>"
+                response_message = response_message[:-5]
+            dispatcher.utter_message(response_message)
+            cached.set(place, response_message, 60 * 60)
+            return [SlotSet("place", place)]
+        dispatcher.utter_message(tg)
+        return [SlotSet("place", place)]
