@@ -96,9 +96,6 @@ function CustomNavbar(props) {
               {makeNavLink('boards/hot', 'Hot Board')}
             </Nav>
           </div>
-          <div className="sidebar-footer">
-            Footer
-          </div>
         </div>
       ) : (null)}
       <Navbar className="custom-navbar" bg="dark" expand="lg">
