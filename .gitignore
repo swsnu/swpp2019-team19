@@ -112,3 +112,12 @@ db.sqlite3
 /backend/Rasa_kor/logs/*.*
 /backend/Rasa_kor/models/*.*.*
 /backend/Rasa_kor/graph.html
+
+/backend/Rasa/Rasa_eng/logs/*.*
+/backend/Rasa/Rasa_eng/models/*.*.*
+/backend/Rasa/Rasa_eng/graph.html
+
+/backend/Rasa/Rasa_kor/logs/*.*
+/backend/Rasa/Rasa_kor/models/*.*.*
+/backend/Rasa/Rasa_kor/graph.html
+
