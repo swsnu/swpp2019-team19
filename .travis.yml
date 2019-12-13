@@ -1,6 +1,6 @@
 matrix:
   include:
-    - language: python, node_js
+    - language: python
       sudo: enabled
       services:
         - mysql
