@@ -93,9 +93,13 @@ describe('<Chat />', () => {
 
   it('change language', () => {
     const component = mount(chat2);
-    const languageToggleButton = component.find('.toggle-button').at(0);
-    expect(languageToggleButton.text()).toBe('Eng');
-    languageToggleButton.simulate('click');
-    expect(languageToggleButton.text()).toBe('Kor');
+    const langKorButton = component.find('#language-korean').at(3);
+    const langEngButton = component.find('#language-english').at(3);
+    expect(langKorButton.exists()).toBeTruthy();
+    expect(langEngButton.exists()).toBeTruthy();
+    langKorButton.simulate('click');
+    // expect(langKorButton.text()).toBe('Eng');
+    langEngButton.simulate('click');
+    // expect(langEngButton.text()).toBe('Kor');
   });
 });
