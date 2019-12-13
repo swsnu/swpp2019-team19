@@ -13,6 +13,65 @@
   - see you later
   - catch you later
 
+## intent:request_map
+  - where is [BBQ](place)?
+  - where is [Department Office](place)?
+  - where is [Convenient Store](place)?
+  - where is [CU](place)?
+  - where is [library](place)?
+  - where is [information retrieval](place)?
+  - where is [Supporting facility](place)?
+  - where is [AED](place)?
+  - where is [Cafe](place)?
+  - where is [Bank](place)?
+  - where is [ATM](place)?
+  - where is [Hospital](place)?
+  - where is [Post office](place)?
+  - where is [Health](place)?
+  - where is [Pharmacy](place)?
+  - where is [Book Store](place)?
+  - where is [Gift shop](place)?
+  - where is [Stationery store](place)?
+  - where is [Disabled person support center](place)?
+  - Tell me where is [BBQ](place)
+  - Tell me where is [Department Office](place)
+  - Tell me where is [Convenient Store](place)
+  - Tell me where is [CU](place)
+  - Tell me where is [library](place)
+  - Tell me where is [information retrieval](place)
+  - Tell me where is [Supporting facility](place)
+  - Tell me where is [AED](place)
+  - Tell me where is [Cafe](place)
+  - Tell me where is [Bank](place)
+  - Tell me where is [ATM](place)
+  - Tell me where is [Hospital](place)
+  - Tell me where is [Post office](place)
+  - Tell me where is [Health](place)
+  - Tell me where is [Pharmacy](place)
+  - Tell me where is [Book Store](place)
+  - Tell me where is [Gift shop](place)
+  - Tell me where is [Stationery store](place)
+  - Tell me where is [Disabled person support center](place)
+  - I don't know where [BBQ](place) is
+  - I don't know where [Department Office](place) is
+  - I don't know where [Convenient Store](place) is
+  - I don't know where [CU](place) is
+  - I don't know where [library](place) is
+  - I don't know where [information retrieval](place) is
+  - I don't know where [Supporting facility](place) is
+  - I don't know where [AED](place) is
+  - I don't know where [Cafe](place) is
+  - I don't know where [Bank](place) is
+  - I don't know where [ATM](place) is
+  - I don't know where [Hospital](place) is
+  - I don't know where [Post office](place) is
+  - I don't know where [Health](place) is
+  - I don't know where [Pharmacy](place) is
+  - I don't know where [Book Store](place) is
+  - I don't know where [Gift shop](place) is
+  - I don't know where [Stationery store](place) is
+  - I don't know where [Disabled person support center](place) is
+
 ## intent:request_menu
   - Today's menu at [Student Center](meal)
   - Today's menu at [No.3](meal)
