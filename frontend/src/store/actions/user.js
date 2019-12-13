@@ -34,11 +34,12 @@ export const signin = (username, password) => (dispatch) => (
     sessionStorage.setItem('username', username);
     axios.get('/api/account/').then((res) => {
       sessionStorage.setItem('nickname', res.data.nickname);
+      dispatch({
+        type: SIGN_IN,
+        isSuper: res.data.super,
+      });
+      dispatch(push('/boards'));
     });
-    dispatch({
-      type: SIGN_IN,
-    });
-    dispatch(push('/boards'));
   }, (error) => {
     if (error.response.status === 401) {
       dispatch({

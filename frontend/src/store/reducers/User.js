@@ -15,6 +15,7 @@ import {
 
 const initialState = {
   user: { username: '', email: '', nickname: '' },
+  isSuper: false,
   signinFail: false,
   signupCreateFail: false,
   signupSubmitFail: false,
@@ -61,7 +62,18 @@ export default function (state = initialState, action = defaultAction) {
         user: {},
       };
     }
-    case SIGN_IN:
+    case SIGN_IN: {
+      return {
+        ...state,
+        loadingUser: true,
+        changeInfoFail: false,
+        changeInfoSuccess: false,
+        signinFail: false,
+        signupCreateFail: false,
+        signupSubmitFail: false,
+        isSuper: action.isSuper,
+      };
+    }
     case SIGN_OUT:
     case VALIDATE_USERNAME:
     case VALIDATE_USER_ID:
