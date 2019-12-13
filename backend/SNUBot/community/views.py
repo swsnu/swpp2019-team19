@@ -274,7 +274,6 @@ def article_detail(request, article_id):
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
         if request.user.is_superuser:
-            print("SUPER!!")#DEBUG
             try:
                 body = request.body.decode()
                 new_tag = json.loads(body)["newTag"]

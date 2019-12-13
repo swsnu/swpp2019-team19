@@ -22,8 +22,6 @@ class CommunityMain extends Component {
       <ArticleEntry article={article} key={article.id} />
     );
     const { history, storedAllBoard, storedHotBoard } = this.props;
-    // const allBoardThumbnail = storedAllBoard.map(articleParser);
-    // const hotBoardThumbnail = storedHotBoard.map(articleParser);
 
     return (
       <Container className="CommunityMain" fluid>
@@ -39,7 +37,6 @@ class CommunityMain extends Component {
             </Button>
             <Container fluid>
               <Row>
-                {/* {hotBoardThumbnail} */}
                 {storedHotBoard.map(articleParser)}
               </Row>
             </Container>
@@ -52,7 +49,6 @@ class CommunityMain extends Component {
             </Button>
             <Container fluid>
               <Row>
-                {/* {allBoardThumbnail} */}
                 {storedAllBoard.map(articleParser)}
               </Row>
             </Container>
