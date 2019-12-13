@@ -92,8 +92,8 @@ function CustomNavbar(props) {
             >
               {makeNavLink('chat', 'Chat')}
               {makeNavLink('boards', 'Community Main')}
-              {makeNavLink('boards/all', 'All Board')}
               {makeNavLink('boards/hot', 'Hot Board')}
+              {makeNavLink('boards/all', 'All Board')}
             </Nav>
           </div>
         </div>
