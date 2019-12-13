@@ -67,16 +67,6 @@ class Chat extends Component {
           <Col xs={12} md={10} lg={8}>
             <div className="chat container">
               <div className="row vertical-center">
-                <Button
-                  className="toggle-button"
-                  onClick={() => (
-                    (language === 'Eng')
-                      ? this.setState({ language: 'Kor' })
-                      : this.setState({ language: 'Eng' })
-                  )}
-                >
-                  {language}
-                </Button>
                 <div className="col-12 align-self-center">
                   <div className="chat">
                     <div className="inbox_msg">
