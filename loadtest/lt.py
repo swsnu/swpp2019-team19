@@ -89,5 +89,5 @@ def request_func():
 
 from loadtest import LoadTester
 
-load_tester = LoadTester(n_jobs=10, worker=request_func, count=100)
+load_tester = LoadTester(n_jobs=10, worker=request_func, count=1)
 load_tester.start()

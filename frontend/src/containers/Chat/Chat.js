@@ -62,8 +62,8 @@ class Chat extends Component {
     return (
       <Container>
         <Row>
-          <Col xs={0} md={2} lg={3} />
-          <Col xs={12} md={8} lg={6}>
+          <Col xs={0} md={1} lg={2} />
+          <Col xs={12} md={10} lg={8}>
             <div className="chat container">
               <div className="row vertical-center">
                 <Button
@@ -140,7 +140,7 @@ class Chat extends Component {
               </div>
             </div>
           </Col>
-          <Col xs={0} md={2} lg={3} />
+          <Col xs={0} md={1} lg={2} />
         </Row>
       </Container>
     );
@@ -154,7 +154,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   sendMessage: (message, language) => dispatch(
-    actionCreators.sendMessage(message, 'default', language),
+    actionCreators.sendMessage(message, language),
   ),
   clearChatHistory: () => dispatch(
     actionCreators.clearChatHistory(),

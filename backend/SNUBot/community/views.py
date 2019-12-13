@@ -12,6 +12,7 @@ from account.models import User
 from django.core.cache import cache
 from django.contrib.auth import login, authenticate, logout
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from .models import Article, Vote, Comment
 from operator import itemgetter
@@ -83,56 +84,55 @@ def signin(request):
 
 @require_http_methods(["GET", "PUT", "DELETE"])
 @ensure_csrf_cookie
+@login_required
 def account(request):
-    if request.user.is_authenticated:
-        if request.method == "GET":
-            response_dict = {
-                "username": request.user.get_username(),
-                "email": request.user.email,
-                "nickname": request.user.nickname,
-            }
-            return JsonResponse(response_dict, safe=False)
-        elif request.method == "PUT":
-            try:
-                req_data = json.loads(request.body.decode())
-                username = req_data["username"]
-                new_nickname = req_data["new_nickname"]
-                new_email = req_data["new_email"]
-                current_password = req_data["current_password"]
-                new_password = req_data["new_password"]
-            except (KeyError, JSONDecodeError):
-                return HttpResponseBadRequest()
-            user = authenticate(
-                request, username=username, password=current_password
-            )
-            if user is not None:
-                target_user = User.objects.get(username=username)
-                target_user.set_password(new_password)
-                target_user.email = new_email
-                target_user.nickname = new_nickname
-                target_user.save()
-                login(request, target_user)
-                return HttpResponse(status=204)
-            else:
-                return HttpResponse(status=401)
+    if request.method == "GET":
+        response_dict = {
+            "username": request.user.get_username(),
+            "email": request.user.email,
+            "nickname": request.user.nickname,
+            "super": request.user.is_superuser,
+        }
+        return JsonResponse(response_dict, safe=False)
+    elif request.method == "PUT":
+        try:
+            req_data = json.loads(request.body.decode())
+            username = req_data["username"]
+            new_nickname = req_data["new_nickname"]
+            new_email = req_data["new_email"]
+            current_password = req_data["current_password"]
+            new_password = req_data["new_password"]
+        except (KeyError, JSONDecodeError):
+            return HttpResponseBadRequest()
+        user = authenticate(
+            request, username=username, password=current_password
+        )
+        if user is not None:
+            target_user = User.objects.get(username=username)
+            target_user.set_password(new_password)
+            target_user.email = new_email
+            target_user.nickname = new_nickname
+            target_user.save()
+            login(request, target_user)
+            return HttpResponse(status=204)
         else:
-            try:
-                req_data = json.loads(request.body.decode())
-                username = req_data["username"]
-                current_password = req_data["current_password"]
-            except (KeyError, JSONDecodeError):
-                return HttpResponseBadRequest
-            user = authenticate(
-                request, username=username, password=current_password
-            )
-            if user is not None:
-                target_user = User.objects.get(username=username)
-                target_user.delete()
-                return HttpResponse(status=204)
-            else:
-                return HttpResponse(status=401)
+            return HttpResponse(status=401)
     else:
-        return HttpResponse(status=401)
+        try:
+            req_data = json.loads(request.body.decode())
+            username = req_data["username"]
+            current_password = req_data["current_password"]
+        except (KeyError, JSONDecodeError):
+            return HttpResponseBadRequest
+        user = authenticate(
+            request, username=username, password=current_password
+        )
+        if user is not None:
+            target_user = User.objects.get(username=username)
+            target_user.delete()
+            return HttpResponse(status=204)
+        else:
+            return HttpResponse(status=401)
 
 
 @require_http_methods(["GET"])
@@ -147,6 +147,8 @@ def signout(request):
 
 @require_http_methods(["POST"])
 @ensure_csrf_cookie
+# This function require lots of parameter so it can't reduce its Cognitive Complixity
+# NOSONAR
 def boards(request):
     try:
         req_data = json.loads(request.body.decode())
@@ -271,7 +273,25 @@ def article_detail(request, article_id):
     elif request.method == "PUT":
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
-        if target_article.author.id is not request.user.id:
+        if request.user.is_superuser:
+            try:
+                body = request.body.decode()
+                new_tag = json.loads(body)["newTag"]
+            except (KeyError, JSONDecodeError):
+                return HttpResponseBadRequest()
+            target_article.tag = new_tag
+            target_article.save()
+            response_dict = {
+                "id": target_article.id,
+                "title": target_article.title,
+                "content": target_article.content,
+                "author__nickname": target_article.author.nickname,
+                "like": target_article.vote.like,
+                "dislike": target_article.vote.dislike,
+                "tag": target_article.tag,
+            }
+            return JsonResponse(response_dict, status=200)
+        elif target_article.author.id is not request.user.id:
             return HttpResponseForbidden()
         try:
             body = request.body.decode()

@@ -1,20 +1,25 @@
 slots:
+  place:
+    type: text
   meal:
     type: text
 
 intents:
 - greet
 - goodbye
+- request_map
 - request_menu
 - request_override_file
 
 entities:
+  - place
   - meal
 
 actions:
   - utter_greet
   - utter_goodbye
   - utter_fallback
+  - action_map
   - action_meal
   - utter_give_override_file
 

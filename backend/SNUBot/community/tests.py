@@ -5,6 +5,18 @@ import json
 
 # Create your tests here.
 
+change_target_email = "changeinfo@email.com"
+signup_api = "/api/signup/"
+signin_api = "/api/signin/"
+account_api = "/api/account/"
+boards_api = "/api/boards/"
+article_api = "/api/article/"
+vote_api = "/api/vote/"
+comment_api = "/api/comment/"
+content_type = "application/json"
+
+find_title = "find title"
+
 
 class UserTestCase(TestCase):
     def setUp(self):
@@ -22,7 +34,7 @@ class UserTestCase(TestCase):
         )
         User.objects.create_user(
             username="changeinfo",
-            email="changeinfo@email.com",
+            email=change_target_email,
             nickname="changeinfo",
             password="user1234",
         )
@@ -30,9 +42,9 @@ class UserTestCase(TestCase):
     def test_csrf(self):
         client = Client(enforce_csrf_checks=True)
         response = client.post(
-            "/api/signup/",
+            signup_api,
             json.dumps({"username": "chris", "password": "chris"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         # Request without csrf token returns 403 response
         self.assertEqual(response.status_code, 403)
@@ -41,7 +53,7 @@ class UserTestCase(TestCase):
         # Get csrf token from cookie
         csrftoken = response.cookies["csrftoken"].value
         response = client.post(
-            "/api/signup/",
+            signup_api,
             json.dumps(
                 {
                     "username": "chris",
@@ -50,7 +62,7 @@ class UserTestCase(TestCase):
                     "password": "chris",
                 }
             ),
-            content_type="application/json",
+            content_type=content_type,
             HTTP_X_CSRFTOKEN=csrftoken,
         )
         self.assertEqual(response.status_code, 201)  # Pass csrf protection
@@ -59,11 +71,10 @@ class UserTestCase(TestCase):
         client = Client()
         response = client.get("/api/token/")
         self.assertEqual(response.status_code, 204)
-        csrftoken = response.cookies["csrftoken"].value
         response = client.post(
-            "/api/signup/",
+            signup_api,
             json.dumps({"username": "chris"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         # Request without csrf token returns 403 response
         self.assertEqual(response.status_code, 400)
@@ -71,31 +82,31 @@ class UserTestCase(TestCase):
     def test_sign_in_and_out(self):
         client = Client()
         response = client.post(
-            "/api/signin/",
+            signin_api,
             json.dumps({"username": "test1"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 400)
         response = client.post(
-            "/api/signin/",
+            signin_api,
             json.dumps({"username": "test1", "password": "user123"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 401)
         response = client.post(
-            "/api/signin/",
+            signin_api,
             json.dumps({"username": "test1", "password": "user1234"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 204)
         response = client.put(
-            "/api/signin/",
+            signin_api,
             json.dumps({"username": "test1"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 400)
         response = client.put(
-            "/api/signin/",
+            signin_api,
             json.dumps(
                 {
                     "username": "test1",
@@ -103,11 +114,11 @@ class UserTestCase(TestCase):
                     "new_password": "user12345",
                 }
             ),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 401)
         response = client.put(
-            "/api/signin/",
+            signin_api,
             json.dumps(
                 {
                     "username": "test1",
@@ -115,13 +126,13 @@ class UserTestCase(TestCase):
                     "new_password": "user12345",
                 }
             ),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 204)
         response = client.post(
-            "/api/signin/",
+            signin_api,
             json.dumps({"username": "test1", "password": "user12345"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 204)
         response = client.get("/api/signout/")
@@ -133,86 +144,78 @@ class UserTestCase(TestCase):
         client = Client()
         # not authenticated
         response = client.put(
-            "/api/account/",
+            account_api,
             json.dumps({"username": "changeinfo"}),
-            content_type="application/json",
+            content_type=content_type,
         )
-        self.assertEqual(response.status_code, 401)
+        # login_required decorator return 302 rather than 401
+        self.assertEqual(response.status_code, 302)
         # signin for authentication
         response = client.post(
-            "/api/signin/",
+            signin_api,
             json.dumps({"username": "changeinfo", "password": "user1234"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 204)
-        # fetch user info
-        response = client.get(
-            "api/account/",
-            {
-                "name": "changeinfo",
-                "email": "changeinfo@email.com",
-                "nickname": "changeinfo",
-            },
-        )
         # wrong contents put
         response = client.put(
-            "/api/account/",
+            account_api,
             json.dumps({"username": "changeinfo",}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 400)
         # failed second authentication
         response = client.put(
-            "/api/account/",
+            account_api,
             json.dumps(
                 {
                     "username": "changeinfo",
                     "new_nickname": "changeinfo",
-                    "new_email": "changeinfo@email.com",
+                    "new_email": change_target_email,
                     "current_password": "user123",
                     "new_password": "user1234",
                 }
             ),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 401)
         # succeed to change info
         response = client.put(
-            "/api/signin/",
+            signin_api,
             json.dumps(
                 {
                     "username": "changeinfo",
                     "new_nickname": "changeinfo",
-                    "new_email": "changeinfo@email.com",
+                    "new_email": change_target_email,
                     "current_password": "user1234",
                     "new_password": "user1234",
                 }
             ),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 204)
         # signin for authentication
         response = client.post(
-            "/api/signin/",
+            signin_api,
             json.dumps({"username": "changeinfo", "password": "user1234"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         # unsubscribe SNUBot Fail
         response = client.delete(
-            "/api/account/",
+            account_api,
             json.dumps(
                 {"username": "changeinfo", "current_password": "user123",}
             ),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 401)
         # unsubscribe SNUBot Success
         response = client.delete(
-            "/api/account/",
+            account_api,
             json.dumps(
                 {"username": "changeinfo", "current_password": "user1234",}
             ),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 204)
 
@@ -613,7 +616,7 @@ class ArticleTestCase(TestCase):
             author=User.objects.get(username="test19"),
         )
         Article.objects.create(
-            title="find title",
+            title=find_title,
             content="content40",
             tag="done",
             board="all",
@@ -759,7 +762,7 @@ class ArticleTestCase(TestCase):
         Vote.objects.create(article=Article.objects.get(title="title38"))
         Vote.objects.create(article=Article.objects.get(title="title39"))
         Vote.objects.create(
-            article=Article.objects.get(title="find title"), like=10
+            article=Article.objects.get(title=find_title), like=10
         )
         Comment.objects.create(
             article=Article.objects.get(title="title1"),
@@ -775,13 +778,13 @@ class ArticleTestCase(TestCase):
     def test_board(self):
         client = Client()
         response = client.post(
-            "/api/boards/",
+            boards_api,
             json.dumps({"boardName": "all"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 400)
         response = client.post(
-            "/api/boards/",
+            boards_api,
             json.dumps(
                 {
                     "boardName": "all",
@@ -793,11 +796,11 @@ class ArticleTestCase(TestCase):
                     "searchKeyword": "",
                 }
             ),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(len(json.loads(response.content)[1]), 20)
         response = client.post(
-            "/api/boards/",
+            boards_api,
             json.dumps(
                 {
                     "boardName": "all",
@@ -809,11 +812,11 @@ class ArticleTestCase(TestCase):
                     "searchKeyword": "",
                 }
             ),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(len(json.loads(response.content)[1]), 20)
         response = client.post(
-            "/api/boards/",
+            boards_api,
             json.dumps(
                 {
                     "boardName": "all",
@@ -822,14 +825,14 @@ class ArticleTestCase(TestCase):
                     "filterCriteria": "all",
                     "sortCriteria": "new",
                     "searchCriteria": "title",
-                    "searchKeyword": "find title",
+                    "searchKeyword": find_title,
                 }
             ),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(len(json.loads(response.content)[1]), 1)
         response = client.post(
-            "/api/boards/",
+            boards_api,
             json.dumps(
                 {
                     "boardName": "all",
@@ -841,11 +844,11 @@ class ArticleTestCase(TestCase):
                     "searchKeyword": "test",
                 }
             ),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(len(json.loads(response.content)[1]), 20)
         response = client.post(
-            "/api/boards/",
+            boards_api,
             json.dumps(
                 {
                     "boardName": "all",
@@ -857,11 +860,11 @@ class ArticleTestCase(TestCase):
                     "searchKeyword": "",
                 }
             ),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(len(json.loads(response.content)[1]), 20)
         response = client.post(
-            "/api/boards/",
+            boards_api,
             json.dumps(
                 {
                     "boardName": "all",
@@ -873,28 +876,28 @@ class ArticleTestCase(TestCase):
                     "searchKeyword": "",
                 }
             ),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(len(json.loads(response.content)[1]), 20)
 
     def test_article(self):
         client = Client()
         response = client.post(
-            "/api/signin/",
+            signin_api,
             json.dumps({"username": "test2", "password": "user1234"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 204)
         response = client.post(
-            "/api/article/",
+            article_api,
             json.dumps({"title": "title1"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 400)
         response = client.post(
-            "/api/article/",
+            article_api,
             json.dumps({"title": "title1", "content": "content1"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 201)
 
@@ -902,24 +905,24 @@ class ArticleTestCase(TestCase):
         client = Client()
         id = Article.objects.get(title="title1").id
         response = client.put(
-            "/api/article/" + str(id) + "/",
+            article_api + str(id) + "/",
             json.dumps({"title": "title1", "content": "content1"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 401)
         response = client.delete(
-            "/api/article/" + str(id) + "/", content_type="application/json"
+            article_api + str(id) + "/", content_type=content_type
         )
         self.assertEqual(response.status_code, 401)
         response = client.post(
-            "/api/signin/",
+            signin_api,
             json.dumps({"username": "test1", "password": "user1234"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 204)
         response = client.get("/api/article/1000/")
         self.assertEqual(response.status_code, 404)
-        response = client.get("/api/article/" + str(id) + "/")
+        response = client.get(article_api + str(id) + "/")
         self.assertJSONEqual(
             str(response.content, encoding="utf8"),
             {
@@ -933,15 +936,15 @@ class ArticleTestCase(TestCase):
             },
         )
         response = client.put(
-            "/api/article/" + str(id) + "/",
+            article_api + str(id) + "/",
             json.dumps({"title": "title1"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 400)
         response = client.put(
-            "/api/article/" + str(id) + "/",
+            article_api + str(id) + "/",
             json.dumps({"title": "editedtitle", "content": "editedcontent"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
@@ -957,17 +960,17 @@ class ArticleTestCase(TestCase):
             },
         )
         response = client.put(
-            "/api/article/" + str(id + 1) + "/",
+            article_api + str(id + 1) + "/",
             json.dumps({"title": "title1", "content": "content1"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 403)
         response = client.delete(
-            "/api/article/" + str(id) + "/", content_type="application/json"
+            article_api + str(id) + "/", content_type=content_type
         )
         self.assertEqual(response.status_code, 200)
         response = client.delete(
-            "/api/article/" + str(id + 1) + "/", content_type="application/json"
+            article_api + str(id + 1) + "/", content_type=content_type
         )
         self.assertEqual(response.status_code, 403)
 
@@ -977,72 +980,70 @@ class ArticleTestCase(TestCase):
             article__id=Article.objects.get(title="title1").id
         ).id
         response = client.put(
-            "/api/vote/" + str(id) + "/",
+            vote_api + str(id) + "/",
             json.dumps({"vote": "like"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 401)
         response = client.post(
-            "/api/signin/",
+            signin_api,
             json.dumps({"username": "test1", "password": "user1234"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 204)
         response = client.put(
-            "/api/vote/" + str(id) + "/",
-            json.dumps({}),
-            content_type="application/json",
+            vote_api + str(id) + "/", json.dumps({}), content_type=content_type,
         )
         self.assertEqual(response.status_code, 400)
         response = client.put(
-            "/api/vote/" + str(id + 39) + "/",
+            vote_api + str(id + 39) + "/",
             json.dumps({"vote": "like"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
             str(response.content, encoding="utf8"), {"like": 11, "dislike": 0}
         )
         response = client.put(
-            "/api/vote/" + str(id + 39) + "/",
+            vote_api + str(id + 39) + "/",
             json.dumps({"vote": "like"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
             str(response.content, encoding="utf8"), {"like": 10, "dislike": 0}
         )
         response = client.put(
-            "/api/vote/" + str(id + 39) + "/",
+            vote_api + str(id + 39) + "/",
             json.dumps({"vote": "dislike"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
             str(response.content, encoding="utf8"), {"like": 10, "dislike": 1}
         )
         response = client.put(
-            "/api/vote/" + str(id + 39) + "/",
+            vote_api + str(id + 39) + "/",
             json.dumps({"vote": "dislike"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
             str(response.content, encoding="utf8"), {"like": 10, "dislike": 0}
         )
         response = client.put(
-            "/api/vote/" + str(id + 39) + "/",
+            vote_api + str(id + 39) + "/",
             json.dumps({"vote": "dislike"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
             str(response.content, encoding="utf8"), {"like": 10, "dislike": 1}
         )
         response = client.put(
-            "/api/vote/" + str(id + 39) + "/",
+            vote_api + str(id + 39) + "/",
             json.dumps({"vote": "like"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
@@ -1056,41 +1057,37 @@ class ArticleTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         # login
         response = client.post(
-            "/api/signin/",
+            signin_api,
             json.dumps({"username": "test1", "password": "user1234"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 204)
-        # print(Article.objects.all().values())
-        # print(Comment.objects.all().values())
         article_id = Article.objects.get(title="title1").id
-        # print(id)
-        response = client.get("/api/comment/" + str(article_id) + "/")
+        response = client.get(comment_api + str(article_id) + "/")
         self.assertEqual(response.status_code, 200)
         self.assertIn("test1", response.content.decode())
 
         response = client.post(
-            "/api/comment/" + str(article_id) + "/",
+            comment_api + str(article_id) + "/",
             json.dumps({"content": "test3"}),
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 201)
         self.assertIn("test3", response.content.decode())
 
-        response = client.post("/api/comment/" + str(article_id) + "/")
+        response = client.post(comment_api + str(article_id) + "/")
         self.assertEqual(response.status_code, 400)
 
         comment_id = Comment.objects.get(content="test2").id
         response = client.delete(
             "/api/comment/0/",
             data={"commentId": -1,},
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 404)
 
         response = client.delete(
-            "/api/comment/" + str(comment_id) + "/",
-            content_type="application/json",
+            comment_api + str(comment_id) + "/", content_type=content_type,
         )
         self.assertEqual(response.status_code, 400)
 
@@ -1098,7 +1095,7 @@ class ArticleTestCase(TestCase):
         response = client.delete(
             "/api/comment/1/",
             data={"commentId": comment_id,},
-            content_type="application/json",
+            content_type=content_type,
         )
         self.assertEqual(response.status_code, 204)
 
