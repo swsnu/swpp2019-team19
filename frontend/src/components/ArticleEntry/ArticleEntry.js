@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, connect } from 'react-redux';
 import { Card, Col } from 'react-bootstrap';
-import { faThumbsUp } from '@fortawesome/free-regular-svg-icons';
+import { faVoteYea } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import PropTypes from 'prop-types';
@@ -98,7 +98,8 @@ const ArticleEntry = (props) => {
             <cite title="author">{author}</cite>
           </footer>
           <div className="vote-difference">
-            <FontAwesomeIcon icon={faThumbsUp} />
+            <FontAwesomeIcon icon={faVoteYea} />
+            {' '}
             {article.vote_diff}
           </div>
         </Card.Body>

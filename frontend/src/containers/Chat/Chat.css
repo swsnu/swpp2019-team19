@@ -113,20 +113,6 @@ img {
   border-radius: 5px 0px 5px 5px;
 }
 
-.msg_send_btn {
-  background: #05728f none repeat scroll 0 0;
-  border: medium none;
-  border-radius: 50%;
-  color: #fff;
-  cursor: pointer;
-  font-size: 17px;
-  height: 33px;
-  position: absolute;
-  right: 10px;
-  top: 8px;
-  width: 33px;
-}
-
 .messaging {
   padding: 0 0 50px 0;
 }

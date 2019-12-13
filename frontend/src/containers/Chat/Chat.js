@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import {
-  Button, Form, Container, Row, Col,
+  Button, Form, Container, Row, Col, InputGroup,
 } from 'react-bootstrap';
-import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faArrowCircleUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import PropTypes from 'prop-types';
@@ -105,32 +105,39 @@ class Chat extends Component {
                         </div>
                         <div className="type_msg">
                           <div className="input_msg_write">
-                            <Form.Control
-                              className="write_msg"
-                              id="input-chat"
-                              aria-describedby="input-chat"
-                              placeholder="ask me anything..."
-                              value={userInput}
-                              onChange={(event) => this.setState({
-                                userInput: event.target.value,
-                              })}
-                              onKeyDown={(event) => {
-                                if (event.key === 'Enter') {
-                                  document.getElementsByClassName('msg_send_btn')[0].click();
-                                }
-                              }}
-                            />
-                            <Button
-                              variant="outline-dark"
-                              className="msg_send_btn"
-                              type="button"
-                              onClick={() => {
-                                sendMessage(userInput, language);
-                                this.setState({ userInput: '' });
-                              }}
-                            >
-                              <FontAwesomeIcon icon={faPaperPlane} />
-                            </Button>
+                            <InputGroup>
+                              <Form.Control
+                                className="write_msg"
+                                id="input-chat"
+                                aria-describedby="input-chat"
+                                placeholder="ask me anything..."
+                                value={userInput}
+                                onChange={(event) => this.setState({
+                                  userInput: event.target.value,
+                                })}
+                                onKeyDown={(event) => {
+                                  if (event.key === 'Enter') {
+                                    document.getElementsByClassName('msg_send_btn')[0].click();
+                                  }
+                                }}
+                              />
+                              <Button
+                                variant="link"
+                                className="msg_send_btn"
+                                // type="button"
+                                disabled={userInput === ''}
+                                onClick={() => {
+                                  sendMessage(userInput, language);
+                                  this.setState({ userInput: '' });
+                                }}
+                              // style={{ borderRadius: '45%' }}
+                              >
+                                <FontAwesomeIcon
+                                  icon={faArrowCircleUp}
+                                  size="2x"
+                                />
+                              </Button>
+                            </InputGroup>
                           </div>
                         </div>
                       </div>

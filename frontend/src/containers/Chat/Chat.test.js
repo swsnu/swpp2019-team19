@@ -84,7 +84,8 @@ describe('<Chat />', () => {
     const component = mount(chat2);
     const wrapper = component.find('.inbox_msg');
     expect(wrapper.length).toBe(1);
-    const formControlWrapper = component.find('.write_msg');
+    const formControlWrapper = component.find('.write_msg').at(1);
+    formControlWrapper.instance().value = 'test string';
     formControlWrapper.at(0).simulate('change', event);
     const submitButtonWrpper = component.find('.msg_send_btn');
     submitButtonWrpper.at(0).simulate('click');
