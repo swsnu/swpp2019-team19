@@ -49,11 +49,6 @@ class Vote(models.Model):
         cache.delete("articles_hot")
         super().save(*args, **kwargs)
 
-    def delete(self, *args, **kwargs):
-        cache.delete("articles_all")
-        cache.delete("articles_hot")
-        super().delete(*args, **kwargs)
-
 
 class Comment(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE,)
