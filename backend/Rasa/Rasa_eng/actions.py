@@ -137,6 +137,10 @@ class ActionMeal(Action):
             dispatcher.utter_message(response_message)
             cached.set(tg_str, response_message)
             return [SlotSet("meal", meal)]
+        try:
+            tg = tg.decode("utf-8")
+        except (UnicodeDecodeError, AttributeError):
+            pass
         dispatcher.utter_message(tg)
         return [SlotSet("meal", meal)]
 
@@ -188,5 +192,9 @@ class ActionMap(Action):
             dispatcher.utter_message(response_message)
             cached.set(place, response_message, 60 * 60)
             return [SlotSet("place", place)]
+        try:
+            tg = tg.decode("utf-8")
+        except (UnicodeDecodeError, AttributeError):
+            pass
         dispatcher.utter_message(tg)
         return [SlotSet("place", place)]
