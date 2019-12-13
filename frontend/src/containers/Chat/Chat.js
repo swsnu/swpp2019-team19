@@ -123,7 +123,7 @@ class Chat extends Component {
                               />
                               <Button
                                 variant="link"
-                                // className="msg_send_btn"
+                                className="msg_send_btn"
                                 // type="button"
                                 disabled={userInput === ''}
                                 onClick={() => {

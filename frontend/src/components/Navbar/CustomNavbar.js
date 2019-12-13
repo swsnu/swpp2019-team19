@@ -102,7 +102,7 @@ function CustomNavbar(props) {
         </div>
       ) : (null)}
       <Navbar className="custom-navbar" bg="dark" expand="lg">
-        <Col xs={1} md={1}>
+        <Col xs={1} sm={1} md={1}>
           <Button
             className="sidebar-show-button float-left"
             variant="link"
@@ -111,12 +111,13 @@ function CustomNavbar(props) {
             <FontAwesomeIcon icon={faBars} size="2x" />
           </Button>
         </Col>
-        <Col xs={3} md={3} />
-        <Col xs={4} md={4}>
+        <Col xs={0} sm={2} md={3} />
+        <Col xs={6} sm={2} md={4}>
           <Navbar.Brand
             onClick={() => redirectAndClose('/chat')}
             style={{
               cursor: 'pointer',
+              textAlign: 'center',
             }}
           >
             <font color="yellow" size="+3">
@@ -124,7 +125,7 @@ function CustomNavbar(props) {
             </font>
           </Navbar.Brand>
         </Col>
-        <Col xs={4} md={4} />
+        <Col xs={1} sm={3} md={4} />
       </Navbar>
     </>
   );
