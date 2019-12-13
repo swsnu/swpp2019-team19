@@ -3,6 +3,7 @@ export {
   clearArticle,
   postArticle,
   editArticle,
+  editArticleTag,
   deleteArticle,
   fetchAllBoard,
   clearAllBoard,

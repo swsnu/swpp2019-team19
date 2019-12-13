@@ -3,6 +3,7 @@ import {
   CLEAR_ARTICLE,
   POST_ARTICLE,
   EDIT_ARTICLE,
+  EDIT_ARTICLE_TAG,
   DELETE_ARTICLE,
   FETCH_ALL_BOARD,
   FETCH_HOT_BOARD,
@@ -21,6 +22,19 @@ const initialState = {
   articlePages: 0,
 };
 const defaultAction = { type: 'default' };
+
+const replace = (list, newArticle) => {
+  const index = list.findIndex(
+    (article) => article.id === newArticle.id,
+  );
+  if (index < 0) {
+    return list;
+  }
+  const head = list.slice(0, index);
+  const tail = list.slice(index + 1);
+  const newArticleList = head.concat(newArticle).concat(tail);
+  return newArticleList;
+};
 
 /* eslint no-case-declarations: "error" */
 /* eslint-env es6 */
@@ -45,19 +59,21 @@ export default function (state = initialState, action = defaultAction) {
         articleList: newArticleList,
       };
     }
+    case EDIT_ARTICLE_TAG:
     case EDIT_ARTICLE: {
       const newArticle = action.article;
-      const index = state.articleList.findIndex(
-        (article) => article.id === newArticle.id,
-      );
-      const head = state.articleList.slice(0, index);
-      const tail = state.articleList.slice(index + 1);
-      const newArticleList = head.concat(newArticle).concat(tail);
-      newArticleList[index] = newArticle;
+      newArticle.vote_diff = newArticle.like - newArticle.dislike;
+
+      const newList = replace(state.articleList, newArticle);
+      const newHotList = replace(state.articleListHot, newArticle);
+      const newAllList = replace(state.articleListAll, newArticle);
+
       return {
         ...state,
         article: newArticle,
-        articleList: newArticleList,
+        articleList: newList,
+        articleListHot: newHotList,
+        articleListAll: newAllList,
       };
     }
     case DELETE_ARTICLE: {

@@ -91,6 +91,7 @@ def account(request):
             "username": request.user.get_username(),
             "email": request.user.email,
             "nickname": request.user.nickname,
+            "super": request.user.is_superuser,
         }
         return JsonResponse(response_dict, safe=False)
     elif request.method == "PUT":
@@ -272,7 +273,25 @@ def article_detail(request, article_id):
     elif request.method == "PUT":
         if not request.user.is_authenticated:
             return HttpResponse(status=401)
-        if target_article.author.id is not request.user.id:
+        if request.user.is_superuser:
+            try:
+                body = request.body.decode()
+                new_tag = json.loads(body)["newTag"]
+            except (KeyError, JSONDecodeError):
+                return HttpResponseBadRequest()
+            target_article.tag = new_tag
+            target_article.save()
+            response_dict = {
+                "id": target_article.id,
+                "title": target_article.title,
+                "content": target_article.content,
+                "author__nickname": target_article.author.nickname,
+                "like": target_article.vote.like,
+                "dislike": target_article.vote.dislike,
+                "tag": target_article.tag,
+            }
+            return JsonResponse(response_dict, status=200)
+        elif target_article.author.id is not request.user.id:
             return HttpResponseForbidden()
         try:
             body = request.body.decode()
