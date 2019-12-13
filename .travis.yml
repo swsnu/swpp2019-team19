@@ -17,9 +17,8 @@ matrix:
       script:
         - ./node_modules/.bin/eslint src
         - yarn test --coverage --watchAll=false
-        - cd ../
-        - sonar-scanner
       after_success:
+        - cd ../
         - cat ./frontend/coverage/lcov.info | ./frontend/node_modules/coveralls/bin/coveralls.js
     - language: python
       sudo: enabled
@@ -55,6 +54,7 @@ matrix:
         - coveralls
       after_script:
         - cd ../../
+        - sonar-scanner
 
 
         
