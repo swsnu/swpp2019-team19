@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, connect } from 'react-redux';
 import {
-  Modal, Button, InputGroup, Form, Alert, Col,
+  Modal, Button, InputGroup, Form, Alert, Col, DropdownButton, DropdownItem,
 } from 'react-bootstrap';
 import { faThumbsUp, faThumbsDown } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -35,7 +35,8 @@ const ArticleDetail = (props) => {
   const [showDelete, setShowDelete] = useState(false);
 
   const {
-    show, onHide, article, postComment, deleteArticle, like, dislike,
+    show, onHide, article, postComment, deleteArticle, like, dislike, isSuper,
+    editTag,
   } = props;
 
   const makeCommentEntry = (comment) => (
@@ -72,6 +73,19 @@ const ArticleDetail = (props) => {
   );
   const articleTitle = article.title;
   const articleContent = article.content;
+
+  const dropdownItemFactory = (name) => {
+    const articleId = article.id;
+    const newId = `tag-into-${name}`;
+    return (
+      <DropdownItem
+        id={newId}
+        onSelect={() => editTag(articleId, name)}
+      >
+        {name}
+      </DropdownItem>
+    );
+  };
   return (
     <div className="ArticleDetail">
       <Modal
@@ -90,6 +104,17 @@ const ArticleDetail = (props) => {
               {article.title}
             </Modal.Title>
           </Col>
+          {
+            isSuper
+              ? (
+                <DropdownButton title={article.tag ? article.tag : ''}>
+                  {dropdownItemFactory('normal')}
+                  {dropdownItemFactory('working')}
+                  {dropdownItemFactory('done')}
+                  {dropdownItemFactory('rejected')}
+                </DropdownButton>
+              ) : <div />
+          }
           {
             isAuthor
               ? (
@@ -220,6 +245,10 @@ const ArticleDetail = (props) => {
   );
 };
 
+const mapStateToProps = (state) => ({
+  isSuper: state.user.isSuper,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   postComment: (id, comment) => dispatch(
     actionCreators.postComment(id, comment),
@@ -233,10 +262,13 @@ const mapDispatchToProps = (dispatch) => ({
   dislike: (id) => dispatch(
     actionCreators.putVote('dislike', id),
   ),
+  editTag: (id, tag) => dispatch(
+    actionCreators.editArticleTag(id, tag),
+  ),
 });
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(ArticleDetail);
 
@@ -245,8 +277,11 @@ ArticleDetail.propTypes = {
   deleteArticle: PropTypes.func.isRequired,
   like: PropTypes.func.isRequired,
   dislike: PropTypes.func.isRequired,
+  editTag: PropTypes.func.isRequired,
+
   show: PropTypes.bool.isRequired,
   onHide: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   article: PropTypes.object.isRequired,
+  isSuper: PropTypes.bool.isRequired,
 };
