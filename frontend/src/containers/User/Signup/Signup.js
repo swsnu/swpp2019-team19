@@ -17,9 +17,9 @@ class Signup extends Component {
       email: '',
       password: '',
       passwordConfirm: '',
-      validNickname: true,
-      validPassword: true,
-      validPasswordConfirm: true,
+      validNickname: false,
+      validPassword: false,
+      validPasswordConfirm: false,
     };
     const { loginUsername } = this.state;
     if (loginUsername !== null) {
@@ -37,6 +37,13 @@ class Signup extends Component {
       createFail, submitFail, history, signup,
     } = this.props;
 
+    const pushHandler = () => {
+      // NOSONAR
+      // eslint-disable-next-line react/destructuring-assignment
+      if (!this.props.createFail) {
+        history.push('/signin');
+      }
+    };
     const SignupHandler = () => {
       if (nickname.length < 2) {
         this.setState({
@@ -44,6 +51,7 @@ class Signup extends Component {
         });
       } else if (password.length < 8) {
         this.setState({
+          validNickname: true,
           validPassword: false,
           validPasswordConfirm: true,
           password: '',
@@ -51,33 +59,32 @@ class Signup extends Component {
         });
       } else if (password !== passwordConfirm) {
         this.setState({
-          validPasswordConfirm: false,
+          validNickname: true,
           validPassword: true,
+          validPasswordConfirm: false,
           passwordConfirm: '',
         });
       } else {
         this.setState({
+          validNickname: true,
           validPassword: true,
           validPasswordConfirm: true,
         });
-        signup(email, username, nickname, password);
-        if (!submitFail && !createFail) {
-          history.push('/signin');
-        }
+        signup(email, username, nickname, password).then(() => pushHandler());
       }
     };
     const errorToAlert = () => {
       let message = null;
-      if (!validNickname) {
+      if (submitFail) {
+        message = 'all field must be filled';
+      } else if (createFail) {
+        message = 'email, username or nickname already exists';
+      } else if (!validNickname) {
         message = 'Nickname should be at least 2 characters';
       } else if (!validPassword) {
         message = 'Password should be at least 8 characters';
       } else if (!validPasswordConfirm) {
         message = 'Password and Password Confirm are different';
-      } else if (submitFail) {
-        message = 'all field must be filled';
-      } else if (createFail) {
-        message = 'email, username or nickname already exists';
       }
       if (message === null) {
         return (<p />);
@@ -130,8 +137,6 @@ class Signup extends Component {
                             nickname: event.target.value,
                           })}
                           required
-                          // eslint-disable-next-line jsx-a11y/no-autofocus
-                          autoFocus
                         />
                         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                         <label>Nickname</label>
@@ -189,7 +194,6 @@ class Signup extends Component {
                       <Button
                         id="Signup-button"
                         className="btn btn-lg btn-primary btn-block text-uppercase"
-                        type="submit"
                         onClick={() => SignupHandler()}
                         disabled={!username || !password}
                       >
