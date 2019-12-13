@@ -67,7 +67,7 @@ export const signup = (email, username, nickname, password) => (dispatch) => (
     dispatch({
       type: SIGN_UP,
     });
-    dispatch(push('/signin'));
+    // dispatch(push('/signin'));
   }, (error) => {
     if (error.response.status === 409) {
       dispatch({
