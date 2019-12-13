@@ -118,7 +118,7 @@ describe('action comment', () => {
       });
   });
 
-  it('edit comment', (done) => {
+  it('edit then delete comment', (done) => {
     const spyEdit = jest.spyOn(axios, 'put').mockImplementation(
       (id, commentId, content) => new Promise((resolve) => {
         const result = {
@@ -127,34 +127,6 @@ describe('action comment', () => {
         resolve(result);
       }),
     );
-    const spyFetch = jest.spyOn(axios, 'get').mockImplementation(
-      (id) => new Promise((resolve) => {
-        const result = {
-          status: 200,
-          data: stubCommentList1,
-        };
-        resolve(result);
-      }),
-    );
-
-    store.dispatch(actionCreators.fetchComment(0)).then(() => {
-      const newState = store.getState();
-      expect(newState.comment.commentList)
-        .toMatchObject(stubCommentList1);
-      expect(spyFetch).toHaveBeenCalledTimes(1);
-
-      store
-        .dispatch(actionCreators.editComment(1, 1, 'editted'))
-        .then(() => {
-          const editState = store.getState();
-          expect(editState.comment.commentList)
-            .toMatchObject(stubCommentList2);
-          expect(spyEdit).toHaveBeenCalledTimes(1);
-          done();
-        });
-    });
-  });
-  it('delete comment', (done) => {
     const spyFetch = jest.spyOn(axios, 'get').mockImplementation(
       (id) => new Promise((resolve) => {
         const result = {
@@ -178,15 +150,23 @@ describe('action comment', () => {
       expect(newState.comment.commentList)
         .toMatchObject(stubCommentList1);
       expect(spyFetch).toHaveBeenCalledTimes(1);
-      store
-        .dispatch(actionCreators.deleteComment(1, 1))
-        .then(() => {
-          const delState = store.getState();
-          expect(delState.comment.commentList)
-            .toMatchObject(stubCommentList3);
-          expect(spyDelete).toHaveBeenCalledTimes(1);
 
-          done();
+      store
+        .dispatch(actionCreators.editComment(1, 1, 'editted'))
+        .then(() => {
+          const editState = store.getState();
+          expect(editState.comment.commentList)
+            .toMatchObject(stubCommentList2);
+          expect(spyEdit).toHaveBeenCalledTimes(1);
+          store
+            .dispatch(actionCreators.deleteComment(1, 1))
+            .then(() => {
+              const delState = store.getState();
+              expect(delState.comment.commentList)
+                .toMatchObject(stubCommentList3);
+              expect(spyDelete).toHaveBeenCalledTimes(1);
+              done();
+            });
         });
     });
   });
