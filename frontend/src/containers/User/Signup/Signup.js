@@ -61,9 +61,9 @@ class Signup extends Component {
           validPasswordConfirm: true,
         });
         signup(email, username, nickname, password);
-        // if (!createFail && !submitFail) {
-        //   history.push('/signin');
-        // }
+        if (!submitFail && !createFail) {
+          history.push('/signin');
+        }
       }
     };
     const errorToAlert = () => {
@@ -74,10 +74,10 @@ class Signup extends Component {
         message = 'Password should be at least 8 characters';
       } else if (!validPasswordConfirm) {
         message = 'Password and Password Confirm are different';
-      } else if (createFail) {
-        message = 'email, username or nickname already exists';
       } else if (submitFail) {
         message = 'all field must be filled';
+      } else if (createFail) {
+        message = 'email, username or nickname already exists';
       }
       if (message === null) {
         return (<p />);

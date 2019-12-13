@@ -16,8 +16,8 @@ import {
 const initialState = {
   user: { username: '', email: '', nickname: '' },
   signinFail: false,
-  signupCreateFail: false,
-  signupSubmitFail: false,
+  signupCreateFail: true,
+  signupSubmitFail: true,
   loadingUser: true,
   changeInfoFail: false,
   changeInfoSuccess: false,
@@ -72,8 +72,8 @@ export default function (state = initialState, action = defaultAction) {
         changeInfoFail: false,
         changeInfoSuccess: false,
         signinFail: false,
-        signupCreateFail: false,
-        signupSubmitFail: false,
+        signupCreateFail: true,
+        signupSubmitFail: true,
       };
   }
 }
