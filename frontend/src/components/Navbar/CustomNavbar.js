@@ -91,7 +91,7 @@ function CustomNavbar(props) {
               className="flex-column list-group list-group-flush"
             >
               {makeNavLink('chat', 'Chat')}
-              {makeNavLink('boards', 'Community Main')}
+              {makeNavLink('boards', 'Community Home')}
               {makeNavLink('boards/hot', 'Hot Board')}
               {makeNavLink('boards/all', 'All Board')}
             </Nav>
@@ -116,7 +116,7 @@ function CustomNavbar(props) {
               textAlign: 'center',
             }}
           >
-            <img src="logo-white.png" height="50rem" alt="SNUBot" />
+            <img src="/logo-white.png" height="50rem" alt="SNUBot" />
           </Navbar.Brand>
         </Col>
         <Col />
