@@ -9,6 +9,8 @@ from django.http import (
     HttpResponseForbidden,
 )
 from account.models import User
+from rasa_eng.models import IntentEng, StoryEng
+from rasa_kor.models import IntentKor, StoryKor
 from django.core.cache import cache
 from django.contrib.auth import login, authenticate, logout
 from django.views.decorators.csrf import ensure_csrf_cookie
@@ -23,7 +25,31 @@ import math
 @require_http_methods(["GET"])
 @ensure_csrf_cookie
 def token(request):
-    return HttpResponse(status=204)
+    response = cache.get("category")
+    if not response:
+        response_eng = []
+        for story in StoryEng.objects.all():
+            if story.story_name != "greet" and story.story_name != "goodbye":
+                for intent in story.story_path_1.all():
+                    response_eng.append(
+                        {story.story_name: intent.intent_tokens[0]}
+                    )
+                    break
+            if len(response_eng) > 4:
+                break
+        response_kor = []
+        for story in StoryKor.objects.all():
+            if story.story_name != "greet" and story.story_name != "goodbye":
+                for intent in story.story_path_1.all():
+                    response_kor.append(
+                        {story.story_name: intent.intent_tokens[0]}
+                    )
+                    break
+            if len(response_kor) > 4:
+                break
+        response = [response_eng, response_kor]
+        cache.set("category", response)
+    return JsonResponse(response, status=200, safe=False)
 
 
 @require_http_methods(["POST"])
@@ -361,6 +387,7 @@ def vote(request, article_id):
 
 
 @require_http_methods(["GET", "POST", "PUT", "DELETE"])
+@ensure_csrf_cookie
 def comment(request, id):
     if request.method == "GET":
         comment = Comment.objects.filter(article=id).values(
