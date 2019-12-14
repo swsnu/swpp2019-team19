@@ -206,7 +206,12 @@ class BoardDetail extends Component {
           <Col md={1} lg={2} />
           <Col>
             <Breadcrumb>
-              <Breadcrumb.Item href="/boards">Home</Breadcrumb.Item>
+              <Breadcrumb.Item
+                id="direct-to-board"
+                href="/boards"
+              >
+                Home
+              </Breadcrumb.Item>
               <Breadcrumb.Item active>
                 <Dropdown as={ButtonGroup}>
                   <Button
