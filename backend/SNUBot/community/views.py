@@ -25,6 +25,12 @@ import math
 @require_http_methods(["GET"])
 @ensure_csrf_cookie
 def token(request):
+    return HttpResponse(status=204)
+
+
+@require_http_methods(["GET"])
+@ensure_csrf_cookie
+def category(request):
     response = cache.get("category")
     if not response:
         response_eng = []
