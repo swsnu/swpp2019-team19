@@ -3,6 +3,8 @@ slots:
     type: text
   meal:
     type: text
+  prof:
+    type: text
 
 intents:
 - greet
@@ -10,10 +12,12 @@ intents:
 - request_map
 - request_menu
 - request_override_file
+- request_professor_info
 
 entities:
   - place
   - meal
+  - prof
 
 actions:
   - utter_greet
@@ -22,6 +26,7 @@ actions:
   - action_map
   - action_meal
   - utter_give_override_file
+  - action_professor_info
 
 templates:
   utter_greet:

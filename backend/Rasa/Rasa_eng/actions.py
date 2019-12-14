@@ -23,9 +23,7 @@ time = ["breakfast", "lunch", "dinner"]
 engineering = ["prof", "foodcourt"]
 agricultural = ["lunch", "dinner", "order"]
 eng_ggang = ["foodcourt"]
-idxerr_msg = (
-    "Error occured during loading menu.<br>Please post a article about it."
-)
+idxerr_msg = "Error occured during loading menu.<br>Please post a article about it."
 
 
 class ActionMeal(Action):
@@ -66,7 +64,7 @@ class ActionMeal(Action):
         if not tg:
             response = requests.get("http://mini.snu.kr/cafe/today/-/eng")
             if response.status_code != 200:
-                dispatcher.ustter_message("mini.snu.ac.kr doesn't reply")
+                dispatcher.utter_message("mini.snu.ac.kr doesn't reply")
                 return [SlotSet("meal", meal)]
 
             parsed_soup = BeautifulSoup(response.content, "html.parser")
@@ -88,48 +86,32 @@ class ActionMeal(Action):
                     response_message = "Tell me the exact name of the cafeteria"
                 elif meal == "301":
                     for target in targets:
-                        response_message = (
-                            response_message + engineering[k] + "<br>"
-                        )
+                        response_message = response_message + engineering[k] + "<br>"
                         k = k + 1
                         for child in target.contents[2].children:
-                            response_message = (
-                                response_message + str(child) + "<br>"
-                            )
+                            response_message = response_message + str(child) + "<br>"
                 elif meal == "공깡":
                     for target in targets:
-                        response_message = (
-                            response_message + eng_ggang[k] + "<br>"
-                        )
+                        response_message = response_message + eng_ggang[k] + "<br>"
                         k = k + 1
                         for child in target.contents[2].children:
-                            response_message = (
-                                response_message + str(child) + "<br>"
-                            )
+                            response_message = response_message + str(child) + "<br>"
                 elif meal == "두레미담":
                     for target in targets:
-                        response_message = (
-                            response_message + agricultural[k] + "<br>"
-                        )
+                        response_message = response_message + agricultural[k] + "<br>"
                         k = k + 1
                         for child in target.contents[2].children:
-                            response_message = (
-                                response_message + str(child) + "<br>"
-                            )
+                            response_message = response_message + str(child) + "<br>"
                 else:
                     if not (
-                        meal == "Student Center"
-                        or meal == "Dormitory"
-                        or meal == "901"
+                        meal == "Student Center" or meal == "Dormitory" or meal == "901"
                     ):
                         k = 1
                     for target in targets:
                         response_message = response_message + time[k] + "<br>"
                         k = k + 1
                         for child in target.contents[2].children:
-                            response_message = (
-                                response_message + str(child) + "<br>"
-                            )
+                            response_message = response_message + str(child) + "<br>"
             except IndexError as e:
                 dispatcher.utter_message(idxerr_msg)
                 return [SlotSet("meal", meal)]
@@ -166,7 +148,7 @@ class ActionMap(Action):
             url_suffix = "&lang_type=ENG"
             response = requests.get(url_prefix + place + url_suffix)
             if response.status_code != 200:
-                dispatcher.ustter_message("mini.snu.ac.kr doesn't reply")
+                dispatcher.utter_message("map.snu.ac.kr doesn't reply")
                 return [SlotSet("place", place)]
 
             parsed_soup = bs(response.content, "html.parser")
@@ -198,3 +180,64 @@ class ActionMap(Action):
             pass
         dispatcher.utter_message(tg)
         return [SlotSet("place", place)]
+
+
+class ActionProfessorInfo(Action):
+    def name(self) -> Text:
+        return "action_professor_info"
+
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        prof = tracker.get_slot("prof")
+        if not prof:
+            dispatcher.utter_message(fallback_message)
+            return [SlotSet("prof", prof)]
+        prof = prof.replace(" ", "-")
+        cached = redis.StrictRedis(host="127.0.0.1", port=6379, db=6)  ##??db??
+        tg = cached.get(prof)
+        if not tg:
+            url = "https://cse.snu.ac.kr/en/professor/"
+            response = requests.get(url + prof)
+            if response.status_code != 200:
+                dispatcher.utter_message(
+                    "cse.snu.ac.kr doesn't reply" + response.status_code + " " + prof
+                )
+                return [SlotSet("prof", prof)]
+
+            parsed_soup = bs(response.content, "html.parser")
+            target = []
+            office = parsed_soup.select(
+                "div > div.field-group-format.group_contact_info.field-group-div.group-contact-info.speed-fast.effect-none > div.field.field-name-field-office.field-type-text.field-label-inline.clearfix2 > div.field-items > div"
+            )
+            phone = parsed_soup.select(
+                "div > div.field-group-format.group_contact_info.field-group-div.group-contact-info.speed-fast.effect-none > div.field.field-name-field-phone.field-type-text.field-label-inline.clearfix2 > div.field-items > div"
+            )
+            mail = parsed_soup.select(
+                "div > div.field-group-format.group_contact_info.field-group-div.group-contact-info.speed-fast.effect-none > div.field.field-name-field-email.field-type-email.field-label-inline.clearfix2 > div.field-items > div"
+            )
+            website = parsed_soup.select(
+                "div > div.field-group-format.group_contact_info.field-group-div.group-contact-info.speed-fast.effect-none > div.field.field-name-field-website.field-type-link-field.field-label-inline.clearfix2 > div.field-items > div > a"
+            )
+            response_message = ""
+            response_message += "Office: " + office[0].text + "<br>"
+            response_message += "Phone: " + phone[0].text + "<br>"
+            email = mail[0].text
+            email = email.replace("[at]", "@")
+            email = email.replace("[dot]", ".")
+            email = email.replace(" ", "")
+            print(email)
+            response_message += "Email: " + email + "<br>"
+            response_message += "Website: " + website[0].get("href") + "<br>"
+            dispatcher.utter_message(response_message)
+            cached.set(prof, response_message)
+            return [SlotSet("prof", prof)]
+        try:
+            tg = tg.decode("utf-8")
+        except (UnicodeDecodeError, AttributeError):
+            pass
+        dispatcher.utter_message(tg)
+        return [SlotSet("prof", prof)]
