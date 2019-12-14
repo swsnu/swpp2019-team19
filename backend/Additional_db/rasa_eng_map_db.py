@@ -11,7 +11,7 @@ IntentEng(
 action = ActionEng(action_name="action_map", action_type="action")
 action.save()
 action.intent.add(IntentEng.objects.get(intent_name="request_map"))
-story = StoryEng(story_name="map")
+story = StoryEng(story_name="Search place in SNU")
 story.save()
 story.story_path_1.add(IntentEng.objects.get(intent_name="request_map"))
 target_intent = IntentEng.objects.get(intent_name="request_map")

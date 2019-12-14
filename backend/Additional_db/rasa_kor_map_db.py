@@ -7,7 +7,7 @@ IntentKor(
 action = ActionKor(action_name="action_map", action_type="action")
 action.save()
 action.intent.add(IntentKor.objects.get(intent_name="request_map"))
-story = StoryKor(story_name="map")
+story = StoryKor(story_name="서울대 내 위치 검색")
 story.save()
 story.story_path_1.add(IntentKor.objects.get(intent_name="request_map"))
 target_intent = IntentKor.objects.get(intent_name="request_map")
