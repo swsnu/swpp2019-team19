@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "account.apps.AccountConfig",
     "rasa_eng.apps.RasaEngConfig",
     "rasa_kor.apps.RasaKorConfig",
+    "admin_command.apps.AdminCommandConfig",
     "corsheaders",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -112,7 +113,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator", },
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
     {
         "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
@@ -126,7 +127,7 @@ CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://127.0.0.1:6379/1",
-        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient", },
+        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient",},
     },
 }
 

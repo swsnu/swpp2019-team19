@@ -36,3 +36,8 @@ export {
   deleteComment,
   editComment,
 } from './comment';
+
+export {
+  updateServer,
+  updateModel,
+} from './admin';
