@@ -108,7 +108,7 @@ function CustomNavbar(props) {
             <FontAwesomeIcon icon={faBars} size="2x" />
           </Button>
         </Col>
-        <Col xs={4} sm={6} md={8} lg={10} xl={10}>
+        <Col xs={7} sm={8} md={9} lg={10} xl={10}>
           <Navbar.Brand
             onClick={() => redirectAndClose('/chat')}
             style={{

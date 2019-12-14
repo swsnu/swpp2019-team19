@@ -109,7 +109,9 @@ class Chat extends Component {
                                     language: 'Eng',
                                   })}
                                 >
-                                  En
+                                  <h5 className="language-button-vcenter">
+                                    En
+                                  </h5>
                                 </ToggleButton>
                                 <ToggleButton
                                   id="language-korean"
@@ -118,7 +120,9 @@ class Chat extends Component {
                                     language: 'Kor',
                                   })}
                                 >
-                                  한
+                                  <h5 className="language-button-vcenter">
+                                    한
+                                  </h5>
                                 </ToggleButton>
                               </ToggleButtonGroup>
                               <Form.Control
