@@ -30,19 +30,6 @@ const ArticleEntry = (props) => {
       default: return '';
     }
   };
-
-  const tagToText = (textTag) => {
-    switch (textTag) {
-      case 'working':
-      case 'normal': {
-        return 'dark';
-      }
-      default: {
-        return 'light';
-      }
-    }
-  };
-
   const [modalShow, setModalShow] = React.useState(false);
   const [focus, setFocus] = React.useState(false);
 
@@ -75,7 +62,7 @@ const ArticleEntry = (props) => {
         onBlur={() => {
           setFocus(false);
         }}
-        text={tagToText(tag)}
+        text="dark"
         style={{
           width: '18rem',
           cursor: 'pointer',

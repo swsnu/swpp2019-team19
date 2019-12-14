@@ -80,7 +80,10 @@ function CustomNavbar(props) {
                   variant="link"
                   onClick={handleClose}
                 >
-                  <FontAwesomeIcon icon={faWindowClose} className="imported-icon" />
+                  <FontAwesomeIcon
+                    icon={faWindowClose}
+                    className="imported-icon"
+                  />
                 </Button>
               </Col>
             </Row>
