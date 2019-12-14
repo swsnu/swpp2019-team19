@@ -38,6 +38,7 @@ export const VOTE = 'VOTE';
 export const SEND_QUESTION = 'SEND_QUESTION';
 export const RCV_QUESTION = 'RCV_QUESTION';
 export const CLEAR_CHAT_HISTORY = 'CLEAR_CHAT_HISTORY';
+export const CHAT_CATEGORY = 'CHAT_CATEGORY';
 
 // Comment
 export const FETCH_COMMENT = 'FETCH_COMMENT';

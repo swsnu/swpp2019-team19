@@ -1,8 +1,12 @@
 
-import { SEND_QUESTION, RCV_QUESTION, CLEAR_CHAT_HISTORY } from '../actions/types';
+import {
+  SEND_QUESTION, RCV_QUESTION, CLEAR_CHAT_HISTORY, CHAT_CATEGORY,
+} from '../actions/types';
 
 const initialState = {
   chatHistory: [],
+  engCategory: [],
+  korCategory: [],
 };
 const defaultAction = { type: 'default' };
 
@@ -24,6 +28,9 @@ export default function (state = initialState, action = defaultAction) {
     case CLEAR_CHAT_HISTORY: {
       const clearChatHistory = [];
       return { ...state, chatHistory: clearChatHistory };
+    }
+    case CHAT_CATEGORY: {
+      return { ...state, engCategory: action.category[0], korCategory: action.category[1] };
     }
     default:
       return state;

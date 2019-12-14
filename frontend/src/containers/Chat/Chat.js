@@ -22,8 +22,9 @@ class Chat extends Component {
       userInput: '',
       language: 'Eng',
     };
-    const { clearChatHistory } = this.props;
+    const { clearChatHistory, fetchCategory } = this.props;
     clearChatHistory();
+    fetchCategory();
   }
 
   componentDidUpdate() {
@@ -38,7 +39,9 @@ class Chat extends Component {
   }
 
   render() {
-    const { chatHistory, history, sendMessage } = this.props;
+    const {
+      chatHistory, history, sendMessage, engCategory, korCategory,
+    } = this.props;
     const { userInput, language } = this.state;
 
     let counter = 0;
@@ -60,6 +63,17 @@ class Chat extends Component {
       );
     });
 
+    const parseCategory = (category) => (
+      <p>
+        {category[0]}
+        :
+        {' '}
+        {category[1]}
+      </p>
+    );
+
+    const shortGuide = (categoryList) => categoryList.map(parseCategory);
+
     return (
       <Container>
         <Row>
@@ -79,17 +93,24 @@ class Chat extends Component {
                         >
                           {(chatLog.length < 1) ? (
                             <div className="short-guide">
-                              <p className="title">Short Guide</p>
-                              <p>Ask anything you want to know about SNU.</p>
-                              <p>But... Since I&apos;m not a god,</p>
-                              <p>I can&apos;t tell you what I don&apos;t know.</p>
-                              <p>If you want to know later or make me smarter,</p>
-                              <br />
+                              {(language === 'Eng' ? (
+                                <>
+                                  <p className="category-eng">You can</p>
+                                  {shortGuide(engCategory)}
+                                  <p>If you want to suggest something</p>
+                                </>
+                              ) : (
+                                <>
+                                  <p className="category-kor">검색 예시</p>
+                                  {shortGuide(korCategory)}
+                                  <p>제안하고 싶은게 있다면?</p>
+                                </>
+                              ))}
                               <Button
                                 id="direct-to-boards"
                                 onClick={() => history.push('/boards/')}
                               >
-                                Go!
+                                Click!
                               </Button>
                             </div>
                           ) : (chatLog)}
@@ -178,6 +199,8 @@ class Chat extends Component {
 
 const mapStateToProps = (state) => ({
   chatHistory: state.chat.chatHistory,
+  engCategory: state.chat.engCategory,
+  korCategory: state.chat.korCategory,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -186,6 +209,9 @@ const mapDispatchToProps = (dispatch) => ({
   ),
   clearChatHistory: () => dispatch(
     actionCreators.clearChatHistory(),
+  ),
+  fetchCategory: () => dispatch(
+    actionCreators.fetchCategory(),
   ),
 });
 
@@ -198,7 +224,12 @@ Chat.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   chatHistory: PropTypes.array.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
+  engCategory: PropTypes.array.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  korCategory: PropTypes.array.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
   history: PropTypes.object.isRequired,
   sendMessage: PropTypes.func.isRequired,
   clearChatHistory: PropTypes.func.isRequired,
+  fetchCategory: PropTypes.func.isRequired,
 };
