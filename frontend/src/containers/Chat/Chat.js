@@ -100,12 +100,12 @@ class Chat extends Component {
                                   <p>If you want to suggest something</p>
                                 </>
                               ) : (
-                                  <>
-                                    <p className="category-kor">검색 예시</p>
-                                    {shortGuide(korCategory)}
-                                    <p>제안하고 싶은게 있다면?</p>
-                                  </>
-                                ))}
+                                <>
+                                  <p className="category-kor">검색 예시</p>
+                                  {shortGuide(korCategory)}
+                                  <p>제안하고 싶은게 있다면?</p>
+                                </>
+                              ))}
                               <Button
                                 id="direct-to-boards"
                                 onClick={() => history.push('/boards/')}
