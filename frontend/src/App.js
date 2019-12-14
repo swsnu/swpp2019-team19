@@ -25,26 +25,28 @@ const App = (props) => {
       <div className="App">
         <CustomNavbar history={history} />
 
-        <Switch>
-          <Redirect exact from="/" to="/chat" />
+        <div className="BodyContainer">
+          <Switch>
+            <Redirect exact from="/" to="/chat" />
 
-          <Route path="/chat" exact component={Chat} />
-          <Route path="/boards" exact component={CommunityMain} />
+            <Route path="/chat" exact component={Chat} />
+            <Route path="/boards" exact component={CommunityMain} />
 
-          <Route
-            path="/boards/:boardName(all|hot)"
-            exact
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            component={(pass) => <BoardDetail key={pass.match.params.boardName} {...pass} />}
-          />
-          <Route path="/signin" exact component={Signin} />
-          <Route path="/signup" exact component={Signup} />
-          <Route path="/account" exact component={AccountInformation} />
+            <Route
+              path="/boards/:boardName(all|hot)"
+              exact
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              component={(pass) => <BoardDetail key={pass.match.params.boardName} {...pass} />}
+            />
+            <Route path="/signin" exact component={Signin} />
+            <Route path="/signup" exact component={Signup} />
+            <Route path="/account" exact component={AccountInformation} />
 
-          <Route path="/about" exact component={About} />
+            <Route path="/about" exact component={About} />
 
-          <Route component={NotFound} />
-        </Switch>
+            <Route component={NotFound} />
+          </Switch>
+        </div>
       </div>
     </ConnectedRouter>
   );

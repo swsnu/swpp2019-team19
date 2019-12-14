@@ -1,6 +1,7 @@
 .custom-navbar {
   /* background-color: #3f1919; */
   /* background-color: #343a40; */
+  height: 8vh;
   background-color: #5e656a;
 }
 
@@ -33,10 +34,6 @@
 }
 
 @media (max-width: 700px) {
-  .custom-navbar {
-    height: 3.5rem !important;
-  }
-
   #sidebar-wrapper {
     font-family: 'Gothic A1', sans-serif;
     -webkit-transition: margin .25s ease-out;
@@ -65,7 +62,7 @@
     font-size: small;
   }
 
-  #signup-button {
+  #signout-button {
     font-size: small;
   }
 
