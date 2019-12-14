@@ -496,7 +496,7 @@ class RasaEngTestCase(TestCase):
             content_type=content_type,
         )
         self.assertEqual(response.status_code, 204)
-        response = client.post(
+        response = client.get(
             "/rasa_eng/makefile/",
             json.dumps({"test": "test"}),
             content_type=content_type,
