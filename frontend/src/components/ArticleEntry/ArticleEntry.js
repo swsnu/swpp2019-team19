@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, connect } from 'react-redux';
-import { Card, Col } from 'react-bootstrap';
+import { Card, Col, Badge } from 'react-bootstrap';
 import { faVoteYea } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -75,7 +75,6 @@ const ArticleEntry = (props) => {
         onBlur={() => {
           setFocus(false);
         }}
-        bg={tagToBg(tag)}
         text={tagToText(tag)}
         style={{
           width: '18rem',
@@ -86,6 +85,7 @@ const ArticleEntry = (props) => {
         className="p-3 card"
       >
         <Card.Body>
+          <Badge pill variant={tagToBg(tag)}>{tag}</Badge>
           <Card.Title>{title}</Card.Title>
           <Card.Text>
             {

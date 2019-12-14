@@ -98,7 +98,7 @@ function CustomNavbar(props) {
           </div>
         </div>
       ) : (null)}
-      <Navbar className="custom-navbar" bg="dark" expand="lg">
+      <Navbar className="custom-navbar" expand="lg">
         <Col>
           <Button
             className="sidebar-show-button float-left"
