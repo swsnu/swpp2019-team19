@@ -1,5 +1,6 @@
 from django.db import models
 from django_mysql.models import ListCharField
+from django.core.cache import cache
 
 RET_CHOICES = (
     ("text", "text"),
@@ -17,7 +18,7 @@ SLOT_CHOICES = (
 
 
 class IntentKor(models.Model):
-    intent_name = models.CharField(max_length=20, db_index=True, unique=True,)
+    intent_name = models.CharField(max_length=40, db_index=True, unique=True,)
     intent_tokens = ListCharField(
         base_field=models.CharField(max_length=40),
         size=20,
@@ -26,13 +27,21 @@ class IntentKor(models.Model):
 
 
 class ActionKor(models.Model):
-    action_name = models.CharField(max_length=20, db_index=True, unique=True)
+    action_name = models.CharField(max_length=40, db_index=True, unique=True)
     intent = models.ManyToManyField(IntentKor, related_name="related_action")
     action_type = models.CharField(
         max_length=10, choices=RET_CHOICES, default="text"
     )
     text_value = models.TextField(blank=True)
     image_value = models.TextField(blank=True)
+
+    def save(self, *args, **kwargs):
+        cache.delete("category")
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        cache.delete("category")
+        super().delete(*args, **kwargs)
 
 
 class StoryKor(models.Model):
@@ -42,14 +51,14 @@ class StoryKor(models.Model):
 
 
 class EntityKor(models.Model):
-    entity_name = models.CharField(max_length=20, db_index=True, unique=True)
+    entity_name = models.CharField(max_length=40, db_index=True, unique=True)
     intent = models.OneToOneField(
         IntentKor, related_name="related_entity", on_delete=models.CASCADE
     )
     entity_tokens = ListCharField(
         base_field=models.CharField(max_length=40),
-        size=20,
-        max_length=(20 * 41),
+        size=40,
+        max_length=(40 * 41),
     )
 
 
