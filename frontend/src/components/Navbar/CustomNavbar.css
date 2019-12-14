@@ -33,6 +33,10 @@
 }
 
 @media (max-width: 700px) {
+  .custom-navbar {
+    height: 3.5rem !important;
+  }
+
   #sidebar-wrapper {
     font-family: 'Gothic A1', sans-serif;
     -webkit-transition: margin .25s ease-out;
@@ -49,24 +53,24 @@
     background-color: whitesmoke;
   }
 
-  .signin-button {
-    width: 30px !important;
-    height: 30px !important;
+  #signin-button {
+    font-size: small;
   }
 
-  .signup-button {
-    width: 30px !important;
-    height: 30px !important;
+  #signup-button {
+    font-size: small;
   }
 
-  .account-button {
-    width: 30px !important;
-    height: 30px !important;
+  #account-button {
+    font-size: small;
   }
 
-  .signup-button {
-    width: 30px !important;
-    height: 30px !important;
+  #signup-button {
+    font-size: small;
+  }
+
+  .nav-link-custom {
+    font-size: small;
   }
 }
 
