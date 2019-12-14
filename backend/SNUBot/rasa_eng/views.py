@@ -330,7 +330,7 @@ def slot_detail(request, id):
         return HttpResponse(status=200)
 
 
-@require_http_methods(["POST"])
+@require_http_methods(["GET"])
 @ensure_csrf_cookie
 @require_super_user
 # The relation of the Rasa model is quite complex so it can't reduce its Cognitive Complixity
