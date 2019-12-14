@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import {
-  Button, Row, Col, Container,
+  Button, Row, Col, Container, Breadcrumb,
 } from 'react-bootstrap';
 
 import PropTypes from 'prop-types';
@@ -27,28 +27,35 @@ class CommunityMain extends Component {
       <Container className="CommunityMain" fluid>
         <Row>
           <Col md={1} lg={2} />
-          <Col>
+          <Col style={{ textAlign: 'left' }}>
+            <Breadcrumb>
+              <Breadcrumb.Item active>Home</Breadcrumb.Item>
+            </Breadcrumb>
+            <hr />
             <Button
               variant="link"
               id="direct-to-hot-board"
               onClick={() => history.push('/boards/hot/')}
             >
-              Hot
+              <h5>Hot Board</h5>
             </Button>
+            <hr />
             <Container fluid>
-              <Row>
+              <Row style={{ textAlign: 'center' }}>
                 {storedHotBoard.map(articleParser)}
               </Row>
             </Container>
+            <hr />
             <Button
               variant="link"
               id="direct-to-all-board"
               onClick={() => history.push('/boards/all/')}
             >
-              ALL
+              <h5>All Board</h5>
             </Button>
+            <hr />
             <Container fluid>
-              <Row>
+              <Row style={{ textAlign: 'center' }}>
                 {storedAllBoard.map(articleParser)}
               </Row>
             </Container>
