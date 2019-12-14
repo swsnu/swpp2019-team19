@@ -75,14 +75,14 @@ function CustomNavbar(props) {
                       </ButtonGroup>
                     )
                 }
+                <Button
+                  className="sidebar-hide-button"
+                  variant="link"
+                  onClick={handleClose}
+                >
+                  <FontAwesomeIcon icon={faWindowClose} className="imported-icon" />
+                </Button>
               </Col>
-              <Button
-                className="sidebar-hide-button"
-                variant="link"
-                onClick={handleClose}
-              >
-                <FontAwesomeIcon icon={faWindowClose} size="2x" />
-              </Button>
             </Row>
           </div>
           <div className="sidebar-body">
@@ -98,14 +98,14 @@ function CustomNavbar(props) {
           </div>
         </div>
       ) : (null)}
-      <Navbar className="custom-navbar" bg="dark" expand="lg">
+      <Navbar className="custom-navbar" expand="lg">
         <Col>
           <Button
             className="sidebar-show-button float-left"
             variant="link"
             onClick={handleShow}
           >
-            <FontAwesomeIcon icon={faBars} size="2x" />
+            <FontAwesomeIcon icon={faBars} className="imported-icon" />
           </Button>
         </Col>
         <Col xs={7} sm={8} md={9} lg={10} xl={10}>
