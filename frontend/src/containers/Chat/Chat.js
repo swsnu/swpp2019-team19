@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import {
   Button, Form, Container, Row, Col, InputGroup,
+  ToggleButton, ToggleButtonGroup,
 } from 'react-bootstrap';
 import { faArrowCircleUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -66,16 +67,6 @@ class Chat extends Component {
           <Col xs={12} md={10} lg={8}>
             <div className="chat container">
               <div className="row vertical-center">
-                <Button
-                  className="toggle-button"
-                  onClick={() => (
-                    (language === 'Eng')
-                      ? this.setState({ language: 'Kor' })
-                      : this.setState({ language: 'Eng' })
-                  )}
-                >
-                  {language}
-                </Button>
                 <div className="col-12 align-self-center">
                   <div className="chat">
                     <div className="inbox_msg">
@@ -106,6 +97,30 @@ class Chat extends Component {
                         <div className="type_msg">
                           <div className="input_msg_write">
                             <InputGroup>
+                              <ToggleButtonGroup
+                                type="radio"
+                                name="lang-options"
+                                defaultValue={language === 'Kor' ? 1 : 0}
+                              >
+                                <ToggleButton
+                                  id="language-english"
+                                  value={0}
+                                  onClick={() => this.setState({
+                                    language: 'Eng',
+                                  })}
+                                >
+                                  En
+                                </ToggleButton>
+                                <ToggleButton
+                                  id="language-korean"
+                                  value={1}
+                                  onClick={() => this.setState({
+                                    language: 'Kor',
+                                  })}
+                                >
+                                  한
+                                </ToggleButton>
+                              </ToggleButtonGroup>
                               <Form.Control
                                 className="write_msg"
                                 id="input-chat"
@@ -117,7 +132,9 @@ class Chat extends Component {
                                 })}
                                 onKeyDown={(event) => {
                                   if (event.key === 'Enter') {
-                                    document.getElementsByClassName('msg_send_btn')[0].click();
+                                    document
+                                      .getElementsByClassName('msg_send_btn')[0]
+                                      .click();
                                   }
                                 }}
                               />
