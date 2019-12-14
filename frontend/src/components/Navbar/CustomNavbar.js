@@ -116,7 +116,7 @@ function CustomNavbar(props) {
               textAlign: 'center',
             }}
           >
-            <img src="logo-white.png" height="50rem" alt="SNUBot" />
+            <img src="/logo-white.png" height="50rem" alt="SNUBot" />
           </Navbar.Brand>
         </Col>
         <Col />
