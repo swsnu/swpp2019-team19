@@ -175,7 +175,7 @@ class ActionMap(Action):
         place = tracker.get_slot("place")
         if not place:
             dispatcher.utter_message(fallback_message)
-            return [SlotSet("place", place)]
+            return [SlotSet("place", None)]
         cached = redis.StrictRedis(host="127.0.0.1", port=6379, db=3)
         tg = cached.get(place)
         if not tg:
@@ -184,7 +184,7 @@ class ActionMap(Action):
             response = requests.get(url_prefix + place + url_suffix)
             if response.status_code != 200:
                 dispatcher.ustter_message("mini.snu.ac.kr doesn't reply")
-                return [SlotSet("place", place)]
+                return [SlotSet("place", None)]
 
             parsed_soup = bs(response.content, "html.parser")
             targets = []
@@ -209,10 +209,10 @@ class ActionMap(Action):
                 response_message = response_message[:-5]
             dispatcher.utter_message(response_message)
             cached.set(place, response_message, 60 * 60)
-            return [SlotSet("place", place)]
+            return [SlotSet("place", None)]
         try:
             tg = tg.decode("utf-8")
         except (UnicodeDecodeError, AttributeError):
             pass
         dispatcher.utter_message(tg)
-        return [SlotSet("place", place)]
+        return [SlotSet("place", None)]
