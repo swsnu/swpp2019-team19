@@ -79,7 +79,7 @@ class Chat extends Component {
                         >
                           {(chatLog.length < 1) ? (
                             <div className="short-guide">
-                              <p className="title">Short Guide</p>
+                              <h5 className="title">Short Guide</h5>
                               <p>Ask anything you want to know about SNU.</p>
                               <p>But... Since I&apos;m not a god,</p>
                               <p>I can&apos;t tell you what I don&apos;t know.</p>
