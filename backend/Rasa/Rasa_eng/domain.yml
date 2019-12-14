@@ -34,9 +34,7 @@ templates:
   - text: "I can't understand!"
 
   utter_give_override_file:
-  - text: "Click here to open the override form"
-    buttons:
-    - title: "override form" 
-      payload: "https://cse.snu.ac.kr/sites/default/files/node--notice/Over-ride%20Form_4.hwp"
+  - text: "Click <a href='https://cse.snu.ac.kr/sites/default/files/node--notice/Over-ride%20Form_4.hwp'>here</a> to open the override form"
+  
 
   

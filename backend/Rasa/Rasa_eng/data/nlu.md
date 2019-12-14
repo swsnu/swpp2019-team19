@@ -130,6 +130,24 @@
 
 ## intent:request_override_file
   - give me override file
+  - give me override form
   - give me cho an gee
   - how can I get override file
+  - how can I get override form
   - how can I get cho an gee
+
+## intent:request_professor_homepage
+  - give me the link of professor [U Kang](prof) website
+  - give me the link of professor [U Kang](prof) homepage
+  - give me the link of professor [Yanghee Choi](prof) website
+  - give me the link of professor [Yanghee Choi](prof) homepage
+
+  - give me the link of professor [Byung-Gon Chun](prof) website
+  - give me the link of professor [Byung-Gon Chun](prof) homepage
+
+  - give me the link of professor [Bernhard Egger](prof) website
+  - give me the link of professor [Bernhard Egger](prof) homepage
+
+  - give me the link of professor [Yanghee Choi](prof) website
+  - give me the link of professor [Yanghee Choi](prof) homepage
+  
