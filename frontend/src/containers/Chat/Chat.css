@@ -101,6 +101,20 @@ img {
   width: 46%;
 }
 
+@media (max-width: 700px) {
+  .received_withd_msg p {
+    width: 100%;
+    font-size: small;
+  }
+
+  .sent_msg {
+    width: 100%;
+  }
+
+  .sent_msg {
+    font-size: small;
+  }
+}
 
 .outgoing_msg {
   overflow: hidden;
