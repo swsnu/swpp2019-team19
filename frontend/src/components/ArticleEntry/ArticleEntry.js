@@ -38,7 +38,7 @@ const ArticleEntry = (props) => {
         return 'dark';
       }
       default: {
-        return 'light';
+        return 'dark';
       }
     }
   };
