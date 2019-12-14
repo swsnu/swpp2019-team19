@@ -17,7 +17,7 @@ SLOT_CHOICES = (
 
 
 class IntentKor(models.Model):
-    intent_name = models.CharField(max_length=20, db_index=True)
+    intent_name = models.CharField(max_length=20, db_index=True, unique=True,)
     intent_tokens = ListCharField(
         base_field=models.CharField(max_length=40),
         size=20,
@@ -26,7 +26,7 @@ class IntentKor(models.Model):
 
 
 class ActionKor(models.Model):
-    action_name = models.CharField(max_length=20, db_index=True)
+    action_name = models.CharField(max_length=20, db_index=True, unique=True)
     intent = models.ManyToManyField(IntentKor, related_name="related_action")
     action_type = models.CharField(
         max_length=10, choices=RET_CHOICES, default="text"
@@ -36,13 +36,13 @@ class ActionKor(models.Model):
 
 
 class StoryKor(models.Model):
-    story_name = models.CharField(max_length=40, db_index=True)
+    story_name = models.CharField(max_length=40, db_index=True, unique=True)
     story_path_1 = models.ManyToManyField(IntentKor, related_name="first_path")
     story_path_2 = models.ManyToManyField(IntentKor, related_name="second_path")
 
 
 class EntityKor(models.Model):
-    entity_name = models.CharField(max_length=20, db_index=True)
+    entity_name = models.CharField(max_length=20, db_index=True, unique=True)
     intent = models.OneToOneField(
         IntentKor, related_name="related_entity", on_delete=models.CASCADE
     )
@@ -54,7 +54,7 @@ class EntityKor(models.Model):
 
 
 class SlotKor(models.Model):
-    slot_name = models.CharField(max_length=20, db_index=True)
+    slot_name = models.CharField(max_length=20, db_index=True, unique=True)
     slot_type = models.CharField(
         max_length=20, choices=SLOT_CHOICES, default="text"
     )

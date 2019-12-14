@@ -3,6 +3,8 @@ from rasa_kor.models import IntentKor, ActionKor, StoryKor, EntityKor, SlotKor
 IntentKor.objects.all().delete()
 ActionKor.objects.all().delete()
 StoryKor.objects.all().delete()
+EntityKor.objects.all().delete()
+SlotKor.objects.all().delete()
 IntentKor(
     intent_name="greet", intent_tokens=["어이", "안녕", "반가워", "안녕하세요"],
 ).save()

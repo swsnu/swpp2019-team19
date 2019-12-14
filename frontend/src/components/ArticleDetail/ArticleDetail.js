@@ -283,5 +283,9 @@ ArticleDetail.propTypes = {
   onHide: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   article: PropTypes.object.isRequired,
-  isSuper: PropTypes.bool.isRequired,
+  isSuper: PropTypes.bool,
+};
+
+ArticleDetail.defaultProps = {
+  isSuper: false,
 };

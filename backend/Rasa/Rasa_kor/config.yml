@@ -20,6 +20,6 @@ policies:
   - name: MappingPolicy
   - name: FormPolicy
   - name: FallbackPolicy
-    nlu_threshold: 0.4
-    core_threshold: 0.3
+    nlu_threshold: 0.3
+    core_threshold: 0.2
     fallback_action_name: utter_fallback
