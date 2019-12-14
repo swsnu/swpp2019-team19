@@ -63,32 +63,38 @@ img {
   background: #b3ada7;
 }
 
+
+
 /* message */
-.received_msg {
-  display: inline-block;
+.incoming_msg {
   /* padding: 0 0 0 10px; */
-  vertical-align: top;
-  width: 100%;
   overflow: hidden;
   margin: 13px 0 13px;
 }
 
-.received_withd_msg p {
-  background: #ffffff none repeat scroll 0 0;
-  border-radius: 0px 5px 5px 5px;
-  color: rgb(0, 0, 0);
+.received_msg {
+  padding: 0 0 0 10px;
+  vertical-align: top;
+  float: left;
+  max-width: 57%;
+  width: auto;
+}
+
+.received_msg p {
   font-size: 16px;
-  word-break: break-all;
   margin: 0;
   padding: 5px 10px 5px 12px;
-  width: 57%;
+  word-break: break-all;
+  background: #ffffff none repeat scroll 0 0;
+  border-radius: 0px 5px 5px 5px;
+
 }
+
 
 .sent_msg p {
   font-size: 16px;
   margin: 0;
   padding: 5px 10px 5px 12px;
-  width: 100%;
   word-break: break-all;
   background: #e1ffc7;
   border-radius: 5px 0px 5px 5px;
@@ -98,9 +104,29 @@ img {
   padding: 0 0 0 10px;
   vertical-align: top;
   float: right;
-  width: 46%;
+  max-width: 46%;
+  width: auto;
 }
 
+@media (max-width: 700px) {
+  .received_msg {
+    max-width: 100%;
+    width: auto;
+  }
+
+  .received_msg p {
+    font-size: small;
+  }
+
+  .sent_msg {
+    max-width: 100%;
+    width: auto;
+  }
+
+  .sent_msg {
+    font-size: small;
+  }
+}
 
 .outgoing_msg {
   overflow: hidden;
