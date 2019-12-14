@@ -41,19 +41,6 @@
   color: #b7aeaa !important;
 }
 
-@media (max-width: 700px) {
-  .BodyContainer {
-    height: 600px;
-    max-height: 600px;
-    overflow: scroll;
-    -ms-overflow-style: none;
-  }
-
-  .BodyContainer::-webkit-scrollbar {
-    display: none;
-  }
-}
-
 .BodyContainer {
   height: 92vh;
   max-height: 92vh;
