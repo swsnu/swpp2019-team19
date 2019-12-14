@@ -8,9 +8,9 @@ import CommunityMain from './containers/Community/CommunityMain';
 import BoardDetail from './containers/Community/BoardDetail/BoardDetail';
 
 import Signin from './containers/User/Signin/Signin';
-
 import Signup from './containers/User/Signup/Signup';
 import AccountInformation from './containers/User/AccountInformation/AccountInformation';
+
 import About from './containers/About/About';
 import NotFound from './containers/NotFound/NotFound';
 
@@ -52,9 +52,7 @@ const App = (props) => {
 
 export default App;
 
-/* eslint-disable react/forbid-prop-types */
 App.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
   history: PropTypes.object.isRequired,
-  // match: PropTypes.object.isRequired,
-  // params: PropTypes.object.isRequired,
 };
