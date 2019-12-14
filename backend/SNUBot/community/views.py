@@ -38,7 +38,7 @@ def category(request):
             if story.story_name != "greet" and story.story_name != "goodbye":
                 for intent in story.story_path_1.all():
                     response_eng.append(
-                        {story.story_name: intent.intent_tokens[0]}
+                        [story.story_name, intent.intent_tokens[0]]
                     )
                     break
             if len(response_eng) > 4:
@@ -48,7 +48,7 @@ def category(request):
             if story.story_name != "greet" and story.story_name != "goodbye":
                 for intent in story.story_path_1.all():
                     response_kor.append(
-                        {story.story_name: intent.intent_tokens[0]}
+                        [story.story_name, intent.intent_tokens[0]]
                     )
                     break
             if len(response_kor) > 4:
