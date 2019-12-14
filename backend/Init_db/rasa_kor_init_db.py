@@ -37,7 +37,7 @@ story = StoryKor(story_name="greet")
 story.save()
 story.story_path_1.add(IntentKor.objects.get(intent_name="greet"))
 
-story = StoryKor(story_name="say goodbye")
+story = StoryKor(story_name="goodbye")
 story.save()
 story.story_path_1.add(IntentKor.objects.get(intent_name="goodbye"))
 

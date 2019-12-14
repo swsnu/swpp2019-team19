@@ -54,7 +54,7 @@ story = StoryEng(story_name="greet")
 story.save()
 story.story_path_1.add(IntentEng.objects.get(intent_name="greet"))
 
-story = StoryEng(story_name="sad goodbye")
+story = StoryEng(story_name="goodbye")
 story.save()
 story.story_path_1.add(IntentEng.objects.get(intent_name="goodbye"))
 

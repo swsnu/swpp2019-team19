@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
@@ -6,9 +7,12 @@ import { ConnectedRouter } from 'connected-react-router';
 import { getMockStore } from '../../test-utils/mocks';
 import { history } from '../../store/store';
 import Chat from './Chat';
+import * as ActionCreators from '../../store/actions/chat';
 
 const stubChatInitialState1 = {
   chatHistory: [],
+  engCategory: [],
+  korCategory: [],
 };
 const stubChatInitialState2 = {
   chatHistory: [
@@ -42,7 +46,7 @@ const mockStore2 = getMockStore({}, {}, stubChatInitialState2, {});
 describe('<Chat />', () => {
   let chat1;
   let chat2;
-
+  let spySendMessage;
   beforeEach(() => {
     chat1 = (
       <Provider store={mockStore1}>
@@ -62,6 +66,9 @@ describe('<Chat />', () => {
         </ConnectedRouter>
       </Provider>
     );
+    spySendMessage = jest
+      .spyOn(ActionCreators, 'sendMessage')
+      .mockImplementation(() => (dispatch) => { });
   });
 
   afterEach(() => {
@@ -89,6 +96,7 @@ describe('<Chat />', () => {
     formControlWrapper.at(0).simulate('change', event);
     const submitButtonWrpper = component.find('.msg_send_btn');
     submitButtonWrpper.at(0).simulate('click');
+    expect(spySendMessage).toHaveBeenCalledTimes(1);
   });
 
   it('change language', () => {
