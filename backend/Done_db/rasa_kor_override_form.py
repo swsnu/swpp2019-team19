@@ -12,7 +12,7 @@ action = ActionKor(
 action.save()
 action.intent.add(IntentKor.objects.get(intent_name="request_override_file"))
 
-story = StoryKor(story_name="request_override_file")
+story = StoryKor(story_name="초안지 검색")
 story.save()
 story.story_path_1.add(
     IntentKor.objects.get(intent_name="request_override_file")

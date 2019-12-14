@@ -19,6 +19,8 @@ action = ActionEng(
 action.save()
 action.intent.add(IntentEng.objects.get(intent_name="request_override_file"))
 
-story = StoryEng(story_name="request_override_file")
+story = StoryEng(story_name="ask override file")
 story.save()
-story.story_path_1.add(IntentEng.objects.get(intent_name="request_override_file"))
+story.story_path_1.add(
+    IntentEng.objects.get(intent_name="request_override_file")
+)
