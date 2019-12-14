@@ -30,6 +30,49 @@
   overflow-y: auto;
 }
 
+@media (max-width: 700px) {
+  #sidebar-wrapper {
+    font-family: 'Gothic A1', sans-serif;
+    -webkit-transition: margin .25s ease-out;
+    -moz-transition: margin .25s ease-out;
+    -o-transition: margin .25s ease-out;
+    transition: margin .25s ease-out;
+    width: 12rem;
+    min-height: 100vh;
+    position: fixed;
+    overflow-x: hidden;
+    float: left;
+    z-index: 10;
+    left: 0;
+    background-color: whitesmoke;
+  }
+
+  .signin-button {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  .signup-button {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  .account-button {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  .signup-button {
+    width: 30px !important;
+    height: 30px !important;
+  }
+}
+
 #sidebar-wrapper .sidebar-footer {
   max-height: 10vh;
+}
+
+.imported-icon {
+  width: 24px !important;
+  height: 24px !important;
 }
