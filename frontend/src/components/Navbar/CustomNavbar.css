@@ -1,5 +1,7 @@
-.navbar {
-  background-color: #3f1919;
+.custom-navbar {
+  /* background-color: #3f1919; */
+  /* background-color: #343a40; */
+  background-color: #5e656a;
 }
 
 #sidebar-wrapper {

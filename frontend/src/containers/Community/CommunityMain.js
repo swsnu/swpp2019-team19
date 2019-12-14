@@ -9,6 +9,8 @@ import PropTypes from 'prop-types';
 import ArticleEntry from '../../components/ArticleEntry/ArticleEntry';
 import * as actionCreators from '../../store/actions';
 
+import './CommunityMain.css';
+
 class CommunityMain extends Component {
   constructor(props) {
     super(props);
@@ -37,7 +39,7 @@ class CommunityMain extends Component {
               id="direct-to-hot-board"
               onClick={() => history.push('/boards/hot/')}
             >
-              <h5>Hot Board</h5>
+              <h5 className="board-button-link">Hot Board</h5>
             </Button>
             <hr />
             <Container fluid>
@@ -51,7 +53,7 @@ class CommunityMain extends Component {
               id="direct-to-all-board"
               onClick={() => history.push('/boards/all/')}
             >
-              <h5>All Board</h5>
+              <h5 className="board-button-link">All Board</h5>
             </Button>
             <hr />
             <Container fluid>

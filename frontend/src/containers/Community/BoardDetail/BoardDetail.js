@@ -216,14 +216,14 @@ class BoardDetail extends Component {
                 <Dropdown as={ButtonGroup}>
                   <Button
                     disabled
-                    variant="link"
+                    variant="primary"
                   >
                     {match.params.boardName}
                   </Button>
 
                   <Dropdown.Toggle
                     split
-                    variant="link"
+                    variant="secondary"
                     id="dropdown-split-basic"
                   />
                   <Dropdown.Menu>
@@ -267,6 +267,7 @@ class BoardDetail extends Component {
 
               <Col>
                 <Button
+                  variant="primary"
                   className="float-right"
                   float="right"
                   id="write-button"

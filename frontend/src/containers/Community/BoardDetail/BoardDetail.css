@@ -2,3 +2,19 @@
   text-align: center;
   display: inline-block;
 }
+
+/* `Home` link in BoardDetail/Breadcrumb */
+a#direct-to-board {
+  color: #5e656a;
+}
+
+/* clicked pagination */
+span.page-link {
+  background-color: #ccc2bd !important;
+  border-color: #ccc2bd !important;
+}
+
+/* not clicked pagination (font) */
+a.page-link {
+  color: #5e656a;
+}
