@@ -91,7 +91,10 @@ class ActionMeal(Action):
             response_message = ""
             try:
                 if targets == []:
-                    response_message = "정확한 식당 이름을 알려주세요."
+                    if dt.weekday() > 4:
+                        response_message = "주말에는 영업하지 않는 식당입니다."
+                    else:
+                        response_message = "정확한 식당 이름을 알려주세요."
                 elif meal == "301":
                     for target in targets:
                         response_message = (
@@ -134,6 +137,8 @@ class ActionMeal(Action):
                             )
                 else:
                     if not meal == "학생회관":
+                        k = 1
+                    if dt.weekday() > 4:
                         k = 1
                     for target in targets:
                         response_message = response_message + time[k] + "<br>"
