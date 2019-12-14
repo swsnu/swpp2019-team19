@@ -69,7 +69,7 @@ class ActionMeal(Action):
                 dispatcher.ustter_message("mini.snu.ac.kr doesn't reply")
                 return [SlotSet("meal", meal)]
 
-            parsed_soup = BeautifulSoup(response.content, "html.parser")
+            parsed_soup = bs(response.content, "html.parser")
 
             trs = parsed_soup.find_all("tr")
             targets = []
@@ -85,7 +85,14 @@ class ActionMeal(Action):
             response_message = ""
             try:
                 if targets == []:
-                    response_message = "Tell me the exact name of the cafeteria"
+                    if dt.weekday() > 4:
+                        response_message = (
+                            "This cafeteria doesn't open at weekends"
+                        )
+                    else:
+                        response_message = (
+                            "Tell me the exact name of the cafeteria"
+                        )
                 elif meal == "301":
                     for target in targets:
                         response_message = (
@@ -122,6 +129,8 @@ class ActionMeal(Action):
                         or meal == "Dormitory"
                         or meal == "901"
                     ):
+                        k = 1
+                    if dt.weekday() > 4:
                         k = 1
                     for target in targets:
                         response_message = response_message + time[k] + "<br>"
