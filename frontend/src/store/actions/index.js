@@ -26,6 +26,7 @@ export {
 export {
   sendMessage,
   clearChatHistory,
+  fetchCategory,
 } from './chat';
 
 export {
