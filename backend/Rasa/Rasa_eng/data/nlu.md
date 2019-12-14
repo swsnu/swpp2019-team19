@@ -128,3 +128,10 @@
   - [901](meal) menu
   - [공깡](meal) menu
 
+## intent:request_override_file
+  - give me override file
+  - give me override form
+  - give me cho an gee
+  - how can I get override file
+  - how can I get override form
+  - how can I get cho an gee

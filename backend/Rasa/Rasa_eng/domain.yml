@@ -9,6 +9,7 @@ intents:
 - goodbye
 - request_map
 - request_menu
+- request_override_file
 
 entities:
   - place
@@ -20,6 +21,7 @@ actions:
   - utter_fallback
   - action_map
   - action_meal
+  - utter_give_override_file
 
 templates:
   utter_greet:
@@ -30,3 +32,9 @@ templates:
 
   utter_fallback:
   - text: "I can't understand!"
+
+  utter_give_override_file:
+  - text: "Click <a href='https://cse.snu.ac.kr/sites/default/files/node--notice/Over-ride%20Form_4.hwp'>here</a> to open the override form"
+  
+
+  
