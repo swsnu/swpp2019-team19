@@ -26,6 +26,7 @@ export {
 export {
   sendMessage,
   clearChatHistory,
+  fetchCategory,
 } from './chat';
 
 export {
@@ -35,3 +36,8 @@ export {
   deleteComment,
   editComment,
 } from './comment';
+
+export {
+  updateServer,
+  updateModel,
+} from './admin';

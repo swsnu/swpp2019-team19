@@ -7,7 +7,7 @@ IntentKor(
 action = ActionKor(action_name="action_map", action_type="action")
 action.save()
 action.intent.add(IntentKor.objects.get(intent_name="request_map"))
-story = StoryKor(story_name="map")
+story = StoryKor(story_name="서울대 내 위치 검색")
 story.save()
 story.story_path_1.add(IntentKor.objects.get(intent_name="request_map"))
 target_intent = IntentKor.objects.get(intent_name="request_map")
@@ -31,6 +31,16 @@ EntityKor(
         "서점",
         "기념품",
         "문구",
+        "컴퓨터공학부",
+        "공과대학 컴퓨터공학부",
+        "공과대학 재료공학부",
+        "경영대학" "경제학과",
+        "사회과학대학 심리학과",
+        "농업생명과학대학 환경재료과학",
+        "본부",
+        "인문대학 영문학과",
+        "생활과학대학 식품영양학과",
+        "공과대학 행정실",
     ],
     intent=target_intent,
 ).save()

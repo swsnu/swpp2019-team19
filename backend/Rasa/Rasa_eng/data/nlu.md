@@ -138,72 +138,72 @@
 
 ## intent:request_professor_info
   - give me the link of professor [U Kang](prof) website
-  - give me the link of professor [U Kang](prof) homepage
+  - give me the info of professor [U Kang](prof) 
   - give me the link of professor [Yanghee Choi](prof) website
-  - give me the link of professor [Yanghee Choi](prof) homepage
+  - give me the info of professor [Yanghee Choi](prof) 
   - give me the link of professor [Byung-Gon Chun](prof) website
-  - give me the link of professor [Byung-Gon Chun](prof) homepage
+  - give me the info of professor [Byung-Gon Chun](prof) 
   - give me the link of professor [Bernhard Egger](prof) website
-  - give me the link of professor [Bernhard Egger](prof) homepage
+  - give me the info of professor [Bernhard Egger](prof) 
   - give me the link of professor [Hyeonsang Eom](prof) website
-  - give me the link of professor [Hyeonsang Eom](prof) homepage
+  - give me the info of professor [Hyeonsang Eom](prof) 
   - give me the link of professor [Soonhoi Ha](prof) website
-  - give me the link of professor [Soonhoi Ha](prof) homepage
+  - give me the info of professor [Soonhoi Ha](prof) 
   - give me the link of professor [Chung-Kil Hur](prof) website
-  - give me the link of professor [Chung-Kil Hur](prof) homepage
+  - give me the info of professor [Chung-Kil Hur](prof) 
   - give me the link of professor [Wha Sook Jeon](prof) website
-  - give me the link of professor [Wha Sook Jeon](prof) homepage
+  - give me the info of professor [Wha Sook Jeon](prof) 
   - give me the link of professor [Chong-kwon Kim](prof) website
-  - give me the link of professor [Chong-kwon Kim](prof) homepage
+  - give me the info of professor [Chong-kwon Kim](prof) 
   - give me the link of professor [Gunhee Kim](prof) website
-  - give me the link of professor [Gunhee Kim](prof) homepage
+  - give me the info of professor [Gunhee Kim](prof) 
   - give me the link of professor [Hyoung-Joo Kim](prof) website
-  - give me the link of professor [Hyoung-Joo Kim](prof) homepage
+  - give me the info of professor [Hyoung-Joo Kim](prof) 
   - give me the link of professor [Jihong Kim](prof) website
-  - give me the link of professor [Jihong Kim](prof) homepage
+  - give me the info of professor [Jihong Kim](prof) 
   - give me the link of professor [Jin-Soo Kim](prof) website
-  - give me the link of professor [Jin-Soo Kim](prof) homepage
+  - give me the info of professor [Jin-Soo Kim](prof) 
   - give me the link of professor [Myung-Soo Kim](prof) website
-  - give me the link of professor [Myung-Soo Kim](prof) homepage
+  - give me the info of professor [Myung-Soo Kim](prof) 
   - give me the link of professor [Sun Kim](prof) website
-  - give me the link of professor [Sun Kim](prof) homepage
+  - give me the info of professor [Sun Kim](prof) 
   - give me the link of professor [Taehyun Kim](prof) website
-  - give me the link of professor [Taehyun Kim](prof) homepage
+  - give me the info of professor [Taehyun Kim](prof) 
   - give me the link of professor [Taekyoung Kwon](prof) website
-  - give me the link of professor [Taekyoung Kwon](prof) homepage
+  - give me the info of professor [Taekyoung Kwon](prof) 
   - give me the link of professor [Chang-Gun Lee](prof) website
-  - give me the link of professor [Chang-Gun Lee](prof) homepage
+  - give me the info of professor [Chang-Gun Lee](prof) 
   - give me the link of professor [Jae Wook Lee](prof) website
-  - give me the link of professor [Jae Wook Lee](prof) homepage
+  - give me the info of professor [Jae Wook Lee](prof) 
   - give me the link of professor [Jaejin Lee](prof) website
-  - give me the link of professor [Jaejin Lee](prof) homepage
+  - give me the info of professor [Jaejin Lee](prof) 
   - give me the link of professor [Jehee Lee](prof) website
-  - give me the link of professor [Jehee Lee](prof) homepage
+  - give me the info of professor [Jehee Lee](prof) 
   - give me the link of professor [Sang-goo Lee](prof) website
-  - give me the link of professor [Sang-goo Lee](prof) homepage
+  - give me the info of professor [Sang-goo Lee](prof) 
   - give me the link of professor [Youngki Lee](prof) website
-  - give me the link of professor [Youngki Lee](prof) homepage
+  - give me the info of professor [Youngki Lee](prof) 
   - give me the link of professor [Sang Lyul Min](prof) website
-  - give me the link of professor [Sang Lyul Min](prof) homepage
+  - give me the info of professor [Sang Lyul Min](prof) 
   - give me the link of professor [Bongki Moon](prof) website
-  - give me the link of professor [Bongki Moon](prof) homepage
+  - give me the info of professor [Bongki Moon](prof) 
   - give me the link of professor [Byung-Ro Moon](prof) website
-  - give me the link of professor [Byung-Ro Moon](prof) homepage
+  - give me the info of professor [Byung-Ro Moon](prof) 
   - give me the link of professor [Kunsoo Park](prof) website
-  - give me the link of professor [Kunsoo Park](prof) homepage
+  - give me the info of professor [Kunsoo Park](prof) 
   - give me the link of professor [Srinivasa Rao Satti](prof) website
-  - give me the link of professor [Srinivasa Rao Satti](prof) homepage
+  - give me the info of professor [Srinivasa Rao Satti](prof) 
   - give me the link of professor [Jinwook Seo](prof) website
-  - give me the link of professor [Jinwook Seo](prof) homepage
+  - give me the info of professor [Jinwook Seo](prof) 
   - give me the link of professor [Yeong Gil Shin](prof) website
-  - give me the link of professor [Yeong Gil Shin](prof) homepage
+  - give me the info of professor [Yeong Gil Shin](prof) 
   - give me the link of professor [Hyun Oh Song](prof) website
-  - give me the link of professor [Hyun Oh Song](prof) homepage
+  - give me the info of professor [Hyun Oh Song](prof) 
   - give me the link of professor [Heon Young Yeom](prof) website
-  - give me the link of professor [Heon Young Yeom](prof) homepage
+  - give me the info of professor [Heon Young Yeom](prof) 
   - give me the link of professor [Kwangkeun Yi](prof) website
-  - give me the link of professor [Kwangkeun Yi](prof) homepage
+  - give me the info of professor [Kwangkeun Yi](prof) 
   - give me the link of professor [Sungjoo Yoo](prof) website
-  - give me the link of professor [Sungjoo Yoo](prof) homepage
+  - give me the info of professor [Sungjoo Yoo](prof) 
   - give me the link of professor [Byoung-Tak Zhang](prof) website
-  - give me the link of professor [Byoung-Tak Zhang](prof) homepage
+  - give me the info of professor [Byoung-Tak Zhang](prof) 

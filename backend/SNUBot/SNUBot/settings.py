@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "account.apps.AccountConfig",
     "rasa_eng.apps.RasaEngConfig",
     "rasa_kor.apps.RasaKorConfig",
+    "admin_command.apps.AdminCommandConfig",
     "corsheaders",
     "django.contrib.admin",
     "django.contrib.auth",

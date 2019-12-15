@@ -253,6 +253,6 @@ describe('<BoardDetail />', () => {
     const boardButton = wrapper.find('#direct-to-board').at(0);
 
     boardButton.simulate('click');
-    expect(history.location.pathname).toBe('/boards');
+    expect(history.location.pathname).toBe('/');
   });
 });

@@ -3,7 +3,7 @@ import time
 from datetime import datetime, timedelta
 
 
-date = 1213
+date = 1214
 
 
 while True:
@@ -17,5 +17,5 @@ while True:
             r.delete(cache.decode("utf-8"))
         date = int(tg_str)
     else:
-        time.sleep(300)
+        time.sleep(6000)
 

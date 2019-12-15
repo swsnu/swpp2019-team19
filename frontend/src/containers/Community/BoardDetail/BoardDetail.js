@@ -11,6 +11,8 @@ import {
   Container,
   Row,
   Col,
+  Breadcrumb,
+  Dropdown,
 } from 'react-bootstrap';
 
 import PropTypes from 'prop-types';
@@ -192,22 +194,48 @@ class BoardDetail extends Component {
       );
     };
 
-    const { history, storedArticles } = this.props;
+    const { match, storedArticles } = this.props;
     const {
       sortCriteria, searchCriteria, tmpKeyword, articleCreateShow,
     } = this.state;
+    const alternate = match.params.boardName === 'all' ? 'hot' : 'all';
+    const alternateURL = '/boards/'.concat(alternate);
     return (
       <Container fluid className="BoardDetail">
         <Row>
           <Col md={1} lg={2} />
           <Col>
-            <Button
-              variant="link"
-              id="direct-to-board"
-              onClick={() => history.push('/boards')}
-            >
-              go to main page...
-            </Button>
+            <Breadcrumb>
+              <Breadcrumb.Item
+                id="direct-to-board"
+                href="/boards"
+              >
+                Home
+              </Breadcrumb.Item>
+              <Breadcrumb.Item active>
+                <Dropdown as={ButtonGroup}>
+                  <Button
+                    disabled
+                    variant="primary"
+                  >
+                    {match.params.boardName}
+                  </Button>
+
+                  <Dropdown.Toggle
+                    split
+                    variant="secondary"
+                    id="dropdown-split-basic"
+                  />
+                  <Dropdown.Menu>
+                    <Dropdown.Item
+                      href={alternateURL}
+                    >
+                      {alternate}
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </Breadcrumb.Item>
+            </Breadcrumb>
             <Row>
               {/* {this.props.match.params.boardName === 'all' ? */}
               {/* <p></p> */}
@@ -239,6 +267,7 @@ class BoardDetail extends Component {
 
               <Col>
                 <Button
+                  variant="primary"
                   className="float-right"
                   float="right"
                   id="write-button"
@@ -325,7 +354,7 @@ BoardDetail.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   match: PropTypes.object.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
-  history: PropTypes.object.isRequired,
+  // history: PropTypes.object.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   storedArticles: PropTypes.array.isRequired,
   storedPages: PropTypes.number.isRequired,

@@ -91,7 +91,10 @@ class ActionMeal(Action):
             response_message = ""
             try:
                 if targets == []:
-                    response_message = "정확한 식당 이름을 알려주세요."
+                    if dt.weekday() > 4:
+                        response_message = "주말에는 영업하지 않는 식당입니다."
+                    else:
+                        response_message = "정확한 식당 이름을 알려주세요."
                 elif meal == "301":
                     for target in targets:
                         response_message = (
@@ -135,6 +138,8 @@ class ActionMeal(Action):
                 else:
                     if not meal == "학생회관":
                         k = 1
+                    if dt.weekday() > 4:
+                        k = 1
                     for target in targets:
                         response_message = response_message + time[k] + "<br>"
                         k = k + 1
@@ -170,7 +175,7 @@ class ActionMap(Action):
         place = tracker.get_slot("place")
         if not place:
             dispatcher.utter_message(fallback_message)
-            return [SlotSet("place", place)]
+            return [SlotSet("place", None)]
         cached = redis.StrictRedis(host="127.0.0.1", port=6379, db=3)
         tg = cached.get(place)
         if not tg:
@@ -179,7 +184,7 @@ class ActionMap(Action):
             response = requests.get(url_prefix + place + url_suffix)
             if response.status_code != 200:
                 dispatcher.ustter_message("mini.snu.ac.kr doesn't reply")
-                return [SlotSet("place", place)]
+                return [SlotSet("place", None)]
 
             parsed_soup = bs(response.content, "html.parser")
             targets = []
@@ -204,10 +209,10 @@ class ActionMap(Action):
                 response_message = response_message[:-5]
             dispatcher.utter_message(response_message)
             cached.set(place, response_message, 60 * 60)
-            return [SlotSet("place", place)]
+            return [SlotSet("place", None)]
         try:
             tg = tg.decode("utf-8")
         except (UnicodeDecodeError, AttributeError):
             pass
         dispatcher.utter_message(tg)
-        return [SlotSet("place", place)]
+        return [SlotSet("place", None)]

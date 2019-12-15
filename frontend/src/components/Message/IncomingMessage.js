@@ -17,23 +17,21 @@ const IncomingMessage = (props) => {
   return (
     <div className="incoming_msg">
       <div className="received_msg">
-        <div className="received_withd_msg">
-          {
-            message.text === undefined
-              ? <img alt="response-img" src={message.image} />
-              : (
-                <p>
-                  <div
-                    // eslint-disable-next-line react/no-danger
-                    dangerouslySetInnerHTML={
-                      { __html: parseIncomingText(message.text) }
-                    }
-                  />
-                </p>
-              )
-          }
-          <p />
-        </div>
+        {
+          message.text === undefined
+            ? <img alt="response-img" src={message.image} />
+            : (
+              <p>
+                <div
+                  // eslint-disable-next-line react/no-danger
+                  dangerouslySetInnerHTML={
+                    { __html: parseIncomingText(message.text) }
+                  }
+                />
+              </p>
+            )
+        }
+        <p />
       </div>
     </div>
   );

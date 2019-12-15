@@ -87,7 +87,7 @@ class Signup extends Component {
         message = 'Password and Password Confirm are different';
       }
       if (message === null) {
-        return (<p />);
+        return (<div />);
       }
       return (
         <Alert variant="warning">{message}</Alert>
@@ -95,13 +95,13 @@ class Signup extends Component {
     };
 
     return (
-      loginUsername !== null ? <p /> : (
+      loginUsername !== null ? <div /> : (
         <div className="Signup">
           {errorToAlert()}
           <div className="container">
             <div className="row">
               <div className="col-lg-10 col-xl-9 mx-auto">
-                <div className="card card-signup flex-row my-5">
+                <div className="card card-signup flex-row my-4">
                   <div className="card-img-left d-none d-md-flex" />
                   <div className="card-body">
                     <h5 className="card-title text-center">

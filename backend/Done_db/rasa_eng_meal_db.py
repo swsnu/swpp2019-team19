@@ -11,7 +11,7 @@ IntentEng(
 action = ActionEng(action_name="action_meal", action_type="action")
 action.save()
 action.intent.add(IntentEng.objects.get(intent_name="request_menu"))
-story = StoryEng(story_name="menu")
+story = StoryEng(story_name="ask menus")
 story.save()
 story.story_path_1.add(IntentEng.objects.get(intent_name="request_menu"))
 target_intent = IntentEng.objects.get(intent_name="request_menu")

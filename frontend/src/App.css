@@ -20,3 +20,35 @@
 .App-link {
   color: #09d3ac;
 }
+
+/* chat page, selected language */
+/* need to be a little darker than btn-primary */
+.active.btn-primary {
+  background-color: #a39b97 !important;
+}
+
+.btn-primary {
+  background-color: #b7aeaa !important;
+  border-color: #b7aeaa !important;
+}
+
+.btn-secondary {
+  background-color: #d1c8c3 !important;
+  border-color: #d1c8c3 !important;
+}
+
+.btn-link {
+  color: #b7aeaa !important;
+}
+
+.BodyContainer {
+  height: 92vh;
+  max-height: 92vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  -ms-overflow-style: none;
+}
+
+.BodyContainer::-webkit-scrollbar {
+  display: none;
+}

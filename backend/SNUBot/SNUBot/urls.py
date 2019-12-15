@@ -21,4 +21,5 @@ urlpatterns = [
     path("api/", include("community.urls")),
     path("rasa_kor/", include("rasa_kor.urls")),
     path("rasa_eng/", include("rasa_eng.urls")),
+    path("admin_command/", include("admin_command.urls")),
 ]

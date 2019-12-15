@@ -15,6 +15,8 @@ const stubUserInitialState = {
 };
 const stubChatInitialState = {
   chatHistory: [],
+  engCategory: [],
+  korCategory: [],
 };
 
 const stubCommentInitialState = {

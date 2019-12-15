@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Alert } from 'react-bootstrap';
+import { Button, ButtonGroup, Alert } from 'react-bootstrap';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -101,6 +101,7 @@ class AccountInformation extends Component {
 
     const { loadingUser } = this.props;
 
+    const { isSuper, updateModel, updateServer } = this.props;
     return (
       loadingUser ? (<p />) : (
         <div className="AccountInformation">
@@ -225,6 +226,22 @@ class AccountInformation extends Component {
                     </form>
                   </div>
                 </div>
+                {isSuper
+                  ? (
+                    <ButtonGroup>
+                      <Button
+                        onClick={() => updateModel()}
+                      >
+                        model update
+                      </Button>
+                      <Button
+                        onClick={() => updateServer()}
+                      >
+                        server update
+                      </Button>
+                    </ButtonGroup>
+                  )
+                  : <div />}
               </div>
             </div>
           </div>
@@ -239,6 +256,7 @@ const mapStateToProps = (state) => ({
   loadingUser: state.user.loadingUser,
   fail: state.user.changeInfoFail,
   success: state.user.changeInfoSuccess,
+  isSuper: state.user.isSuper,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -257,6 +275,12 @@ const mapDispatchToProps = (dispatch) => ({
   ),
   signout: () => dispatch(
     actionCreators.signout(),
+  ),
+  updateModel: () => dispatch(
+    actionCreators.updateModel(),
+  ),
+  updateServer: () => dispatch(
+    actionCreators.updateServer(),
   ),
 });
 
@@ -277,4 +301,11 @@ AccountInformation.propTypes = {
   fetchUser: PropTypes.func.isRequired,
   clearUser: PropTypes.func.isRequired,
   signout: PropTypes.func.isRequired,
+  updateModel: PropTypes.func.isRequired,
+  updateServer: PropTypes.func.isRequired,
+  isSuper: PropTypes.bool,
+};
+
+AccountInformation.defaultProps = {
+  isSuper: false,
 };
