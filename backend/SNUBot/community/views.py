@@ -20,6 +20,7 @@ from .models import Article, Vote, Comment
 from operator import itemgetter
 from django.shortcuts import get_object_or_404
 import math
+import random
 
 
 @require_http_methods(["GET"])
@@ -41,8 +42,6 @@ def category(request):
                         [story.story_name, intent.intent_tokens[0]]
                     )
                     break
-            if len(response_eng) > 4:
-                break
         response_kor = []
         for story in StoryKor.objects.all():
             if story.story_name != "greet" and story.story_name != "goodbye":
@@ -51,11 +50,15 @@ def category(request):
                         [story.story_name, intent.intent_tokens[0]]
                     )
                     break
-            if len(response_kor) > 4:
-                break
         response = [response_eng, response_kor]
         cache.set("category", response)
-    return JsonResponse(response, status=200, safe=False)
+    if len(response[0]) > 4:
+        k = 4
+    else:
+        k = len(response[0])
+    selected_eng = random.sample(response[0], k=k)
+    selected_kor = random.sample(response[1], k=k)
+    return JsonResponse([selected_eng, selected_kor], status=200, safe=False)
 
 
 @require_http_methods(["POST"])
@@ -146,7 +149,7 @@ def account(request):
             target_user.nickname = new_nickname
             try:
                 target_user.save()
-            except Exception: # duplicate nickname
+            except Exception:  # duplicate nickname
                 return HttpResponse(status=403)
             login(request, target_user)
             return HttpResponse(status=204)
@@ -258,7 +261,7 @@ def boards(request):
     max_page = math.ceil(len(article_list) / article_count)
     if len(article_list) > article_count:
         article_list = article_list[
-            article_count * (cur_page_num - 1): article_count * cur_page_num
+            article_count * (cur_page_num - 1) : article_count * cur_page_num
         ]
     return_list = [max_page, article_list]
     return JsonResponse(return_list, safe=False)

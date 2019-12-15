@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'BMDOHYEON';
+  src: local('BMDOHYEON'), url(../../fonts/BMDOHYEON_ttf.ttf) format('truetype');
+}
+
 html body {
   background-color: whitesmoke;
 }
@@ -13,6 +18,7 @@ img {
 }
 
 .chat {
+  font-family: BMDOHYEON, sans-serif;
   /* display: flex; */
   justify-content: center;
   align-items: center;
@@ -123,7 +129,7 @@ img {
     width: auto;
   }
 
-  .sent_msg {
+  .sent_msg p {
     font-size: small;
   }
 }

@@ -97,44 +97,28 @@ class ActionMeal(Action):
                         response_message = "정확한 식당 이름을 알려주세요."
                 elif meal == "301":
                     for target in targets:
-                        response_message = (
-                            response_message + engineering[k] + "<br>"
-                        )
+                        response_message = response_message + engineering[k] + "<br>"
                         k = k + 1
                         for child in target.contents[2].children:
-                            response_message = (
-                                response_message + str(child) + "<br>"
-                            )
+                            response_message = response_message + str(child) + "<br>"
                 elif meal == "공깡":
                     for target in targets:
-                        response_message = (
-                            response_message + eng_ggang[k] + "<br>"
-                        )
+                        response_message = response_message + eng_ggang[k] + "<br>"
                         k = k + 1
                         for child in target.contents[2].children:
-                            response_message = (
-                                response_message + str(child) + "<br>"
-                            )
+                            response_message = response_message + str(child) + "<br>"
                 elif meal == "두레미담":
                     for target in targets:
-                        response_message = (
-                            response_message + agricultural[k] + "<br>"
-                        )
+                        response_message = response_message + agricultural[k] + "<br>"
                         k = k + 1
                         for child in target.contents[2].children:
-                            response_message = (
-                                response_message + str(child) + "<br>"
-                            )
+                            response_message = response_message + str(child) + "<br>"
                 elif meal == "기숙사":
                     for target in targets:
-                        response_message = (
-                            response_message + dormitory[k] + "<br>"
-                        )
+                        response_message = response_message + dormitory[k] + "<br>"
                         k = k + 1
                         for child in target.contents[2].children:
-                            response_message = (
-                                response_message + str(child) + "<br>"
-                            )
+                            response_message = response_message + str(child) + "<br>"
                 else:
                     if not meal == "학생회관":
                         k = 1
@@ -144,9 +128,7 @@ class ActionMeal(Action):
                         response_message = response_message + time[k] + "<br>"
                         k = k + 1
                         for child in target.contents[2].children:
-                            response_message = (
-                                response_message + str(child) + "<br>"
-                            )
+                            response_message = response_message + str(child) + "<br>"
             except IndexError as e:
                 dispatcher.utter_message(idxerr_msg)
                 return [SlotSet("meal", meal)]
@@ -216,3 +198,61 @@ class ActionMap(Action):
             pass
         dispatcher.utter_message(tg)
         return [SlotSet("place", None)]
+
+
+class ActionProfessorInfo(Action):
+    def name(self) -> Text:
+        return "action_professor_info"
+
+    def run(
+        self,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: Dict[Text, Any],
+    ) -> List[Dict[Text, Any]]:
+        prof = tracker.get_slot("prof")
+        if not prof:
+            dispatcher.utter_message(fallback_message)
+            return [SlotSet("prof", None)]
+        prof = prof.replace(" ", "-")
+        cached = redis.StrictRedis(host="127.0.0.1", port=6379, db=5)
+        tg = cached.get(prof)
+        if not tg:
+            url = "https://cse.snu.ac.kr/professor/"
+            response = requests.get(url + prof)
+            if response.status_code != 200:
+                dispatcher.utter_message("cse.snu.ac.kr doesn't reply")
+                return [SlotSet("prof", None)]
+
+            parsed_soup = bs(response.content, "html.parser")
+            office = parsed_soup.select(
+                "div > div.field-group-format.group_contact_info.field-group-div.group-contact-info.speed-fast.effect-none > div.field.field-name-field-office.field-type-text.field-label-inline.clearfix2 > div.field-items > div"
+            )
+            phone = parsed_soup.select(
+                "div > div.field-group-format.group_contact_info.field-group-div.group-contact-info.speed-fast.effect-none > div.field.field-name-field-phone.field-type-text.field-label-inline.clearfix2 > div.field-items > div"
+            )
+            mail = parsed_soup.select(
+                "div > div.field-group-format.group_contact_info.field-group-div.group-contact-info.speed-fast.effect-none > div.field.field-name-field-email.field-type-email.field-label-inline.clearfix2 > div.field-items > div"
+            )
+            website = parsed_soup.select(
+                "div > div.field-group-format.group_contact_info.field-group-div.group-contact-info.speed-fast.effect-none > div.field.field-name-field-website.field-type-link-field.field-label-inline.clearfix2 > div.field-items > div > a"
+            )
+            response_message = ""
+            response_message += "교수실: " + office[0].text + "<br>"
+            response_message += "전화: " + phone[0].text + "<br>"
+            email = mail[0].text
+            email = email.replace("[at]", "@")
+            email = email.replace("[dot]", ".")
+            email = email.replace(" ", "")
+            response_message += "이메일: " + email + "<br>"
+            response_message += "웹사이트: " + website[0].get("href") + "<br>"
+            dispatcher.utter_message(response_message)
+            cached.set(prof, response_message, 60 * 60 * 30)
+            print(response_message)
+            return [SlotSet("prof", None)]
+        try:
+            tg = tg.decode("utf-8")
+        except (UnicodeDecodeError, AttributeError):
+            pass
+        dispatcher.utter_message(tg)
+        return [SlotSet("prof", None)]
