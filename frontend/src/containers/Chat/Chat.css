@@ -116,7 +116,7 @@ img {
 
 @media (max-width: 700px) {
   .received_msg {
-    max-width: 100%;
+    max-width: 95%;
     width: auto;
   }
 
@@ -125,7 +125,7 @@ img {
   }
 
   .sent_msg {
-    max-width: 100%;
+    max-width: 95%;
     width: auto;
   }
 
