@@ -12,7 +12,8 @@ const stubUserInitialState = {
   signinFail: false,
   signupFail: false,
   loadingUser: false,
-  changeInfoFail: false,
+  changeInfoWrongPassword: false,
+  changeInfoDupNickname: false,
   changeInfoSuccess: false,
 };
 
@@ -110,7 +111,7 @@ describe('<AccountInformation />', () => {
     buttonInput.simulate('click');
     expect(spyChangeInfo).toHaveBeenCalledTimes(0);
 
-    expect(currentPasswordInput.instance().value).toEqual('');
+    expect(currentPasswordInput.instance().value).toEqual(currentPassword);
     expect(newPasswordInput.instance().value).toEqual('');
     expect(newPasswordConfirmInput.instance().value).toEqual('');
   });
@@ -155,9 +156,9 @@ describe('<AccountInformation />', () => {
     buttonInput.simulate('click');
     expect(spyChangeInfo).toHaveBeenCalledTimes(1);
 
-    expect(currentPasswordInput.instance().value).toEqual('');
-    expect(newPasswordInput.instance().value).toEqual('');
-    expect(newPasswordConfirmInput.instance().value).toEqual('');
+    expect(currentPasswordInput.instance().value).toEqual(currentPassword);
+    expect(newPasswordInput.instance().value).toEqual(newPassword);
+    expect(newPasswordConfirmInput.instance().value).toEqual(newPasswordConfirm);
     expect(spyChangeInfo).toHaveBeenCalledTimes(1);
     expect(spyChangeInfo).toHaveBeenCalledWith(
       username,
@@ -166,7 +167,7 @@ describe('<AccountInformation />', () => {
       currentPassword,
       newPasswordConfirm,
     );
-    expect(spyclearUser).toHaveBeenCalledTimes(1);
+    expect(spyclearUser).toHaveBeenCalledTimes(0);
   });
 
   it('input text and click button, failed wrong confirm', () => {
@@ -209,8 +210,8 @@ describe('<AccountInformation />', () => {
     buttonInput.simulate('click');
     expect(spyChangeInfo).toHaveBeenCalledTimes(0);
 
-    expect(currentPasswordInput.instance().value).toEqual('');
-    expect(newPasswordInput.instance().value).toEqual('');
+    expect(currentPasswordInput.instance().value).toEqual(currentPassword);
+    expect(newPasswordInput.instance().value).toEqual(newPassword);
     expect(newPasswordConfirmInput.instance().value).toEqual('');
   });
 
