@@ -10,7 +10,8 @@ import {
   CHANGE_INFO,
   FETCH_USER,
   CLEAR_USER,
-  CHANGE_INFO_FAIL,
+  CHANGE_INFO_WRONG_PASSWORD,
+  CHANGE_INFO_DUPLICATE_NICKNAME,
 } from '../actions/types';
 
 const initialState = {
@@ -20,7 +21,8 @@ const initialState = {
   signupCreateFail: false,
   signupSubmitFail: false,
   loadingUser: true,
-  changeInfoFail: false,
+  changeInfoWrongPassword: false,
+  changeInfoDupNickname: false,
   changeInfoSuccess: false,
 };
 
@@ -42,11 +44,29 @@ export default function (state = initialState, action = defaultAction) {
         ...state, signupCreateFail: false, signupSubmitFail: false, signinFail: false,
       };
     }
-    case CHANGE_INFO_FAIL: {
-      return { ...state, changeInfoFail: true, changeInfoSuccess: false };
+    case CHANGE_INFO_WRONG_PASSWORD: {
+      return {
+        ...state,
+        changeInfoWrongPassword: true,
+        changeInfoDupNickname: false,
+        changeInfoSuccess: false,
+      };
+    }
+    case CHANGE_INFO_DUPLICATE_NICKNAME: {
+      return {
+        ...state,
+        changeInfoWrongPassword: false,
+        changeInfoDupNickname: true,
+        changeInfoSuccess: false,
+      };
     }
     case CHANGE_INFO: {
-      return { ...state, changeInfoFail: false, changeInfoSuccess: true };
+      return {
+        ...state,
+        changeInfoWrongPassword: false,
+        changeInfoDupNickname: false,
+        changeInfoSuccess: true,
+      };
     }
     case FETCH_USER: {
       return {
@@ -66,7 +86,8 @@ export default function (state = initialState, action = defaultAction) {
       return {
         ...state,
         loadingUser: true,
-        changeInfoFail: false,
+        changeInfoWrongPassword: false,
+        changeInfoDupNickname: false,
         changeInfoSuccess: false,
         signinFail: false,
         signupCreateFail: false,
@@ -81,7 +102,8 @@ export default function (state = initialState, action = defaultAction) {
       return {
         ...state,
         loadingUser: true,
-        changeInfoFail: false,
+        changeInfoWrongPassword: false,
+        changeInfoDupNickname: false,
         changeInfoSuccess: false,
         signinFail: false,
         signupCreateFail: false,

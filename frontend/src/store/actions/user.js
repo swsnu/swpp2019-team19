@@ -11,7 +11,8 @@ import {
   CHANGE_INFO,
   FETCH_USER,
   CLEAR_USER,
-  CHANGE_INFO_FAIL,
+  CHANGE_INFO_WRONG_PASSWORD,
+  CHANGE_INFO_DUPLICATE_NICKNAME,
 } from './types';
 
 export const fetchUser = () => (dispatch) => (
@@ -26,7 +27,6 @@ export const fetchUser = () => (dispatch) => (
     });
   })
 );
-
 
 export const signin = (username, password) => (dispatch) => (
   axios.post('/api/signin/', { username, password }).then(() => {
@@ -95,15 +95,22 @@ export const changeInfo = (
       type: CHANGE_INFO,
     });
   }, (error) => {
-    if (error.response.status === 401 || error.response.status === 400) {
+    if (error.response.status === 403) {
       dispatch({
-        type: CHANGE_INFO_FAIL,
+        type: CHANGE_INFO_DUPLICATE_NICKNAME,
       });
-      // dispatch(push('/account'));
+    } else if (error.response.status === 401
+      || error.response.status === 400) {
+      dispatch({
+        type: CHANGE_INFO_WRONG_PASSWORD,
+      });
     }
   })
 );
 
-export const clearUser = () => (dispatch) => (
-  dispatch({ type: CLEAR_USER })
-);
+export const clearUser = () => (dispatch) => {
+  sessionStorage.removeItem('sessionid');
+  sessionStorage.removeItem('username');
+  sessionStorage.removeItem('nickname');
+  return dispatch({ type: CLEAR_USER });
+};
