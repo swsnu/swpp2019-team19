@@ -1,4 +1,9 @@
-html body {
+@font-face {
+  font-family: 'BMDOHYEON';
+  src: local('BMDOHYEON'), url(../../fonts/BMDOHYEON_ttf.ttf) format('truetype');
+}
+
+tml body {
   background-color: whitesmoke;
 }
 
@@ -13,6 +18,7 @@ img {
 }
 
 .chat {
+  font-family: BMDOHYEON;
   /* display: flex; */
   justify-content: center;
   align-items: center;

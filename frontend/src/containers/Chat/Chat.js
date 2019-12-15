@@ -14,6 +14,7 @@ import IncomingMessage from '../../components/Message/IncomingMessage';
 
 import * as actionCreators from '../../store/actions';
 import './Chat.css';
+import '../../fonts/BMDOHYEON_ttf.ttf';
 
 class Chat extends Component {
   constructor(props) {
