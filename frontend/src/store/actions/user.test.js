@@ -144,12 +144,13 @@ describe('ActionCreators', () => {
       .mockImplementation(
         (username, newnickname) => status401,
       );
-    store.dispatch(actionCreators.changeInfo('email', 'username', 'password')).then(() => {
-      const newState = store.getState();
-      expect(newState.user.changeInfoFail).toBe(true);
-      expect(spy).toHaveBeenCalledTimes(1);
-      done();
-    });
+    store.dispatch(actionCreators.changeInfo('email', 'username', 'password'))
+      .then(() => {
+        const newState = store.getState();
+        expect(newState.user.changeInfoWrongPassword).toBe(true);
+        expect(spy).toHaveBeenCalledTimes(1);
+        done();
+      });
   });
 
   it('fectch user informations', (done) => {

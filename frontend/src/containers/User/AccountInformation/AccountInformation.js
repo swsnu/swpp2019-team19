@@ -18,6 +18,7 @@ class AccountInformation extends Component {
       currentPassword: '',
       newPassword: '',
       newPasswordConfirm: '',
+      validNickname: true,
       validPassword: true,
       validPasswordConfirm: true,
     };
@@ -55,44 +56,66 @@ class AccountInformation extends Component {
 
   render() {
     const {
-      validPassword, validPasswordConfirm, username, newNickname,
+      validNickname, validPassword, validPasswordConfirm, username, newNickname,
       newEmail, currentPassword, newPassword, newPasswordConfirm,
     } = this.state;
+
     const ChangeInfoHandler = () => {
-      const { changeInfo, clearUser } = this.props;
+      const { changeInfo } = this.props;
 
-      this.setState({
-        currentPassword: '', newPassword: '', newPasswordConfirm: '',
-      });
-
-      if (newPassword.length < 8) {
-        this.setState({ validPassword: false, validPasswordConfirm: true });
-      } else if (newPassword !== newPasswordConfirm) {
-        this.setState({ validPasswordConfirm: false, validPassword: true });
-      } else {
-        this.setState({ validPassword: true, validPasswordConfirm: true });
-        changeInfo(
-          username, newNickname, newEmail, currentPassword, newPassword,
-        );
-        clearUser();
+      if (newNickname.length < 2) {
         this.setState({
-          currentPassword: '', newPassword: '', newPasswordConfirm: '',
+          validNickname: false,
         });
+      } else if (newPassword.length > 0 && newPassword.length < 8) {
+        this.setState({
+          validNickname: true,
+          validPassword: false,
+          validPasswordConfirm: true,
+          newPassword: '',
+          newPasswordConfirm: '',
+        });
+      } else if (newPassword !== newPasswordConfirm) {
+        this.setState({
+          validNickname: true,
+          validPassword: true,
+          validPasswordConfirm: false,
+          newPasswordConfirm: '',
+        });
+      } else {
+        this.setState({
+          validNickname: true,
+          validPassword: true,
+          validPasswordConfirm: true,
+        });
+        if (newPassword === '' && newPasswordConfirm === '') {
+          changeInfo(
+            username, newNickname, newEmail, currentPassword, currentPassword,
+          );
+        } else {
+          changeInfo(
+            username, newNickname, newEmail, currentPassword, newPassword,
+          );
+        }
       }
     };
 
     const errorToAlert = () => {
-      const { fail } = this.props;
+      const { wrongPassword, dupNickname } = this.props;
       let message = null;
-      if (!validPassword) {
+      if (wrongPassword) {
+        message = 'Password is wrong';
+      } else if (dupNickname) {
+        message = 'that nickname is already in use';
+      } else if (!validNickname) {
+        message = 'nickname should be at least 2 characters';
+      } else if (!validPassword) {
         message = 'Password should be at least 8 characters';
       } else if (!validPasswordConfirm) {
         message = 'Password and Password Confirm are different';
-      } else if (fail) {
-        message = 'Password is wrong';
       }
       if (message === null) {
-        return (<p />);
+        return (<div />);
       }
       return (
         <Alert variant="warning">{message}</Alert>
@@ -103,13 +126,13 @@ class AccountInformation extends Component {
 
     const { isSuper, updateModel, updateServer } = this.props;
     return (
-      loadingUser ? (<p />) : (
+      loadingUser ? (<div />) : (
         <div className="AccountInformation">
           {errorToAlert()}
           <div className="container">
             <div className="row">
               <div className="col-lg-10 col-xl-9 mx-auto">
-                <div className="card card-account flex-row my-5">
+                <div className="card card-account flex-row my-4">
                   <div className="card-img-left d-none d-md-flex" />
                   <div className="card-body">
                     <h5 className="card-title text-center">
@@ -181,6 +204,7 @@ class AccountInformation extends Component {
                         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                         <label>Current Password</label>
                       </div>
+                      <hr />
                       <div className="form-label-group-account">
                         <input
                           type="password"
@@ -191,7 +215,7 @@ class AccountInformation extends Component {
                           onChange={(event) => this.setState({
                             newPassword: event.target.value,
                           })}
-                          required
+                        // required
                         />
                         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                         <label>New Password</label>
@@ -206,7 +230,7 @@ class AccountInformation extends Component {
                           onChange={(event) => this.setState({
                             newPasswordConfirm: event.target.value,
                           })}
-                          required
+                        // required
                         />
                         {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
                         <label>Confirm New Password</label>
@@ -217,9 +241,11 @@ class AccountInformation extends Component {
                       <Button
                         id="changeInfo"
                         className="btn btn-lg btn-primary btn-block text-uppercase"
-                        type="submit"
                         onClick={() => ChangeInfoHandler()}
-                        disabled={!username || !newEmail || !newPassword}
+                        disabled={
+                          !newNickname
+                          || !currentPassword
+                        }
                       >
                         Submit
                       </Button>
@@ -254,7 +280,8 @@ class AccountInformation extends Component {
 const mapStateToProps = (state) => ({
   storedUser: state.user.user,
   loadingUser: state.user.loadingUser,
-  fail: state.user.changeInfoFail,
+  wrongPassword: state.user.changeInfoWrongPassword,
+  dupNickname: state.user.changeInfoDupNickname,
   success: state.user.changeInfoSuccess,
   isSuper: state.user.isSuper,
 });
@@ -295,11 +322,12 @@ AccountInformation.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   storedUser: PropTypes.object.isRequired,
   loadingUser: PropTypes.bool.isRequired,
-  fail: PropTypes.bool.isRequired,
+  wrongPassword: PropTypes.bool.isRequired,
+  dupNickname: PropTypes.bool.isRequired,
   success: PropTypes.bool.isRequired,
   changeInfo: PropTypes.func.isRequired,
   fetchUser: PropTypes.func.isRequired,
-  clearUser: PropTypes.func.isRequired,
+  // clearUser: PropTypes.func.isRequired,
   signout: PropTypes.func.isRequired,
   updateModel: PropTypes.func.isRequired,
   updateServer: PropTypes.func.isRequired,
