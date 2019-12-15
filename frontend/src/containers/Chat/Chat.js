@@ -99,7 +99,9 @@ class Chat extends Component {
                                   ? (
                                     <>
                                       {shortGuide(engCategory)}
+                                      <hr />
                                       <p>make sure to write exact words in wildcards[*]</p>
+                                      <hr />
                                       <p>If you want to suggest something</p>
                                     </>
                                   ) : (
