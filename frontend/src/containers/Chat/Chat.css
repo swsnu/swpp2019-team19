@@ -3,7 +3,7 @@
   src: local('BMDOHYEON'), url(../../fonts/BMDOHYEON_ttf.ttf) format('truetype');
 }
 
-tml body {
+html body {
   background-color: whitesmoke;
 }
 
@@ -18,7 +18,7 @@ img {
 }
 
 .chat {
-  font-family: BMDOHYEON;
+  font-family: BMDOHYEON, sans-serif;
   /* display: flex; */
   justify-content: center;
   align-items: center;
