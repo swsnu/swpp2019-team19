@@ -9,7 +9,7 @@ tmux send-keys -t django:0.0 C-z 'python manage.py migrate' Enter
 sleep 5
 fuser -k 8001/tcp
 tmux send-keys -t django:0.0 C-z 'uwsgi --socket :8001 --module SNUBot.wsgi' Enter
-sleep 30
+sleep 120
 fuser -k 5010/tcp
 tmux send-keys -t rasa_eng:0.0 C-z 'python -m rasa run -m ./models --endpoints ./endpoints.yml --port 5010 --log-file ./logs/rasa.log -vv --enable-api --cors "*"' Enter
 fuser -k 5055/tcp
