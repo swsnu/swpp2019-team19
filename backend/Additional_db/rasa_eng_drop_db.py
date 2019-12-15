@@ -13,7 +13,7 @@ IntentEng(
         "Tell me the procedure to cancel course",
         "Tell me the procedure to course cancellation",
     ],
-)
+).save()
 action = ActionEng(
     action_name="utter_drop",
     action_type="text",
