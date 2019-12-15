@@ -8,7 +8,6 @@ while True:
     if not flag:
         r.set("update_flag", 0)
     elif flag == b"1":
-        os.system("./update_server.sh")
         os.system("./rerun_server.sh")
         r.set("update_flag", 0)
     else:
