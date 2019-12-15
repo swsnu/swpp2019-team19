@@ -28,7 +28,7 @@ action.intent.add(IntentKor.objects.get(intent_name="goodbye"))
 action = ActionKor(
     action_name="utter_fallback",
     action_type="text",
-    text_value="무슨 뜻인지 모르겠어요.<br>Please <a href='https://www.snubot.me/boards'>help</a> us improve our chatbot",
+    text_value="무슨 뜻인지 모르겠어요.<br>개선과정에 <a href='https://www.snubot.me/boards'>참여</a>해주세요",
 )
 action.save()
 
