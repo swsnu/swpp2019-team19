@@ -93,19 +93,25 @@ class Chat extends Component {
                         >
                           {(chatLog.length < 1) ? (
                             <div className="short-guide">
-                              {(language === 'Eng' ? (
-                                <>
-                                  <p className="category-eng">You can</p>
-                                  {shortGuide(engCategory)}
-                                  <p>If you want to suggest something</p>
-                                </>
-                              ) : (
-                                <>
-                                  <p className="category-kor">검색 예시</p>
-                                  {shortGuide(korCategory)}
-                                  <p>제안하고 싶은게 있다면?</p>
-                                </>
-                              ))}
+                              {
+                                (language === 'Eng'
+                                  ? (
+                                    <>
+                                      <p className="category-eng">You can</p>
+                                      {shortGuide(engCategory)}
+                                      <p>make sure to write exact words</p>
+                                      <p>in wildcards[*], this is in beta</p>
+                                      <p>If you want to suggest something</p>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <p className="category-kor">검색 예시</p>
+                                      {shortGuide(korCategory)}
+                                      <p>와일드카드[*]에 정확한 단어를 입력해주세요</p>
+                                      <p>제안하고 싶은게 있다면?</p>
+                                    </>
+                                  ))
+                              }
                               <Button
                                 id="direct-to-boards"
                                 onClick={() => history.push('/boards/')}
