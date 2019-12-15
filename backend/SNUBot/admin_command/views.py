@@ -12,6 +12,7 @@ import redis
 @ensure_csrf_cookie
 @require_super_user
 def replace_rasa_model(request):
+    os.system("./fetch_github.sh")
     path = os.getcwd() + "/../Additional_db/"
     for root, dirs, files in os.walk(path):
         if len(files) > 0:
