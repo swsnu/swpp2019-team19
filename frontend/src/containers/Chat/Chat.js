@@ -100,8 +100,7 @@ class Chat extends Component {
                                     <>
                                       <p className="category-eng">You can</p>
                                       {shortGuide(engCategory)}
-                                      <p>make sure to write exact words</p>
-                                      <p>in wildcards[*], this is in beta</p>
+                                      <p>make sure to write exact words in wildcards[*]</p>
                                       <p>If you want to suggest something</p>
                                     </>
                                   ) : (

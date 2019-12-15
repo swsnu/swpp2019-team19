@@ -82,7 +82,7 @@ img {
   padding: 0 0 0 10px;
   vertical-align: top;
   float: left;
-  max-width: 57%;
+  max-width: 90%;
   width: auto;
 }
 
@@ -110,13 +110,13 @@ img {
   padding: 0 0 0 10px;
   vertical-align: top;
   float: right;
-  max-width: 46%;
+  max-width: 90%;
   width: auto;
 }
 
 @media (max-width: 700px) {
   .received_msg {
-    max-width: 100%;
+    max-width: 95%;
     width: auto;
   }
 
@@ -125,7 +125,7 @@ img {
   }
 
   .sent_msg {
-    max-width: 100%;
+    max-width: 95%;
     width: auto;
   }
 

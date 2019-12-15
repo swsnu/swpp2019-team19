@@ -21,6 +21,6 @@ action = ActionEng(
 )
 action.save()
 action.intent.add(IntentEng.objects.get(intent_name="how_to_drop"))
-story = StoryEng(story_name="How to drop")
+story = StoryEng(story_name="ask how to drop")
 story.save()
 story.story_path_1.add(IntentEng.objects.get(intent_name="how_to_drop"))
