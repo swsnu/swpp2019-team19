@@ -67,7 +67,7 @@ class ActionMeal(Action):
                 dispatcher.utter_message("mini.snu.ac.kr doesn't reply")
                 return [SlotSet("meal", None)]
 
-            parsed_soup = BeautifulSoup(response.content, "html.parser")
+            parsed_soup = bs(response.content, "html.parser")
 
             trs = parsed_soup.find_all("tr")
             targets = []
@@ -234,7 +234,7 @@ class ActionProfessorInfo(Action):
             response_message += "Email: " + email + "<br>"
             response_message += "Website: " + website[0].get("href") + "<br>"
             dispatcher.utter_message(response_message)
-            cached.set(prof, response_message, 6060 * 30)
+            cached.set(prof, response_message, 60 * 60 * 30)
             print(response_message)
             return [SlotSet("prof", None)]
         try:

@@ -247,7 +247,7 @@ class ActionProfessorInfo(Action):
             response_message += "이메일: " + email + "<br>"
             response_message += "웹사이트: " + website[0].get("href") + "<br>"
             dispatcher.utter_message(response_message)
-            cached.set(prof, response_message, 6060 * 30)
+            cached.set(prof, response_message, 60 * 60 * 30)
             print(response_message)
             return [SlotSet("prof", None)]
         try:

@@ -1,14 +1,7 @@
 from rasa_kor.models import IntentKor, ActionKor, StoryKor, EntityKor, SlotKor
 
 IntentKor(
-    intent_name="request_professor_info",
-    intent_tokens=[
-        "[*] 교수님",
-        "[*] 교수님 전화번호 줘",
-        "[*] 교수님 웹사이트 뭐야?",
-        "[*] 교수님 이메일 뭐야?",
-        "[*] 교수님 연구실 어디야?",
-    ],
+    intent_name="request_professor_info", intent_tokens=["[*] 교수님", "[*] 교수님에 대해 알려줘",],
 ).save()
 action = ActionKor(action_name="action_professor_info", action_type="action")
 action.save()
@@ -34,13 +27,11 @@ EntityKor(
         "문봉기",
         "민상렬",
         "박근수",
-        "스리니바사 라오 사티",
         "사티",
         "서진욱",
         "송현오",
         "신영길",
         "엄현상",
-        "버나드 에거",
         "에거",
         "염헌영",
         "유승주",
