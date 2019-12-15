@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { Button, Alert } from 'react-bootstrap';
+import {
+  Button,
+  Alert,
+  Container,
+  Row,
+  Col,
+} from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import PropTypes from 'prop-types';
@@ -31,7 +37,7 @@ class Signin extends Component {
     };
     const { fail, history } = this.props;
     return (
-      loginUsername !== null ? <p /> : (
+      loginUsername !== null ? <div /> : (
         <div className="Signin">
           {
             fail ? (
@@ -40,12 +46,12 @@ class Signin extends Component {
               >
                 Username or Password is wrong
               </Alert>
-            ) : <p />
+            ) : <div />
           }
-          <div className="container">
-            <div className="row">
-              <div className="col-lg-10 col-xl-9 mx-auto">
-                <div className="card card-signin flex-row my-5">
+          <Container>
+            <Row>
+              <Col lg={10} xl={9} className="mx-auto">
+                <div className="card card-signin flex-row my-4">
                   <div className="card-img-left d-none d-md-flex" />
                   <div className="card-body">
                     <h5 className="card-title text-center">Sign In</h5>
@@ -83,7 +89,6 @@ class Signin extends Component {
                         <label htmlFor="inputPassword">Password</label>
                       </div>
                       <br />
-                      <br />
                       <hr />
                       <br />
                       <br />
@@ -109,9 +114,9 @@ class Signin extends Component {
                     </form>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
+              </Col>
+            </Row>
+          </Container>
         </div>
       )
     );
