@@ -204,12 +204,14 @@ class ActionProfessorInfo(Action):
             response = requests.get(url + prof)
             if response.status_code != 200:
                 dispatcher.utter_message(
-                    "cse.snu.ac.kr doesn't reply" + response.status_code + " " + prof
+                    "cse.snu.ac.kr doesn't reply"
+                    + str(response.status_code)
+                    + " "
+                    + prof
                 )
                 return [SlotSet("prof", prof)]
 
             parsed_soup = bs(response.content, "html.parser")
-            target = []
             office = parsed_soup.select(
                 "div > div.field-group-format.group_contact_info.field-group-div.group-contact-info.speed-fast.effect-none > div.field.field-name-field-office.field-type-text.field-label-inline.clearfix2 > div.field-items > div"
             )
@@ -229,11 +231,11 @@ class ActionProfessorInfo(Action):
             email = email.replace("[at]", "@")
             email = email.replace("[dot]", ".")
             email = email.replace(" ", "")
-            print(email)
             response_message += "Email: " + email + "<br>"
             response_message += "Website: " + website[0].get("href") + "<br>"
             dispatcher.utter_message(response_message)
-            cached.set(prof, response_message)
+            cached.set(prof, response_message, 6060 * 30)
+            print(response_message)
             return [SlotSet("prof", prof)]
         try:
             tg = tg.decode("utf-8")
