@@ -3,7 +3,9 @@ import {
   SEND_QUESTION, RCV_QUESTION, CLEAR_CHAT_HISTORY, CHAT_CATEGORY,
 } from './types';
 
-export const getMessage = (response) => ({ type: RCV_QUESTION, message: response });
+export const getMessage = (response) => ({
+  type: RCV_QUESTION, message: response,
+});
 
 export const sendMessage = (message, language) => (dispatch) => {
   const sender = document.cookie.slice(-20);

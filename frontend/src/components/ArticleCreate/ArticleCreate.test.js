@@ -71,7 +71,7 @@ describe('<ArticleCreate />', () => {
     sessionStorage.clear();
   });
 
-  it('create article (not logged in', () => {
+  it('create article (not logged in)', () => {
     const wrapper = mount(articleCreate);
     const titleInput = wrapper.find('#article-title-input').at(1);
     const contentInput = wrapper.find('#article-content-input').at(1);

@@ -73,7 +73,9 @@ describe('<AccountInformation />', () => {
   });
 
   it('input text and click button, fail', () => {
+    expect(spyfetchUser).not.toHaveBeenCalled();
     const wrapper = mount(accountinformation);
+    expect(spyfetchUser).toHaveBeenCalled();
     const usernameInput = wrapper.find('#username-input');
     const nicknameInput = wrapper.find('#nickname-input');
     const emailInput = wrapper.find('#email-input');
@@ -117,7 +119,9 @@ describe('<AccountInformation />', () => {
   });
 
   it('input text and click button, success', () => {
+    expect(spyfetchUser).not.toHaveBeenCalled();
     const wrapper = mount(accountinformation);
+    expect(spyfetchUser).toHaveBeenCalled();
     const usernameInput = wrapper.find('#username-input');
     const nicknameInput = wrapper.find('#nickname-input');
     const emailInput = wrapper.find('#email-input');
@@ -171,7 +175,9 @@ describe('<AccountInformation />', () => {
   });
 
   it('input text and click button, failed wrong confirm', () => {
+    expect(spyfetchUser).not.toHaveBeenCalled();
     const wrapper = mount(accountinformation);
+    expect(spyfetchUser).toHaveBeenCalled();
     const usernameInput = wrapper.find('#username-input');
     const nicknameInput = wrapper.find('#nickname-input');
     const emailInput = wrapper.find('#email-input');

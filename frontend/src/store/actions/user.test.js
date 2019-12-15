@@ -9,6 +9,7 @@ const stubUser = {
   username: 'test1',
   nickname: 'testnick',
   email: 'test@email.com',
+  super: false,
 };
 
 const status200 = new Promise((resolve) => {
@@ -27,6 +28,18 @@ const status401 = new Promise((resolve, reject) => {
 });
 
 describe('ActionCreators', () => {
+  let spyFetch;
+  beforeEach(() => {
+    spyFetch = jest.spyOn(axios, 'get').mockImplementation(
+      () => new Promise((resolve) => {
+        const result = {
+          status: 200,
+          data: stubUser,
+        };
+        resolve(result);
+      }),
+    );
+  });
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -43,6 +56,7 @@ describe('ActionCreators', () => {
 
     store.dispatch(actionCreators.signin()).then(() => {
       expect(spy).toHaveBeenCalledTimes(1);
+      expect(spyFetch).toHaveBeenCalledTimes(1);
       done();
     });
   });
@@ -56,6 +70,7 @@ describe('ActionCreators', () => {
       const newState = store.getState();
       expect(newState.user.signinFail).toBe(true);
       expect(spy).toHaveBeenCalledTimes(1);
+      expect(spyFetch).not.toHaveBeenCalled();
       done();
     });
   });

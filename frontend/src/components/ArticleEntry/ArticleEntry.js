@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { Card, Col, Badge } from 'react-bootstrap';
 import { faVoteYea } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,7 +7,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import ArticleDetail from '../ArticleDetail/ArticleDetail';
 
-import * as actionCreators from '../../store/actions';
+import * as articleAction from '../../store/actions/article';
+import * as commentAction from '../../store/actions/comment';
 
 import './ArticleEntry.css';
 
@@ -33,21 +34,25 @@ const ArticleEntry = (props) => {
   const [modalShow, setModalShow] = React.useState(false);
   const [focus, setFocus] = React.useState(false);
 
-  const { article, storedArticle } = props;
   const {
-    tag, content, title,
+    article,
+    storedArticle,
+    fetchComment,
+    fetch,
+  } = props;
+  const {
+    tag, content, title, id,
   } = article;
   const author = article.author__nickname;
 
-  const dispatch = useDispatch();
   return (
     <Col className="ArticleEntry">
       <Card
         id="article-entry"
         tag="a"
         onClick={() => {
-          dispatch(actionCreators.fetchComment(props.article.id));
-          props.fetch(props.article.id);
+          fetchComment(id);
+          fetch(id);
           setModalShow(true);
         }}
         onMouseOver={() => {
@@ -111,13 +116,16 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   fetch: (id) => dispatch(
-    actionCreators.fetchArticle(id),
+    articleAction.fetchArticle(id),
   ),
   clearArticle: () => dispatch(
-    actionCreators.clearArticle(),
+    articleAction.clearArticle(),
+  ),
+  fetchComment: (id) => dispatch(
+    commentAction.fetchComment(id),
   ),
   clearComment: () => dispatch(
-    actionCreators.clearComment(),
+    commentAction.clearComment(),
   ),
 });
 
@@ -133,5 +141,6 @@ ArticleEntry.propTypes = {
   storedArticle: PropTypes.object.isRequired,
   fetch: PropTypes.func.isRequired,
   clearArticle: PropTypes.func.isRequired,
+  fetchComment: PropTypes.func.isRequired,
   clearComment: PropTypes.func.isRequired,
 };

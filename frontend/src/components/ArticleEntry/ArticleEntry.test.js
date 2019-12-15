@@ -1,9 +1,11 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { getMockStore } from '../../test-utils/mocks';
 
-import * as ActionCreators from '../../store/actions/article';
+import * as articleAction from '../../store/actions/article';
+import * as commentAction from '../../store/actions/comment';
 import ArticleEntry from './ArticleEntry';
 
 const stubArticleInitialState = {
@@ -67,14 +69,18 @@ describe('<ArticleEntry />', () => {
     const wrapper = mount(articleEntry);
     const clickable = wrapper.find('#article-entry').at(1);
     const spyFetch = jest
-      .spyOn(ActionCreators, 'fetchArticle')
-      // eslint-disable-next-line no-unused-vars
+      .spyOn(articleAction, 'fetchArticle')
+      .mockImplementation(() => (dispatch) => { });
+    const spyFetchComment = jest
+      .spyOn(commentAction, 'fetchComment')
       .mockImplementation(() => (dispatch) => { });
 
     expect(spyFetch).not.toHaveBeenCalled();
+    expect(spyFetchComment).not.toHaveBeenCalled();
     expect(clickable.exists()).toBeTruthy();
     clickable.simulate('click');
 
     expect(spyFetch).toHaveBeenCalled();
+    expect(spyFetchComment).toHaveBeenCalled();
   });
 });
