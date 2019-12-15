@@ -12,8 +12,13 @@ import redis
 @ensure_csrf_cookie
 @require_super_user
 def replace_rasa_model(request):
-    os.system("./update_rasa.sh")
-    return HttpResponse(status=204)
+    path = os.getcwd() + "/../Additional_db/"
+    for root, dirs, files in os.walk(path):
+        if len(files) > 0:
+            os.system("./update_rasa.sh")
+            return HttpResponse(status=204)
+        else:
+            return HttpResponse(status=409)
 
 
 @require_http_methods(["GET"])
