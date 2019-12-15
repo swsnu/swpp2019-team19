@@ -42,7 +42,7 @@ img {
 
 .mesgs {
   text-align: center;
-  padding: 30px 15px 0 25px;
+  padding: 25px 10px 10px;
   width: 100%;
 }
 
@@ -82,7 +82,7 @@ img {
   padding: 0 0 0 10px;
   vertical-align: top;
   float: left;
-  max-width: 57%;
+  max-width: 90%;
   width: auto;
 }
 
@@ -110,13 +110,28 @@ img {
   padding: 0 0 0 10px;
   vertical-align: top;
   float: right;
-  max-width: 46%;
+  max-width: 90%;
   width: auto;
 }
 
 @media (max-width: 700px) {
+
+  .mesgs {
+    text-align: center;
+    padding: 10px 5px 10px 5px;
+    width: 100%;
+  }
+
+  .msg_history {
+    /* height: 600px; */
+    height: 75vh;
+    overflow-y: auto;
+    padding: 0 5px;
+    margin-bottom: 5px;
+  }
+
   .received_msg {
-    max-width: 100%;
+    max-width: 95%;
     width: auto;
   }
 
@@ -125,7 +140,7 @@ img {
   }
 
   .sent_msg {
-    max-width: 100%;
+    max-width: 95%;
     width: auto;
   }
 
@@ -150,9 +165,10 @@ img {
 
 .type_msg {
   border: 1px solid #c4c4c4;
+  margin: 0px 5px;
   background: #fff;
   position: relative;
-  border-radius: 5px 0px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
 }
 
 .messaging {

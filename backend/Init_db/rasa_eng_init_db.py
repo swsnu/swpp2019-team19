@@ -45,7 +45,7 @@ action.intent.add(IntentEng.objects.get(intent_name="goodbye"))
 action = ActionEng(
     action_name="utter_fallback",
     action_type="text",
-    text_value="I can't understand!",
+    text_value="I can't understand!<br>Please <a href='https://www.snubot.me/boards'>help us improve</a> our chatbot",
 )
 action.save()
 
