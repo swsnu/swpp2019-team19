@@ -97,17 +97,19 @@ class Chat extends Component {
                                 (language === 'Eng'
                                   ? (
                                     <>
-                                      <p className="category-eng">You can</p>
                                       {shortGuide(engCategory)}
+                                      <hr />
                                       <p>make sure to write exact words</p>
                                       <p>in wildcards[*], this is in beta</p>
+                                      <hr />
                                       <p>If you want to suggest something</p>
                                     </>
                                   ) : (
                                     <>
-                                      <p className="category-kor">검색 예시</p>
                                       {shortGuide(korCategory)}
+                                      <hr />
                                       <p>와일드카드[*]에 정확한 단어를 입력해주세요</p>
+                                      <hr />
                                       <p>제안하고 싶은게 있다면?</p>
                                     </>
                                   ))
