@@ -39,8 +39,7 @@ class Signup extends Component {
 
     const pushHandler = () => {
       // NOSONAR
-      // eslint-disable-next-line react/destructuring-assignment
-      if (!this.props.createFail) {
+      if (!createFail) {
         history.push('/signin');
       }
     };
