@@ -129,7 +129,7 @@ img {
     width: auto;
   }
 
-  .sent_msg {
+  .sent_msg p {
     font-size: small;
   }
 }
