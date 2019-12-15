@@ -17,3 +17,7 @@
 ## override form
 * request_override_file
   - utter_give_override_file
+
+## professor info
+* request_professor_info
+  - action_professor_info
