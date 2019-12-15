@@ -1,9 +1,9 @@
 #!/bin/bash
 tmux send-keys -t django:0.0 C-z 'python manage.py makemigrations' Enter
-tmux send-keys -t rasa_eng:0.0 C-z 'rm models/*' Enter
-tmux send-keys -t rasa_eng:0.0 C-z 'rasa train' Enter
-tmux send-keys -t rasa_kor:0.0 C-z 'rm models/*' Enter
-tmux send-keys -t rasa_kor:0.0 C-z 'rasa train' Enter
+tmux send-keys -t rasa_eng_update:0.0 C-z 'rm models/*' Enter
+tmux send-keys -t rasa_eng_update:0.0 C-z 'rasa train' Enter
+tmux send-keys -t rasa_kor_update:0.0 C-z 'rm models/*' Enter
+tmux send-keys -t rasa_kor_update:0.0 C-z 'rasa train' Enter
 sleep 5
 tmux send-keys -t django:0.0 C-z 'python manage.py migrate' Enter
 sleep 5
