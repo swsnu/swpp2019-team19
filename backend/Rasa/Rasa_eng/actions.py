@@ -23,7 +23,11 @@ time = ["breakfast", "lunch", "dinner"]
 engineering = ["prof", "foodcourt"]
 agricultural = ["lunch", "dinner", "order"]
 eng_ggang = ["foodcourt"]
-idxerr_msg = "Error occured during loading menu.<br>Please post a article about it."
+idxerr_msg = (
+    "Error occured during loading menu.<br>Please post a article about it."
+)
+
+copystore_msg = "Central Library(No.62) 4FL: 9-20<br>Student Union Building(No.63) 2FL: 9-19<br>College of Law(No.15) 1FL: 9-18<br>Dongwongwan(No.113) 1FL: 9-18<br>College of Social Science(No.16) 2FL: 9-18<br>College of Education(No.12) 1FL: 9-18<br>College of Agricultural and Life Science(No.200) 1FL: 9-18<br>Shinyang Hall I(No.44-1) 2FL: 9-22"
 
 
 class ActionMeal(Action):
@@ -86,32 +90,48 @@ class ActionMeal(Action):
                     response_message = "Tell me the exact name of the cafeteria"
                 elif meal == "301":
                     for target in targets:
-                        response_message = response_message + engineering[k] + "<br>"
+                        response_message = (
+                            response_message + engineering[k] + "<br>"
+                        )
                         k = k + 1
                         for child in target.contents[2].children:
-                            response_message = response_message + str(child) + "<br>"
+                            response_message = (
+                                response_message + str(child) + "<br>"
+                            )
                 elif meal == "공깡":
                     for target in targets:
-                        response_message = response_message + eng_ggang[k] + "<br>"
+                        response_message = (
+                            response_message + eng_ggang[k] + "<br>"
+                        )
                         k = k + 1
                         for child in target.contents[2].children:
-                            response_message = response_message + str(child) + "<br>"
+                            response_message = (
+                                response_message + str(child) + "<br>"
+                            )
                 elif meal == "두레미담":
                     for target in targets:
-                        response_message = response_message + agricultural[k] + "<br>"
+                        response_message = (
+                            response_message + agricultural[k] + "<br>"
+                        )
                         k = k + 1
                         for child in target.contents[2].children:
-                            response_message = response_message + str(child) + "<br>"
+                            response_message = (
+                                response_message + str(child) + "<br>"
+                            )
                 else:
                     if not (
-                        meal == "Student Center" or meal == "Dormitory" or meal == "901"
+                        meal == "Student Center"
+                        or meal == "Dormitory"
+                        or meal == "901"
                     ):
                         k = 1
                     for target in targets:
                         response_message = response_message + time[k] + "<br>"
                         k = k + 1
                         for child in target.contents[2].children:
-                            response_message = response_message + str(child) + "<br>"
+                            response_message = (
+                                response_message + str(child) + "<br>"
+                            )
             except IndexError as e:
                 dispatcher.utter_message(idxerr_msg)
                 return [SlotSet("meal", None)]
@@ -140,6 +160,9 @@ class ActionMap(Action):
         place = tracker.get_slot("place")
         if not place:
             dispatcher.utter_message(fallback_message)
+            return [SlotSet("place", None)]
+        elif ("copy" in place) or ("print" in place):
+            dispatcher.utter_message(copystore_msg)
             return [SlotSet("place", None)]
         cached = redis.StrictRedis(host="127.0.0.1", port=6379, db=4)
         tg = cached.get(place)
