@@ -1,4 +1,4 @@
-/* eslint-disable import/no-named-as-default */
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { Provider } from 'react-redux';
 import { mount } from 'enzyme';
@@ -6,6 +6,8 @@ import App from './App';
 
 import { getMockStore } from './test-utils/mocks';
 import { history } from './store/store';
+
+import * as ActionCreators from './store/actions/chat';
 
 const stubArticleInitialState = {
 
@@ -40,8 +42,15 @@ describe('renders without crashing', () => {
       </Provider>
     );
   });
+
   it('should render App', () => {
+    const spyFetchCategory = jest
+      .spyOn(ActionCreators, 'fetchCategory')
+      .mockImplementation(() => (dispatch) => { });
+
+    expect(spyFetchCategory).not.toHaveBeenCalled();
     const component = mount(appLogIn);
     expect(component.find('.App').length).toBe(1);
+    expect(spyFetchCategory).toHaveBeenCalled();
   });
 });

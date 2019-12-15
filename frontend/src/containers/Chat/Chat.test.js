@@ -37,6 +37,8 @@ const stubChatInitialState2 = {
       },
     },
   ],
+  engCategory: [],
+  korCategory: [],
 };
 
 const mockStore1 = getMockStore({}, {}, stubChatInitialState1, {});
@@ -47,6 +49,8 @@ describe('<Chat />', () => {
   let chat1;
   let chat2;
   let spySendMessage;
+  let spyFetchCategory;
+  let spyClearChatHistory;
   beforeEach(() => {
     chat1 = (
       <Provider store={mockStore1}>
@@ -69,6 +73,12 @@ describe('<Chat />', () => {
     spySendMessage = jest
       .spyOn(ActionCreators, 'sendMessage')
       .mockImplementation(() => (dispatch) => { });
+    spyFetchCategory = jest
+      .spyOn(ActionCreators, 'fetchCategory')
+      .mockImplementation(() => (dispatch) => { });
+    spyClearChatHistory = jest
+      .spyOn(ActionCreators, 'clearChatHistory')
+      .mockImplementation(() => (dispatch) => { });
   });
 
   afterEach(() => {
@@ -81,6 +91,9 @@ describe('<Chat />', () => {
     const submitButtonWrpper = component.find('#direct-to-boards');
     submitButtonWrpper.at(0).simulate('click');
     expect(history.location.pathname).toBe('/boards/');
+    expect(spySendMessage).toHaveBeenCalledTimes(0);
+    expect(spyClearChatHistory).toHaveBeenCalledTimes(1);
+    expect(spyFetchCategory).toHaveBeenCalledTimes(1);
   });
 
   // TODO : resolve UnhandledPromiseRejectionWarning
@@ -89,6 +102,11 @@ describe('<Chat />', () => {
   it('renders when exist message', () => {
     const event = { target: { value: 'hi' } };
     const component = mount(chat2);
+
+    expect(spySendMessage).toHaveBeenCalledTimes(0);
+    expect(spyClearChatHistory).toHaveBeenCalledTimes(1);
+    expect(spyFetchCategory).toHaveBeenCalledTimes(1);
+
     const wrapper = component.find('.inbox_msg');
     expect(wrapper.length).toBe(1);
     const formControlWrapper = component.find('.write_msg').at(1);
@@ -101,13 +119,18 @@ describe('<Chat />', () => {
 
   it('change language', () => {
     const component = mount(chat2);
+
+    expect(spySendMessage).toHaveBeenCalledTimes(0);
+    expect(spyClearChatHistory).toHaveBeenCalledTimes(1);
+    expect(spyFetchCategory).toHaveBeenCalledTimes(1);
+
     const langKorButton = component.find('#language-korean').at(3);
     const langEngButton = component.find('#language-english').at(3);
     expect(langKorButton.exists()).toBeTruthy();
     expect(langEngButton.exists()).toBeTruthy();
     langKorButton.simulate('click');
-    // expect(langKorButton.text()).toBe('Eng');
+    expect(spyFetchCategory).toHaveBeenCalledTimes(1);
     langEngButton.simulate('click');
-    // expect(langEngButton.text()).toBe('Kor');
+    expect(spyFetchCategory).toHaveBeenCalledTimes(1);
   });
 });

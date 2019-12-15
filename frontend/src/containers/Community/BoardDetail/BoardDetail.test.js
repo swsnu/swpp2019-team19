@@ -65,6 +65,20 @@ const mockStore = getMockStore(
 );
 
 describe('<BoardDetail />', () => {
+  // resolve
+  // UnhandledPromiseRejectionWarning
+  //   : TypeError: document.createRange is not a function
+  if (global.document) {
+    document.createRange = () => ({
+      setStart: () => { },
+      setEnd: () => { },
+      commonAncestorContainer: {
+        nodeName: 'BODY',
+        ownerDocument: document,
+      },
+    });
+  }
+
   const defaultOption = {
     currentPageNumber: 1,
     filterCriteria: 'all',
