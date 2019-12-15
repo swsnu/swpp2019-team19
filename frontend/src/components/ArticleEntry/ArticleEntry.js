@@ -51,7 +51,6 @@ const ArticleEntry = (props) => {
         id="article-entry"
         tag="a"
         onClick={() => {
-          // dispatch(fetchComment(props.article.id));
           fetchComment(id);
           fetch(id);
           setModalShow(true);

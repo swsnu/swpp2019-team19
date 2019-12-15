@@ -28,6 +28,18 @@ const status401 = new Promise((resolve, reject) => {
 });
 
 describe('ActionCreators', () => {
+  let spyFetch;
+  beforeEach(() => {
+    spyFetch = jest.spyOn(axios, 'get').mockImplementation(
+      () => new Promise((resolve) => {
+        const result = {
+          status: 200,
+          data: stubUser,
+        };
+        resolve(result);
+      }),
+    );
+  });
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -37,15 +49,6 @@ describe('ActionCreators', () => {
       (username, password) => new Promise((resolve) => {
         const result = {
           status: 204,
-        };
-        resolve(result);
-      }),
-    );
-    const spyFetch = jest.spyOn(axios, 'get').mockImplementation(
-      () => new Promise((resolve) => {
-        const result = {
-          status: 200,
-          data: stubUser,
         };
         resolve(result);
       }),
@@ -61,15 +64,6 @@ describe('ActionCreators', () => {
   it("'signin' should catch 401 error", (done) => {
     const spy = jest.spyOn(axios, 'post').mockImplementation(
       (username, password) => status401,
-    );
-    const spyFetch = jest.spyOn(axios, 'get').mockImplementation(
-      () => new Promise((resolve) => {
-        const result = {
-          status: 200,
-          data: stubUser,
-        };
-        resolve(result);
-      }),
     );
 
     store.dispatch(actionCreators.signin()).then(() => {
