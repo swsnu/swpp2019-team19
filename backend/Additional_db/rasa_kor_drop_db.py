@@ -9,6 +9,7 @@ action = ActionKor(
     action_type="text",
     text_value="mysnu 로그인<br>학사정보 클릭<br수업/성적->수업->정규학기 수강취소 클릭<br>취소 사유 입력<br>신청",
 )
+action.save()
 action.intent.add(IntentKor.objects.get(intent_name="how_to_drop"))
 story = StoryKor(story_name="How to drop")
 story.save()

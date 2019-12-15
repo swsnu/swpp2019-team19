@@ -13,12 +13,13 @@ IntentEng(
         "Tell me the procedure to cancel course",
         "Tell me the procedure to course cancellation",
     ],
-).save()
+)
+action.save()
 action = ActionEng(
     action_name="utter_drop",
     action_type="text",
     text_value="First, login mysnu<br>Then, Click Academic Affairs in the top menu<br>Click Class/Grade->Class->Course Drop<br>Fill the Form<br>Apply",
-)
+).save()
 action.intent.add(IntentEng.objects.get(intent_name="how_to_drop"))
 story = StoryEng(story_name="How to drop")
 story.save()
