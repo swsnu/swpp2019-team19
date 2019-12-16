@@ -30,7 +30,7 @@ IntentEng(
 action = ActionEng(
     action_name="utter_greet",
     action_type="text",
-    text_value="Hey! How are you?",
+    text_value="Hi!? What are you curious about?",
 )
 action.save()
 action.intent.add(IntentEng.objects.get(intent_name="greet"))

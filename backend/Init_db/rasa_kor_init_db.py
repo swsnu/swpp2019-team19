@@ -14,7 +14,7 @@ IntentKor(
 
 
 action = ActionKor(
-    action_name="utter_greet", action_type="text", text_value="안녕! 잘지내?"
+    action_name="utter_greet", action_type="text", text_value="안녕! 무엇이 궁금하니?"
 )
 action.save()
 action.intent.add(IntentKor.objects.get(intent_name="greet"))
