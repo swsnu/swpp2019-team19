@@ -11,7 +11,6 @@ import Signin from './containers/User/Signin/Signin';
 import Signup from './containers/User/Signup/Signup';
 import AccountInformation from './containers/User/AccountInformation/AccountInformation';
 
-import About from './containers/About/About';
 import NotFound from './containers/NotFound/NotFound';
 
 import CustomNavbar from './components/Navbar/CustomNavbar';
@@ -41,8 +40,6 @@ const App = (props) => {
             <Route path="/signin" exact component={Signin} />
             <Route path="/signup" exact component={Signup} />
             <Route path="/account" exact component={AccountInformation} />
-
-            <Route path="/about" exact component={About} />
 
             <Route component={NotFound} />
           </Switch>
