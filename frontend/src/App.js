@@ -11,7 +11,6 @@ import Signin from './containers/User/Signin/Signin';
 import Signup from './containers/User/Signup/Signup';
 import AccountInformation from './containers/User/AccountInformation/AccountInformation';
 
-import About from './containers/About/About';
 import NotFound from './containers/NotFound/NotFound';
 
 import CustomNavbar from './components/Navbar/CustomNavbar';
