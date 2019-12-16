@@ -42,8 +42,6 @@ const App = (props) => {
             <Route path="/signup" exact component={Signup} />
             <Route path="/account" exact component={AccountInformation} />
 
-            <Route path="/about" exact component={About} />
-
             <Route component={NotFound} />
           </Switch>
         </div>
