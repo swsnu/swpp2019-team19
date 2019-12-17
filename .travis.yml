@@ -38,7 +38,7 @@ matrix:
         - yarn test --coverage --watchAll=false
         - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
         - cd ../backend/SNUBot
-        - coverage run --source="./" --omit="manage.py,*wsgi*, */custom/*" manage.py test
+        - coverage run --source="./" --omit="manage.py,server_script.py,*wsgi*,./admin_command/*" manage.py test
         - coverage report -m
         - coverage xml
       after_success:
