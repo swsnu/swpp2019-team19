@@ -2,15 +2,15 @@ from django.urls import path
 from rasa_kor import views
 
 urlpatterns = [
-    path("intents/", views.intents),
-    path("intent/<int:id>/", views.intent_detail),
-    path("actions/", views.actions),
-    path("action/<int:id>/", views.action_detail),
-    path("stories/", views.stories),
-    path("story/<int:id>/", views.story_detail),
-    path("entities/", views.entities),
-    path("entity/<int:id>/", views.entity_detail),
-    path("slots/", views.slots),
-    path("slot/<int:id>/", views.slot_detail),
-    path("makefile/", views.make_train_file),
+    path("intents/", views.IntentsView.as_view()),
+    path("intent/<int:id>/", views.IntentView.as_view()),
+    path("actions/", views.ActionsView.as_view()),
+    path("action/<int:id>/", views.ActionView.as_view()),
+    path("stories/", views.StoriesView.as_view()),
+    path("story/<int:id>/", views.StoryView.as_view()),
+    path("entities/", views.EntitiesView.as_view()),
+    path("entity/<int:id>/", views.EntityView.as_view()),
+    path("slots/", views.SlotsView.as_view()),
+    path("slot/<int:id>/", views.SlotView.as_view()),
+    path("makefile/", views.MakeFileView.as_view()),
 ]
