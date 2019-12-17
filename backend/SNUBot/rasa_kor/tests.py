@@ -125,6 +125,17 @@ class RasaKorTestCase(TestCase):
 
         SlotKor(slot_name="meal").save()
 
+    def test_not_superuser(self):
+        client = Client()
+        response = client.post(
+            signin_api,
+            json.dumps({"username": "test2", "password": "user1234"}),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 204)
+        response = client.get(intents_api)
+        self.assertEqual(response.status_code, 401)
+
     def test_intents(self):
         client = Client()
         response = client.post(
@@ -159,6 +170,8 @@ class RasaKorTestCase(TestCase):
         )
         self.assertEqual(response.status_code, 204)
         id = IntentKor.objects.get(intent_name="greet").id
+        response = client.get(intent_api + "1111/")
+        self.assertEqual(response.status_code, 404)
         response = client.get(intent_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         response = client.put(
@@ -167,6 +180,17 @@ class RasaKorTestCase(TestCase):
             content_type=content_type,
         )
         self.assertEqual(response.status_code, 400)
+        response = client.put(
+            intent_api + "111111/",
+            json.dumps(
+                {
+                    "intent_name": "test_intent",
+                    "intent_tokens": ["hello", "bye"],
+                }
+            ),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
         response = client.put(
             intent_api + str(id) + "/",
             json.dumps(
@@ -177,6 +201,7 @@ class RasaKorTestCase(TestCase):
             ),
             content_type=content_type,
         )
+
         self.assertEqual(response.status_code, 201)
         response = client.get(intent_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
@@ -191,6 +216,8 @@ class RasaKorTestCase(TestCase):
         response = client.delete(intent_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         response = client.get(intent_api + str(id) + "/")
+        self.assertEqual(response.status_code, 404)
+        response = client.delete(intent_api + "11111/")
         self.assertEqual(response.status_code, 404)
 
     def test_actions(self):
@@ -224,6 +251,20 @@ class RasaKorTestCase(TestCase):
                     "action_type": "text",
                     "text_value": "test_action_hi",
                     "image_value": "",
+                    "intent_list": ["non_exist"],
+                }
+            ),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
+        response = client.post(
+            actions_api,
+            json.dumps(
+                {
+                    "action_name": "test_action",
+                    "action_type": "text",
+                    "text_value": "test_action_hi",
+                    "image_value": "",
                     "intent_list": ["greet"],
                 }
             ),
@@ -242,6 +283,8 @@ class RasaKorTestCase(TestCase):
         id = ActionKor.objects.get(action_name="utter_goodbye").id
         response = client.get(action_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
+        response = client.get(action_api + "11111/")
+        self.assertEqual(response.status_code, 404)
         response = client.put(
             action_api + str(id) + "/",
             json.dumps({"action_name": "test_action"}),
@@ -256,12 +299,41 @@ class RasaKorTestCase(TestCase):
                     "action_type": "text",
                     "text_value": "test_action_hi",
                     "image_value": "",
+                    "intent_list": ["not_exist_intent"],
+                }
+            ),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
+        response = client.put(
+            action_api + str(id) + "/",
+            json.dumps(
+                {
+                    "action_name": "test_action",
+                    "action_type": "text",
+                    "text_value": "test_action_hi",
+                    "image_value": "",
                     "intent_list": ["greet", "goodbye"],
                 }
             ),
             content_type=content_type,
         )
         self.assertEqual(response.status_code, 201)
+
+        response = client.put(
+            action_api + "11111/",
+            json.dumps(
+                {
+                    "action_name": "test_action",
+                    "action_type": "text",
+                    "text_value": "test_action_hi",
+                    "image_value": "",
+                    "intent_list": ["greet", "goodbye"],
+                }
+            ),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
         response = client.get(action_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
@@ -278,6 +350,8 @@ class RasaKorTestCase(TestCase):
         response = client.delete(action_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         response = client.get(action_api + str(id) + "/")
+        self.assertEqual(response.status_code, 404)
+        response = client.delete(action_api + "11111/")
         self.assertEqual(response.status_code, 404)
 
     def test_stories(self):
@@ -296,6 +370,30 @@ class RasaKorTestCase(TestCase):
             content_type=content_type,
         )
         self.assertEqual(response.status_code, 400)
+        response = client.post(
+            stories_api,
+            json.dumps(
+                {
+                    "story_name": "test_story",
+                    "story_path_1": ["non_exist"],
+                    "story_path_2": ["greet"],
+                }
+            ),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
+        response = client.post(
+            stories_api,
+            json.dumps(
+                {
+                    "story_name": "test_story",
+                    "story_path_1": ["goodbye"],
+                    "story_path_2": ["non_eixst"],
+                }
+            ),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
         response = client.post(
             stories_api,
             json.dumps(
@@ -320,12 +418,38 @@ class RasaKorTestCase(TestCase):
         id = StoryKor.objects.get(story_name="greet").id
         response = client.get(story_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
+        response = client.get(story_api + "11111/")
+        self.assertEqual(response.status_code, 404)
         response = client.put(
             story_api + str(id) + "/",
             json.dumps({"story_name": "test_story"}),
             content_type=content_type,
         )
         self.assertEqual(response.status_code, 400)
+        response = client.put(
+            story_api + str(id) + "/",
+            json.dumps(
+                {
+                    "story_name": "test_story",
+                    "story_path_1": ["non_exist"],
+                    "story_path_2": ["goodbye"],
+                }
+            ),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
+        response = client.put(
+            story_api + str(id) + "/",
+            json.dumps(
+                {
+                    "story_name": "test_story",
+                    "story_path_1": ["greet"],
+                    "story_path_2": ["non_exist"],
+                }
+            ),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
         response = client.put(
             story_api + str(id) + "/",
             json.dumps(
@@ -338,6 +462,18 @@ class RasaKorTestCase(TestCase):
             content_type=content_type,
         )
         self.assertEqual(response.status_code, 201)
+        response = client.put(
+            story_api + "11111/",
+            json.dumps(
+                {
+                    "story_name": "test_story",
+                    "story_path_1": ["greet"],
+                    "story_path_2": ["goodbye"],
+                }
+            ),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
         response = client.get(story_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
@@ -352,6 +488,8 @@ class RasaKorTestCase(TestCase):
         response = client.delete(story_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         response = client.get(story_api + str(id) + "/")
+        self.assertEqual(response.status_code, 404)
+        response = client.delete(story_api + "11111/")
         self.assertEqual(response.status_code, 404)
 
     def test_entities(self):
@@ -381,6 +519,18 @@ class RasaKorTestCase(TestCase):
                 {
                     "entity_name": "test_entity",
                     "entity_tokens": ["cafe1", "cafe2"],
+                    "intent": "non_exist",
+                }
+            ),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
+        response = client.post(
+            entities_api,
+            json.dumps(
+                {
+                    "entity_name": "test_entity",
+                    "entity_tokens": ["cafe1", "cafe2"],
                     "intent": "greet",
                 }
             ),
@@ -399,6 +549,8 @@ class RasaKorTestCase(TestCase):
         id = EntityKor.objects.get(entity_name="meal").id
         response = client.get(entity_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
+        response = client.get(entity_api + "11111/")
+        self.assertEqual(response.status_code, 404)
         response = client.put(
             entity_api + str(id) + "/",
             json.dumps({"entity_name": "test_entity"}),
@@ -411,12 +563,36 @@ class RasaKorTestCase(TestCase):
                 {
                     "entity_name": "test_entity",
                     "entity_tokens": ["cafe1", "cafe2", "cafe3"],
+                    "intent": "non_exist",
+                }
+            ),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
+        response = client.put(
+            entity_api + str(id) + "/",
+            json.dumps(
+                {
+                    "entity_name": "test_entity",
+                    "entity_tokens": ["cafe1", "cafe2", "cafe3"],
                     "intent": "greet",
                 }
             ),
             content_type=content_type,
         )
         self.assertEqual(response.status_code, 201)
+        response = client.put(
+            entity_api + "11111/",
+            json.dumps(
+                {
+                    "entity_name": "test_entity",
+                    "entity_tokens": ["cafe1", "cafe2", "cafe3"],
+                    "intent": "greet",
+                }
+            ),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
         response = client.get(entity_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
@@ -430,6 +606,8 @@ class RasaKorTestCase(TestCase):
         response = client.delete(entity_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         response = client.get(entity_api + str(id) + "/")
+        self.assertEqual(response.status_code, 404)
+        response = client.delete(entity_api + "11111/")
         self.assertEqual(response.status_code, 404)
 
     def test_slots(self):
@@ -466,6 +644,8 @@ class RasaKorTestCase(TestCase):
         id = SlotKor.objects.get(slot_name="meal").id
         response = client.get(slot_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
+        response = client.get(slot_api + "11111/")
+        self.assertEqual(response.status_code, 404)
         response = client.put(
             slot_api + str(id) + "/",
             json.dumps({"slot_name": "test_slot"}),
@@ -478,6 +658,12 @@ class RasaKorTestCase(TestCase):
             content_type=content_type,
         )
         self.assertEqual(response.status_code, 201)
+        response = client.put(
+            slot_api + "11111/",
+            json.dumps({"slot_name": "test_slot", "slot_type": "text",}),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
         response = client.get(slot_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
@@ -487,6 +673,8 @@ class RasaKorTestCase(TestCase):
         response = client.delete(slot_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         response = client.get(slot_api + str(id) + "/")
+        self.assertEqual(response.status_code, 404)
+        response = client.delete(slot_api + "11111/")
         self.assertEqual(response.status_code, 404)
 
     def test_makefile(self):
