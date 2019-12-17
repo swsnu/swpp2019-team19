@@ -9,9 +9,15 @@ from .func import to_dict
 from django.db import transaction
 from django.forms.models import model_to_dict
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils.decorators import method_decorator
 
 
 class RasaFactory(object):
+    """
+    transaction.atomic이 원하는데로 적용이 안되고 있음
+    """
+
+    @method_decorator(transaction.atomic)
     def intents_get(self, language):
         if language == "eng":
             intent = IntentEng.objects.all().values(
@@ -23,6 +29,7 @@ class RasaFactory(object):
             )
         return list(intent)
 
+    @method_decorator(transaction.atomic)
     def intents_post(self, language, request):
         try:
             body = request.body.decode()
@@ -42,6 +49,7 @@ class RasaFactory(object):
             new_intent.save()
         return 201
 
+    @method_decorator(transaction.atomic)
     def intent_detail_get(self, language, id):
         if language == "eng":
             try:
@@ -55,6 +63,7 @@ class RasaFactory(object):
                 return 404
         return model_to_dict(intent)
 
+    @method_decorator(transaction.atomic)
     def intent_detail_put(self, language, id, request):
         try:
             body = request.body.decode()
@@ -77,6 +86,7 @@ class RasaFactory(object):
         intent.save()
         return 201
 
+    @method_decorator(transaction.atomic)
     def intent_detail_delete(self, language, id):
         if language == "eng":
             try:
@@ -91,6 +101,7 @@ class RasaFactory(object):
         intent.delete()
         return 200
 
+    @method_decorator(transaction.atomic)
     def actions_get(self, language):
         if language == "eng":
             action = ActionEng.objects.all().values(
@@ -110,6 +121,7 @@ class RasaFactory(object):
             )
         return list(action)
 
+    @method_decorator(transaction.atomic)
     def actions_post(self, language, request):
         try:
             body = request.body.decode()
@@ -132,6 +144,7 @@ class RasaFactory(object):
                 try:
                     target_intent = IntentEng.objects.get(intent_name=intent)
                 except ObjectDoesNotExist:
+                    new_action.delete()
                     return 404
                 new_action.intent.add(target_intent)
         elif language == "kor":
@@ -146,10 +159,12 @@ class RasaFactory(object):
                 try:
                     target_intent = IntentKor.objects.get(intent_name=intent)
                 except ObjectDoesNotExist:
+                    new_action.delete()
                     return 404
                 new_action.intent.add(target_intent)
         return 201
 
+    @method_decorator(transaction.atomic)
     def action_detail_get(self, language, id):
         if language == "eng":
             try:
@@ -163,6 +178,7 @@ class RasaFactory(object):
                 return 404
         return to_dict(action, "intent_name")
 
+    @method_decorator(transaction.atomic)
     def action_detail_put(self, language, id, request):
         try:
             body = request.body.decode()
@@ -178,7 +194,6 @@ class RasaFactory(object):
                 action = ActionEng.objects.get(pk=id)
             except ObjectDoesNotExist:
                 return 404
-            action.action_name = action_name
             action.intent.clear()
             for intent in intent_list:
                 try:
@@ -186,12 +201,13 @@ class RasaFactory(object):
                 except ObjectDoesNotExist:
                     return 404
                 action.intent.add(target_intent)
+            action.action_name = action_name
+
         elif language == "kor":
             try:
                 action = ActionKor.objects.get(pk=id)
             except ObjectDoesNotExist:
                 return 404
-            action.action_name = action_name
             action.intent.clear()
             for intent in intent_list:
                 try:
@@ -199,12 +215,14 @@ class RasaFactory(object):
                 except ObjectDoesNotExist:
                     return 404
                 action.intent.add(target_intent)
+            action.action_name = action_name
         action.action_type = action_type
         action.text_value = text_value
         action.image_value = image_value
         action.save()
         return 201
 
+    @method_decorator(transaction.atomic)
     def action_detail_delete(self, language, id):
         if language == "eng":
             try:
@@ -219,6 +237,7 @@ class RasaFactory(object):
         action.delete()
         return 200
 
+    @method_decorator(transaction.atomic)
     def stories_get(self, language):
         if language == "eng":
             story_list = [
@@ -240,6 +259,7 @@ class RasaFactory(object):
             ]
         return story_list
 
+    @method_decorator(transaction.atomic)
     def stories_post(self, language, request):
         try:
             body = request.body.decode()
@@ -255,12 +275,14 @@ class RasaFactory(object):
                 try:
                     target_intent = IntentEng.objects.get(intent_name=intent)
                 except ObjectDoesNotExist:
+                    new_story.delete()
                     return 404
                 new_story.story_path_1.add(target_intent)
             for intent in story_path_2:
                 try:
                     target_intent = IntentEng.objects.get(intent_name=intent)
                 except ObjectDoesNotExist:
+                    new_story.delete()
                     return 404
                 new_story.story_path_2.add(target_intent)
         elif language == "kor":
@@ -270,16 +292,19 @@ class RasaFactory(object):
                 try:
                     target_intent = IntentKor.objects.get(intent_name=intent)
                 except ObjectDoesNotExist:
+                    new_story.delete()
                     return 404
                 new_story.story_path_1.add(target_intent)
             for intent in story_path_2:
                 try:
                     target_intent = IntentKor.objects.get(intent_name=intent)
                 except ObjectDoesNotExist:
+                    new_story.delete()
                     return 404
                 new_story.story_path_2.add(target_intent)
         return 201
 
+    @method_decorator(transaction.atomic)
     def story_detail_get(self, language, id):
         if language == "eng":
             try:
@@ -293,6 +318,7 @@ class RasaFactory(object):
                 return 404
         return to_dict(story, "intent_name")
 
+    @method_decorator(transaction.atomic)
     def story_detail_put(self, language, id, request):
         try:
             body = request.body.decode()
@@ -346,6 +372,7 @@ class RasaFactory(object):
         story.save()
         return 201
 
+    @method_decorator(transaction.atomic)
     def story_detail_delete(self, language, id):
         if language == "eng":
             try:
@@ -360,6 +387,7 @@ class RasaFactory(object):
         story.delete()
         return 200
 
+    @method_decorator(transaction.atomic)
     def entities_get(self, language):
         if language == "eng":
             entity = EntityEng.objects.all().values(
@@ -372,6 +400,7 @@ class RasaFactory(object):
             )
         return list(entity)
 
+    @method_decorator(transaction.atomic)
     def entities_post(self, language, request):
         try:
             body = request.body.decode()
@@ -402,6 +431,7 @@ class RasaFactory(object):
             ).save()
         return 201
 
+    @method_decorator(transaction.atomic)
     def entity_detail_get(self, language, id):
         if language == "eng":
             try:
@@ -423,6 +453,7 @@ class RasaFactory(object):
             response_dict["intent"] = entity.intent.intent_name
         return response_dict
 
+    @method_decorator(transaction.atomic)
     def entity_detail_put(self, language, id, request):
         try:
             body = request.body.decode()
@@ -455,6 +486,7 @@ class RasaFactory(object):
         entity.save()
         return 201
 
+    @method_decorator(transaction.atomic)
     def entity_detail_delete(self, language, id):
         if language == "eng":
             try:
@@ -469,19 +501,15 @@ class RasaFactory(object):
         entity.delete()
         return 200
 
+    @method_decorator(transaction.atomic)
     def slots_get(self, language):
         if language == "eng":
-            try:
-                slot = SlotEng.objects.all().values("slot_name", "slot_type")
-            except ObjectDoesNotExist:
-                return 404
+            slot = SlotEng.objects.all().values("slot_name", "slot_type")
         elif language == "kor":
-            try:
-                slot = SlotKor.objects.all().values("slot_name", "slot_type")
-            except ObjectDoesNotExist:
-                return 404
+            slot = SlotKor.objects.all().values("slot_name", "slot_type")
         return list(slot)
 
+    @method_decorator(transaction.atomic)
     def slots_post(self, language, request):
         try:
             body = request.body.decode()
@@ -495,6 +523,7 @@ class RasaFactory(object):
             SlotKor(slot_name=slot_name, slot_type=slot_type).save()
         return 201
 
+    @method_decorator(transaction.atomic)
     def slot_detail_get(self, language, id):
         if language == "eng":
             try:
@@ -508,6 +537,7 @@ class RasaFactory(object):
                 return 404
         return model_to_dict(slot)
 
+    @method_decorator(transaction.atomic)
     def slot_detail_put(self, language, id, request):
         try:
             body = request.body.decode()
@@ -530,6 +560,7 @@ class RasaFactory(object):
         slot.save()
         return 201
 
+    @method_decorator(transaction.atomic)
     def slot_detail_delete(self, language, id):
         if language == "eng":
             try:
@@ -544,6 +575,7 @@ class RasaFactory(object):
         slot.delete()
         return 200
 
+    @method_decorator(transaction.atomic)
     def make_train_file(self, language):
         """
         알수 없는 이유로 파일 작성에 실패한 경우에 대한 에러메세지 추가 필요

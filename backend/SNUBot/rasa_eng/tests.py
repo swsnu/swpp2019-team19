@@ -160,6 +160,8 @@ class RasaEngTestCase(TestCase):
         id = IntentEng.objects.get(intent_name="greet").id
         response = client.get(intent_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
+        response = client.get(intent_api + "11111/")
+        self.assertEqual(response.status_code, 404)
         response = client.put(
             intent_api + str(id) + "/",
             json.dumps({"intent_name": "test_intent"}),
@@ -177,6 +179,17 @@ class RasaEngTestCase(TestCase):
             content_type=content_type,
         )
         self.assertEqual(response.status_code, 201)
+        response = client.put(
+            intent_api + "11111/",
+            json.dumps(
+                {
+                    "intent_name": "test_intent",
+                    "intent_tokens": ["hello", "bye"],
+                }
+            ),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
         response = client.get(intent_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
@@ -190,6 +203,8 @@ class RasaEngTestCase(TestCase):
         response = client.delete(intent_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         response = client.get(intent_api + str(id) + "/")
+        self.assertEqual(response.status_code, 404)
+        response = client.delete(intent_api + "11111/")
         self.assertEqual(response.status_code, 404)
 
     def test_actions(self):
@@ -223,6 +238,20 @@ class RasaEngTestCase(TestCase):
                     "action_type": "text",
                     "text_value": "test_action_hi",
                     "image_value": "",
+                    "intent_list": ["non_exist"],
+                }
+            ),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
+        response = client.post(
+            actions_api,
+            json.dumps(
+                {
+                    "action_name": "test_action",
+                    "action_type": "text",
+                    "text_value": "test_action_hi",
+                    "image_value": "",
                     "intent_list": ["greet"],
                 }
             ),
@@ -241,6 +270,8 @@ class RasaEngTestCase(TestCase):
         id = ActionEng.objects.get(action_name="utter_goodbye").id
         response = client.get(action_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
+        response = client.get(action_api + "11111/")
+        self.assertEqual(response.status_code, 404)
         response = client.put(
             action_api + str(id) + "/",
             json.dumps({"action_name": "test_action"}),
@@ -255,12 +286,40 @@ class RasaEngTestCase(TestCase):
                     "action_type": "text",
                     "text_value": "test_action_hi",
                     "image_value": "",
+                    "intent_list": ["non_exist"],
+                }
+            ),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
+        response = client.put(
+            action_api + str(id) + "/",
+            json.dumps(
+                {
+                    "action_name": "test_action",
+                    "action_type": "text",
+                    "text_value": "test_action_hi",
+                    "image_value": "",
                     "intent_list": ["greet", "goodbye"],
                 }
             ),
             content_type=content_type,
         )
         self.assertEqual(response.status_code, 201)
+        response = client.put(
+            action_api + "11111/",
+            json.dumps(
+                {
+                    "action_name": "test_action",
+                    "action_type": "text",
+                    "text_value": "test_action_hi",
+                    "image_value": "",
+                    "intent_list": ["greet", "goodbye"],
+                }
+            ),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
         response = client.get(action_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
@@ -277,6 +336,8 @@ class RasaEngTestCase(TestCase):
         response = client.delete(action_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         response = client.get(action_api + str(id) + "/")
+        self.assertEqual(response.status_code, 404)
+        response = client.delete(action_api + "11111/")
         self.assertEqual(response.status_code, 404)
 
     def test_stories(self):
@@ -295,6 +356,30 @@ class RasaEngTestCase(TestCase):
             content_type=content_type,
         )
         self.assertEqual(response.status_code, 400)
+        response = client.post(
+            stories_api,
+            json.dumps(
+                {
+                    "story_name": "test_story",
+                    "story_path_1": ["non_exist"],
+                    "story_path_2": ["greet"],
+                }
+            ),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
+        response = client.post(
+            stories_api,
+            json.dumps(
+                {
+                    "story_name": "test_story",
+                    "story_path_1": ["goodbye"],
+                    "story_path_2": ["non_exist"],
+                }
+            ),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
         response = client.post(
             stories_api,
             json.dumps(
@@ -319,12 +404,38 @@ class RasaEngTestCase(TestCase):
         id = StoryEng.objects.get(story_name="greet").id
         response = client.get(story_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
+        response = client.get(story_api + "11111/")
+        self.assertEqual(response.status_code, 404)
         response = client.put(
             story_api + str(id) + "/",
             json.dumps({"story_name": "test_story"}),
             content_type=content_type,
         )
         self.assertEqual(response.status_code, 400)
+        response = client.put(
+            story_api + str(id) + "/",
+            json.dumps(
+                {
+                    "story_name": "test_story",
+                    "story_path_1": ["non_exist"],
+                    "story_path_2": ["goodbye"],
+                }
+            ),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
+        response = client.put(
+            story_api + str(id) + "/",
+            json.dumps(
+                {
+                    "story_name": "test_story",
+                    "story_path_1": ["greet"],
+                    "story_path_2": ["non_exist"],
+                }
+            ),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
         response = client.put(
             story_api + str(id) + "/",
             json.dumps(
@@ -337,6 +448,19 @@ class RasaEngTestCase(TestCase):
             content_type=content_type,
         )
         self.assertEqual(response.status_code, 201)
+
+        response = client.put(
+            story_api + "11111/",
+            json.dumps(
+                {
+                    "story_name": "test_story",
+                    "story_path_1": ["greet"],
+                    "story_path_2": ["goodbye"],
+                }
+            ),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
         response = client.get(story_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
@@ -351,6 +475,8 @@ class RasaEngTestCase(TestCase):
         response = client.delete(story_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         response = client.get(story_api + str(id) + "/")
+        self.assertEqual(response.status_code, 404)
+        response = client.delete(story_api + "11111/")
         self.assertEqual(response.status_code, 404)
 
     def test_entities(self):
@@ -380,6 +506,18 @@ class RasaEngTestCase(TestCase):
                 {
                     "entity_name": "test_entity",
                     "entity_tokens": ["cafe1", "cafe2"],
+                    "intent": "non_exist",
+                }
+            ),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
+        response = client.post(
+            entities_api,
+            json.dumps(
+                {
+                    "entity_name": "test_entity",
+                    "entity_tokens": ["cafe1", "cafe2"],
                     "intent": "greet",
                 }
             ),
@@ -398,6 +536,8 @@ class RasaEngTestCase(TestCase):
         id = EntityEng.objects.get(entity_name="meal").id
         response = client.get(entity_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
+        response = client.get(entity_api + "11111/")
+        self.assertEqual(response.status_code, 404)
         response = client.put(
             entity_api + str(id) + "/",
             json.dumps({"entity_name": "test_entity"}),
@@ -416,6 +556,30 @@ class RasaEngTestCase(TestCase):
             content_type=content_type,
         )
         self.assertEqual(response.status_code, 201)
+        response = client.put(
+            entity_api + str(id) + "/",
+            json.dumps(
+                {
+                    "entity_name": "test_entity",
+                    "entity_tokens": ["cafe1", "cafe2", "cafe3"],
+                    "intent": "non_exist",
+                }
+            ),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
+        response = client.put(
+            entity_api + "11111/",
+            json.dumps(
+                {
+                    "entity_name": "test_entity",
+                    "entity_tokens": ["cafe1", "cafe2", "cafe3"],
+                    "intent": "greet",
+                }
+            ),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
         response = client.get(entity_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
@@ -429,6 +593,8 @@ class RasaEngTestCase(TestCase):
         response = client.delete(entity_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         response = client.get(entity_api + str(id) + "/")
+        self.assertEqual(response.status_code, 404)
+        response = client.delete(entity_api + "11111/")
         self.assertEqual(response.status_code, 404)
 
     def test_slots(self):
@@ -465,6 +631,8 @@ class RasaEngTestCase(TestCase):
         id = SlotEng.objects.get(slot_name="meal").id
         response = client.get(slot_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
+        response = client.get(slot_api + "11111/")
+        self.assertEqual(response.status_code, 404)
         response = client.put(
             slot_api + str(id) + "/",
             json.dumps({"slot_name": "test_slot"}),
@@ -477,6 +645,12 @@ class RasaEngTestCase(TestCase):
             content_type=content_type,
         )
         self.assertEqual(response.status_code, 201)
+        response = client.put(
+            slot_api + "11111/",
+            json.dumps({"slot_name": "test_slot", "slot_type": "text",}),
+            content_type=content_type,
+        )
+        self.assertEqual(response.status_code, 404)
         response = client.get(slot_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(
@@ -486,6 +660,8 @@ class RasaEngTestCase(TestCase):
         response = client.delete(slot_api + str(id) + "/")
         self.assertEqual(response.status_code, 200)
         response = client.get(slot_api + str(id) + "/")
+        self.assertEqual(response.status_code, 404)
+        response = client.delete(slot_api + "11111/")
         self.assertEqual(response.status_code, 404)
 
     def test_makefile(self):
